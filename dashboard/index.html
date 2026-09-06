@@ -1,0 +1,2244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>全球金融数据终端</title>
+  <script src="vendor/lightweight-charts.js"></script>
+  <style>
+    :root {
+      --bg: #081018;
+      --panel: rgba(15, 27, 39, 0.86);
+      --panel-2: rgba(20, 36, 51, 0.82);
+      --line: rgba(151, 180, 202, 0.14);
+      --text: #eaf4fa;
+      --muted: #8297a7;
+      --cyan: #38d7c5;
+      --blue: #54a4ff;
+      --amber: #f5bd59;
+      --red: #ff6577;
+      --green: #32d49a;
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.32);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(41, 131, 164, 0.13), transparent 28rem),
+        radial-gradient(circle at 92% 22%, rgba(27, 107, 95, 0.11), transparent 25rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    button, input { font: inherit; }
+
+    .app {
+      position: relative;
+      width: 100%;
+      padding: 22px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .mark {
+      width: 42px; height: 42px; border-radius: 13px;
+      display: grid; place-items: center;
+      background: linear-gradient(145deg, rgba(56,215,197,.22), rgba(84,164,255,.12));
+      border: 1px solid rgba(91, 227, 212, .25);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .mark svg { width: 24px; stroke: var(--cyan); }
+    h1 { margin: 0; font-size: 20px; letter-spacing: .02em; }
+    .subtitle { margin-top: 4px; color: var(--muted); font-size: 12px; }
+
+    .status-row { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 0 5px rgba(50,212,154,.10), 0 0 16px rgba(50,212,154,.65);
+    }
+    .live-dot.loading { background: var(--amber); box-shadow: 0 0 14px rgba(245,189,89,.6); }
+    .live-dot.error { background: var(--red); box-shadow: 0 0 14px rgba(255,101,119,.6); }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, var(--panel), rgba(10, 20, 29, .92));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .module-controls {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .asset-selector { display: flex; flex-wrap: wrap; gap: 8px; }
+    .asset-chip { display: block; }
+    .asset-chip input { display: none; }
+    .asset-chip span, .range button, .refresh-btn, .view-btn {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      border-radius: 10px;
+      padding: 8px 11px;
+      cursor: pointer;
+      transition: .18s ease;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .asset-chip span {
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+    }
+    .asset-chip input:checked + span {
+      color: var(--text);
+      border-color: rgba(56,215,197,.42);
+      background: rgba(56,215,197,.11);
+      box-shadow: inset 0 0 0 1px rgba(56,215,197,.06);
+    }
+    .asset-chip span:hover, .range button:hover, .refresh-btn:hover, .view-btn:hover {
+      color: var(--text); border-color: rgba(151,180,202,.32);
+    }
+
+    .controls { display: flex; align-items: center; gap: 8px; }
+    .range, .view-switch { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; }
+    .range button, .view-btn { border: 0; padding: 6px 9px; border-radius: 8px; }
+    .range button.active, .view-btn.active { color: #061515; background: var(--cyan); font-weight: 700; }
+    .refresh-btn { padding: 8px 10px; }
+
+    .ticker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .ticker {
+      min-width: 0;
+      min-height: 62px;
+      padding: 9px 11px;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: linear-gradient(155deg, var(--panel-2), rgba(10,19,27,.88));
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .ticker:hover { transform: translateY(-2px); border-color: rgba(56,215,197,.3); }
+    .ticker.active, .ticker.selected { border-color: rgba(56,215,197,.52); box-shadow: inset 0 0 24px rgba(56,215,197,.04); }
+    .ticker[draggable="true"] { cursor: grab; }
+    .ticker[draggable="true"]:active { cursor: grabbing; }
+    .ticker.ticker-dragging { opacity: .35; transform: scale(.96); }
+    .ticker-head { position: relative; width: fit-content; color: #b8c9d5; font-size: 11px; font-weight: 700; }
+    .ticker-name {
+      position: absolute;
+      z-index: 4;
+      left: 0;
+      bottom: calc(100% + 7px);
+      width: max-content;
+      max-width: 190px;
+      padding: 6px 8px;
+      border: 1px solid rgba(151,180,202,.28);
+      border-radius: 7px;
+      color: var(--text);
+      background: #101c25;
+      box-shadow: 0 7px 18px rgba(0,0,0,.32);
+      font-size: 11px;
+      font-weight: 500;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(3px);
+      transition: opacity .14s ease, transform .14s ease;
+    }
+    .ticker-head:hover .ticker-name { opacity: 1; transform: translateY(0); }
+    .ticker-metrics { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 10px; }
+    .ticker-value {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font: 600 15px/1 "SFMono-Regular", Consolas, monospace;
+      white-space: nowrap;
+    }
+    .ticker-add {
+      min-height: 62px;
+      border: 1px dashed rgba(56,215,197,.3);
+      border-radius: 11px;
+      color: var(--cyan);
+      background: rgba(56,215,197,.025);
+      cursor: pointer;
+      font-size: 13px;
+      letter-spacing: .03em;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .ticker-add:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56,215,197,.58);
+      background: rgba(56,215,197,.075);
+    }
+    .change { flex: 0 0 auto; font: 600 11px/1 "SFMono-Regular", Consolas, monospace; }
+    .up { color: var(--red); }
+    .down { color: var(--green); }
+    .flat { color: var(--muted); }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 2.15fr) minmax(310px, .85fr);
+      gap: 14px;
+    }
+    .main-column, .side-column { display: grid; gap: 14px; align-content: start; }
+    .panel { border-radius: 16px; overflow: hidden; }
+    .movable-panel { transition: opacity .16s ease, border-color .16s ease; }
+    .movable-panel.dragging {
+      opacity: .42;
+      border-color: rgba(56,215,197,.52);
+    }
+    .panel-head {
+      min-height: 58px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+    .panel-title {
+      width: fit-content;
+      font-size: 14px;
+      font-weight: 650;
+      cursor: grab;
+      user-select: none;
+    }
+    .panel-title:active { cursor: grabbing; }
+    .panel-note { color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .chart { width: 100%; height: 440px; }
+    #correlationChart { height: 320px; }
+    #macroChart { height: 260px; }
+    .chart, #macroChart { position: relative; }
+    .chart-legend {
+      position: absolute;
+      z-index: 4;
+      top: 9px;
+      left: 12px;
+      right: 76px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 13px;
+      pointer-events: none;
+      color: #9db0be;
+      font-size: 10px;
+    }
+    .chart-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .chart-empty {
+      position: absolute;
+      z-index: 5;
+      inset: 0;
+      display: none;
+      place-items: center;
+      pointer-events: none;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .chart-empty.show { display: grid; }
+    #correlationChart { padding: 16px; overflow: auto; }
+    .correlation-grid {
+      display: grid;
+      gap: 2px;
+      min-width: max-content;
+      height: calc(100% - 28px);
+      align-items: stretch;
+    }
+    .correlation-label, .correlation-cell {
+      min-width: 52px;
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 4px;
+      font: 600 10px/1 "SFMono-Regular", Consolas, monospace;
+    }
+    .correlation-label { color: var(--muted); }
+    .correlation-cell { color: #eef7fb; }
+    .correlation-scale {
+      width: min(280px, 70%);
+      height: 5px;
+      margin: 14px auto 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #b54b61, #182b3a, #27bba9);
+      position: relative;
+    }
+    .correlation-scale::before, .correlation-scale::after {
+      position: absolute;
+      top: 8px;
+      color: var(--muted);
+      font-size: 9px;
+    }
+    .correlation-scale::before { content: "-1"; left: 0; }
+    .correlation-scale::after { content: "+1"; right: 0; }
+
+    .empty {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .macro-list { padding: 5px 15px 12px; }
+    .macro-row {
+      display: grid;
+      grid-template-columns: minmax(92px, 1.15fr) minmax(42px, .55fr) minmax(42px, .55fr) minmax(64px, 1fr);
+      align-items: center;
+      gap: 6px;
+      min-height: 60px;
+      border-bottom: 1px solid var(--line);
+      transition: opacity .16s ease, background .16s ease;
+    }
+    .macro-name {
+      width: fit-content;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: grab;
+      user-select: none;
+    }
+    .macro-name:active { cursor: grabbing; }
+    .macro-row.row-dragging { opacity: .35; }
+    .macro-date { margin-top: 5px; font-size: 10px; color: var(--muted); }
+    .macro-number, .macro-trading-value {
+      display: grid;
+      grid-template-rows: 12px 12px;
+      gap: 5px;
+      text-align: right;
+    }
+    .macro-number small { display: block; color: var(--muted); font-size: 9px; }
+    .macro-number strong { font: 600 12px/12px "SFMono-Regular", Consolas, monospace; }
+    .macro-trading-value {
+      min-width: 0;
+      color: #a9bcc9;
+      font-size: 10px;
+      line-height: 12px;
+    }
+    .macro-trading-value small {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      text-align: right;
+    }
+    .macro-trading-value span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: help;
+    }
+    .macro-add-row {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-top: 1px solid var(--line);
+      color: var(--cyan);
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      letter-spacing: .03em;
+    }
+    .macro-add-row:hover { background: rgba(56,215,197,.06); }
+    .drag-trash {
+      position: fixed;
+      z-index: 80;
+      right: 24px;
+      bottom: 24px;
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,101,119,.42);
+      border-radius: 18px;
+      color: #ff8a98;
+      background: rgba(34,18,25,.92);
+      box-shadow: 0 16px 42px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(16px);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(18px) scale(.72);
+      transition: opacity .18s ease, transform .22s cubic-bezier(.2,.8,.2,1), border-color .16s ease, background .16s ease;
+    }
+    .drag-trash svg { width: 25px; height: 25px; stroke: currentColor; pointer-events: none; }
+    .drag-trash.visible {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .drag-trash.active {
+      border-color: rgba(255,101,119,.9);
+      color: #fff;
+      background: rgba(177,54,74,.94);
+      transform: translateY(-5px) scale(1.16);
+      box-shadow: 0 20px 50px rgba(255,70,97,.26);
+    }
+
+    .macro-dialog {
+      width: min(560px, calc(100vw - 28px));
+      max-height: min(720px, calc(100vh - 36px));
+      padding: 0;
+      border: 1px solid rgba(151,180,202,.22);
+      border-radius: 16px;
+      color: var(--text);
+      background: #0d1924;
+      box-shadow: 0 28px 90px rgba(0,0,0,.62);
+    }
+    .macro-dialog::backdrop {
+      background: rgba(2,8,13,.76);
+      backdrop-filter: blur(5px);
+    }
+    .macro-dialog-head {
+      padding: 18px 18px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .macro-dialog-title { font-size: 15px; font-weight: 650; }
+    .macro-dialog-close {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 6px 10px;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .macro-dialog-close:hover { color: var(--text); }
+    .macro-search-wrap { padding: 14px 18px 10px; }
+    .macro-search {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: 0;
+      padding: 10px 12px;
+      color: var(--text);
+      background: rgba(255,255,255,.035);
+    }
+    .macro-search:focus { border-color: rgba(56,215,197,.5); }
+    .ticker-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 0 18px 10px;
+    }
+    .ticker-filter {
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      font-size: 11px;
+      transition: .16s ease;
+    }
+    .ticker-filter:hover { color: var(--text); border-color: rgba(151,180,202,.32); }
+    .ticker-filter.active {
+      border-color: rgba(56,215,197,.42);
+      color: var(--cyan);
+      background: rgba(56,215,197,.09);
+    }
+    .macro-options {
+      max-height: min(540px, calc(100vh - 190px));
+      overflow: auto;
+      padding: 0 18px 18px;
+    }
+    .macro-country {
+      padding: 12px 2px 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+    }
+    .macro-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 43px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .macro-option:hover { background: rgba(255,255,255,.04); }
+    .macro-option input { accent-color: var(--cyan); }
+    .macro-option-source { margin-left: auto; color: var(--muted); font-size: 10px; }
+    .ticker-dialog {
+      height: min(720px, calc(100vh - 36px));
+      display: grid;
+      grid-template-rows: auto auto auto minmax(0, 1fr);
+    }
+    .ticker-dialog:not([open]) { display: none; }
+    .ticker-dialog .macro-options {
+      min-height: 0;
+      max-height: none;
+    }
+    .ticker-option {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) minmax(72px, auto) minmax(92px, auto);
+    }
+    .ticker-option-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ticker-option-code,
+    .ticker-option-source {
+      color: var(--muted);
+      font-size: 10px;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .macro-options-empty { padding: 34px 0; color: var(--muted); text-align: center; font-size: 12px; }
+
+    .source-note {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.55;
+      padding: 11px 15px 14px;
+      border-top: 1px solid var(--line);
+    }
+    .attribution {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 10px;
+      text-align: right;
+    }
+    .attribution a { color: #9db0be; text-decoration: none; }
+    .attribution a:hover { color: var(--cyan); }
+
+    .error-banner {
+      display: none;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255,101,119,.28);
+      background: rgba(255,101,119,.08);
+      color: #ffb7c0;
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .error-banner.show { display: block; }
+    .spinner {
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.15); border-top-color: var(--cyan);
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1180px) {
+      .dashboard { grid-template-columns: 1fr; }
+      .side-column { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 760px) {
+      .app { padding: 12px; }
+      header, .module-controls { align-items: flex-start; flex-direction: column; }
+      .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+      .side-column { grid-template-columns: 1fr; }
+      .controls { width: 100%; justify-content: space-between; }
+      .chart { height: 380px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <path d="M3 17l5-5 4 3 7-9"></path><path d="M15 6h4v4"></path>
+          </svg>
+        </div>
+        <div>
+          <h1>全球金融数据终端</h1>
+          <div class="subtitle">MARKETS · RATES · MACRO</div>
+        </div>
+      </div>
+      <div class="status-row">
+        <span id="liveDot" class="live-dot loading"></span>
+        <span id="statusText">正在连接数据源...</span>
+        <span>·</span>
+        <span id="clock"></span>
+      </div>
+    </header>
+
+    <div id="errorBanner" class="error-banner"></div>
+
+    <div class="dashboard">
+      <div class="main-column">
+        <section class="panel movable-panel" data-module-id="market">
+          <div class="panel-head">
+            <div>
+              <div id="chartTitle" class="panel-title">市场走势</div>
+              <div class="panel-note">滚轮缩放时间轴 · 按住图表左右拖拽</div>
+            </div>
+            <div class="panel-actions">
+              <div class="range" aria-label="K 线时间范围">
+                <button type="button" data-range="1d">1D</button>
+                <button type="button" data-range="1mo">1M</button>
+                <button type="button" data-range="6mo">6M</button>
+                <button type="button" data-range="1y" class="active">1Y</button>
+                <button type="button" data-range="5y">5Y</button>
+                <button type="button" data-range="10y">10Y</button>
+                <button type="button" data-range="20y">20Y</button>
+              </div>
+              <div class="view-switch">
+                <button type="button" class="view-btn active" data-view="candle">K 线</button>
+                <button type="button" class="view-btn" data-view="compare">对比</button>
+              </div>
+            </div>
+          </div>
+          <section id="tickerGrid" class="ticker-grid"></section>
+          <div id="marketChart" class="chart"></div>
+        </section>
+
+        <section class="panel movable-panel" data-module-id="correlation">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">变化相关性</div>
+              <div class="panel-note">宏观与市场混选时按月对齐，-1 至 +1</div>
+            </div>
+          </div>
+          <div class="module-controls">
+            <div id="assetSelector" class="asset-selector"></div>
+            <div class="controls">
+              <div class="range" aria-label="相关性时间范围">
+                <button type="button" data-range="1d">1D</button>
+                <button type="button" data-range="1mo">1M</button>
+                <button type="button" data-range="6mo">6M</button>
+                <button type="button" data-range="1y" class="active">1Y</button>
+                <button type="button" data-range="5y">5Y</button>
+                <button type="button" data-range="10y">10Y</button>
+                <button type="button" data-range="20y">20Y</button>
+              </div>
+              <button type="button" id="refreshBtn" class="refresh-btn" title="刷新数据">刷新</button>
+            </div>
+          </div>
+          <div id="correlationChart"></div>
+        </section>
+      </div>
+
+      <aside class="side-column">
+        <section class="panel movable-panel" data-module-id="macro-calendar">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">宏观数据 · 实际 / 预测</div>
+              <div class="panel-note">美国与中国关键通胀、就业指标</div>
+            </div>
+            <div class="panel-actions">
+              <div id="macroLoading" class="spinner"></div>
+            </div>
+          </div>
+          <div id="macroList" class="macro-list"></div>
+          <div class="source-note">
+            宏观事件来自 TradingView Economic Calendar；数据源暂不可用时会显示“暂无数据”，不会用静态数值冒充实时数据。
+          </div>
+        </section>
+
+        <section class="panel movable-panel" data-module-id="macro-chart">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">宏观实际值趋势</div>
+              <div class="panel-note">USData 宏观数据 · 同比 %</div>
+            </div>
+          </div>
+          <div id="macroChart"></div>
+        </section>
+      </aside>
+    </div>
+    <div class="attribution">
+      Charts powered by
+      <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">TradingView Lightweight Charts™</a>
+    </div>
+  </main>
+
+  <div id="dragTrash" class="drag-trash" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 7h16"></path>
+      <path d="M9 7V4h6v3"></path>
+      <path d="M6.5 7l.8 13h9.4l.8-13"></path>
+      <path d="M10 11v5M14 11v5"></path>
+    </svg>
+  </div>
+
+  <dialog id="macroIndicatorDialog" class="macro-dialog">
+    <div class="macro-dialog-head">
+      <div>
+        <div class="macro-dialog-title">添加宏观指标</div>
+        <div class="panel-note">搜索并勾选美国、中国相关指标</div>
+      </div>
+      <button type="button" id="closeMacroDialog" class="macro-dialog-close">关闭</button>
+    </div>
+    <div class="macro-search-wrap">
+      <input id="macroIndicatorSearch" class="macro-search" type="search" placeholder="搜索指标名称或国家" autocomplete="off">
+    </div>
+    <div id="macroIndicatorOptions" class="macro-options"></div>
+  </dialog>
+
+  <dialog id="tickerDialog" class="macro-dialog ticker-dialog">
+    <div class="macro-dialog-head">
+      <div>
+        <div class="macro-dialog-title">添加市场卡片</div>
+        <div class="panel-note">搜索并勾选要显示在市场走势顶部的资产</div>
+      </div>
+      <button type="button" id="closeTickerDialog" class="macro-dialog-close">关闭</button>
+    </div>
+    <div class="macro-search-wrap">
+      <input id="tickerSearch" class="macro-search" type="search" placeholder="搜索资产名称或代码" autocomplete="off">
+    </div>
+    <div id="tickerCategoryFilters" class="ticker-filters" aria-label="市场卡片分类"></div>
+    <div id="tickerOptions" class="macro-options"></div>
+  </dialog>
+
+  <script>
+    const ASSETS = {
+      spread: { name: "美债 10Y-2Y", short: "10Y-2Y", category: "bonds", unit: " bp", source: "usdata", kind: "rate", color: "#38d7c5" },
+      qqq: { name: "纳指 100 ETF", short: "QQQ", category: "stocks", symbol: "QQQ", futu: true, digits: 2, prefix: "$", color: "#54a4ff" },
+      spy: { name: "标普 500 ETF", short: "SPY", category: "stocks", symbol: "SPY", digits: 2, prefix: "$", color: "#56b4e9" },
+      dia: { name: "道琼斯 ETF", short: "DIA", category: "stocks", symbol: "DIA", digits: 2, prefix: "$", color: "#6fa8dc" },
+      iwm: { name: "罗素 2000 ETF", short: "IWM", category: "stocks", symbol: "IWM", digits: 2, prefix: "$", color: "#76b7b2" },
+      aapl: { name: "苹果", short: "AAPL", category: "stocks", symbol: "AAPL", digits: 2, prefix: "$", color: "#a7b1ba" },
+      msft: { name: "微软", short: "MSFT", category: "stocks", symbol: "MSFT", digits: 2, prefix: "$", color: "#65a9e8" },
+      nvda: { name: "英伟达", short: "NVDA", category: "stocks", symbol: "NVDA", digits: 2, prefix: "$", color: "#76b947" },
+      tsla: { name: "特斯拉", short: "TSLA", category: "stocks", symbol: "TSLA", digits: 2, prefix: "$", color: "#e95d5d" },
+      meta: { name: "Meta", short: "META", category: "stocks", symbol: "META", digits: 2, prefix: "$", color: "#5b8def" },
+      amzn: { name: "亚马逊", short: "AMZN", category: "stocks", symbol: "AMZN", digits: 2, prefix: "$", color: "#f3a847" },
+      googl: { name: "Alphabet", short: "GOOGL", category: "stocks", symbol: "GOOGL", digits: 2, prefix: "$", color: "#4285f4" },
+      csi300: { name: "沪深 300", short: "CSI300", category: "stocks", symbol: "000300.SS", digits: 2, color: "#ff6577" },
+      nasdaq: { name: "纳斯达克综指", short: "NASDAQ", category: "stocks", symbol: "^IXIC", digits: 2, color: "#a889ff" },
+      sp500: { name: "标普 500 指数", short: "S&P 500", category: "stocks", symbol: "^GSPC", digits: 2, color: "#4fc3f7" },
+      dow: { name: "道琼斯工业指数", short: "DJIA", category: "stocks", symbol: "^DJI", digits: 2, color: "#42a5f5" },
+      hsi: { name: "恒生指数", short: "HSI", category: "stocks", symbol: "^HSI", digits: 2, color: "#ef6c70" },
+      nikkei: { name: "日经 225", short: "NIKKEI", category: "stocks", symbol: "^N225", digits: 2, color: "#ef5350" },
+      tlt: { name: "美国长期国债 ETF", short: "TLT", category: "bonds", symbol: "TLT", digits: 2, prefix: "$", color: "#4db6ac" },
+      ief: { name: "美国 7-10 年国债 ETF", short: "IEF", category: "bonds", symbol: "IEF", digits: 2, prefix: "$", color: "#26a69a" },
+      shy: { name: "美国 1-3 年国债 ETF", short: "SHY", category: "bonds", symbol: "SHY", digits: 2, prefix: "$", color: "#80cbc4" },
+      tip: { name: "美国通胀保值债券 ETF", short: "TIP", category: "bonds", symbol: "TIP", digits: 2, prefix: "$", color: "#00897b" },
+      lqd: { name: "投资级公司债 ETF", short: "LQD", category: "bonds", symbol: "LQD", digits: 2, prefix: "$", color: "#26c6da" },
+      hyg: { name: "高收益公司债 ETF", short: "HYG", category: "bonds", symbol: "HYG", digits: 2, prefix: "$", color: "#00acc1" },
+      bnd: { name: "美国综合债券 ETF", short: "BND", category: "bonds", symbol: "BND", digits: 2, prefix: "$", color: "#4dd0e1" },
+      usNfp: { name: "美国非农就业", short: "US NFP", category: "economy", kind: "macro", usdataId: "nonfarm_payrolls", transform: "diff", digits: 0, unit: "K", color: "#ff8a65" },
+      usCpi: { name: "美国 CPI 同比", short: "US CPI", category: "economy", kind: "macro", usdataId: "cpi", transform: "yoy", digits: 2, unit: "%", color: "#ef5350" },
+      usPpi: { name: "美国 PPI 同比", short: "US PPI", category: "economy", kind: "macro", usdataId: "ppi_final_demand", transform: "yoy", digits: 2, unit: "%", color: "#ec407a" },
+      cnCpi: { name: "中国 CPI 同比", short: "CN CPI", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "Inflation Rate YoY", digits: 2, unit: "%", color: "#ab47bc" },
+      cnPpi: { name: "中国 PPI 同比", short: "CN PPI", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "PPI YoY", digits: 2, unit: "%", color: "#7e57c2" },
+      vix: { name: "标普 500 波动率指数", short: "VIX", category: "options", symbol: "^VIX", digits: 2, color: "#ff7043" },
+      vix3m: { name: "3 月波动率指数", short: "VIX3M", category: "options", symbol: "^VIX3M", digits: 2, color: "#ff8a65" },
+      vvix: { name: "VIX 波动率指数", short: "VVIX", category: "options", symbol: "^VVIX", digits: 2, color: "#ffab91" },
+      skew: { name: "标普 500 偏度指数", short: "SKEW", category: "options", symbol: "^SKEW", digits: 2, color: "#ffb74d" },
+      cny: { name: "美元/人民币", short: "USD/CNY", category: "fx", symbol: "CNY=X", digits: 4, color: "#f5bd59" },
+      eurusd: { name: "欧元/美元", short: "EUR/USD", category: "fx", symbol: "EURUSD=X", digits: 4, color: "#64b5f6" },
+      usdjpy: { name: "美元/日元", short: "USD/JPY", category: "fx", symbol: "JPY=X", digits: 2, color: "#ef9a9a" },
+      gbpusd: { name: "英镑/美元", short: "GBP/USD", category: "fx", symbol: "GBPUSD=X", digits: 4, color: "#7986cb" },
+      dxy: { name: "美元指数", short: "DXY", category: "fx", symbol: "DX-Y.NYB", digits: 2, color: "#ffee58" },
+      btc: { name: "比特币", short: "BTC", category: "crypto", symbol: "BTC-USD", futu: true, digits: 0, prefix: "$", color: "#f7931a" },
+      eth: { name: "以太坊", short: "ETH", category: "crypto", symbol: "ETH-USD", digits: 1, prefix: "$", color: "#8c9eff" },
+      sol: { name: "Solana", short: "SOL", category: "crypto", symbol: "SOL-USD", digits: 2, prefix: "$", color: "#14f195" },
+      gold: { name: "黄金期货", short: "GOLD", category: "commodities", symbol: "GC=F", digits: 1, prefix: "$", color: "#ffd166" },
+      silver: { name: "白银期货", short: "SILVER", category: "commodities", symbol: "SI=F", digits: 2, prefix: "$", color: "#b0bec5" },
+      crude: { name: "WTI 原油期货", short: "WTI", category: "commodities", symbol: "CL=F", digits: 2, prefix: "$", color: "#8d6e63" },
+      brent: { name: "布伦特原油期货", short: "BRENT", category: "commodities", symbol: "BZ=F", digits: 2, prefix: "$", color: "#a1887f" },
+      copper: { name: "铜期货", short: "COPPER", category: "commodities", symbol: "HG=F", digits: 2, prefix: "$", color: "#d07c4c" },
+      natgas: { name: "天然气期货", short: "NATGAS", category: "commodities", symbol: "NG=F", digits: 2, prefix: "$", color: "#90caf9" }
+    };
+
+    const TICKER_CATEGORIES = [
+      ["all", "All"],
+      ["stocks", "Stocks"],
+      ["bonds", "Bonds"],
+      ["economy", "Economy"],
+      ["options", "Options"],
+      ["fx", "FX"],
+      ["crypto", "Crypto"],
+      ["commodities", "Commodities"]
+    ];
+
+    const RANGE_OPTIONS = {
+      "1d": { range: "1d", interval: "5m", label: "1D" },
+      "1mo": { range: "1mo", interval: "1d", label: "1M" },
+      "6mo": { range: "6mo", interval: "1d", label: "6M" },
+      "1y": { range: "1y", interval: "1d", label: "1Y" },
+      "5y": { range: "5y", interval: "1d", label: "5Y" },
+      "10y": { range: "10y", interval: "1d", label: "10Y" },
+      "20y": { range: "max", interval: "1d", label: "20Y" }
+    };
+
+    const LEGACY_DEFAULT_TICKERS = ["spread", "cny", "btc", "gold", "qqq"];
+    const DEFAULT_TICKERS = [
+      "spread", "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
+      "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
+    ];
+    const TICKER_SELECTION_KEY = "finance-dashboard-tickers";
+    let tickerCategory = "all";
+
+    function loadTickerSelection() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(TICKER_SELECTION_KEY));
+        if (Array.isArray(saved) && saved.length && saved.every(key => ASSETS[key])) {
+          const isLegacyDefault = saved.length === LEGACY_DEFAULT_TICKERS.length &&
+            saved.every((key, index) => key === LEGACY_DEFAULT_TICKERS[index]);
+          return isLegacyDefault ? [...DEFAULT_TICKERS] : saved;
+        }
+      } catch (error) {
+        console.warn("ticker selection", error);
+      }
+      return [...DEFAULT_TICKERS];
+    }
+
+    function saveTickerSelection() {
+      try {
+        localStorage.setItem(TICKER_SELECTION_KEY, JSON.stringify(state.tickers));
+      } catch (error) {
+        console.warn("ticker selection save", error);
+      }
+    }
+
+    const initialTickerSelection = loadTickerSelection();
+    const state = {
+      selected: new Set(["spread", "cny", "btc", "gold", "qqq"]),
+      active: initialTickerSelection.includes("qqq") ? "qqq" : initialTickerSelection[0],
+      tickers: initialTickerSelection,
+      range: "1y",
+      view: "candle",
+      series: {},
+      macroAll: {},
+      usdataPromise: null,
+      loading: false,
+      resetMarketRange: false,
+      lazyRangeLoading: false,
+      marketLogicalRange: null,
+      marketRangeChangeBlockedUntil: 0
+    };
+    const correlationState = {
+      selected: new Set(["spread", "cny", "btc", "gold", "qqq"]),
+      range: "1y",
+      series: {},
+      loading: false,
+      requestId: 0
+    };
+    const marketRenderCache = {
+      key: "",
+      series: new Map()
+    };
+
+    function formatDisplayDate(value) {
+      if (value && typeof value === "object" && "year" in value) {
+        return `${value.year}/${String(value.month).padStart(2, "0")}/${String(value.day).padStart(2, "0")}`;
+      }
+      const timestamp = typeof value === "number" && value < 1e12 ? value * 1000 : value;
+      const date = value instanceof Date ? value : new Date(timestamp);
+      if (Number.isNaN(date.getTime())) return "";
+      return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")}`;
+    }
+
+    function createFinancialChart(host) {
+      const api = LightweightCharts.createChart(host, {
+        autoSize: true,
+        layout: {
+          background: { type: LightweightCharts.ColorType.Solid, color: "transparent" },
+          textColor: "#718796",
+          fontSize: 10,
+          fontFamily: 'Inter, "Segoe UI", sans-serif',
+          attributionLogo: true
+        },
+        localization: {
+          locale: "zh-CN",
+          timeFormatter: formatDisplayDate
+        },
+        grid: {
+          vertLines: { color: "rgba(151,180,202,.05)" },
+          horzLines: { color: "rgba(151,180,202,.08)" }
+        },
+        crosshair: {
+          mode: LightweightCharts.CrosshairMode.Normal,
+          vertLine: { color: "rgba(151,180,202,.35)", labelBackgroundColor: "#203645" },
+          horzLine: { color: "rgba(151,180,202,.35)", labelBackgroundColor: "#203645" }
+        },
+        rightPriceScale: {
+          borderColor: "rgba(151,180,202,.15)",
+          scaleMargins: { top: .14, bottom: .12 }
+        },
+        leftPriceScale: {
+          visible: false,
+          borderColor: "rgba(151,180,202,.15)",
+          scaleMargins: { top: .14, bottom: .12 }
+        },
+        timeScale: {
+          borderColor: "rgba(151,180,202,.15)",
+          timeVisible: true,
+          secondsVisible: false,
+          tickMarkFormatter: formatDisplayDate,
+          rightOffset: 2,
+          minBarSpacing: .5
+        },
+        handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true },
+        handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: true }
+      });
+      const legend = document.createElement("div");
+      legend.className = "chart-legend";
+      const empty = document.createElement("div");
+      empty.className = "chart-empty";
+      host.append(legend, empty);
+      const chart = { api, series: [], legend, empty, legendItems: [] };
+      api.subscribeCrosshairMove(param => {
+        renderChartLegend(chart, param.seriesData);
+      });
+      return chart;
+    }
+
+    const charts = {
+      market: createFinancialChart(document.getElementById("marketChart")),
+      macro: createFinancialChart(document.getElementById("macroChart"))
+    };
+
+    const fmt = new Intl.NumberFormat("zh-CN");
+    const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[ch]);
+    const dragTrash = document.getElementById("dragTrash");
+    let dragTrashDropHandler = null;
+
+    function showDragTrash(onDrop) {
+      dragTrashDropHandler = onDrop;
+      dragTrash.classList.add("visible");
+      dragTrash.setAttribute("aria-hidden", "false");
+    }
+
+    function hideDragTrash() {
+      dragTrashDropHandler = null;
+      dragTrash.classList.remove("visible", "active");
+      dragTrash.setAttribute("aria-hidden", "true");
+    }
+
+    dragTrash.addEventListener("dragover", event => {
+      if (!dragTrashDropHandler) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+      dragTrash.classList.add("active");
+    });
+    dragTrash.addEventListener("dragleave", () => dragTrash.classList.remove("active"));
+    dragTrash.addEventListener("drop", event => {
+      if (!dragTrashDropHandler) return;
+      event.preventDefault();
+      dragTrash.classList.remove("active");
+      dragTrashDropHandler();
+    });
+
+    function renderSelectors() {
+      const host = document.getElementById("assetSelector");
+      host.innerHTML = Object.entries(ASSETS).map(([key, item]) => `
+        <label class="asset-chip">
+          <input type="checkbox" value="${key}" ${correlationState.selected.has(key) ? "checked" : ""}>
+          <span>${item.short}</span>
+        </label>
+      `).join("");
+      host.querySelectorAll("input").forEach(input => {
+        input.addEventListener("change", () => {
+          if (input.checked) correlationState.selected.add(input.value);
+          else correlationState.selected.delete(input.value);
+          if (!correlationState.selected.size) {
+            input.checked = true;
+            correlationState.selected.add(input.value);
+          }
+          loadCorrelationData();
+        });
+      });
+    }
+
+    function formatValue(key, value) {
+      if (!Number.isFinite(value)) return "—";
+      const asset = ASSETS[key];
+      const number = value.toLocaleString("en-US", {
+        minimumFractionDigits: asset.digits ?? 1,
+        maximumFractionDigits: asset.digits ?? 1
+      });
+      return `${asset.prefix || ""}${number}${asset.unit || ""}`;
+    }
+
+    function formatTickerValue(key, value) {
+      if (!Number.isFinite(value)) return "—";
+      const asset = ASSETS[key];
+      const number = value.toLocaleString("en-US", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      });
+      return `${asset.prefix || ""}${number}${asset.unit || ""}`;
+    }
+
+    function latestStats(key, rows) {
+      const valid = rows.filter(x => Number.isFinite(x.close));
+      if (!valid.length) return {};
+      const last = valid.at(-1);
+      const prev = valid.at(-2) || last;
+      const change = last.close - prev.close;
+      const pct = prev.close ? change / prev.close * 100 : 0;
+      return { value: last.close, change, pct, directionValue: ASSETS[key].kind === "macro" ? change : pct, time: last.time };
+    }
+
+    function renderTickers() {
+      const host = document.getElementById("tickerGrid");
+      const cards = state.tickers.map(key => {
+        const asset = ASSETS[key];
+        const stats = latestStats(key, state.series[key] || []);
+        const direction = !Number.isFinite(stats.directionValue) || stats.directionValue === 0 ? "flat" : stats.directionValue > 0 ? "up" : "down";
+        const sign = stats.directionValue > 0 ? "+" : "";
+        const changeText = asset.kind === "macro"
+          ? `${sign}${Number.isFinite(stats.change) ? stats.change.toFixed(1) : "—"}${asset.unit || ""}`
+          : `${sign}${Number.isFinite(stats.pct) ? stats.pct.toFixed(1) : "—"}%`;
+        return `
+          <article class="ticker ${state.view === "compare" && state.selected.has(key) ? "selected" : state.active === key ? "active" : ""}" data-key="${key}" aria-label="${escapeHtml(asset.name)}" draggable="true">
+            <div class="ticker-head">
+              <span>${escapeHtml(asset.short)}</span>
+              <span class="ticker-name" role="tooltip">${escapeHtml(asset.name)}</span>
+            </div>
+            <div class="ticker-metrics">
+              <div class="ticker-value">${formatTickerValue(key, stats.value)}</div>
+              <div class="change ${direction}">${Number.isFinite(stats.directionValue) ? changeText : "等待数据"}</div>
+            </div>
+          </article>
+        `;
+      }).join("");
+      host.innerHTML = `${cards}<button type="button" class="ticker-add" id="addTicker">＋ 添加</button>`;
+      let draggedCard = null;
+      let droppedInTrash = false;
+      host.querySelectorAll(".ticker").forEach(card => {
+        card.addEventListener("dragstart", event => {
+          draggedCard = card;
+          droppedInTrash = false;
+          card.dataset.dragged = "true";
+          card.classList.add("ticker-dragging");
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", card.dataset.key);
+          if (state.tickers.length > 1) {
+            showDragTrash(() => {
+              if (!draggedCard || state.tickers.length <= 1) return;
+              droppedInTrash = true;
+              const key = draggedCard.dataset.key;
+              state.tickers = state.tickers.filter(item => item !== key);
+              state.selected.delete(key);
+              if (state.active === key) state.active = state.tickers[0];
+              state.selected.add(state.active);
+              saveTickerSelection();
+              draggedCard.remove();
+            });
+          }
+        });
+        card.addEventListener("dragend", () => {
+          card.classList.remove("ticker-dragging");
+          hideDragTrash();
+          draggedCard = null;
+          if (droppedInTrash) {
+            renderSelectors();
+            renderAll();
+          } else {
+            state.tickers = [...host.querySelectorAll(".ticker[data-key]")]
+              .map(item => item.dataset.key);
+            saveTickerSelection();
+          }
+          setTimeout(() => delete card.dataset.dragged, 0);
+        });
+        card.addEventListener("click", () => {
+          if (card.dataset.dragged === "true") return;
+          const key = card.dataset.key;
+          if (state.view === "compare") {
+            if (state.selected.has(key) && state.selected.size > 1) {
+              state.selected.delete(key);
+              if (state.active === key) state.active = [...state.selected][0];
+            } else {
+              state.selected.add(key);
+              state.active = key;
+            }
+          } else {
+            state.active = key;
+            state.selected.add(key);
+          }
+          renderSelectors();
+          renderAll();
+        });
+      });
+      host.addEventListener("dragover", event => {
+        if (!draggedCard) return;
+        const target = event.target.closest(".ticker");
+        if (!target || target === draggedCard) return;
+        event.preventDefault();
+        const rect = target.getBoundingClientRect();
+        const insertAfter = event.clientX > rect.left + rect.width / 2;
+        host.insertBefore(draggedCard, insertAfter ? target.nextSibling : target);
+      });
+      document.getElementById("addTicker").addEventListener("click", openTickerDialog);
+    }
+
+    function renderTickerOptions() {
+      const query = document.getElementById("tickerSearch").value.trim().toLowerCase();
+      const selected = new Set(state.tickers);
+      const categoryHost = document.getElementById("tickerCategoryFilters");
+      categoryHost.innerHTML = TICKER_CATEGORIES.map(([key, label]) => {
+        const count = key === "all"
+          ? Object.keys(ASSETS).length
+          : Object.values(ASSETS).filter(asset => asset.category === key).length;
+        return `<button type="button" class="ticker-filter ${tickerCategory === key ? "active" : ""}" data-ticker-category="${key}">${label} · ${count}</button>`;
+      }).join("");
+      categoryHost.querySelectorAll("[data-ticker-category]").forEach(button => {
+        button.addEventListener("click", () => {
+          tickerCategory = button.dataset.tickerCategory;
+          renderTickerOptions();
+        });
+      });
+
+      const categories = tickerCategory === "all"
+        ? TICKER_CATEGORIES.slice(1)
+        : TICKER_CATEGORIES.filter(([key]) => key === tickerCategory);
+      const groups = categories.map(([category, label]) => {
+        const options = Object.entries(ASSETS)
+          .filter(([, asset]) => asset.category === category)
+          .filter(([, asset]) => !query || `${asset.name} ${asset.short} ${asset.symbol || ""}`.toLowerCase().includes(query));
+        if (!options.length) return "";
+        return `
+          <div class="macro-country">${label}</div>
+          ${options.map(([key, asset]) => `
+            <label class="macro-option ticker-option">
+              <input type="checkbox" data-ticker-key="${key}" ${selected.has(key) ? "checked" : ""}>
+              <span class="ticker-option-name">${asset.name}</span>
+              <span class="ticker-option-code">${asset.short}</span>
+              <span class="ticker-option-source">${tickerDataSource(asset)}</span>
+            </label>
+          `).join("")}
+        `;
+      }).join("");
+      const host = document.getElementById("tickerOptions");
+      host.innerHTML = groups || '<div class="macro-options-empty">没有匹配的资产</div>';
+      host.querySelectorAll("input[data-ticker-key]").forEach(input => {
+        input.addEventListener("change", async () => {
+          const key = input.dataset.tickerKey;
+          if (input.checked) {
+            if (!state.tickers.includes(key)) state.tickers.push(key);
+          } else if (state.tickers.length > 1) {
+            state.tickers = state.tickers.filter(item => item !== key);
+            if (state.active === key) {
+              state.active = state.tickers[0];
+              state.selected.add(state.active);
+            }
+          } else {
+            input.checked = true;
+            return;
+          }
+          saveTickerSelection();
+          if (input.checked && !state.series[key]?.length) {
+            try {
+              await loadAssetSeries(key);
+              showError("");
+            } catch (error) {
+              console.error(key, error);
+              state.series[key] = [];
+              showError(`${ASSETS[key].name}：${error.message}`);
+            }
+          }
+          renderAll();
+        });
+      });
+    }
+
+    function tickerDataSource(asset) {
+      if (asset.source === "usdata" || asset.usdataId) return "USData";
+      if (asset.source === "calendar-history") return "TradingView";
+      if (asset.futu) return "Futu / Yahoo";
+      return "Yahoo Finance";
+    }
+
+    function openTickerDialog() {
+      const dialog = document.getElementById("tickerDialog");
+      document.getElementById("tickerSearch").value = "";
+      tickerCategory = "all";
+      renderTickerOptions();
+      dialog.showModal();
+      requestAnimationFrame(() => document.getElementById("tickerSearch").focus());
+    }
+
+    async function fetchWithFallback(url) {
+      const servedLocally = ["localhost", "127.0.0.1"].includes(location.hostname);
+      const candidates = servedLocally
+        ? [`/api/proxy?url=${encodeURIComponent(url)}`]
+        : [
+            url,
+            `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+          ];
+      let lastError;
+      for (const candidate of candidates) {
+        try {
+          const response = await fetch(candidate, { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error("数据请求失败");
+    }
+
+    function transformInverted(row) {
+      if (![row.open, row.high, row.low, row.close].every(Number.isFinite)) return row;
+      return {
+        ...row,
+        open: 1 / row.open,
+        high: 1 / row.low,
+        low: 1 / row.high,
+        close: 1 / row.close
+      };
+    }
+
+    async function fetchYahoo(key, asset, range = state.range) {
+      const servedLocally = ["localhost", "127.0.0.1"].includes(location.hostname);
+      if (servedLocally && asset.futu) {
+        try {
+          const response = await fetch(`/api/futu?asset=${encodeURIComponent(key)}&range=${encodeURIComponent(range)}`, {
+            cache: "no-store"
+          });
+          if (!response.ok) {
+            const payload = await response.json().catch(() => ({}));
+            throw new Error(payload.error || `HTTP ${response.status}`);
+          }
+          const payload = await response.json();
+          if (!Array.isArray(payload.rows) || !payload.rows.length) {
+            throw new Error(`${asset.name} 无 OpenD 数据`);
+          }
+          return payload.rows.filter(row => Number.isFinite(row.close));
+        } catch (error) {
+          console.warn(`${asset.name} OpenD fallback`, error);
+        }
+      }
+      const option = RANGE_OPTIONS[range];
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(asset.symbol)}?range=${option.range}&interval=${option.interval}&includePrePost=false&events=div%2Csplits`;
+      const response = await fetchWithFallback(url);
+      const payload = await response.json();
+      const result = payload.chart?.result?.[0];
+      if (!result) throw new Error(payload.chart?.error?.description || `${asset.name} 无数据`);
+      const quote = result.indicators?.quote?.[0] || {};
+      const rows = (result.timestamp || []).map((timestamp, index) => {
+        const row = {
+          time: timestamp * 1000,
+          open: quote.open?.[index],
+          high: quote.high?.[index],
+          low: quote.low?.[index],
+          close: quote.close?.[index],
+          volume: quote.volume?.[index]
+        };
+        return asset.invert ? transformInverted(row) : row;
+      }).filter(row => Number.isFinite(row.close));
+      return range === "20y" ? filterSeriesRange(rows, range) : rows;
+    }
+
+    function rangeStart(range = state.range) {
+      const now = new Date();
+      if (range === "1d") now.setDate(now.getDate() - 10);
+      else if (range === "1mo") now.setMonth(now.getMonth() - 2);
+      else if (range === "6mo") now.setMonth(now.getMonth() - 6);
+      else if (range === "1y") now.setFullYear(now.getFullYear() - 1);
+      else if (range === "5y") now.setFullYear(now.getFullYear() - 5);
+      else if (range === "10y") now.setFullYear(now.getFullYear() - 10);
+      else now.setFullYear(now.getFullYear() - 20);
+      return now.toISOString().slice(0, 10);
+    }
+
+    async function fetchSpread(range = state.range) {
+      const observations = usdataObservations(
+        await fetchUsdata(),
+        "treasury_10y_2y_spread"
+      );
+      const cutoff = new Date(`${rangeStart(range)}T00:00:00Z`).getTime();
+      const rows = observations.filter(row => row.time >= cutoff).map(row => {
+        const spread = Number(row.value);
+        const close = Number.isFinite(spread) ? spread * 100 : NaN;
+        return {
+          time: row.time,
+          open: close, high: close, low: close, close
+        };
+      }).filter(row => Number.isFinite(row.close));
+      if (range === "1d") return rows.slice(-2);
+      if (range === "1mo") return rows.slice(-23);
+      return rows;
+    }
+
+    async function fetchUsdata() {
+      if (!state.usdataPromise) {
+        state.usdataPromise = fetch("/api/usdata", { cache: "no-store" }).then(async response => {
+          if (!response.ok) {
+            const payload = await response.json().catch(() => ({}));
+            throw new Error(payload.error || `HTTP ${response.status}`);
+          }
+          return response.json();
+        });
+      }
+      return state.usdataPromise;
+    }
+
+    function usdataObservations(payload, id) {
+      const observations = payload.series?.[id]?.observations;
+      if (!Array.isArray(observations)) throw new Error(`usdata 缺少 ${id}`);
+      return observations.map(row => ({
+        time: new Date(`${row.date}T00:00:00Z`).getTime(),
+        value: Number(row.value)
+      })).filter(row => Number.isFinite(row.value));
+    }
+
+    function transformMacroSeries(asset, observations) {
+      const values = observations.map((row, index) => {
+        let value;
+        if (asset.transform === "diff") {
+          value = index ? row.value - observations[index - 1].value : NaN;
+        } else if (asset.transform === "yoy") {
+          const prior = observations[index - 12]?.value;
+          value = prior ? (row.value / prior - 1) * 100 : NaN;
+        } else {
+          value = row.value;
+        }
+        return { time: row.time, open: value, high: value, low: value, close: value };
+      }).filter(row => Number.isFinite(row.close));
+      return values;
+    }
+
+    function filterSeriesRange(rows, range = state.range) {
+      if (range === "1d" || range === "1mo") return rows.slice(-2);
+      const cutoff = new Date(`${rangeStart(range)}T00:00:00Z`).getTime();
+      return rows.filter(row => row.time >= cutoff);
+    }
+
+    function macroHistoryYears(range = state.range) {
+      return Math.max(3, { "1d": 1, "1mo": 1, "6mo": 1, "1y": 1, "5y": 5, "10y": 10, "20y": 20 }[range] || 3);
+    }
+
+    async function fetchChinaMacroHistory(range = state.range, targetSeries = state.series, storeFullSeries = true) {
+      const now = new Date();
+      const requests = Array.from({ length: macroHistoryYears(range) }, async (_, index) => {
+        const end = new Date(now);
+        end.setFullYear(now.getFullYear() - index);
+        const start = new Date(end);
+        start.setFullYear(end.getFullYear() - 1);
+        const url = `https://economic-calendar.tradingview.com/events?from=${encodeURIComponent(start.toISOString())}&to=${encodeURIComponent(end.toISOString())}&countries=CN`;
+        const response = await fetchWithFallback(url);
+        const payload = await response.json();
+        if (!Array.isArray(payload.result)) throw new Error("中国宏观历史接口格式错误");
+        return payload.result;
+      });
+      const events = (await Promise.all(requests)).flat();
+      ["cnCpi", "cnPpi"].forEach(key => {
+        const asset = ASSETS[key];
+        const byDate = new Map();
+        events.filter(event =>
+          event.country === "CN" &&
+          event.title === asset.calendarTitle &&
+          Number.isFinite(Number(event.actual))
+        ).forEach(event => {
+          const time = new Date(event.date).getTime();
+          const value = Number(event.actual);
+          byDate.set(time, { time, open: value, high: value, low: value, close: value });
+        });
+        const fullSeries = [...byDate.values()].sort((a, b) => a.time - b.time);
+        if (storeFullSeries) state.macroAll[key] = fullSeries;
+        targetSeries[key] = filterSeriesRange(fullSeries, range);
+      });
+    }
+
+    async function fetchMacroAssets(range = state.range, targetSeries = state.series, storeFullSeries = true) {
+      const chinaHistory = fetchChinaMacroHistory(range, targetSeries, storeFullSeries);
+      const payload = await fetchUsdata();
+      const observationsByKey = Object.fromEntries(
+        Object.entries(ASSETS)
+          .filter(([, asset]) => asset.usdataId)
+          .map(([key, asset]) => [key, usdataObservations(payload, asset.usdataId)])
+      );
+      await chinaHistory;
+      Object.entries(ASSETS).filter(([, asset]) => asset.usdataId).forEach(([key, asset]) => {
+        const fullSeries = transformMacroSeries(asset, observationsByKey[key]);
+        if (storeFullSeries) state.macroAll[key] = fullSeries;
+        targetSeries[key] = filterSeriesRange(fullSeries, range);
+      });
+    }
+
+    async function loadAssetSeries(key, range = state.range, targetSeries = state.series) {
+      const asset = ASSETS[key];
+      if (!asset) throw new Error(`未知资产 ${key}`);
+      if (asset.kind === "macro") {
+        await fetchMacroAssets(range, targetSeries, targetSeries === state.series);
+        return;
+      }
+      targetSeries[key] = asset.source === "usdata"
+        ? await fetchSpread(range)
+        : await fetchYahoo(key, asset, range);
+    }
+
+    async function loadSeries(range, targetSeries, storeFullSeries = false, keys = Object.keys(ASSETS)) {
+      const requested = new Set(keys);
+      const assetsByPriority = Object.entries(ASSETS)
+        .filter(([key, asset]) => requested.has(key) && asset.kind !== "macro")
+        .sort(([, a], [, b]) => Number(Boolean(a.source)) - Number(Boolean(b.source)));
+      const tasks = assetsByPriority.map(async ([key, asset]) => {
+        try {
+          targetSeries[key] = asset.source === "usdata"
+            ? await fetchSpread(range)
+            : await fetchYahoo(key, asset, range);
+          return { key, ok: true };
+        } catch (error) {
+          console.error(key, error);
+          targetSeries[key] = [];
+          return { key, ok: false, error: error.message };
+        }
+      });
+      const needsMacro = [...requested].some(key => ASSETS[key]?.kind === "macro") || storeFullSeries;
+      if (needsMacro) tasks.push((async () => {
+        try {
+          await fetchMacroAssets(range, targetSeries, storeFullSeries);
+          return { key: "macro", name: "宏观历史数据", ok: true };
+        } catch (error) {
+          console.error("macro assets", error);
+          Object.entries(ASSETS).filter(([, asset]) => asset.kind === "macro").forEach(([key]) => {
+            targetSeries[key] = [];
+          });
+          return { key: "macro", name: "宏观历史数据", ok: false, error: error.message };
+        }
+      })());
+      return Promise.all(tasks);
+    }
+
+    async function loadMarkets() {
+      state.loading = true;
+      state.usdataPromise = null;
+      setStatus("loading", "正在更新市场数据...");
+      const requiredKeys = new Set([...state.tickers, ...state.selected]);
+      const results = await loadSeries(state.range, state.series, true, requiredKeys);
+      const failures = results.filter(result => !result.ok);
+      state.loading = false;
+      if (failures.length === results.length) {
+        setStatus("error", "市场数据连接失败");
+        showError("浏览器无法连接行情数据源。可稍后刷新，或使用本地 HTTP 服务打开本页以避免浏览器的跨域限制。");
+      } else {
+        setStatus(failures.length ? "error" : "live", failures.length ? `部分数据不可用 · ${failures.length} 项` : "实时数据已连接");
+        showError(failures.length ? `暂时无法载入：${failures.map(x => x.name || ASSETS[x.key].name).join("、")}` : "");
+      }
+      renderAll();
+    }
+
+    async function loadCorrelationData() {
+      const requestId = ++correlationState.requestId;
+      const range = correlationState.range;
+      const nextSeries = {};
+      correlationState.loading = true;
+      const button = document.getElementById("refreshBtn");
+      button.textContent = "更新中";
+      button.disabled = true;
+      try {
+        const results = await loadSeries(range, nextSeries, false, correlationState.selected);
+        if (requestId !== correlationState.requestId) return;
+        correlationState.series = nextSeries;
+        if (results.every(result => !result.ok)) {
+          document.getElementById("correlationChart").innerHTML =
+            '<div class="empty">相关性数据加载失败，请稍后刷新</div>';
+          return;
+        }
+        renderCorrelation();
+      } finally {
+        if (requestId !== correlationState.requestId) return;
+        correlationState.loading = false;
+        button.textContent = "刷新";
+        button.disabled = false;
+      }
+    }
+
+    function setStatus(type, text) {
+      document.getElementById("liveDot").className = `live-dot ${type === "live" ? "" : type}`;
+      document.getElementById("statusText").textContent = text;
+    }
+
+    function showError(message) {
+      const banner = document.getElementById("errorBanner");
+      banner.textContent = message;
+      banner.classList.toggle("show", Boolean(message));
+    }
+
+    function clearChart(chart) {
+      chart.series.forEach(series => chart.api.removeSeries(series));
+      chart.series = [];
+      chart.legendItems = [];
+      chart.legend.innerHTML = "";
+      chart.empty.classList.remove("show");
+    }
+
+    function showChartEmpty(chart, message) {
+      clearChart(chart);
+      chart.empty.textContent = message;
+      chart.empty.classList.add("show");
+    }
+
+    function renderChartLegend(chart, seriesData) {
+      chart.legend.innerHTML = chart.legendItems.map(item => {
+        const data = seriesData?.get(item.series);
+        const value = data ? item.formatter(data) : "";
+        return `
+        <span><i class="legend-dot" style="background:${item.color}"></i>${escapeHtml(item.label)}${value ? ` · ${escapeHtml(value)}` : ""}</span>
+      `;
+      }).join("");
+    }
+
+    function setChartLegend(chart, items) {
+      chart.legendItems = items;
+      renderChartLegend(chart);
+    }
+
+    function chartTime(timestamp) {
+      return Math.floor(timestamp / 1000);
+    }
+
+    function priceFormat(key, suffix = "") {
+      const asset = ASSETS[key];
+      const digits = asset?.digits ?? 1;
+      return {
+        type: "custom",
+        minMove: 10 ** -digits,
+        formatter: value => suffix
+          ? `${value.toFixed(digits)}${suffix}`
+          : formatValue(key, value)
+      };
+    }
+
+    function renderMarketChart() {
+      const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
+      const activeKey = state.series[state.active]?.length ? state.active : selectedKeys[0];
+      const renderKeys = state.view === "candle" ? [activeKey].filter(Boolean) : selectedKeys;
+      const renderKey = `${state.view}:${activeKey || ""}:${selectedKeys.join(",")}`;
+      const unchanged = marketRenderCache.key === renderKey &&
+        renderKeys.every(key => marketRenderCache.series.get(key) === state.series[key]);
+      if (unchanged && !state.resetMarketRange) return;
+      marketRenderCache.key = renderKey;
+      marketRenderCache.series = new Map(renderKeys.map(key => [key, state.series[key]]));
+
+      const timeScale = charts.market.api.timeScale();
+      const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
+      const useDualPriceScales = state.view === "compare" && selectedKeys.length === 2;
+      const hasZeroBaseline = selectedKeys.some(key =>
+        state.series[key].find(row => Number.isFinite(row.close))?.close === 0
+      );
+      const useZScore = state.view === "compare" && (
+        selectedKeys.length > 2 ||
+        selectedKeys.some(key => ASSETS[key].kind === "macro") ||
+        hasZeroBaseline
+      );
+      charts.market.api.applyOptions({
+        leftPriceScale: { visible: useDualPriceScales }
+      });
+      if (!activeKey) {
+        showChartEmpty(charts.market, "暂无市场数据");
+        state.resetMarketRange = false;
+        return;
+      }
+      clearChart(charts.market);
+      state.active = activeKey;
+      const asset = ASSETS[activeKey];
+      document.getElementById("chartTitle").textContent = state.view === "candle"
+        ? `${asset.name} · ${asset.kind === "macro" ? "历史走势" : "K 线"}`
+        : useZScore
+          ? "多资产标准化对比 · Z-score"
+          : "多资产归一化对比 · 起点 = 100";
+
+      if (state.view === "candle") {
+        const rows = state.series[activeKey];
+        const series = asset.kind === "macro"
+          ? charts.market.api.addSeries(LightweightCharts.AreaSeries, {
+              lineColor: asset.color,
+              topColor: `${asset.color}30`,
+              bottomColor: `${asset.color}03`,
+              lineWidth: 2,
+              priceFormat: priceFormat(activeKey)
+            })
+          : charts.market.api.addSeries(LightweightCharts.CandlestickSeries, {
+              upColor: "#ff6577",
+              downColor: "#32d49a",
+              borderVisible: false,
+              wickUpColor: "#ff6577",
+              wickDownColor: "#32d49a",
+              priceFormat: priceFormat(activeKey)
+            });
+        series.setData(asset.kind === "macro"
+          ? rows.map(row => ({ time: chartTime(row.time), value: row.close }))
+          : rows.filter(row => [row.open, row.high, row.low, row.close].every(Number.isFinite))
+            .map(row => ({
+              time: chartTime(row.time),
+              open: row.open,
+              high: row.high,
+              low: row.low,
+              close: row.close
+            })));
+        charts.market.series.push(series);
+        setChartLegend(charts.market, [{
+          label: asset.name,
+          color: asset.color,
+          series,
+          formatter: data => "value" in data
+            ? formatValue(activeKey, data.value)
+            : `O ${formatValue(activeKey, data.open)}  H ${formatValue(activeKey, data.high)}  L ${formatValue(activeKey, data.low)}  C ${formatValue(activeKey, data.close)}`
+        }]);
+      } else {
+        const legendItems = [];
+        selectedKeys.forEach((key, index) => {
+          const values = state.series[key].map(x => x.close).filter(Number.isFinite);
+          const first = values[0];
+          if (!useZScore && first === 0) return;
+          const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+          const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
+          const deviation = Math.sqrt(variance) || 1;
+          const series = charts.market.api.addSeries(LightweightCharts.LineSeries, {
+            color: ASSETS[key].color,
+            lineWidth: 2,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            priceScaleId: useDualPriceScales && index === 0 ? "left" : "right",
+            priceFormat: {
+              type: "custom",
+              minMove: useZScore ? .1 : 1,
+              formatter: value => useZScore ? value.toFixed(1) : value.toFixed(0)
+            }
+          });
+          series.setData(state.series[key].map(row => ({
+            time: chartTime(row.time),
+            value: useZScore
+              ? +((row.close - mean) / deviation).toFixed(3)
+              : first ? +(row.close / first * 100).toFixed(3) : 0
+          })));
+          charts.market.series.push(series);
+          legendItems.push({
+            label: useDualPriceScales
+              ? `${ASSETS[key].short} · ${index === 0 ? "左轴" : "右轴"}`
+              : ASSETS[key].short,
+            color: ASSETS[key].color,
+            series,
+            formatter: data => useZScore ? data.value.toFixed(2) : data.value.toFixed(1)
+          });
+        });
+        if (!charts.market.series.length) {
+          showChartEmpty(charts.market, "所选序列起点为零，无法归一化");
+          state.resetMarketRange = false;
+          return;
+        }
+        setChartLegend(charts.market, legendItems);
+      }
+      state.marketRangeChangeBlockedUntil = performance.now() + 300;
+      if (visibleRange) timeScale.setVisibleRange(visibleRange);
+      else timeScale.fitContent();
+      state.marketLogicalRange = timeScale.getVisibleLogicalRange();
+      state.resetMarketRange = false;
+    }
+
+    function setActiveRangeButton(moduleId, range) {
+      document.querySelectorAll(`[data-module-id="${moduleId}"] [data-range]`).forEach(button => {
+        button.classList.toggle("active", button.dataset.range === range);
+      });
+    }
+
+    async function loadMoreOnZoomOut() {
+      const ranges = ["1d", "1mo", "6mo", "1y", "5y", "10y", "20y"];
+      const nextRange = ranges[ranges.indexOf(state.range) + 1];
+      if (!nextRange || state.loading || state.lazyRangeLoading) return;
+      state.lazyRangeLoading = true;
+      state.range = nextRange;
+      state.resetMarketRange = true;
+      setActiveRangeButton("market", nextRange);
+      try {
+        await loadMarkets();
+      } finally {
+        state.lazyRangeLoading = false;
+      }
+    }
+
+    function handleMarketVisibleLogicalRangeChange(range) {
+      if (!range || performance.now() < state.marketRangeChangeBlockedUntil) return;
+      const previous = state.marketLogicalRange;
+      state.marketLogicalRange = range;
+      if (!previous) return;
+      const previousSpan = previous.to - previous.from;
+      const span = range.to - range.from;
+      const zoomedOut = span > previousSpan * 1.02;
+      if (zoomedOut && range.from < 30) loadMoreOnZoomOut();
+    }
+
+    charts.market.api.timeScale().subscribeVisibleLogicalRangeChange(
+      handleMarketVisibleLogicalRangeChange
+    );
+
+    function changesByPeriod(key, rows, monthly) {
+      const grouped = new Map();
+      rows.forEach(row => {
+        const date = new Date(row.time).toISOString();
+        grouped.set(monthly ? date.slice(0, 7) : date.slice(0, 10), row.close);
+      });
+      const entries = [...grouped.entries()].sort(([a], [b]) => a.localeCompare(b));
+      const result = new Map();
+      for (let i = 1; i < entries.length; i++) {
+        const [period, current] = entries[i];
+        const previous = entries[i - 1][1];
+        if (!Number.isFinite(previous) || !Number.isFinite(current)) continue;
+        const change = ASSETS[key].kind === "macro" ? current - previous : previous ? current / previous - 1 : NaN;
+        if (Number.isFinite(change)) result.set(period, change);
+      }
+      return result;
+    }
+
+    function correlation(a, b) {
+      const dates = [...a.keys()].filter(key => b.has(key));
+      if (dates.length < 3) return null;
+      const x = dates.map(key => a.get(key));
+      const y = dates.map(key => b.get(key));
+      const mx = x.reduce((s, n) => s + n, 0) / x.length;
+      const my = y.reduce((s, n) => s + n, 0) / y.length;
+      let numerator = 0, dx = 0, dy = 0;
+      x.forEach((value, i) => {
+        const ax = value - mx;
+        const ay = y[i] - my;
+        numerator += ax * ay;
+        dx += ax * ax;
+        dy += ay * ay;
+      });
+      return dx && dy ? numerator / Math.sqrt(dx * dy) : null;
+    }
+
+    function renderCorrelation() {
+      const host = document.getElementById("correlationChart");
+      const keys = [...correlationState.selected]
+        .filter(key => (correlationState.series[key]?.length || 0) > 2);
+      if (keys.length < 2) {
+        host.innerHTML = '<div class="empty">请选择至少两个有数据的资产</div>';
+        return;
+      }
+      const monthly = keys.some(key => ASSETS[key].kind === "macro");
+      const maps = Object.fromEntries(keys.map(key => [
+        key,
+        changesByPeriod(key, correlationState.series[key], monthly)
+      ]));
+      const mix = (start, end, amount) => start.map((value, index) =>
+        Math.round(value + (end[index] - value) * amount)
+      );
+      const cellColor = value => {
+        if (value == null) return "#12212e";
+        const rgb = value < 0
+          ? mix([24, 43, 58], [181, 75, 97], Math.abs(value))
+          : mix([24, 43, 58], [39, 187, 169], value);
+        return `rgb(${rgb.join(",")})`;
+      };
+      const labels = ['<div class="correlation-label"></div>']
+        .concat(keys.map(key => `<div class="correlation-label">${escapeHtml(ASSETS[key].short)}</div>`));
+      const cells = keys.flatMap(y => {
+        const row = [`<div class="correlation-label">${escapeHtml(ASSETS[y].short)}</div>`];
+        keys.forEach(x => {
+          const value = x === y ? 1 : correlation(maps[x], maps[y]);
+          const text = value == null ? "—" : value.toFixed(2);
+          const title = value == null
+            ? `${ASSETS[x].short} / ${ASSETS[y].short}：同期数据不足`
+            : `${ASSETS[x].short} / ${ASSETS[y].short}：${text}`;
+          row.push(`<div class="correlation-cell" style="background:${cellColor(value)}" title="${escapeHtml(title)}">${text}</div>`);
+        });
+        return row;
+      });
+      host.innerHTML = `
+        <div class="correlation-grid" style="grid-template-columns:72px repeat(${keys.length}, minmax(52px, 1fr))">
+          ${labels.join("")}${cells.join("")}
+        </div>
+        <div class="correlation-scale"></div>
+      `;
+    }
+
+    const MACRO_INDICATOR_LABELS = {
+      "US:Nonfarm Payrolls Private": "美国非农就业",
+      "US:Non Farm Payrolls": "美国非农就业人数",
+      "US:Unemployment Rate": "美国失业率",
+      "US:Inflation Rate YoY": "美国 CPI",
+      "US:Core Inflation Rate YoY": "美国核心 CPI",
+      "US:PPI YoY": "美国 PPI",
+      "US:Core PPI YoY": "美国核心 PPI",
+      "US:Core PCE Price Index MoM": "美国核心 PCE 环比",
+      "US:Average Hourly Earnings MoM": "美国平均时薪环比",
+      "US:Retail Sales MoM": "美国零售销售",
+      "US:GDP Growth Rate QoQ": "美国 GDP 环比",
+      "US:ISM Manufacturing PMI": "美国 ISM 制造业 PMI",
+      "US:ISM Manufacturing New Orders": "美国 ISM 制造业新订单",
+      "US:ISM Manufacturing Prices": "美国 ISM 制造业支付价格",
+      "US:ISM Services PMI": "美国 ISM 服务业 PMI",
+      "US:Fed Interest Rate Decision": "美联储利率决议",
+      "US:Initial Jobless Claims": "美国初请失业金人数",
+      "US:JOLTs Job Openings": "美国 JOLTS 职位空缺",
+      "US:Consumer Confidence": "美国消费者信心",
+      "US:Michigan Consumer Sentiment": "美国密歇根消费者信心",
+      "CN:Inflation Rate YoY": "中国 CPI",
+      "CN:PPI YoY": "中国 PPI",
+      "CN:GDP Growth Rate YoY": "中国 GDP 同比",
+      "CN:Industrial Production YoY": "中国规模以上工业增加值",
+      "CN:Retail Sales YoY": "中国社会消费品零售总额",
+      "CN:Unemployment Rate": "中国失业率",
+      "CN:NBS Manufacturing PMI": "中国官方制造业 PMI",
+      "CN:Non Manufacturing PMI": "中国官方非制造业 PMI",
+      "CN:Caixin Manufacturing PMI": "中国财新制造业 PMI",
+      "CN:Caixin Services PMI": "中国财新服务业 PMI",
+      "CN:Balance of Trade": "中国贸易差额",
+      "CN:Exports YoY": "中国出口同比",
+      "CN:Imports YoY": "中国进口同比",
+      "CN:New Yuan Loans": "中国新增人民币贷款",
+      "CN:Loan Growth YoY": "中国贷款余额同比",
+      "CN:Total Social Financing": "中国社会融资规模",
+      "CN:M2 Money Supply YoY": "中国 M2 货币供应同比",
+      "CN:PBoC Interest Rate Decision": "中国央行利率决议"
+    };
+    const BASE_MACRO_INDICATORS = [
+      "US:Nonfarm Payrolls Private",
+      "US:Inflation Rate YoY",
+      "US:PPI YoY",
+      "CN:Inflation Rate YoY",
+      "CN:PPI YoY"
+    ];
+    const NEW_DEFAULT_MACRO_INDICATORS = [
+      "US:Core PCE Price Index MoM",
+      "US:Average Hourly Earnings MoM",
+      "US:Initial Jobless Claims",
+      "US:ISM Manufacturing New Orders",
+      "US:ISM Manufacturing Prices",
+      "US:Fed Interest Rate Decision",
+      "CN:Total Social Financing",
+      "CN:M2 Money Supply YoY"
+    ];
+    const DEFAULT_MACRO_INDICATORS = [
+      ...BASE_MACRO_INDICATORS,
+      ...NEW_DEFAULT_MACRO_INDICATORS
+    ];
+    const MACRO_TRADING_VALUES = {
+      "US:Nonfarm Payrolls Private": "衡量就业增量，显著偏离预期会迅速改变降息预期并影响指数风格。",
+      "US:Inflation Rate YoY": "通胀主线指标，超预期通常推高利率并压制高估值成长股。",
+      "US:PPI YoY": "观察上游成本与企业利润压力，也是消费通胀的潜在线索。",
+      "US:Core PCE Price Index MoM": "美联储偏好的核心通胀指标，对利率路径和成长股估值影响很大。",
+      "US:Average Hourly Earnings MoM": "工资增速反映服务通胀黏性，偏强可能推迟降息。",
+      "US:Initial Jobless Claims": "高频就业拐点指标，持续上升通常意味着增长和盈利预期走弱。",
+      "US:ISM Manufacturing New Orders": "制造业领先分项，可提前观察需求、库存和周期股盈利方向。",
+      "US:ISM Manufacturing Prices": "制造业通胀领先分项，超预期上升通常推高利率并压制估值。",
+      "US:Fed Interest Rate Decision": "直接决定政策利率，需结合声明、点阵图和新闻发布会判断。",
+      "CN:Inflation Rate YoY": "反映内需与价格环境，对消费、利率敏感板块和政策预期重要。",
+      "CN:PPI YoY": "反映工业品价格与中上游盈利周期，对周期股和工业企业利润敏感。",
+      "CN:Total Social Financing": "衡量实体融资扩张，超预期通常改善A股、港股和周期品风险偏好。",
+      "CN:M2 Money Supply YoY": "观察货币供给宽松程度，需结合社融和M1判断资金是否进入实体经济。",
+      "US:Unemployment Rate": "就业松紧度核心指标，上升过快会强化衰退与宽松交易。",
+      "US:Core Inflation Rate YoY": "剔除食品能源后观察通胀黏性，对利率敏感资产影响更直接。",
+      "US:Core PPI YoY": "剔除波动项后观察生产成本压力，有助于判断利润率和核心通胀。",
+      "US:Retail Sales MoM": "衡量消费动能，超预期利好增长但也可能推高利率预期。",
+      "US:GDP Growth Rate QoQ": "确认经济增长状态，但发布较滞后，交易重点通常是与预期的偏差。",
+      "US:ISM Manufacturing PMI": "判断制造业扩张或收缩，周期股通常对新趋势更敏感。",
+      "US:ISM Services PMI": "覆盖美国经济主体，价格和就业分项对通胀、利率尤其重要。",
+      "US:JOLTs Job Openings": "衡量劳动力需求，职位空缺下降通常意味着工资压力缓解。",
+      "US:Consumer Confidence": "反映消费意愿，对可选消费与经济增长预期有参考价值。",
+      "US:Michigan Consumer Sentiment": "观察居民信心及通胀预期，影响消费和美联储预期。",
+      "CN:GDP Growth Rate YoY": "确认中国增长强弱，对指数整体盈利预期有方向性影响。",
+      "CN:Industrial Production YoY": "反映工业景气，对原材料、制造业和周期板块较敏感。",
+      "CN:Retail Sales YoY": "衡量消费修复，对消费、互联网和可选消费板块重要。",
+      "CN:Unemployment Rate": "观察就业与居民收入压力，是消费持续性的辅助指标。",
+      "CN:NBS Manufacturing PMI": "官方制造业景气指标，新订单变化对周期行情更具领先性。",
+      "CN:Non Manufacturing PMI": "观察服务业和建筑业景气，对内需及基建链有参考价值。",
+      "CN:Caixin Manufacturing PMI": "更偏中小型及出口企业，可补充官方制造业 PMI。",
+      "CN:Caixin Services PMI": "观察民营服务业景气，对消费和就业预期有参考价值。",
+      "CN:Balance of Trade": "反映外需和进口需求，对出口链、人民币及商品价格有影响。",
+      "CN:Exports YoY": "衡量外需强弱，对出口制造、航运和人民币预期较敏感。",
+      "CN:Imports YoY": "反映国内需求及大宗商品采购，对周期品交易有参考价值。",
+      "CN:New Yuan Loans": "观察银行信贷投放，但需结合社融结构判断资金去向。",
+      "CN:Loan Growth YoY": "衡量信贷存量扩张速度，可辅助判断信用周期方向。",
+      "CN:PBoC Interest Rate Decision": "影响人民币利率和估值环境，重点观察是否超出市场预期。"
+    };
+    const MACRO_SELECTION_KEY = "finance-dashboard-macro-indicators";
+    const MACRO_DEFAULTS_VERSION_KEY = "finance-dashboard-macro-defaults-version";
+    const MACRO_DEFAULTS_VERSION = 2;
+    const macroCalendarState = {
+      events: [],
+      available: new Map(
+        Object.keys(MACRO_INDICATOR_LABELS).map(key => {
+          const [country, ...titleParts] = key.split(":");
+          const title = titleParts.join(":");
+          return [key, { key, country, title, name: MACRO_INDICATOR_LABELS[key] }];
+        })
+      ),
+      selected: loadMacroSelection()
+    };
+
+    function loadMacroSelection() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(MACRO_SELECTION_KEY));
+        let selected = Array.isArray(saved) && saved.every(key => typeof key === "string")
+          ? saved
+          : [...DEFAULT_MACRO_INDICATORS];
+        const version = Number(localStorage.getItem(MACRO_DEFAULTS_VERSION_KEY) || 0);
+        if (version < MACRO_DEFAULTS_VERSION) {
+          selected = [...new Set([...selected, ...NEW_DEFAULT_MACRO_INDICATORS])];
+          localStorage.setItem(MACRO_SELECTION_KEY, JSON.stringify(selected));
+          localStorage.setItem(MACRO_DEFAULTS_VERSION_KEY, String(MACRO_DEFAULTS_VERSION));
+        }
+        return selected;
+      } catch (error) {
+        console.warn("macro indicator selection", error);
+      }
+      return [...DEFAULT_MACRO_INDICATORS];
+    }
+
+    function saveMacroSelection() {
+      try {
+        localStorage.setItem(MACRO_SELECTION_KEY, JSON.stringify(macroCalendarState.selected));
+      } catch (error) {
+        console.warn("macro indicator selection save", error);
+      }
+    }
+
+    function macroIndicatorKey(country, title) {
+      return `${String(country).toUpperCase()}:${String(title)}`;
+    }
+
+    function macroIndicatorName(country, title) {
+      const key = macroIndicatorKey(country, title);
+      return MACRO_INDICATOR_LABELS[key] || `${country === "US" ? "美国" : "中国"} · ${title}`;
+    }
+
+    function macroTradingValue(indicator) {
+      return MACRO_TRADING_VALUES[indicator.key]
+        || "重点观察实际值与预测值的偏差，以及是否改变增长、通胀或政策预期。";
+    }
+
+    function selectedMacroIndicators() {
+      return macroCalendarState.selected.map(key => macroCalendarState.available.get(key) || (() => {
+        const [country, ...titleParts] = key.split(":");
+        const title = titleParts.join(":");
+        return { key, country, title, name: macroIndicatorName(country, title) };
+      })());
+    }
+
+    function latestMacroEvent(indicator) {
+      const matches = macroCalendarState.events.filter(event =>
+        String(event.country).toUpperCase() === indicator.country &&
+        String(event.title).toLowerCase() === indicator.title.toLowerCase()
+      ).sort((a, b) => new Date(b.date) - new Date(a.date));
+      return matches.find(event => event.actual !== null && event.actual !== undefined) || matches[0];
+    }
+
+    function macroRowsHtml(statusText = "") {
+      const rows = selectedMacroIndicators().map(indicator => {
+        const event = latestMacroEvent(indicator);
+        const tradingValue = macroTradingValue(indicator);
+        const date = statusText || (event?.date ? formatDisplayDate(event.date) : "暂无公开数据");
+        return `
+          <div class="macro-row" data-indicator-key="${escapeHtml(indicator.key)}">
+            <div><div class="macro-name" draggable="true" title="拖动排序或移到垃圾桶删除">${escapeHtml(indicator.name)}</div><div class="macro-date">${escapeHtml(date)}</div></div>
+            <div class="macro-number"><small>实际值</small><strong>${statusText ? "—" : escapeHtml(event?.actual ?? "—")}</strong></div>
+            <div class="macro-number"><small>预测值</small><strong>${statusText ? "—" : escapeHtml(event?.forecast ?? "—")}</strong></div>
+            <div class="macro-trading-value"><small>交易价值</small><span title="${escapeHtml(tradingValue)}">${escapeHtml(tradingValue)}</span></div>
+          </div>
+        `;
+      }).join("");
+      return `${rows}<button type="button" class="macro-add-row" id="addMacroIndicator">＋ 添加指标</button>`;
+    }
+
+    function setupMacroRows() {
+      const host = document.getElementById("macroList");
+      let draggedRow = null;
+      let droppedInTrash = false;
+      host.querySelectorAll(".macro-row").forEach(row => {
+        row.querySelector(".macro-name").addEventListener("dragstart", event => {
+          draggedRow = row;
+          droppedInTrash = false;
+          row.classList.add("row-dragging");
+          showDragTrash(() => {
+            if (!draggedRow) return;
+            droppedInTrash = true;
+            macroCalendarState.selected = macroCalendarState.selected
+              .filter(key => key !== draggedRow.dataset.indicatorKey);
+            saveMacroSelection();
+            draggedRow.remove();
+          });
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", row.dataset.indicatorKey);
+        });
+        row.querySelector(".macro-name").addEventListener("dragend", () => {
+          row.classList.remove("row-dragging");
+          hideDragTrash();
+          draggedRow = null;
+          if (!droppedInTrash) {
+            macroCalendarState.selected = [...host.querySelectorAll(".macro-row[data-indicator-key]")]
+              .map(item => item.dataset.indicatorKey);
+            saveMacroSelection();
+          }
+        });
+      });
+      host.ondragover = event => {
+        if (!draggedRow) return;
+        event.preventDefault();
+        const nextRow = [...host.querySelectorAll(".macro-row:not(.row-dragging)")]
+          .find(row => event.clientY < row.getBoundingClientRect().top + row.offsetHeight / 2);
+        host.insertBefore(draggedRow, nextRow || document.getElementById("addMacroIndicator"));
+      };
+      document.getElementById("addMacroIndicator").addEventListener("click", openMacroIndicatorDialog);
+    }
+
+    function renderMacroRows(statusText = "") {
+      document.getElementById("macroList").innerHTML = macroRowsHtml(statusText);
+      setupMacroRows();
+    }
+
+    function renderMacroIndicatorOptions() {
+      const query = document.getElementById("macroIndicatorSearch").value.trim().toLowerCase();
+      const selected = new Set(macroCalendarState.selected);
+      const groups = ["US", "CN"].map(country => {
+        const options = [...macroCalendarState.available.values()]
+          .filter(item => item.country === country)
+          .filter(item => !query || `${item.name} ${item.title} ${country === "US" ? "美国" : "中国"}`.toLowerCase().includes(query))
+          .sort((a, b) => a.name.localeCompare(b.name, "zh-CN"));
+        if (!options.length) return "";
+        return `
+          <div class="macro-country">${country === "US" ? "美国" : "中国"}</div>
+          ${options.map(item => `
+            <label class="macro-option">
+              <input type="checkbox" data-indicator-key="${escapeHtml(item.key)}" ${selected.has(item.key) ? "checked" : ""}>
+              <span>${escapeHtml(item.name)}</span>
+              <span class="macro-option-source">${escapeHtml(item.title)}</span>
+            </label>
+          `).join("")}
+        `;
+      }).join("");
+      const host = document.getElementById("macroIndicatorOptions");
+      host.innerHTML = groups || '<div class="macro-options-empty">没有匹配的指标</div>';
+      host.querySelectorAll("input[data-indicator-key]").forEach(input => {
+        input.addEventListener("change", () => {
+          const key = input.dataset.indicatorKey;
+          if (input.checked) {
+            if (!macroCalendarState.selected.includes(key)) macroCalendarState.selected.push(key);
+          } else {
+            macroCalendarState.selected = macroCalendarState.selected.filter(item => item !== key);
+          }
+          saveMacroSelection();
+          renderMacroRows();
+        });
+      });
+    }
+
+    function openMacroIndicatorDialog() {
+      const dialog = document.getElementById("macroIndicatorDialog");
+      document.getElementById("macroIndicatorSearch").value = "";
+      renderMacroIndicatorOptions();
+      dialog.showModal();
+      requestAnimationFrame(() => document.getElementById("macroIndicatorSearch").focus());
+    }
+
+    async function loadMacroCalendar() {
+      document.getElementById("macroLoading").style.display = "block";
+      renderMacroRows("读取中...");
+      try {
+        const end = new Date();
+        end.setDate(end.getDate() + 45);
+        const start = new Date();
+        start.setDate(start.getDate() - 120);
+        const from = start.toISOString();
+        const to = end.toISOString();
+        const url = `https://economic-calendar.tradingview.com/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&countries=US,CN`;
+        const response = await fetchWithFallback(url);
+        const payload = await response.json();
+        const events = payload.result;
+        if (!Array.isArray(events)) throw new Error("宏观接口返回格式错误");
+        macroCalendarState.events = events;
+        events.filter(event => ["US", "CN"].includes(String(event.country).toUpperCase()) && event.title).forEach(event => {
+          const country = String(event.country).toUpperCase();
+          const title = String(event.title);
+          const key = macroIndicatorKey(country, title);
+          macroCalendarState.available.set(key, {
+            key,
+            country,
+            title,
+            name: macroIndicatorName(country, title)
+          });
+        });
+        renderMacroRows();
+      } catch (error) {
+        console.error("macro calendar", error);
+        renderMacroRows("数据源暂不可用");
+      } finally {
+        document.getElementById("macroLoading").style.display = "none";
+      }
+    }
+
+    async function loadMacroHistory() {
+      try {
+        const keys = ["usCpi", "usPpi", "cnCpi", "cnPpi"];
+        if (keys.some(key => !state.macroAll[key]?.length)) throw new Error("宏观历史序列尚未载入");
+        const cutoff = new Date();
+        cutoff.setFullYear(cutoff.getFullYear() - 3);
+        const rowsByKey = Object.fromEntries(keys.map(key => [
+          key,
+          state.macroAll[key].filter(row => row.time >= cutoff.getTime())
+        ]));
+        clearChart(charts.macro);
+        keys.forEach(key => {
+          const series = charts.macro.api.addSeries(LightweightCharts.LineSeries, {
+            color: ASSETS[key].color,
+            lineWidth: 2,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            priceFormat: { type: "custom", minMove: .01, formatter: value => `${value.toFixed(1)}%` }
+          });
+          series.setData(rowsByKey[key].map(row => ({
+            time: chartTime(row.time),
+            value: row.close
+          })));
+          charts.macro.series.push(series);
+        });
+        setChartLegend(charts.macro, keys.map((key, index) => ({
+          label: ASSETS[key].short,
+          color: ASSETS[key].color,
+          series: charts.macro.series[index],
+          formatter: data => `${data.value.toFixed(2)}%`
+        })));
+        charts.macro.api.timeScale().fitContent();
+      } catch (error) {
+        console.error("macro history", error);
+        showChartEmpty(charts.macro, "宏观历史数据暂不可用");
+      }
+    }
+
+    function renderAll() {
+      renderTickers();
+      renderMarketChart();
+      renderCorrelation();
+    }
+
+    document.querySelectorAll("[data-range]").forEach(button => {
+      button.addEventListener("click", () => {
+        const moduleId = button.closest("[data-module-id]")?.dataset.moduleId;
+        setActiveRangeButton(moduleId, button.dataset.range);
+        if (moduleId === "correlation") {
+          correlationState.range = button.dataset.range;
+          loadCorrelationData();
+        } else {
+          state.range = button.dataset.range;
+          state.resetMarketRange = true;
+          loadMarkets();
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-view]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-view]").forEach(x => x.classList.remove("active"));
+        button.classList.add("active");
+        state.view = button.dataset.view;
+        if (state.view === "compare" && state.selected.size > 2) {
+          state.selected = new Set([...state.selected].slice(0, 2));
+          if (!state.selected.has(state.active)) state.active = [...state.selected][0];
+          renderSelectors();
+        }
+        renderAll();
+      });
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", loadCorrelationData);
+    document.getElementById("closeMacroDialog").addEventListener("click", () => {
+      document.getElementById("macroIndicatorDialog").close();
+    });
+    document.getElementById("macroIndicatorSearch").addEventListener("input", renderMacroIndicatorOptions);
+    document.getElementById("macroIndicatorDialog").addEventListener("click", event => {
+      if (event.target === event.currentTarget) event.currentTarget.close();
+    });
+    document.getElementById("closeTickerDialog").addEventListener("click", () => {
+      document.getElementById("tickerDialog").close();
+    });
+    document.getElementById("tickerSearch").addEventListener("input", renderTickerOptions);
+    document.getElementById("tickerDialog").addEventListener("click", event => {
+      if (event.target === event.currentTarget) event.currentTarget.close();
+    });
+
+    function setupMovablePanels() {
+      const columns = [...document.querySelectorAll(".main-column, .side-column")];
+      let draggedPanel = null;
+
+      document.querySelectorAll(".movable-panel").forEach(panel => {
+        const handle = panel.querySelector(".panel-title");
+        handle.draggable = true;
+        handle.title = "拖动模块";
+        handle.addEventListener("dragstart", event => {
+          draggedPanel = panel;
+          panel.classList.add("dragging");
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", panel.dataset.moduleId);
+        });
+        handle.addEventListener("dragend", () => {
+          panel.classList.remove("dragging");
+          draggedPanel = null;
+        });
+      });
+
+      columns.forEach(column => {
+        column.addEventListener("dragover", event => {
+          if (!draggedPanel) return;
+          event.preventDefault();
+          event.dataTransfer.dropEffect = "move";
+          const nextPanel = [...column.querySelectorAll(".movable-panel:not(.dragging)")]
+            .find(panel => event.clientY < panel.getBoundingClientRect().top + panel.offsetHeight / 2);
+          column.insertBefore(draggedPanel, nextPanel || null);
+        });
+      });
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString("zh-CN", {
+        hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit"
+      });
+      document.getElementById("clock").textContent = `${formatDisplayDate(now)} ${time}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+    setupMovablePanels();
+    renderSelectors();
+    renderTickers();
+    (async function initialize() {
+      await loadMarkets();
+      correlationState.series = Object.fromEntries(
+        Object.entries(state.series).map(([key, rows]) => [key, [...rows]])
+      );
+      renderCorrelation();
+      await Promise.all([loadMacroCalendar(), loadMacroHistory()]);
+    })();
+    setInterval(loadMarkets, 60_000);
+  </script>
+</body>
+</html>

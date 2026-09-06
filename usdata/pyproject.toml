@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "us-economy-mcp"
+version = "0.1.0"
+description = "MCP server for commonly watched U.S. economic data"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "aiosqlite>=0.20,<1",
+  "httpx>=0.27,<1",
+  "mcp[cli]>=1.12,<2",
+  "pydantic-settings>=2.5,<3",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.24,<1",
+  "respx>=0.21,<1",
+]
+
+[project.scripts]
+us-economy-mcp = "us_economy_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/us_economy_mcp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+

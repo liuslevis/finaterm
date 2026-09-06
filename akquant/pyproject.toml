@@ -1,0 +1,136 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "akquant"
+version = "0.3.57"
+description = "High-performance quantitative trading framework based on Rust and Python"
+readme = "README.md"
+license = {text = "MIT License"}
+authors = [
+    {name = "AKQuant Developers"},
+    {email = "albertandking@gmail.com"}
+]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: MIT License",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.2.0",
+    "numpy>=2.2.2",
+    "pyarrow>=14.0.0",
+    "tqdm>=4.0.0",
+    "plotly>=5.0.0",
+    "polars>=0.20.0",
+    "pydantic>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/akfamily/akquant"
+Repository = "https://github.com/akfamily/akquant"
+Documentation = "https://akquant.akfamily.xyz"
+
+[project.optional-dependencies]
+quantstats = [
+    "quantstats>=0.0.60"
+]
+plot = [
+    "plotly>=5.0.0",
+]
+ml = [
+    "scikit-learn>=1.0.0",
+    "torch>=2.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocs-static-i18n>=1.2.0",
+    "akshare>=1.0.0",
+]
+signal-redis = [
+    "redis>=5.0.0",
+]
+full = [
+    "plotly>=5.0.0",
+    "scikit-learn>=1.0.0",
+    "torch>=2.0.0",
+    "quantstats>=0.0.60",
+]
+dev = [
+    "mypy>=1.0.0",
+    "maturin>=1.11.5",
+    "pandas-stubs>=2.3.3.260113",
+    "pre-commit>=3.0.0",
+    "pytest>=7.0.0",
+    "ruff>=0.1.0",
+    "types-pytz>=2025.2.0.20251108",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+python-source = "python"
+module-name = "akquant.akquant"
+# vendored 前端资源(LWC standalone JS + LICENSE)随 wheel 一同分发,
+# 保证 result.viz.review() 生成的 HTML 离线自包含。
+include = [
+    { path = "python/akquant/lwc/assets/*", format = ["sdist", "wheel"] },
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "D"]
+ignore = ["D100", "D104"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+exclude = '(?x)(^|[\\/])vendor([\\/]|$)'
+# import-untyped: pyarrow/akshare 等无 py.typed 存根的第三方库噪声(与本项目
+#   类型安全无关; per-module override 对 .pyi 入口失效, 故全局禁用)。
+# syntax: numpy 2.5.x 存根用 PEP 695 `type` 语句(需 py3.12), 与本项目
+#   python_version="3.10" 目标冲突; numpy 2.5 本身也不支持 3.10, 其存根语法
+#   错误与本项目代码无关, 一并禁用避免阻断整体检查。
+disable_error_code = ["import-untyped", "syntax"]
+
+[[tool.mypy.overrides]]
+module = [
+    "torch.*",
+    "sklearn.*",
+    "akshare.*",
+    "pyarrow",
+    "pyarrow.*",
+    "polars",
+    "polars.*",
+    "pytest",
+    "quantstats",
+    "quantstats.*",
+    # 可选依赖: redis 走 signal-redis extra 惰性导入; httpx 仅测试用
+    "redis",
+    "redis.*",
+    "httpx",
+]
+ignore_missing_imports = true
+disable_error_code = ["import-untyped"]
+
+# numpy 2.5.x 的类型存根用 PEP 695 `type` 语句(需 py3.12),与本项目
+# python_version="3.10" 目标冲突(numpy 2.5 本身也不支持 3.10)。跳过对其
+# 存根的分析(视为 Any),不影响本项目代码仍按 3.10 检查;公开 standalone CI
+# 在 3.10 环境解析的是 3.10 兼容的旧版 numpy 存根,不受影响。

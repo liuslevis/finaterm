@@ -1,0 +1,70 @@
+# ── 构建产物 ──
+target/
+build/
+dist/
+site/
+refs/
+*.egg-info/
+
+# ── Python ──
+__pycache__/
+*.so
+*.dylib
+*.dSYM/
+*.pyd
+*.pdb
+
+# ── 环境 / 依赖 ──
+.env
+.venv
+venv/
+uv.lock
+
+# ── IDE / 编辑器 ──
+.idea/
+.vscode/
+.agents/
+.trae/
+*.swp
+
+# ── 操作系统 ──
+.DS_Store
+
+# ── 日志 ──
+*.log
+*.err
+
+# ── 本地配置 ──
+.cargo/config.toml
+CLAUDE.md
+
+# ── 本地数据 ──
+/data_catalog/
+/examples/indicator_visualization_preview.html
+/examples/indicator_visualization_outputs.json
+
+# ── 教材示例在仓库根目录生成的报告产物（文件名硬编码，从根目录运行示例时落在这里；
+#    类风格与函数式孪生示例产出同名文件）──
+/ch10_analysis_report_daily.html
+/ch13_report_with_benchmark.html
+
+# ── AI 工作流文档（内部，不公开）──
+docs/superpowers
+
+# ── 私有 broker 已拆分为独立包（akquant-qmf / akquant-middleware，独立私有仓）──
+#    以下规则防止插件仓的实现代码被误提交回本公开仓
+/python/akquant/gateway/brokers/qmf/
+/python/akquant/gateway/brokers/middleware/
+/tests/test_gateway_qmf_*.py
+/tests/test_gateway_middleware_*.py
+/examples/*_qmf_*.py
+/examples/*_middleware_*.py
+/docs/zh/advanced/qmf_broker_gateway.md
+/docs/en/advanced/qmf_broker_gateway.md
+
+# ── 外部前置机/回测服务子项目（vendored，独立仓库，不纳入本仓版本管理）──
+/vendor/
+
+# ── golden 测试的"当前运行"产物（每次运行由 runner 重新生成并与 baselines 比对，
+#    无需入库；baselines/ 才是锁定的参照）──
+/tests/golden/current/

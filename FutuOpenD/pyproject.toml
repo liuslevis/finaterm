@@ -1,0 +1,20 @@
+[project]
+name = "futu-opend"
+version = "0.1.0"
+description = "Local Futu OpenD client environment managed with uv"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "futu-api>=10.4.6408",
+]
+
+[project.scripts]
+futu-check = "futu_opend.check_connection:main"
+
+[build-system]
+requires = ["uv_build>=0.10.10,<0.11.0"]
+build-backend = "uv_build"
+
+[[tool.uv.index]]
+url = "https://pypi.org/simple"
+default = true
