@@ -103,7 +103,7 @@
     .asset-selector { display: flex; flex-wrap: wrap; gap: 8px; }
     .asset-chip { display: block; }
     .asset-chip input { display: none; }
-    .asset-chip span, .range button, .refresh-btn, .view-btn {
+    .asset-chip span, .range button, .refresh-btn {
       border: 1px solid var(--line);
       color: var(--muted);
       background: rgba(255,255,255,.025);
@@ -125,14 +125,14 @@
       background: rgba(56,215,197,.11);
       box-shadow: inset 0 0 0 1px rgba(56,215,197,.06);
     }
-    .asset-chip span:hover, .range button:hover, .refresh-btn:hover, .view-btn:hover {
+    .asset-chip span:hover, .range button:hover, .refresh-btn:hover {
       color: var(--text); border-color: rgba(151,180,202,.32);
     }
 
     .controls { display: flex; align-items: center; gap: 8px; }
-    .range, .view-switch { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; }
-    .range button, .view-btn { border: 0; padding: 6px 9px; border-radius: 8px; }
-    .range button.active, .view-btn.active { color: #061515; background: var(--cyan); font-weight: 700; }
+    .range { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; }
+    .range button { border: 0; padding: 6px 9px; border-radius: 8px; }
+    .range button.active { color: #061515; background: var(--cyan); font-weight: 700; }
     .refresh-btn { padding: 8px 10px; }
     .clear-cache-btn {
       border: 1px solid var(--line);
@@ -1198,18 +1198,13 @@
               <div class="panel-note">滚轮缩放时间轴 · 按住图表左右拖拽</div>
             </div>
             <div class="panel-actions">
-              <div class="range" aria-label="K 线时间范围">
-                <button type="button" data-range="1d">1D</button>
-                <button type="button" data-range="1mo">1M</button>
-                <button type="button" data-range="6mo">6M</button>
-                <button type="button" data-range="1y" class="active">1Y</button>
-                <button type="button" data-range="5y">5Y</button>
-                <button type="button" data-range="10y">10Y</button>
-                <button type="button" data-range="20y">20Y</button>
-              </div>
-              <div class="view-switch">
-                <button type="button" class="view-btn active" data-view="candle">K 线</button>
-                <button type="button" class="view-btn" data-view="compare">对比</button>
+              <div class="range" aria-label="K 线周期">
+                <button type="button" data-kline-period="day" class="active">日K</button>
+                <button type="button" data-kline-period="week">周K</button>
+                <button type="button" data-kline-period="month">月K</button>
+                <button type="button" data-kline-period="quarter">季K</button>
+                <button type="button" data-kline-period="half-year">半年K</button>
+                <button type="button" data-kline-period="year">年K</button>
               </div>
             </div>
           </div>
@@ -1240,6 +1235,19 @@
             </div>
           </div>
           <div id="correlationChart"></div>
+        </section>
+
+        <section class="panel movable-panel" data-module-id="market-compare">
+          <div class="panel-head">
+            <div>
+              <div id="compareChartTitle" class="panel-title">多资产标准化对比 · Z-score</div>
+              <div class="panel-note">与 K 线共用时间范围 · 滚轮缩放时间轴</div>
+            </div>
+          </div>
+          <div class="module-controls">
+            <div id="compareAssetSelector" class="asset-selector"></div>
+          </div>
+          <div id="marketCompareChart" class="chart"></div>
         </section>
       </div>
 
@@ -1723,7 +1731,10 @@
 
   <script>
     const ASSETS = {
-      spread: { name: "美债 10Y-2Y", short: "10Y-2Y", category: "bonds", unit: " bp", source: "usdata", kind: "rate", color: "#38d7c5" },
+      fedFunds: { name: "美国有效联邦基金利率", short: "FED FUNDS", category: "bonds", unit: "%", source: "usdata", usdataId: "fed_funds_rate", kind: "rate", digits: 2, color: "#ffb74d" },
+      treasury2y: { name: "美国 2 年期国债收益率", short: "US 2Y", category: "bonds", unit: "%", source: "usdata", usdataId: "treasury_2y", kind: "rate", digits: 2, color: "#26a69a" },
+      treasury10y: { name: "美国 10 年期国债收益率", short: "US 10Y", category: "bonds", unit: "%", source: "usdata", usdataId: "treasury_10y", kind: "rate", digits: 2, color: "#4db6ac" },
+      spread: { name: "美债 10Y-2Y", short: "10Y-2Y", category: "bonds", unit: " bp", source: "usdata", usdataId: "treasury_10y_2y_spread", multiplier: 100, kind: "rate", digits: 1, color: "#38d7c5" },
       qqq: { name: "纳指 100 ETF", short: "QQQ", category: "stocks", symbol: "QQQ", futu: true, digits: 2, prefix: "$", color: "#54a4ff" },
       spy: { name: "标普 500 ETF", short: "SPY", category: "stocks", symbol: "SPY", digits: 2, prefix: "$", color: "#56b4e9" },
       dia: { name: "道琼斯 ETF", short: "DIA", category: "stocks", symbol: "DIA", digits: 2, prefix: "$", color: "#6fa8dc" },
@@ -1749,10 +1760,12 @@
       hyg: { name: "高收益公司债 ETF", short: "HYG", category: "bonds", symbol: "HYG", digits: 2, prefix: "$", color: "#00acc1" },
       bnd: { name: "美国综合债券 ETF", short: "BND", category: "bonds", symbol: "BND", digits: 2, prefix: "$", color: "#4dd0e1" },
       usNfp: { name: "美国非农就业", short: "US NFP", category: "economy", kind: "macro", usdataId: "nonfarm_payrolls", transform: "diff", digits: 0, unit: "K", color: "#ff8a65" },
-      usCpi: { name: "美国 CPI 同比", short: "US CPI", category: "economy", kind: "macro", usdataId: "cpi", transform: "yoy", digits: 2, unit: "%", color: "#ef5350" },
-      usPpi: { name: "美国 PPI 同比", short: "US PPI", category: "economy", kind: "macro", usdataId: "ppi_final_demand", transform: "yoy", digits: 2, unit: "%", color: "#ec407a" },
-      cnCpi: { name: "中国 CPI 同比", short: "CN CPI", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "Inflation Rate YoY", digits: 2, unit: "%", color: "#ab47bc" },
-      cnPpi: { name: "中国 PPI 同比", short: "CN PPI", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "PPI YoY", digits: 2, unit: "%", color: "#7e57c2" },
+      usCpi: { name: "美国 CPI 同比", short: "US CPI", category: "economy", kind: "macro", usdataId: "cpi", transform: "yoy", digits: 2, unit: "%", color: "#2563eb" },
+      usPpi: { name: "美国 PPI 同比", short: "US PPI", category: "economy", kind: "macro", usdataId: "ppi_final_demand", transform: "yoy", digits: 2, unit: "%", color: "#4f46e5" },
+      usRate: { name: "美国有效联邦基金利率", short: "US RATE", category: "economy", kind: "macro", usdataId: "fed_funds_rate", digits: 2, unit: "%", color: "#0e7490" },
+      cnCpi: { name: "中国 CPI 同比", short: "CN CPI", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "Inflation Rate YoY", digits: 2, unit: "%", color: "#ef4444" },
+      cnPpi: { name: "中国 PPI 同比", short: "CN PPI", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "PPI YoY", digits: 2, unit: "%", color: "#f97316" },
+      cnRate: { name: "中国 1 年期 LPR", short: "CN 1Y LPR", category: "economy", kind: "macro", source: "calendar-history", calendarTitle: "Loan Prime Rate 1Y", digits: 2, unit: "%", color: "#eab308" },
       vix: { name: "标普 500 波动率指数", short: "VIX", category: "options", symbol: "^VIX", digits: 2, color: "#ff7043" },
       vix3m: { name: "3 月波动率指数", short: "VIX3M", category: "options", symbol: "^VIX3M", digits: 2, color: "#ff8a65" },
       vvix: { name: "VIX 波动率指数", short: "VVIX", category: "options", symbol: "^VVIX", digits: 2, color: "#ffab91" },
@@ -1807,9 +1820,24 @@
       "20y": { range: "max", interval: "1d", label: "20Y" }
     };
 
+    const KLINE_PERIODS = {
+      day: { label: "日K" },
+      week: { label: "周K" },
+      month: { label: "月K" },
+      quarter: { label: "季K" },
+      "half-year": { label: "半年K" },
+      year: { label: "年K" }
+    };
+    const MARKET_RANGES = ["1d", "1mo", "6mo", "1y", "5y", "10y", "20y"];
+
     const LEGACY_DEFAULT_TICKERS = ["spread", "cny", "btc", "gold", "qqq"];
-    const DEFAULT_TICKERS = [
+    const PREVIOUS_DEFAULT_TICKERS = [
       "spread", "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
+      "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
+    ];
+    const DEFAULT_TICKERS = [
+      "fedFunds", "treasury2y", "treasury10y", "spread",
+      "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
       "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
     ];
     const TICKER_SELECTION_KEY = "finance-dashboard-tickers";
@@ -1819,9 +1847,10 @@
       try {
         const saved = JSON.parse(localStorage.getItem(TICKER_SELECTION_KEY));
         if (Array.isArray(saved) && saved.length && saved.every(key => ASSETS[key])) {
-          const isLegacyDefault = saved.length === LEGACY_DEFAULT_TICKERS.length &&
-            saved.every((key, index) => key === LEGACY_DEFAULT_TICKERS[index]);
-          return isLegacyDefault ? [...DEFAULT_TICKERS] : saved;
+          const isDefaultSelection = [LEGACY_DEFAULT_TICKERS, PREVIOUS_DEFAULT_TICKERS]
+            .some(defaults => saved.length === defaults.length &&
+              saved.every((key, index) => key === defaults[index]));
+          return isDefaultSelection ? [...DEFAULT_TICKERS] : saved;
         }
       } catch (error) {
         console.warn("ticker selection", error);
@@ -1843,10 +1872,11 @@
       active: initialTickerSelection.includes("qqq") ? "qqq" : initialTickerSelection[0],
       tickers: initialTickerSelection,
       range: "1y",
-      view: "candle",
+      klinePeriod: "day",
       series: {},
       macroAll: {},
       usdataPromise: null,
+      futuErrors: new Map(),
       loading: false,
       resetMarketRange: false,
       lazyRangeLoading: false,
@@ -1861,11 +1891,12 @@
       requestId: 0
     };
     const marketRenderCache = {
-      key: "",
-      series: new Map()
+      candle: { key: "", series: new Map() },
+      compare: { key: "", series: new Map() }
     };
     const DATA_POINT_CACHE_TTL = 60_000;
     const dataPointCache = new Map();
+    const klineAggregationCache = new WeakMap();
 
     function cachedDataPoints(key, loader, ttl = DATA_POINT_CACHE_TTL) {
       const cached = dataPointCache.get(key);
@@ -1950,6 +1981,7 @@
 
     const charts = {
       market: createFinancialChart(document.getElementById("marketChart")),
+      marketCompare: createFinancialChart(document.getElementById("marketCompareChart")),
       macro: createFinancialChart(document.getElementById("macroChart"))
     };
     let semiChart = null;
@@ -2628,6 +2660,39 @@
       });
     }
 
+    function renderCompareSelectors() {
+      const host = document.getElementById("compareAssetSelector");
+      host.innerHTML = Object.entries(ASSETS).map(([key, item]) => `
+        <label class="asset-chip">
+          <input type="checkbox" value="${key}" ${state.selected.has(key) ? "checked" : ""}>
+          <span>${item.short}</span>
+        </label>
+      `).join("");
+      host.querySelectorAll("input").forEach(input => {
+        input.addEventListener("change", async () => {
+          if (input.checked) {
+            state.selected.add(input.value);
+          } else if (state.selected.size > 1) {
+            state.selected.delete(input.value);
+          } else {
+            input.checked = true;
+            return;
+          }
+          if (input.checked && !state.series[input.value]?.length) {
+            try {
+              await loadAssetSeries(input.value);
+              showError("");
+            } catch (error) {
+              console.error(input.value, error);
+              state.series[input.value] = [];
+              showError(`${ASSETS[input.value].name}：${error.message}`);
+            }
+          }
+          renderAll();
+        });
+      });
+    }
+
     function formatValue(key, value) {
       if (!Number.isFinite(value)) return "—";
       const asset = ASSETS[key];
@@ -2669,7 +2734,7 @@
           ? `${sign}${Number.isFinite(stats.change) ? stats.change.toFixed(1) : "—"}${asset.unit || ""}`
           : `${sign}${Number.isFinite(stats.pct) ? stats.pct.toFixed(1) : "—"}%`;
         return `
-          <article class="ticker ${state.view === "compare" && state.selected.has(key) ? "selected" : state.active === key ? "active" : ""}" data-key="${key}" aria-label="${escapeHtml(asset.name)}" draggable="true">
+          <article class="ticker ${state.active === key ? "active" : ""}" data-key="${key}" aria-label="${escapeHtml(asset.name)}" draggable="true">
             <div class="ticker-head">
               <span>${escapeHtml(asset.short)}</span>
               <span class="ticker-name" role="tooltip">${escapeHtml(asset.name)}</span>
@@ -2723,19 +2788,7 @@
         card.addEventListener("click", () => {
           if (card.dataset.dragged === "true") return;
           const key = card.dataset.key;
-          if (state.view === "compare") {
-            if (state.selected.has(key) && state.selected.size > 1) {
-              state.selected.delete(key);
-              if (state.active === key) state.active = [...state.selected][0];
-            } else {
-              state.selected.add(key);
-              state.active = key;
-            }
-          } else {
-            state.active = key;
-            state.selected.add(key);
-          }
-          renderSelectors();
+          state.active = key;
           renderAll();
         });
       });
@@ -2886,9 +2939,11 @@
             if (!Array.isArray(payload.rows) || !payload.rows.length) {
               throw new Error(`${asset.name} 无 OpenD 数据`);
             }
+            state.futuErrors.delete(key);
             return payload.rows.filter(row => Number.isFinite(row.close));
           } catch (error) {
             console.warn(`${asset.name} OpenD fallback`, error);
+            state.futuErrors.set(key, error.message);
           }
         }
         const option = RANGE_OPTIONS[range];
@@ -2925,15 +2980,15 @@
       return now.toISOString().slice(0, 10);
     }
 
-    async function fetchSpread(range = state.range) {
+    async function fetchUsdataRate(asset, range = state.range) {
       const observations = usdataObservations(
         await fetchUsdata(),
-        "treasury_10y_2y_spread"
+        asset.usdataId
       );
       const cutoff = new Date(`${rangeStart(range)}T00:00:00Z`).getTime();
       const rows = observations.filter(row => row.time >= cutoff).map(row => {
-        const spread = Number(row.value);
-        const close = Number.isFinite(spread) ? spread * 100 : NaN;
+        const value = Number(row.value);
+        const close = Number.isFinite(value) ? value * (asset.multiplier || 1) : NaN;
         return {
           time: row.time,
           open: close, high: close, low: close, close
@@ -2962,8 +3017,10 @@
       if (!Array.isArray(observations)) throw new Error(`usdata 缺少 ${id}`);
       return observations.map(row => ({
         time: new Date(`${row.date}T00:00:00Z`).getTime(),
-        value: Number(row.value)
-      })).filter(row => Number.isFinite(row.value));
+        value: row.value === null || row.value === undefined || row.value === ""
+          ? NaN
+          : Number(row.value)
+      })).filter(row => Number.isFinite(row.time));
     }
 
     function transformMacroSeries(asset, observations) {
@@ -3006,7 +3063,7 @@
         return payload.result;
       });
       const events = (await Promise.all(requests)).flat();
-      ["cnCpi", "cnPpi"].forEach(key => {
+      ["cnCpi", "cnPpi", "cnRate"].forEach(key => {
         const asset = ASSETS[key];
         const byDate = new Map();
         events.filter(event =>
@@ -3048,7 +3105,7 @@
         return;
       }
       targetSeries[key] = asset.source === "usdata"
-        ? await fetchSpread(range)
+        ? await fetchUsdataRate(asset, range)
         : await fetchYahoo(key, asset, range);
     }
 
@@ -3060,7 +3117,7 @@
       const tasks = assetsByPriority.map(async ([key, asset]) => {
         try {
           targetSeries[key] = asset.source === "usdata"
-            ? await fetchSpread(range)
+            ? await fetchUsdataRate(asset, range)
             : await fetchYahoo(key, asset, range);
           return { key, ok: true };
         } catch (error) {
@@ -3097,8 +3154,18 @@
         setStatus("error", "市场数据连接失败");
         showError("浏览器无法连接行情数据源。可稍后刷新，或使用本地 HTTP 服务打开本页以避免浏览器的跨域限制。");
       } else {
-        setStatus(failures.length ? "error" : "live", failures.length ? `部分数据不可用 · ${failures.length} 项` : "实时数据已连接");
-        showError(failures.length ? `暂时无法载入：${failures.map(x => x.name || ASSETS[x.key].name).join("、")}` : "");
+        const unavailable = failures.map(x => x.name || ASSETS[x.key].name);
+        if (state.futuErrors.size) {
+          const fallbackAssets = [...state.futuErrors.keys()].map(key => ASSETS[key]?.name || key);
+          setStatus("error", "Futu OpenD 连接失败 · 已回退 Yahoo");
+          showError([
+            `Futu OpenD 连接失败；${fallbackAssets.join("、")}当前使用 Yahoo Finance 数据。`,
+            unavailable.length ? `暂时无法载入：${unavailable.join("、")}` : ""
+          ].filter(Boolean).join(" "));
+        } else {
+          setStatus(failures.length ? "error" : "live", failures.length ? `部分数据不可用 · ${failures.length} 项` : "实时数据已连接");
+          showError(unavailable.length ? `暂时无法载入：${unavailable.join("、")}` : "");
+        }
       }
       renderAll();
     }
@@ -3173,6 +3240,57 @@
       return Math.floor(timestamp / 1000);
     }
 
+    function klineBucketTime(timestamp, period) {
+      const date = new Date(timestamp);
+      const year = date.getUTCFullYear();
+      const month = date.getUTCMonth();
+      const day = date.getUTCDate();
+      if (period === "day") return timestamp;
+      if (period === "week") {
+        const daysSinceMonday = (date.getUTCDay() + 6) % 7;
+        return Date.UTC(year, month, day - daysSinceMonday);
+      }
+      if (period === "month") return Date.UTC(year, month, 1);
+      if (period === "quarter") return Date.UTC(year, Math.floor(month / 3) * 3, 1);
+      if (period === "half-year") return Date.UTC(year, month < 6 ? 0 : 6, 1);
+      return Date.UTC(year, 0, 1);
+    }
+
+    function aggregateKlineRows(rows, period = state.klinePeriod) {
+      if (period === "day") return rows;
+      let periodCache = klineAggregationCache.get(rows);
+      if (!periodCache) {
+        periodCache = new Map();
+        klineAggregationCache.set(rows, periodCache);
+      }
+      const cached = periodCache.get(period);
+      if (cached) return cached;
+      const buckets = new Map();
+      rows.forEach(row => {
+        if (![row.open, row.high, row.low, row.close].every(Number.isFinite)) return;
+        const time = klineBucketTime(row.time, period);
+        const current = buckets.get(time);
+        if (!current) {
+          buckets.set(time, {
+            time,
+            open: row.open,
+            high: row.high,
+            low: row.low,
+            close: row.close,
+            ...(Number.isFinite(row.volume) ? { volume: row.volume } : {})
+          });
+          return;
+        }
+        current.high = Math.max(current.high, row.high);
+        current.low = Math.min(current.low, row.low);
+        current.close = row.close;
+        if (Number.isFinite(row.volume)) current.volume = (current.volume || 0) + row.volume;
+      });
+      const aggregated = [...buckets.values()];
+      periodCache.set(period, aggregated);
+      return aggregated;
+    }
+
     function priceFormat(key, suffix = "") {
       const asset = ASSETS[key];
       const digits = asset?.digits ?? 1;
@@ -3185,130 +3303,146 @@
       };
     }
 
-    function renderMarketChart() {
+    function renderMarketCandleChart() {
       const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
       const activeKey = state.series[state.active]?.length ? state.active : selectedKeys[0];
-      const renderKeys = state.view === "candle" ? [activeKey].filter(Boolean) : selectedKeys;
-      const renderKey = `${state.view}:${activeKey || ""}:${selectedKeys.join(",")}`;
-      const unchanged = marketRenderCache.key === renderKey &&
-        renderKeys.every(key => marketRenderCache.series.get(key) === state.series[key]);
+      const renderKeys = [activeKey].filter(Boolean);
+      const renderKey = `${activeKey || ""}:${state.klinePeriod}`;
+      const cache = marketRenderCache.candle;
+      const unchanged = cache.key === renderKey &&
+        renderKeys.every(key => cache.series.get(key) === state.series[key]);
       if (unchanged && !state.resetMarketRange) return;
-      marketRenderCache.key = renderKey;
-      marketRenderCache.series = new Map(renderKeys.map(key => [key, state.series[key]]));
+      cache.key = renderKey;
+      cache.series = new Map(renderKeys.map(key => [key, state.series[key]]));
 
       const timeScale = charts.market.api.timeScale();
       const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
-      const useDualPriceScales = state.view === "compare" && selectedKeys.length === 2;
-      const hasZeroBaseline = selectedKeys.some(key =>
-        state.series[key].find(row => Number.isFinite(row.close))?.close === 0
-      );
-      const useZScore = state.view === "compare" && (
-        selectedKeys.length > 2 ||
-        selectedKeys.some(key => ASSETS[key].kind === "macro") ||
-        hasZeroBaseline
-      );
-      charts.market.api.applyOptions({
-        leftPriceScale: { visible: useDualPriceScales }
-      });
+      charts.market.api.applyOptions({ leftPriceScale: { visible: false } });
       if (!activeKey) {
         showChartEmpty(charts.market, "暂无市场数据");
-        state.resetMarketRange = false;
         return;
       }
       clearChart(charts.market);
       state.active = activeKey;
       const asset = ASSETS[activeKey];
-      document.getElementById("chartTitle").textContent = state.view === "candle"
-        ? `${asset.name} · ${asset.kind === "macro" ? "历史走势" : "K 线"}`
-        : useZScore
-          ? "多资产标准化对比 · Z-score"
-          : "多资产归一化对比 · 起点 = 100";
-
-      if (state.view === "candle") {
-        const rows = state.series[activeKey];
-        const series = asset.kind === "macro"
-          ? charts.market.api.addSeries(LightweightCharts.AreaSeries, {
-              lineColor: asset.color,
-              topColor: `${asset.color}30`,
-              bottomColor: `${asset.color}03`,
-              lineWidth: 2,
-              priceFormat: priceFormat(activeKey)
-            })
-          : charts.market.api.addSeries(LightweightCharts.CandlestickSeries, {
-              upColor: "#ff6577",
-              downColor: "#32d49a",
-              borderVisible: false,
-              wickUpColor: "#ff6577",
-              wickDownColor: "#32d49a",
-              priceFormat: priceFormat(activeKey)
-            });
-        series.setData(asset.kind === "macro"
-          ? rows.map(row => ({ time: chartTime(row.time), value: row.close }))
-          : rows.filter(row => [row.open, row.high, row.low, row.close].every(Number.isFinite))
-            .map(row => ({
-              time: chartTime(row.time),
-              open: row.open,
-              high: row.high,
-              low: row.low,
-              close: row.close
-            })));
-        charts.market.series.push(series);
-        setChartLegend(charts.market, [{
-          label: asset.name,
-          color: asset.color,
-          series,
-          formatter: data => "value" in data
-            ? formatValue(activeKey, data.value)
-            : `O ${formatValue(activeKey, data.open)}  H ${formatValue(activeKey, data.high)}  L ${formatValue(activeKey, data.low)}  C ${formatValue(activeKey, data.close)}`
-        }]);
-      } else {
-        const legendItems = [];
-        selectedKeys.forEach((key, index) => {
-          const values = state.series[key].map(x => x.close).filter(Number.isFinite);
-          const first = values[0];
-          if (!useZScore && first === 0) return;
-          const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
-          const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
-          const deviation = Math.sqrt(variance) || 1;
-          const series = charts.market.api.addSeries(LightweightCharts.LineSeries, {
-            color: ASSETS[key].color,
+      document.getElementById("chartTitle").textContent =
+        `${asset.name} · ${asset.kind === "macro" ? "历史走势" : KLINE_PERIODS[state.klinePeriod].label}`;
+      const rows = aggregateKlineRows(state.series[activeKey]);
+      const series = asset.kind === "macro"
+        ? charts.market.api.addSeries(LightweightCharts.AreaSeries, {
+            lineColor: asset.color,
+            topColor: `${asset.color}30`,
+            bottomColor: `${asset.color}03`,
             lineWidth: 2,
-            priceLineVisible: false,
-            lastValueVisible: false,
-            priceScaleId: useDualPriceScales && index === 0 ? "left" : "right",
-            priceFormat: {
-              type: "custom",
-              minMove: useZScore ? .1 : 1,
-              formatter: value => useZScore ? value.toFixed(1) : value.toFixed(0)
-            }
+            priceFormat: priceFormat(activeKey)
+          })
+        : charts.market.api.addSeries(LightweightCharts.CandlestickSeries, {
+            upColor: "#ff6577",
+            downColor: "#32d49a",
+            borderVisible: false,
+            wickUpColor: "#ff6577",
+            wickDownColor: "#32d49a",
+            priceFormat: priceFormat(activeKey)
           });
-          series.setData(state.series[key].map(row => ({
+      series.setData(asset.kind === "macro"
+        ? rows.map(row => ({ time: chartTime(row.time), value: row.close }))
+        : rows.filter(row => [row.open, row.high, row.low, row.close].every(Number.isFinite))
+          .map(row => ({
             time: chartTime(row.time),
-            value: useZScore
-              ? +((row.close - mean) / deviation).toFixed(3)
-              : first ? +(row.close / first * 100).toFixed(3) : 0
+            open: row.open,
+            high: row.high,
+            low: row.low,
+            close: row.close
           })));
-          charts.market.series.push(series);
-          legendItems.push({
-            label: useDualPriceScales
-              ? `${ASSETS[key].short} · ${index === 0 ? "左轴" : "右轴"}`
-              : ASSETS[key].short,
-            color: ASSETS[key].color,
-            series,
-            formatter: data => useZScore ? data.value.toFixed(2) : data.value.toFixed(1)
-          });
-        });
-        if (!charts.market.series.length) {
-          showChartEmpty(charts.market, "所选序列起点为零，无法归一化");
-          state.resetMarketRange = false;
-          return;
-        }
-        setChartLegend(charts.market, legendItems);
-      }
+      charts.market.series.push(series);
+      setChartLegend(charts.market, [{
+        label: asset.name,
+        color: asset.color,
+        series,
+        formatter: data => "value" in data
+          ? formatValue(activeKey, data.value)
+          : `O ${formatValue(activeKey, data.open)}  H ${formatValue(activeKey, data.high)}  L ${formatValue(activeKey, data.low)}  C ${formatValue(activeKey, data.close)}`
+      }]);
       state.marketRangeChangeBlockedUntil = performance.now() + 300;
       if (visibleRange) timeScale.setVisibleRange(visibleRange);
       else timeScale.fitContent();
       state.marketLogicalRange = timeScale.getVisibleLogicalRange();
+    }
+
+    function renderMarketCompareChart() {
+      const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
+      const renderKey = selectedKeys.join(",");
+      const cache = marketRenderCache.compare;
+      const unchanged = cache.key === renderKey &&
+        selectedKeys.every(key => cache.series.get(key) === state.series[key]);
+      if (unchanged && !state.resetMarketRange) return;
+      cache.key = renderKey;
+      cache.series = new Map(selectedKeys.map(key => [key, state.series[key]]));
+
+      const chart = charts.marketCompare;
+      const timeScale = chart.api.timeScale();
+      const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
+      const useDualPriceScales = selectedKeys.length === 2;
+      const hasZeroBaseline = selectedKeys.some(key =>
+        state.series[key].find(row => Number.isFinite(row.close))?.close === 0
+      );
+      const useZScore = selectedKeys.length > 2 ||
+        selectedKeys.some(key => ASSETS[key].kind === "macro") ||
+        hasZeroBaseline;
+      chart.api.applyOptions({ leftPriceScale: { visible: useDualPriceScales } });
+      document.getElementById("compareChartTitle").textContent = useZScore
+        ? "多资产标准化对比 · Z-score"
+        : "多资产归一化对比 · 起点 = 100";
+      if (!selectedKeys.length) {
+        showChartEmpty(chart, "请选择要对比的资产");
+        return;
+      }
+
+      clearChart(chart);
+      const legendItems = [];
+      selectedKeys.forEach((key, index) => {
+        const values = state.series[key].map(x => x.close).filter(Number.isFinite);
+        const first = values[0];
+        if (!useZScore && first === 0) return;
+        const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+        const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
+        const deviation = Math.sqrt(variance) || 1;
+        const series = chart.api.addSeries(LightweightCharts.LineSeries, {
+          color: ASSETS[key].color,
+          lineWidth: 2,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          priceScaleId: useDualPriceScales && index === 0 ? "left" : "right",
+          priceFormat: {
+            type: "custom",
+            minMove: useZScore ? .1 : 1,
+            formatter: value => useZScore ? value.toFixed(1) : value.toFixed(0)
+          }
+        });
+        series.setData(state.series[key].map(row => ({
+          time: chartTime(row.time),
+          value: useZScore
+            ? +((row.close - mean) / deviation).toFixed(3)
+            : +(row.close / first * 100).toFixed(3)
+        })));
+        chart.series.push(series);
+        legendItems.push({
+          label: useDualPriceScales
+            ? `${ASSETS[key].short} · ${index === 0 ? "左轴" : "右轴"}`
+            : ASSETS[key].short,
+          color: ASSETS[key].color,
+          series,
+          formatter: data => useZScore ? data.value.toFixed(2) : data.value.toFixed(1)
+        });
+      });
+      setChartLegend(chart, legendItems);
+      if (visibleRange) timeScale.setVisibleRange(visibleRange);
+      else timeScale.fitContent();
+    }
+
+    function renderMarketCharts() {
+      renderMarketCandleChart();
+      renderMarketCompareChart();
       state.resetMarketRange = false;
     }
 
@@ -3319,8 +3453,7 @@
     }
 
     async function loadMoreOnZoomOut() {
-      const ranges = ["1d", "1mo", "6mo", "1y", "5y", "10y", "20y"];
-      const nextRange = ranges[ranges.indexOf(state.range) + 1];
+      const nextRange = MARKET_RANGES[MARKET_RANGES.indexOf(state.range) + 1];
       if (!nextRange || state.loading || state.lazyRangeLoading) return;
       state.lazyRangeLoading = true;
       state.range = nextRange;
@@ -3746,7 +3879,7 @@
 
     async function loadMacroHistory() {
       try {
-        const keys = ["usCpi", "usPpi", "cnCpi", "cnPpi"];
+        const keys = ["usCpi", "usPpi", "usRate", "cnCpi", "cnPpi", "cnRate"];
         if (keys.some(key => !state.macroAll[key]?.length)) throw new Error("宏观历史序列尚未载入");
         const cutoff = new Date();
         cutoff.setFullYear(cutoff.getFullYear() - 3);
@@ -3795,17 +3928,19 @@
         state.usdataPromise = null;
         state.series = {};
         state.macroAll = {};
+        state.futuErrors.clear();
         correlationState.series = {};
         semiState.series = {};
-        marketRenderCache.key = "";
-        marketRenderCache.series.clear();
+        Object.values(marketRenderCache).forEach(cache => {
+          cache.key = "";
+          cache.series.clear();
+        });
         dataPointCache.clear();
 
         await loadMarkets();
         const reloads = [loadCorrelationData(), loadMacroCalendar(), loadMacroHistory()];
         if (semiState.loaded) reloads.push(loadSemiDashboard());
         await Promise.all(reloads);
-        setStatus("live", `缓存已清除 · ${payload.cleared || 0} 项`);
       } catch (error) {
         console.error("clear cache", error);
         setStatus("error", "清除缓存失败");
@@ -3818,7 +3953,8 @@
 
     function renderAll() {
       renderTickers();
-      renderMarketChart();
+      renderCompareSelectors();
+      renderMarketCharts();
       renderCorrelation();
     }
 
@@ -3837,17 +3973,15 @@
       });
     });
 
-    document.querySelectorAll("[data-view]").forEach(button => {
+    document.querySelectorAll("[data-kline-period]").forEach(button => {
       button.addEventListener("click", () => {
-        document.querySelectorAll("[data-view]").forEach(x => x.classList.remove("active"));
-        button.classList.add("active");
-        state.view = button.dataset.view;
-        if (state.view === "compare" && state.selected.size > 2) {
-          state.selected = new Set([...state.selected].slice(0, 2));
-          if (!state.selected.has(state.active)) state.active = [...state.selected][0];
-          renderSelectors();
-        }
-        renderAll();
+        const period = button.dataset.klinePeriod;
+        if (!KLINE_PERIODS[period] || period === state.klinePeriod) return;
+        document.querySelectorAll('[data-module-id="market"] [data-kline-period]').forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
+        state.klinePeriod = period;
+        renderMarketCandleChart();
       });
     });
 
@@ -3932,6 +4066,7 @@
     document.getElementById("opinionDate").value = new Date().toISOString().slice(0, 10);
     renderSemiOpinions();
     renderSelectors();
+    renderCompareSelectors();
     renderTickers();
     (async function initialize() {
       await loadMarkets();

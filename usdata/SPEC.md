@@ -100,7 +100,7 @@ FMP_API_KEY=
 | 住房 | Case-Shiller Home Price Index | FRED | `CSUSHPINSA` | 月 |
 | 贸易 | U.S. Trade Balance | Census/BEA，FRED 备选 | International Trade；FRED `BOPGSTB` | 月 |
 | 库存 | Business Inventories | Census，FRED 备选 | Manufacturing and Trade Inventories；FRED `BUSINV` | 月 |
-| 利率 | Effective Federal Funds Rate | FRED | `FEDFUNDS` | 月 |
+| 利率 | Effective Federal Funds Rate | FRED | `DFF` | 日 |
 | 利率 | 2-Year Treasury Yield | FRED | `DGS2` | 日 |
 | 利率 | 10-Year Treasury Yield | FRED | `DGS10` | 日 |
 | 利率 | 10Y-2Y Treasury Spread | FRED | `T10Y2Y` | 日 |

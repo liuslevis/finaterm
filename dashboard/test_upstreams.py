@@ -25,6 +25,7 @@ MACRO_TARGETS = {
     "US PPI": ("US", "PPI YoY"),
     "CN CPI": ("CN", "Inflation Rate YoY"),
     "CN PPI": ("CN", "PPI YoY"),
+    "CN 1Y LPR": ("CN", "Loan Prime Rate 1Y"),
 }
 
 

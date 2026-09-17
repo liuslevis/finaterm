@@ -87,6 +87,19 @@ class Database:
     async def _seed_catalog(self) -> None:
         conn = self._conn()
         for item in INDICATORS:
+            existing_cursor = await conn.execute(
+                """
+                SELECT source_series_id FROM source_series
+                WHERE indicator_id = ? AND source = ?
+                """,
+                (item.id, item.source),
+            )
+            existing = await existing_cursor.fetchone()
+            if existing and existing["source_series_id"] != item.source_series_id:
+                await conn.execute(
+                    "DELETE FROM observations WHERE indicator_id = ? AND source = ?",
+                    (item.id, item.source),
+                )
             await conn.execute(
                 """
                 INSERT INTO indicators VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)

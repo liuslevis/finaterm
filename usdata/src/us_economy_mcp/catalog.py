@@ -68,11 +68,10 @@ INDICATORS = (
     _i("case_shiller_home_price", "S&P CoreLogic Case-Shiller U.S. National Home Price Index", "Case-Shiller 房价指数", "housing", "CSUSHPINSA", "monthly", "index", "not seasonally adjusted"),
     _i("trade_balance", "U.S. Trade Balance: Goods and Services", "美国商品与服务贸易差额", "trade", "BOPGSTB", "monthly", "millions_usd"),
     _i("business_inventories", "Business Inventories", "商业库存", "inventories", "BUSINV", "monthly", "millions_usd"),
-    _i("fed_funds_rate", "Effective Federal Funds Rate", "有效联邦基金利率", "rates", "FEDFUNDS", "monthly", "percent", "not seasonally adjusted"),
+    _i("fed_funds_rate", "Effective Federal Funds Rate", "有效联邦基金利率", "rates", "DFF", "daily", "percent", "not seasonally adjusted"),
     _i("treasury_2y", "2-Year Treasury Yield", "两年期美国国债收益率", "rates", "DGS2", "daily", "percent", "not seasonally adjusted"),
     _i("treasury_10y", "10-Year Treasury Yield", "十年期美国国债收益率", "rates", "DGS10", "daily", "percent", "not seasonally adjusted"),
     _i("treasury_10y_2y_spread", "10-Year Minus 2-Year Treasury Spread", "十年期减两年期国债利差", "rates", "T10Y2Y", "daily", "percentage_points", "not seasonally adjusted"),
 )
 
 INDICATOR_BY_ID = {indicator.id: indicator for indicator in INDICATORS}
-

@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from us_economy_mcp.config import Settings
+from us_economy_mcp.catalog import INDICATOR_BY_ID
 from us_economy_mcp.errors import ServiceError
 from us_economy_mcp.service import EconomyService, transform_rows
 
@@ -68,5 +69,36 @@ async def test_database_round_trip(tmp_path: Path) -> None:
         assert result["value"] == 100.5
         assert result["observation_date"] == "2026-01-01"
         assert await service.db.last_fetched_at("cpi", "fred") == "2026-02-01T00:00:00+00:00"
+    finally:
+        await service.db.close()
+
+
+@pytest.mark.asyncio
+async def test_catalog_series_change_invalidates_cached_observations(tmp_path: Path) -> None:
+    settings = Settings(
+        _env_file=None,
+        database_path=tmp_path / "test.sqlite3",
+        refresh_on_start=False,
+    )
+    service = EconomyService(settings)
+    await service.db.connect()
+    try:
+        await service.db.replace_observations(
+            "fed_funds_rate",
+            "fred",
+            [{"date": "2026-01-01", "value": "4.0"}],
+            "2026-02-01T00:00:00+00:00",
+        )
+        await service.db.connection.execute(
+            """
+            UPDATE source_series SET source_series_id = 'FEDFUNDS'
+            WHERE indicator_id = 'fed_funds_rate' AND source = 'fred'
+            """
+        )
+        await service.db.connection.commit()
+        await service.db._seed_catalog()
+        rows = await service.db.get_observations("fed_funds_rate", "fred")
+        assert rows == []
+        assert INDICATOR_BY_ID["fed_funds_rate"].source_series_id == "DFF"
     finally:
         await service.db.close()

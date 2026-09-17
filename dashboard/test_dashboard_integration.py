@@ -31,8 +31,17 @@ def main() -> int:
         assert "全球金融数据终端" in page
         assert "vendor/lightweight-charts.js" in page
         assert "echarts" not in page.lower()
-        assert page.count('data-range="1y" class="active"') == 2
-        assert page.count('data-range="20y"') == 2
+        assert page.count('data-range="1y" class="active"') == 1
+        assert page.count('data-range="20y"') == 1
+        assert 'data-kline-period="day" class="active">日K' in page
+        assert 'data-kline-period="week">周K' in page
+        assert 'data-kline-period="month">月K' in page
+        assert 'data-kline-period="quarter">季K' in page
+        assert 'data-kline-period="half-year">半年K' in page
+        assert 'data-kline-period="year">年K' in page
+        assert "function aggregateKlineRows(" in page
+        assert "const klineAggregationCache = new WeakMap();" in page
+        assert "const minRange = KLINE_PERIODS[period].minRange;" not in page
         assert '<section id="tickerGrid" class="ticker-grid"></section>' in page
         assert ".asset-chip { display: block; }" in page
         assert "min-height: 34px;" in page
@@ -43,11 +52,22 @@ def main() -> int:
         assert 'if (asset.futu) return "Futu / Yahoo"' in page
         assert '["stocks", "Stocks"]' in page
         assert '["bonds", "Bonds"]' in page
+        assert 'usdataId: "fed_funds_rate"' in page
+        assert 'usdataId: "treasury_2y"' in page
+        assert 'usdataId: "treasury_10y"' in page
+        assert 'usRate: { name: "美国有效联邦基金利率"' in page
+        assert 'cnRate: { name: "中国 1 年期 LPR"' in page
+        assert 'const keys = ["usCpi", "usPpi", "usRate", "cnCpi", "cnPpi", "cnRate"]' in page
+        assert "async function fetchUsdataRate(asset" in page
         assert '["economy", "Economy"]' in page
         assert '["options", "Options"]' in page
         assert 'async function loadAssetSeries' in page
         assert 'data-module-id="market"' in page
         assert 'data-module-id="correlation"' in page
+        assert 'data-module-id="market-compare"' in page
+        assert page.index('data-module-id="correlation"') < page.index('data-module-id="market-compare"')
+        assert 'id="marketCompareChart"' in page
+        assert 'id="compareAssetSelector"' in page
         assert "setupMovablePanels" in page
         assert 'data-workspace-tab="semiconductor"' in page
         assert 'id="semiconductorWorkspace"' in page
@@ -96,18 +116,21 @@ def main() -> int:
         assert '"CN:Total Social Financing"' in page
         assert "MACRO_DEFAULTS_VERSION_KEY" in page
         assert 'id="dragTrash"' in page
-        assert 'class="ticker ${state.view' in page
+        assert 'class="ticker ${state.active === key ? "active" : ""}' in page
         assert 'aria-label="${escapeHtml(asset.name)}" draggable="true"' in page
         assert "＋ 添加指标" in page
         assert "subscribeVisibleLogicalRangeChange" in page
         assert "state.resetMarketRange = true" in page
-        assert "const marketRenderCache = {" in page
+        assert "candle: { key: \"\", series: new Map() }" in page
+        assert "compare: { key: \"\", series: new Map() }" in page
         assert "if (unchanged && !state.resetMarketRange) return;" in page
         assert 'priceScaleId: useDualPriceScales && index === 0 ? "left" : "right"' in page
         assert "selectedKeys.length > 2" in page
         assert "hasZeroBaseline" in page
-        assert 'state.selected = new Set([...state.selected].slice(0, 2))' in page
-        assert 'state.view === "compare" && state.selected.has(key)' in page
+        assert "function renderMarketCandleChart()" in page
+        assert 'const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();' in page
+        assert "if (visibleRange) timeScale.setVisibleRange(visibleRange);" in page
+        assert "function renderMarketCompareChart()" in page
         assert "const correlationState = {" in page
         assert "correlationState.selected.add(input.value)" in page
         assert "changesByPeriod(key, correlationState.series[key], monthly)" in page
@@ -122,6 +145,11 @@ def main() -> int:
         assert "const dataPointCache = new Map()" in page
         assert "function cachedDataPoints(" in page
         assert "dataPointCache.clear()" in page
+        assert "futuErrors: new Map()" in page
+        assert 'setStatus("error", "Futu OpenD 连接失败 · 已回退 Yahoo")' in page
+        assert "state.futuErrors.set(key, error.message)" in page
+        assert "state.futuErrors.clear()" in page
+        assert 'row.value === null || row.value === undefined || row.value === ""' in page
         with CACHE_LOCK:
             CACHE["integration:test"] = (0.0, b"cached", "text/plain")
         request = urllib.request.Request(f"{base}/api/cache", method="DELETE")
@@ -165,6 +193,9 @@ def main() -> int:
         usdata = json.loads(get(f"{base}/api/usdata"))
         assert usdata.get("provider") == "usdata-mcp"
         expected = {
+            "fed_funds_rate",
+            "treasury_2y",
+            "treasury_10y",
             "treasury_10y_2y_spread",
             "nonfarm_payrolls",
             "cpi",
