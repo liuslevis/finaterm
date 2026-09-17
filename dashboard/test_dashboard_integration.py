@@ -50,6 +50,9 @@ def main() -> int:
         assert 'class="macro-dialog ticker-dialog"' in page
         assert 'class="ticker-option-source">${tickerDataSource(asset)}</span>' in page
         assert 'if (asset.futu) return "Futu / Yahoo"' in page
+        assert "function connectedDataSources(results)" in page
+        assert '`实时数据已连接 [${connectedSources}]`' in page
+        assert 'btc: { name: "比特币", short: "BTC", category: "crypto", symbol: "BTC-USD", digits: 0' in page
         assert '["stocks", "Stocks"]' in page
         assert '["bonds", "Bonds"]' in page
         assert 'usdataId: "fed_funds_rate"' in page
@@ -139,16 +142,31 @@ def main() -> int:
         assert "function formatDisplayDate(value)" in page
         assert "timeFormatter: formatDisplayDate" in page
         assert "tickMarkFormatter: formatDisplayDate" in page
+        assert "function findLatestDataPoint(data, time)" in page
+        assert "renderChartLegend(chart, param.seriesData, param.time)" in page
+        assert "(item.carryForward ? findLatestDataPoint(item.data, time) : null)" in page
+        assert "function renderCarryForwardMarkers(chart, seriesData, time)" in page
+        assert "chart.api.timeScale().timeToCoordinate(data.time)" in page
+        assert "item.series.priceToCoordinate(data.value)" in page
+        assert "上次 ${formatDisplayDate(data.time)} (${ageDays}天前)" in page
+        assert "carryForward: true" in page
         assert "event?.date ? formatDisplayDate(event.date)" in page
         assert 'id="clearCacheBtn"' in page
         assert 'fetch("/api/cache", { method: "DELETE"' in page
         assert "const dataPointCache = new Map()" in page
         assert "function cachedDataPoints(" in page
+        assert "const marketHistoryPromises = new Map();" in page
+        assert "async function preloadAllMarketDataPoints(keys)" in page
+        assert "state.marketAll[activeKey] || state.series[activeKey]" in page
+        assert "await preloadMarketHistory(activeKey);" in page
+        assert "void preloadMarketHistory(key);" in page
         assert "dataPointCache.clear()" in page
         assert "futuErrors: new Map()" in page
         assert 'setStatus("error", "Futu OpenD 连接失败 · 已回退 Yahoo")' in page
         assert "state.futuErrors.set(key, error.message)" in page
         assert "state.futuErrors.clear()" in page
+        assert "/无权限|权限不足|行情权限/.test(message)" in page
+        assert "Futu OpenD 已连接，但账号没有" in page
         assert 'row.value === null || row.value === undefined || row.value === ""' in page
         with CACHE_LOCK:
             CACHE["integration:test"] = (0.0, b"cached", "text/plain")
@@ -167,7 +185,7 @@ def main() -> int:
             assert b"LightweightCharts" in chart_library
         print(f"PASS page and health on port {server.server_port}")
 
-        for asset in ("qqq", "btc"):
+        for asset in ("qqq",):
             payload = json.loads(get(f"{base}/api/futu?asset={asset}&range=1mo"))
             rows = payload.get("rows") or []
             assert payload.get("provider") == "futu-opend"

@@ -272,6 +272,20 @@
     }
     .chart-legend span { display: inline-flex; align-items: center; gap: 5px; }
     .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .chart-carry-marker {
+      position: absolute;
+      z-index: 3;
+      width: 9px;
+      height: 9px;
+      display: none;
+      box-sizing: border-box;
+      border: 2px solid;
+      border-radius: 50%;
+      background: #101923;
+      box-shadow: 0 0 0 2px rgba(16, 25, 35, .7);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
     .chart-empty {
       position: absolute;
       z-index: 5;
@@ -1195,7 +1209,7 @@
           <div class="panel-head">
             <div>
               <div id="chartTitle" class="panel-title">市场走势</div>
-              <div class="panel-note">滚轮缩放时间轴 · 按住图表左右拖拽</div>
+              <div class="panel-note">完整历史数据后台预载 · 滚轮缩放时间轴 · 按住图表左右拖拽</div>
             </div>
             <div class="panel-actions">
               <div class="range" aria-label="K 线周期">
@@ -1775,7 +1789,7 @@
       usdjpy: { name: "美元/日元", short: "USD/JPY", category: "fx", symbol: "JPY=X", digits: 2, color: "#ef9a9a" },
       gbpusd: { name: "英镑/美元", short: "GBP/USD", category: "fx", symbol: "GBPUSD=X", digits: 4, color: "#7986cb" },
       dxy: { name: "美元指数", short: "DXY", category: "fx", symbol: "DX-Y.NYB", digits: 2, color: "#ffee58" },
-      btc: { name: "比特币", short: "BTC", category: "crypto", symbol: "BTC-USD", futu: true, digits: 0, prefix: "$", color: "#f7931a" },
+      btc: { name: "比特币", short: "BTC", category: "crypto", symbol: "BTC-USD", digits: 0, prefix: "$", color: "#f7931a" },
       eth: { name: "以太坊", short: "ETH", category: "crypto", symbol: "ETH-USD", digits: 1, prefix: "$", color: "#8c9eff" },
       sol: { name: "Solana", short: "SOL", category: "crypto", symbol: "SOL-USD", digits: 2, prefix: "$", color: "#14f195" },
       gold: { name: "黄金期货", short: "GOLD", category: "commodities", symbol: "GC=F", digits: 1, prefix: "$", color: "#ffd166" },
@@ -1828,8 +1842,6 @@
       "half-year": { label: "半年K" },
       year: { label: "年K" }
     };
-    const MARKET_RANGES = ["1d", "1mo", "6mo", "1y", "5y", "10y", "20y"];
-
     const LEGACY_DEFAULT_TICKERS = ["spread", "cny", "btc", "gold", "qqq"];
     const PREVIOUS_DEFAULT_TICKERS = [
       "spread", "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
@@ -1880,6 +1892,7 @@
       loading: false,
       resetMarketRange: false,
       lazyRangeLoading: false,
+      marketAll: {},
       marketLogicalRange: null,
       marketRangeChangeBlockedUntil: 0
     };
@@ -1896,6 +1909,7 @@
     };
     const DATA_POINT_CACHE_TTL = 60_000;
     const dataPointCache = new Map();
+    const marketHistoryPromises = new Map();
     const klineAggregationCache = new WeakMap();
 
     function cachedDataPoints(key, loader, ttl = DATA_POINT_CACHE_TTL) {
@@ -1972,9 +1986,9 @@
       const empty = document.createElement("div");
       empty.className = "chart-empty";
       host.append(legend, empty);
-      const chart = { api, series: [], legend, empty, legendItems: [] };
+      const chart = { api, host, series: [], legend, empty, legendItems: [], carryMarkers: new Map() };
       api.subscribeCrosshairMove(param => {
-        renderChartLegend(chart, param.seriesData);
+        renderChartLegend(chart, param.seriesData, param.time);
       });
       return chart;
     }
@@ -2681,6 +2695,7 @@
           if (input.checked && !state.series[input.value]?.length) {
             try {
               await loadAssetSeries(input.value);
+              void preloadMarketHistory(input.value);
               showError("");
             } catch (error) {
               console.error(input.value, error);
@@ -2789,6 +2804,7 @@
           if (card.dataset.dragged === "true") return;
           const key = card.dataset.key;
           state.active = key;
+          void preloadMarketHistory(key);
           renderAll();
         });
       });
@@ -2862,6 +2878,7 @@
           if (input.checked && !state.series[key]?.length) {
             try {
               await loadAssetSeries(key);
+              void preloadMarketHistory(key);
               showError("");
             } catch (error) {
               console.error(key, error);
@@ -2879,6 +2896,29 @@
       if (asset.source === "calendar-history") return "TradingView";
       if (asset.futu) return "Futu / Yahoo";
       return "Yahoo Finance";
+    }
+
+    function connectedDataSources(results) {
+      const servedLocally = ["localhost", "127.0.0.1"].includes(location.hostname);
+      const sources = new Set();
+      results.filter(result => result.ok).forEach(result => {
+        if (result.key === "macro") {
+          sources.add("USData");
+          sources.add("TradingView");
+          return;
+        }
+        const asset = ASSETS[result.key];
+        if (asset?.source === "usdata" || asset?.usdataId) {
+          sources.add("USData");
+        } else if (asset?.source === "calendar-history") {
+          sources.add("TradingView");
+        } else if (servedLocally && asset?.futu && !state.futuErrors.has(result.key)) {
+          sources.add("Futu OpenD");
+        } else if (asset) {
+          sources.add("Yahoo Finance");
+        }
+      });
+      return [...sources].join(" | ");
     }
 
     function openTickerDialog() {
@@ -3109,6 +3149,44 @@
         : await fetchYahoo(key, asset, range);
     }
 
+    function mergeSeriesRows(history = [], recent = []) {
+      const rowsByTime = new Map(history.map(row => [row.time, row]));
+      recent.forEach(row => rowsByTime.set(row.time, row));
+      return [...rowsByTime.values()].sort((a, b) => a.time - b.time);
+    }
+
+    function preloadMarketHistory(key) {
+      const asset = ASSETS[key];
+      if (!asset || asset.kind === "macro") return Promise.resolve();
+      if (state.marketAll[key]?.length) return Promise.resolve(state.marketAll[key]);
+      if (marketHistoryPromises.has(key)) return marketHistoryPromises.get(key);
+
+      const promise = (asset.source === "usdata"
+        ? fetchUsdataRate(asset, "20y")
+        : fetchYahoo(key, asset, "20y")
+      ).then(rows => {
+        state.marketAll[key] = mergeSeriesRows(rows, state.series[key]);
+        if (state.active === key) renderMarketCandleChart();
+        return state.marketAll[key];
+      }).catch(error => {
+        console.warn(`preload history ${key}`, error);
+      }).finally(() => {
+        marketHistoryPromises.delete(key);
+      });
+      marketHistoryPromises.set(key, promise);
+      return promise;
+    }
+
+    async function preloadAllMarketDataPoints(keys) {
+      const queue = [...new Set(keys)]
+        .filter(key => ASSETS[key] && ASSETS[key].kind !== "macro")
+        .sort((a, b) => Number(b === state.active) - Number(a === state.active));
+      const workers = Array.from({ length: Math.min(4, queue.length) }, async () => {
+        while (queue.length) await preloadMarketHistory(queue.shift());
+      });
+      await Promise.all(workers);
+    }
+
     async function loadSeries(range, targetSeries, storeFullSeries = false, keys = Object.keys(ASSETS)) {
       const requested = new Set(keys);
       const assetsByPriority = Object.entries(ASSETS)
@@ -3148,6 +3226,9 @@
       setStatus("loading", "正在更新市场数据...");
       const requiredKeys = new Set([...state.tickers, ...state.selected]);
       const results = await loadSeries(state.range, state.series, true, requiredKeys);
+      Object.keys(state.marketAll).forEach(key => {
+        state.marketAll[key] = mergeSeriesRows(state.marketAll[key], state.series[key]);
+      });
       const failures = results.filter(result => !result.ok);
       state.loading = false;
       if (failures.length === results.length) {
@@ -3157,13 +3238,30 @@
         const unavailable = failures.map(x => x.name || ASSETS[x.key].name);
         if (state.futuErrors.size) {
           const fallbackAssets = [...state.futuErrors.keys()].map(key => ASSETS[key]?.name || key);
-          setStatus("error", "Futu OpenD 连接失败 · 已回退 Yahoo");
+          const permissionErrors = [...state.futuErrors.values()].filter(message =>
+            /无权限|权限不足|行情权限/.test(message)
+          );
+          const onlyPermissionErrors = permissionErrors.length === state.futuErrors.size;
+          setStatus(
+            "error",
+            onlyPermissionErrors
+              ? `Futu ${fallbackAssets.join("、")}行情权限不足 · 已回退 Yahoo`
+              : "Futu OpenD 连接失败 · 已回退 Yahoo"
+          );
           showError([
-            `Futu OpenD 连接失败；${fallbackAssets.join("、")}当前使用 Yahoo Finance 数据。`,
+            onlyPermissionErrors
+              ? `Futu OpenD 已连接，但账号没有${fallbackAssets.join("、")}行情权限；当前使用 Yahoo Finance 数据。`
+              : `Futu OpenD 连接失败；${fallbackAssets.join("、")}当前使用 Yahoo Finance 数据。`,
             unavailable.length ? `暂时无法载入：${unavailable.join("、")}` : ""
           ].filter(Boolean).join(" "));
         } else {
-          setStatus(failures.length ? "error" : "live", failures.length ? `部分数据不可用 · ${failures.length} 项` : "实时数据已连接");
+          const connectedSources = connectedDataSources(results);
+          setStatus(
+            failures.length ? "error" : "live",
+            failures.length
+              ? `部分数据不可用 · ${failures.length} 项`
+              : `实时数据已连接 [${connectedSources}]`
+          );
           showError(unavailable.length ? `暂时无法载入：${unavailable.join("、")}` : "");
         }
       }
@@ -3212,6 +3310,8 @@
       chart.series = [];
       chart.legendItems = [];
       chart.legend.innerHTML = "";
+      chart.carryMarkers.forEach(marker => marker.remove());
+      chart.carryMarkers.clear();
       chart.empty.classList.remove("show");
     }
 
@@ -3221,14 +3321,64 @@
       chart.empty.classList.add("show");
     }
 
-    function renderChartLegend(chart, seriesData) {
+    function findLatestDataPoint(data, time) {
+      if (!data?.length || typeof time !== "number") return null;
+      let low = 0;
+      let high = data.length - 1;
+      let latest = null;
+      while (low <= high) {
+        const middle = Math.floor((low + high) / 2);
+        if (data[middle].time <= time) {
+          latest = data[middle];
+          low = middle + 1;
+        } else {
+          high = middle - 1;
+        }
+      }
+      return latest;
+    }
+
+    function renderCarryForwardMarkers(chart, seriesData, time) {
+      chart.carryMarkers.forEach(marker => marker.style.display = "none");
+      if (typeof time !== "number") return;
+      chart.legendItems.filter(item => item.carryForward).forEach(item => {
+        if (seriesData?.get(item.series)) return;
+        const data = findLatestDataPoint(item.data, time);
+        if (!data) return;
+        const x = chart.api.timeScale().timeToCoordinate(data.time);
+        const y = item.series.priceToCoordinate(data.value);
+        if (x === null || y === null) return;
+        let marker = chart.carryMarkers.get(item.series);
+        if (!marker) {
+          marker = document.createElement("i");
+          marker.className = "chart-carry-marker";
+          marker.style.borderColor = item.color;
+          chart.host.append(marker);
+          chart.carryMarkers.set(item.series, marker);
+        }
+        marker.style.left = `${x}px`;
+        marker.style.top = `${y}px`;
+        marker.style.display = "block";
+      });
+    }
+
+    function renderChartLegend(chart, seriesData, time) {
       chart.legend.innerHTML = chart.legendItems.map(item => {
-        const data = seriesData?.get(item.series);
+        const exactData = seriesData?.get(item.series);
+        const data = exactData ||
+          (item.carryForward ? findLatestDataPoint(item.data, time) : null);
         const value = data ? item.formatter(data) : "";
+        const ageDays = data && !exactData && typeof time === "number"
+          ? Math.max(0, Math.floor((time - data.time) / 86400))
+          : null;
+        const previous = ageDays === null
+          ? ""
+          : ` · 上次 ${formatDisplayDate(data.time)} (${ageDays}天前)`;
         return `
-        <span><i class="legend-dot" style="background:${item.color}"></i>${escapeHtml(item.label)}${value ? ` · ${escapeHtml(value)}` : ""}</span>
+        <span><i class="legend-dot" style="background:${item.color}"></i>${escapeHtml(item.label)}${value ? ` · ${escapeHtml(value)}${escapeHtml(previous)}` : ""}</span>
       `;
       }).join("");
+      renderCarryForwardMarkers(chart, seriesData, time);
     }
 
     function setChartLegend(chart, items) {
@@ -3306,14 +3456,19 @@
     function renderMarketCandleChart() {
       const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
       const activeKey = state.series[state.active]?.length ? state.active : selectedKeys[0];
+      const sourceRows = activeKey
+        ? (ASSETS[activeKey].kind === "macro"
+            ? state.macroAll[activeKey] || state.series[activeKey]
+            : state.marketAll[activeKey] || state.series[activeKey])
+        : null;
       const renderKeys = [activeKey].filter(Boolean);
       const renderKey = `${activeKey || ""}:${state.klinePeriod}`;
       const cache = marketRenderCache.candle;
       const unchanged = cache.key === renderKey &&
-        renderKeys.every(key => cache.series.get(key) === state.series[key]);
+        renderKeys.every(key => cache.series.get(key) === sourceRows);
       if (unchanged && !state.resetMarketRange) return;
       cache.key = renderKey;
-      cache.series = new Map(renderKeys.map(key => [key, state.series[key]]));
+      cache.series = new Map(renderKeys.map(key => [key, sourceRows]));
 
       const timeScale = charts.market.api.timeScale();
       const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
@@ -3327,7 +3482,7 @@
       const asset = ASSETS[activeKey];
       document.getElementById("chartTitle").textContent =
         `${asset.name} · ${asset.kind === "macro" ? "历史走势" : KLINE_PERIODS[state.klinePeriod].label}`;
-      const rows = aggregateKlineRows(state.series[activeKey]);
+      const rows = aggregateKlineRows(sourceRows);
       const series = asset.kind === "macro"
         ? charts.market.api.addSeries(LightweightCharts.AreaSeries, {
             lineColor: asset.color,
@@ -3453,14 +3608,11 @@
     }
 
     async function loadMoreOnZoomOut() {
-      const nextRange = MARKET_RANGES[MARKET_RANGES.indexOf(state.range) + 1];
-      if (!nextRange || state.loading || state.lazyRangeLoading) return;
+      const activeKey = state.active;
+      if (!activeKey || state.marketAll[activeKey]?.length || state.lazyRangeLoading) return;
       state.lazyRangeLoading = true;
-      state.range = nextRange;
-      state.resetMarketRange = true;
-      setActiveRangeButton("market", nextRange);
       try {
-        await loadMarkets();
+        await preloadMarketHistory(activeKey);
       } finally {
         state.lazyRangeLoading = false;
       }
@@ -3889,6 +4041,10 @@
         ]));
         clearChart(charts.macro);
         keys.forEach(key => {
+          const data = rowsByKey[key].map(row => ({
+            time: chartTime(row.time),
+            value: row.close
+          }));
           const series = charts.macro.api.addSeries(LightweightCharts.LineSeries, {
             color: ASSETS[key].color,
             lineWidth: 2,
@@ -3896,18 +4052,18 @@
             lastValueVisible: false,
             priceFormat: { type: "custom", minMove: .01, formatter: value => `${value.toFixed(1)}%` }
           });
-          series.setData(rowsByKey[key].map(row => ({
-            time: chartTime(row.time),
-            value: row.close
-          })));
+          series.setData(data);
           charts.macro.series.push(series);
+          charts.macro.legendItems.push({
+            label: ASSETS[key].short,
+            color: ASSETS[key].color,
+            series,
+            data,
+            carryForward: true,
+            formatter: point => `${point.value.toFixed(2)}%`
+          });
         });
-        setChartLegend(charts.macro, keys.map((key, index) => ({
-          label: ASSETS[key].short,
-          color: ASSETS[key].color,
-          series: charts.macro.series[index],
-          formatter: data => `${data.value.toFixed(2)}%`
-        })));
+        renderChartLegend(charts.macro);
         charts.macro.api.timeScale().fitContent();
       } catch (error) {
         console.error("macro history", error);
@@ -3928,6 +4084,7 @@
         state.usdataPromise = null;
         state.series = {};
         state.macroAll = {};
+        state.marketAll = {};
         state.futuErrors.clear();
         correlationState.series = {};
         semiState.series = {};
@@ -3936,8 +4093,10 @@
           cache.series.clear();
         });
         dataPointCache.clear();
+        marketHistoryPromises.clear();
 
         await loadMarkets();
+        void preloadAllMarketDataPoints([...state.tickers, ...state.selected]);
         const reloads = [loadCorrelationData(), loadMacroCalendar(), loadMacroHistory()];
         if (semiState.loaded) reloads.push(loadSemiDashboard());
         await Promise.all(reloads);
@@ -4070,6 +4229,7 @@
     renderTickers();
     (async function initialize() {
       await loadMarkets();
+      void preloadAllMarketDataPoints([...state.tickers, ...state.selected]);
       correlationState.series = Object.fromEntries(
         Object.entries(state.series).map(([key, rows]) => [key, [...rows]])
       );
