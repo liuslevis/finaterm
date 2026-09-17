@@ -17,7 +17,7 @@ A local financial dashboard for monitoring global markets, macro trends, semicon
 Requires Python 3.11 or newer and [uv](https://docs.astral.sh/uv/).
 
 ```powershell
-uv run python dashboard_server.py
+uv run python dashboard/dashboard_server.py
 ```
 
 The dashboard opens automatically at `http://localhost:8765`.
