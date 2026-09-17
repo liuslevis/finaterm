@@ -4,7 +4,7 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
-from dashboard_server import DashboardHandler, SERVER_ID, ThreadingHTTPServer
+from dashboard_server import CACHE, CACHE_LOCK, DashboardHandler, SERVER_ID, ThreadingHTTPServer
 from test_upstreams import MACRO_TARGETS, YAHOO_SYMBOLS
 
 
@@ -49,6 +49,40 @@ def main() -> int:
         assert 'data-module-id="market"' in page
         assert 'data-module-id="correlation"' in page
         assert "setupMovablePanels" in page
+        assert 'data-workspace-tab="semiconductor"' in page
+        assert 'id="semiconductorWorkspace"' in page
+        assert 'data-workspace-tab="qqq-decision"' in page
+        assert 'id="qqqDecisionWorkspace"' in page
+        assert 'id="qqqDecisionGrid"' in page
+        assert "QQQ_DECISIONS" in page
+        assert "function renderQqqDecisions()" in page
+        assert 'data-workspace-tab="qqq-risk"' in page
+        assert 'id="qqqRiskWorkspace"' in page
+        assert 'id="qqqRiskBlocks"' in page
+        assert 'id="qqqFactorToggles"' in page
+        assert "QQQ_RISK_CONDITIONS" in page
+        assert "QQQ_CONDITION_OUTCOMES" in page
+        assert "function renderQqqRiskDashboard()" in page
+        assert "renderQqqRiskDashboard();" in page
+        assert page.count('date: "2026-09-11"') >= 10
+        assert "研究基线 · 2026-09-11" in page
+        assert 'id="semiMarketChart"' in page
+        assert "SEMI_SIGNALS" in page
+        assert "function semiRiskScore()" in page
+        assert "function loadSemiDashboard()" in page
+        assert 'id="semiOpinionPanel"' in page
+        assert 'id="opinionTimeline"' in page
+        assert "SEMI_OPINION_DEFAULTS" in page
+        assert "function saveCurrentOpinion()" in page
+        assert "function animateLineSeries(" in page
+        assert "animateLineSeries(series, normalizedRows, 500)" in page
+        assert 'id="cloudCapexPanel"' in page
+        assert 'id="cloudCapexChart"' in page
+        assert "const CLOUD_CAPEX =" in page
+        assert "function renderCloudCapex()" in page
+        assert "165.050" in page
+        assert '"soxx"' in page
+        assert 'symbol: "^TNX"' in page
         assert "fred.stlouisfed.org" not in page.lower()
         assert 'id="macroIndicatorDialog"' in page
         assert 'id="macroIndicatorSearch"' in page
@@ -83,6 +117,20 @@ def main() -> int:
         assert "timeFormatter: formatDisplayDate" in page
         assert "tickMarkFormatter: formatDisplayDate" in page
         assert "event?.date ? formatDisplayDate(event.date)" in page
+        assert 'id="clearCacheBtn"' in page
+        assert 'fetch("/api/cache", { method: "DELETE"' in page
+        assert "const dataPointCache = new Map()" in page
+        assert "function cachedDataPoints(" in page
+        assert "dataPointCache.clear()" in page
+        with CACHE_LOCK:
+            CACHE["integration:test"] = (0.0, b"cached", "text/plain")
+        request = urllib.request.Request(f"{base}/api/cache", method="DELETE")
+        with urllib.request.urlopen(request, timeout=30) as response:
+            cache_result = json.loads(response.read())
+            assert response.status == 200
+            assert cache_result["cleared"] >= 1
+        with CACHE_LOCK:
+            assert not CACHE
         with urllib.request.urlopen(
             f"{base}/vendor/lightweight-charts.js", timeout=30
         ) as response:

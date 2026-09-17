@@ -104,6 +104,13 @@ def cached_json(key: str, ttl: int, loader) -> bytes:
     return body
 
 
+def clear_cache() -> int:
+    with CACHE_LOCK:
+        cleared = len(CACHE)
+        CACHE.clear()
+    return cleared
+
+
 def fetch_futu(asset_key: str, range_key: str) -> dict:
     if asset_key not in FUTU_ASSETS or range_key not in FUTU_RANGES:
         raise ValueError("Unsupported Futu asset or range")
@@ -212,6 +219,15 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_HEAD(self) -> None:
         self.do_GET()
+
+    def do_DELETE(self) -> None:
+        request = urllib.parse.urlparse(self.path)
+        if request.path != "/api/cache":
+            self.send_json_error(404, "Not Found")
+            return
+        cleared = clear_cache()
+        body = json.dumps({"cleared": cleared}, ensure_ascii=False).encode("utf-8")
+        self.send_body(200, body, "application/json; charset=utf-8")
 
     def do_GET(self) -> None:
         request = urllib.parse.urlparse(self.path)

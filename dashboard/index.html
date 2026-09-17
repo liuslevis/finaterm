@@ -75,6 +75,7 @@
     h1 { margin: 0; font-size: 20px; letter-spacing: .02em; }
     .subtitle { margin-top: 4px; color: var(--muted); font-size: 12px; }
 
+    .header-actions { display: flex; align-items: center; gap: 12px; }
     .status-row { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; }
     .live-dot {
       width: 8px; height: 8px; border-radius: 50%; background: var(--green);
@@ -133,6 +134,19 @@
     .range button, .view-btn { border: 0; padding: 6px 9px; border-radius: 8px; }
     .range button.active, .view-btn.active { color: #061515; background: var(--cyan); font-weight: 700; }
     .refresh-btn { padding: 8px 10px; }
+    .clear-cache-btn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 11px;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      font-size: 12px;
+      white-space: nowrap;
+      transition: .18s ease;
+    }
+    .clear-cache-btn:hover { color: var(--text); border-color: rgba(151,180,202,.32); }
+    .clear-cache-btn:disabled { cursor: wait; opacity: .6; }
 
     .ticker-grid {
       display: grid;
@@ -563,17 +577,580 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    .workspace-tabs {
+      display: flex;
+      gap: 5px;
+      width: fit-content;
+      margin-bottom: 14px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(8, 16, 24, .72);
+    }
+    .workspace-tab {
+      border: 0;
+      border-radius: 9px;
+      padding: 8px 14px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .workspace-tab.active {
+      color: #061515;
+      background: var(--cyan);
+    }
+    .workspace { display: none; }
+    .workspace.active { display: block; }
+
+    .semi-dashboard { display: grid; gap: 14px; }
+    .semi-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(250px, .6fr);
+      gap: 14px;
+    }
+    .semi-thesis { padding: 20px; }
+    .semi-kicker {
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: .14em;
+    }
+    .semi-thesis h2 {
+      margin: 9px 0 7px;
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.18;
+    }
+    .semi-thesis p {
+      max-width: 880px;
+      margin: 0;
+      color: #9db0be;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .cycle-gauge {
+      min-height: 178px;
+      padding: 20px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+    }
+    .cycle-score {
+      font: 750 44px/1 "SFMono-Regular", Consolas, monospace;
+      color: var(--amber);
+    }
+    .cycle-label { margin-top: 8px; font-size: 15px; font-weight: 700; }
+    .cycle-detail { margin-top: 7px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    .semi-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .semi-stat { padding: 14px 16px; }
+    .semi-stat-label { color: var(--muted); font-size: 10px; }
+    .semi-stat-value {
+      margin-top: 8px;
+      font: 700 22px/1.1 "SFMono-Regular", Consolas, monospace;
+    }
+    .semi-stat-note { margin-top: 7px; color: #9db0be; font-size: 10px; }
+
+    .semi-main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(330px, .55fr);
+      gap: 14px;
+      align-items: start;
+    }
+    .semi-chart { height: 410px; position: relative; }
+    .semi-chip-row { display: flex; flex-wrap: wrap; gap: 7px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+    .semi-chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 9px;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      font-size: 10px;
+    }
+    .semi-chip.active {
+      color: var(--text);
+      border-color: rgba(56,215,197,.42);
+      background: rgba(56,215,197,.1);
+    }
+    .semi-chip.drawing {
+      animation: semi-chip-pulse .5s ease-out;
+    }
+    @keyframes semi-chip-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(56,215,197,.5); }
+      100% { box-shadow: 0 0 0 9px rgba(56,215,197,0); }
+    }
+
+    .signal-list { padding: 6px 14px 14px; }
+    .signal-row {
+      display: grid;
+      grid-template-columns: minmax(130px, 1fr) minmax(90px, .7fr) 84px;
+      gap: 9px;
+      align-items: center;
+      min-height: 54px;
+      border-bottom: 1px solid var(--line);
+    }
+    .signal-name { font-size: 11px; font-weight: 650; }
+    .signal-threshold { margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .signal-input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: 0;
+      padding: 7px 8px;
+      color: var(--text);
+      background: rgba(255,255,255,.035);
+      font-size: 11px;
+    }
+    .signal-input:focus { border-color: rgba(56,215,197,.5); }
+    .signal-state {
+      justify-self: end;
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 9px;
+      font-weight: 750;
+    }
+    .signal-state.safe { color: var(--green); background: rgba(50,212,154,.1); }
+    .signal-state.watch { color: var(--amber); background: rgba(245,189,89,.1); }
+    .signal-state.risk { color: var(--red); background: rgba(255,101,119,.1); }
+
+    .semi-lower-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+    }
+    .scenario-list, .event-list, .sector-matrix { padding: 8px 15px 15px; }
+    .scenario-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .scenario-window { font-size: 11px; font-weight: 700; }
+    .probability-bar {
+      display: flex;
+      height: 7px;
+      margin: 8px 0;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+    }
+    .probability-bar span:nth-child(1) { background: var(--green); }
+    .probability-bar span:nth-child(2) { background: var(--amber); }
+    .probability-bar span:nth-child(3) { background: var(--red); }
+    .scenario-copy { color: #9db0be; font-size: 10px; line-height: 1.55; }
+    .event-row {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 49px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+    }
+    .event-date { color: var(--cyan); font: 650 10px/1 "SFMono-Regular", Consolas, monospace; }
+    .event-level { color: var(--amber); font-size: 10px; letter-spacing: .05em; }
+    .matrix-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 1fr) 84px minmax(120px, 1.2fr);
+      gap: 10px;
+      align-items: center;
+      min-height: 48px;
+      border-bottom: 1px solid var(--line);
+      font-size: 10px;
+    }
+    .matrix-sector { font-weight: 650; }
+    .matrix-tag { width: fit-content; border-radius: 999px; padding: 5px 7px; }
+    .matrix-tag.hot { color: #ffadba; background: rgba(255,101,119,.1); }
+    .matrix-tag.good { color: var(--green); background: rgba(50,212,154,.1); }
+    .matrix-tag.trap { color: var(--amber); background: rgba(245,189,89,.1); }
+    .matrix-note { color: var(--muted); line-height: 1.45; }
+
+    .capex-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .capex-summary-card {
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255,255,255,.02);
+    }
+    .capex-summary-label { color: var(--muted); font-size: 9px; }
+    .capex-summary-value { margin-top: 7px; font: 700 19px/1 "SFMono-Regular", Consolas, monospace; }
+    .capex-summary-note { margin-top: 6px; color: #9db0be; font-size: 9px; line-height: 1.45; }
+    .capex-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(300px, .45fr);
+      gap: 0;
+    }
+    .capex-chart-wrap { min-width: 0; padding: 14px; border-right: 1px solid var(--line); }
+    .capex-chart {
+      width: 100%;
+      min-height: 340px;
+      overflow-x: auto;
+    }
+    .capex-chart svg { display: block; width: 100%; min-width: 690px; height: auto; }
+    .capex-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 0 0 10px 3px; color: var(--muted); font-size: 9px; }
+    .capex-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .capex-legend i { width: 8px; height: 8px; border-radius: 2px; }
+    .capex-side { padding: 8px 14px 14px; }
+    .capex-company {
+      display: grid;
+      grid-template-columns: minmax(80px, 1fr) 72px 64px;
+      gap: 8px;
+      align-items: center;
+      min-height: 45px;
+      border-bottom: 1px solid var(--line);
+      font-size: 10px;
+    }
+    .capex-company-name { font-weight: 650; }
+    .capex-company-value { text-align: right; font: 650 11px/1 "SFMono-Regular", Consolas, monospace; }
+    .capex-company-growth { text-align: right; color: var(--red); font: 650 10px/1 "SFMono-Regular", Consolas, monospace; }
+    .capex-insight {
+      margin-top: 12px;
+      padding: 11px 12px;
+      border: 1px solid rgba(245,189,89,.2);
+      border-radius: 10px;
+      color: #b9c8d2;
+      background: rgba(245,189,89,.045);
+      font-size: 10px;
+      line-height: 1.65;
+    }
+    .capex-table-wrap { overflow-x: auto; border-top: 1px solid var(--line); }
+    .capex-table { width: 100%; min-width: 690px; border-collapse: collapse; font-size: 10px; }
+    .capex-table th, .capex-table td { padding: 9px 12px; border-bottom: 1px solid var(--line); text-align: right; }
+    .capex-table th:first-child, .capex-table td:first-child { text-align: left; }
+    .capex-table th { color: var(--muted); font-weight: 650; }
+    .capex-table td { font-family: "SFMono-Regular", Consolas, monospace; }
+    .capex-table .capex-total { color: var(--cyan); font-weight: 750; }
+    .capex-source-links a { color: #9db0be; text-decoration: none; }
+    .capex-source-links a:hover { color: var(--cyan); }
+
+    .opinion-editor {
+      display: grid;
+      grid-template-columns: 150px 150px minmax(260px, 1fr) auto;
+      gap: 9px;
+      padding: 14px 15px;
+      border-bottom: 1px solid var(--line);
+    }
+    .opinion-editor textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+    .opinion-save {
+      align-self: stretch;
+      border: 1px solid rgba(56,215,197,.35);
+      border-radius: 10px;
+      padding: 9px 14px;
+      color: #061515;
+      background: var(--cyan);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 750;
+    }
+    .opinion-timeline { padding: 5px 15px 16px; }
+    .opinion-entry {
+      position: relative;
+      display: grid;
+      grid-template-columns: 125px minmax(0, 1fr) auto;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .opinion-entry:last-child { border-bottom: 0; }
+    .opinion-date { color: var(--cyan); font: 700 11px/1.3 "SFMono-Regular", Consolas, monospace; }
+    .opinion-confidence { margin-top: 7px; color: var(--muted); font-size: 9px; }
+    .opinion-title { font-size: 13px; font-weight: 700; }
+    .opinion-body { margin-top: 7px; color: #9db0be; font-size: 11px; line-height: 1.7; white-space: pre-wrap; }
+    .opinion-actions { display: flex; gap: 6px; }
+    .opinion-action {
+      height: fit-content;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      font-size: 9px;
+    }
+    .opinion-action:hover { color: var(--text); border-color: rgba(151,180,202,.32); }
+    .opinion-empty { padding: 28px; color: var(--muted); text-align: center; font-size: 11px; }
+
+    .decision-dashboard { display: grid; gap: 14px; }
+    .decision-hero {
+      padding: 22px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .decision-hero h2 {
+      margin: 9px 0 7px;
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.18;
+    }
+    .decision-hero p {
+      max-width: 900px;
+      margin: 0;
+      color: #9db0be;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .decision-asof {
+      flex: 0 0 auto;
+      border: 1px solid rgba(56,215,197,.28);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: var(--cyan);
+      background: rgba(56,215,197,.07);
+      font: 700 10px/1 "SFMono-Regular", Consolas, monospace;
+    }
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .decision-card { padding: 17px 18px; }
+    .decision-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .decision-index {
+      color: var(--cyan);
+      font: 750 10px/1 "SFMono-Regular", Consolas, monospace;
+      letter-spacing: .1em;
+    }
+    .decision-date {
+      color: var(--muted);
+      font: 650 10px/1 "SFMono-Regular", Consolas, monospace;
+    }
+    .decision-card h3 {
+      margin: 12px 0 8px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+    .decision-summary {
+      margin: 0;
+      color: #9db0be;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .decision-action {
+      margin-top: 13px;
+      border-left: 2px solid var(--cyan);
+      padding: 8px 10px;
+      color: #c9d8e2;
+      background: rgba(56,215,197,.045);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    .decision-action strong { color: var(--text); }
+    .decision-sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 13px;
+    }
+    .decision-source {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 9px;
+    }
+    .decision-source:hover { color: var(--text); border-color: rgba(151,180,202,.32); }
+
+    .qqq-risk-dashboard { display: grid; gap: 14px; }
+    .qqq-risk-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(270px, .6fr);
+      gap: 14px;
+    }
+    .qqq-risk-thesis { padding: 22px; }
+    .qqq-risk-thesis h2 {
+      margin: 9px 0 8px;
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.18;
+    }
+    .qqq-risk-thesis p {
+      max-width: 900px;
+      margin: 0;
+      color: #9db0be;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .qqq-risk-score {
+      min-height: 185px;
+      padding: 20px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+    }
+    .qqq-risk-score-value {
+      color: var(--amber);
+      font: 800 48px/1 "SFMono-Regular", Consolas, monospace;
+    }
+    .qqq-risk-score-label { margin-top: 8px; font-size: 15px; font-weight: 750; }
+    .qqq-risk-score-note { margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .qqq-block-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 9px;
+    }
+    .qqq-block-card { padding: 14px; }
+    .qqq-block-name { color: var(--muted); font-size: 9px; }
+    .qqq-block-score { margin-top: 8px; font: 750 21px/1 "SFMono-Regular", Consolas, monospace; }
+    .qqq-block-meter { height: 5px; margin-top: 9px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.05); }
+    .qqq-block-meter span { display: block; height: 100%; border-radius: inherit; }
+    .qqq-block-note { margin-top: 7px; color: #9db0be; font-size: 9px; line-height: 1.45; }
+    .qqq-risk-columns {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
+      gap: 14px;
+      align-items: start;
+    }
+    .factor-toggle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 14px;
+    }
+    .factor-toggle {
+      min-height: 55px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 10px 11px;
+      color: var(--muted);
+      background: rgba(255,255,255,.02);
+      cursor: pointer;
+      text-align: left;
+      transition: .16s ease;
+    }
+    .factor-toggle:hover { color: var(--text); border-color: rgba(151,180,202,.32); }
+    .factor-toggle.active {
+      color: var(--text);
+      border-color: rgba(255,101,119,.35);
+      background: rgba(255,101,119,.075);
+    }
+    .factor-toggle strong { display: block; font-size: 10px; }
+    .factor-toggle span { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; line-height: 1.4; }
+    .qqq-condition-result {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 14px 14px;
+    }
+    .qqq-condition-stat {
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,.02);
+    }
+    .qqq-condition-stat small { color: var(--muted); font-size: 9px; }
+    .qqq-condition-stat strong { display: block; margin-top: 7px; font: 750 18px/1 "SFMono-Regular", Consolas, monospace; }
+    .qqq-condition-bar {
+      height: 8px;
+      margin: 0 14px 15px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+    }
+    .qqq-condition-bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--amber), var(--red));
+      transition: width .3s ease;
+    }
+    .factor-table-wrap { overflow-x: auto; }
+    .factor-table { width: 100%; min-width: 590px; border-collapse: collapse; font-size: 10px; }
+    .factor-table th, .factor-table td { padding: 10px 13px; border-bottom: 1px solid var(--line); text-align: right; }
+    .factor-table th:first-child, .factor-table td:first-child { text-align: left; }
+    .factor-table th { color: var(--muted); font-weight: 650; }
+    .factor-table td { font-family: "SFMono-Regular", Consolas, monospace; }
+    .factor-table .factor-strong { color: var(--cyan); font-weight: 750; }
+    .qqq-callout-list { padding: 7px 14px 14px; }
+    .qqq-callout {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .qqq-callout:last-child { border-bottom: 0; }
+    .qqq-callout-title { font-size: 11px; font-weight: 700; }
+    .qqq-callout-metric { margin-top: 6px; color: var(--red); font: 700 11px/1.4 "SFMono-Regular", Consolas, monospace; }
+    .qqq-callout-copy { margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .qqq-regime-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+    }
+    .qqq-regime-card {
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255,255,255,.02);
+    }
+    .qqq-regime-date { color: var(--cyan); font: 700 10px/1 "SFMono-Regular", Consolas, monospace; }
+    .qqq-regime-title { margin-top: 8px; font-size: 12px; font-weight: 700; }
+    .qqq-regime-copy { margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .qqq-monitor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+    }
+    .qqq-monitor-card h3 { margin: 0 0 9px; color: var(--cyan); font-size: 11px; }
+    .qqq-monitor-card ul { margin: 0; padding-left: 17px; color: #9db0be; font-size: 10px; line-height: 1.75; }
+
     @media (max-width: 1180px) {
       .dashboard { grid-template-columns: 1fr; }
       .side-column { grid-template-columns: 1fr 1fr; }
+      .semi-main-grid { grid-template-columns: 1fr; }
+      .qqq-block-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .qqq-risk-columns { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
       .app { padding: 12px; }
       header, .module-controls { align-items: flex-start; flex-direction: column; }
+      .header-actions { width: 100%; justify-content: space-between; }
       .ticker-grid { grid-template-columns: repeat(2, 1fr); }
       .side-column { grid-template-columns: 1fr; }
       .controls { width: 100%; justify-content: space-between; }
       .chart { height: 380px; }
+      .semi-hero, .semi-lower-grid { grid-template-columns: 1fr; }
+      .semi-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .signal-row { grid-template-columns: minmax(120px, 1fr) 96px 70px; }
+      .capex-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .capex-layout { grid-template-columns: 1fr; }
+      .capex-chart-wrap { border-right: 0; border-bottom: 1px solid var(--line); }
+      .opinion-editor { grid-template-columns: 1fr 1fr; }
+      .opinion-editor textarea { grid-column: 1 / -1; }
+      .opinion-save { min-height: 40px; }
+      .opinion-entry { grid-template-columns: 95px minmax(0, 1fr); }
+      .opinion-actions { grid-column: 2; }
+      .decision-hero { flex-direction: column; }
+      .decision-grid { grid-template-columns: 1fr; }
+      .qqq-risk-hero { grid-template-columns: 1fr; }
+      .qqq-block-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .factor-toggle-grid { grid-template-columns: 1fr; }
+      .qqq-condition-result { grid-template-columns: 1fr; }
+      .qqq-regime-grid, .qqq-monitor-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -591,16 +1168,27 @@
           <div class="subtitle">MARKETS · RATES · MACRO</div>
         </div>
       </div>
-      <div class="status-row">
-        <span id="liveDot" class="live-dot loading"></span>
-        <span id="statusText">正在连接数据源...</span>
-        <span>·</span>
-        <span id="clock"></span>
+      <div class="header-actions">
+        <div class="status-row">
+          <span id="liveDot" class="live-dot loading"></span>
+          <span id="statusText">正在连接数据源...</span>
+          <span>·</span>
+          <span id="clock"></span>
+        </div>
+        <button type="button" id="clearCacheBtn" class="clear-cache-btn" title="清除数据缓存并重新加载">清除缓存</button>
       </div>
     </header>
 
     <div id="errorBanner" class="error-banner"></div>
 
+    <nav class="workspace-tabs" aria-label="工作区">
+      <button type="button" class="workspace-tab active" data-workspace-tab="markets">全球市场</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="semiconductor">半导体周期</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="qqq-decision">QQQ 决策</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="qqq-risk">QQQ 下跌因子</button>
+    </nav>
+
+    <section id="marketsWorkspace" class="workspace active" data-workspace="markets">
     <div class="dashboard">
       <div class="main-column">
         <section class="panel movable-panel" data-module-id="market">
@@ -683,6 +1271,412 @@
         </section>
       </aside>
     </div>
+    </section>
+
+    <section id="semiconductorWorkspace" class="workspace" data-workspace="semiconductor">
+      <div class="semi-dashboard">
+        <div class="semi-hero">
+          <section class="panel semi-thesis">
+            <div class="semi-kicker">SEMICONDUCTOR CYCLE MONITOR</div>
+            <h2 id="semiHeadline">高景气 · 后周期 · 等待转向确认</h2>
+            <p id="semiThesis">
+              核心判断不是预测某一天见顶，而是跟踪存储价格、台积电营收、韩国出口、AI资本开支、盈利修正和利率。
+              三项以上领先指标转弱时，视为从高位震荡进入周期下行。
+            </p>
+          </section>
+          <section class="panel cycle-gauge">
+            <div id="cycleScore" class="cycle-score">3/11</div>
+            <div id="cycleLabel" class="cycle-label">高位预警</div>
+            <div id="cycleDetail" class="cycle-detail">风险分数根据右侧指标自动更新</div>
+          </section>
+        </div>
+
+        <div class="semi-stat-grid">
+          <section class="panel semi-stat">
+            <div class="semi-stat-label">SOXX · 1个月</div>
+            <div id="semiSoxx1m" class="semi-stat-value">读取中</div>
+            <div class="semi-stat-note">半导体板块短期动量</div>
+          </section>
+          <section class="panel semi-stat">
+            <div class="semi-stat-label">SOXX / SPY · 3个月</div>
+            <div id="semiRelative3m" class="semi-stat-value">读取中</div>
+            <div class="semi-stat-note">相对大盘强弱</div>
+          </section>
+          <section class="panel semi-stat">
+            <div class="semi-stat-label">美国10年期收益率</div>
+            <div id="semiUs10y" class="semi-stat-value">读取中</div>
+            <div class="semi-stat-note">高于5%触发估值压力警戒</div>
+          </section>
+          <section class="panel semi-stat">
+            <div class="semi-stat-label">当前风险状态</div>
+            <div id="semiRiskState" class="semi-stat-value">计算中</div>
+            <div id="semiUpdatedAt" class="semi-stat-note">等待行情</div>
+          </section>
+        </div>
+
+        <div class="semi-main-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">板块与龙头归一化走势</div>
+                <div class="panel-note">起点 = 100 · 点击标签显示或隐藏 · 行情来自 Yahoo Finance</div>
+              </div>
+              <div class="panel-actions">
+                <div class="range" aria-label="半导体走势时间范围">
+                  <button type="button" data-semi-range="1mo">1M</button>
+                  <button type="button" data-semi-range="6mo">6M</button>
+                  <button type="button" data-semi-range="1y" class="active">1Y</button>
+                  <button type="button" data-semi-range="5y">5Y</button>
+                </div>
+                <button type="button" id="refreshSemiBtn" class="refresh-btn">刷新</button>
+              </div>
+            </div>
+            <div id="semiAssetChips" class="semi-chip-row"></div>
+            <div id="semiMarketChart" class="semi-chart"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">领先指标与警戒阈值</div>
+                <div class="panel-note">可手工更新 · 自动保存在本机浏览器</div>
+              </div>
+            </div>
+            <div id="semiSignalList" class="signal-list"></div>
+            <div class="source-note">
+              价格与收益率自动刷新；产业数据需在公司财报、TrendForce、SIA/WSTS公布后手工录入。分数用于纪律化跟踪，不等于买卖建议。
+            </div>
+          </section>
+        </div>
+
+        <section class="panel" id="cloudCapexPanel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">主要云厂商季度资本开支</div>
+              <div class="panel-note">现金流量表购置物业及设备口径 · 单位：十亿美元 · 数据截至 2026-09-11</div>
+            </div>
+          </div>
+          <div class="capex-summary">
+            <div class="capex-summary-card">
+              <div class="capex-summary-label">四大厂商 · 2026Q2</div>
+              <div class="capex-summary-value">$165.1B</div>
+              <div class="capex-summary-note">Microsoft + Alphabet + Amazon + Meta</div>
+            </div>
+            <div class="capex-summary-card">
+              <div class="capex-summary-label">同比增速</div>
+              <div class="capex-summary-value up">+87.0%</div>
+              <div class="capex-summary-note">较2025Q2的$88.2B大幅增长</div>
+            </div>
+            <div class="capex-summary-card">
+              <div class="capex-summary-label">环比增速</div>
+              <div class="capex-summary-value up">+27.2%</div>
+              <div class="capex-summary-note">连续两个季度加速</div>
+            </div>
+            <div class="capex-summary-card">
+              <div class="capex-summary-label">Oracle · FY27Q1</div>
+              <div class="capex-summary-value">$28.5B</div>
+              <div class="capex-summary-note">同比 +235.2% · 财季截至2026-08-31</div>
+            </div>
+          </div>
+          <div class="capex-layout">
+            <div class="capex-chart-wrap">
+              <div class="capex-legend">
+                <span><i style="background:#54a4ff"></i>Microsoft</span>
+                <span><i style="background:#f5bd59"></i>Alphabet</span>
+                <span><i style="background:#ff8a65"></i>Amazon</span>
+                <span><i style="background:#a889ff"></i>Meta</span>
+              </div>
+              <div id="cloudCapexChart" class="capex-chart"></div>
+            </div>
+            <div class="capex-side">
+              <div id="cloudCapexLatest"></div>
+              <div class="capex-insight">
+                <strong>产业含义：</strong>2026Q2四大厂商支出同比增长87%，仍对GPU、HBM、服务器CPU、交换芯片和先进封装形成强支撑。
+                但Alphabet、Amazon与Oracle的自由现金流或融资依赖明显上升；未来一旦资本开支指引从“上调”变为“消化”，将是半导体周期最关键的下行信号。
+              </div>
+            </div>
+          </div>
+          <div class="capex-table-wrap">
+            <table class="capex-table">
+              <thead><tr><th>公司</th><th>2025Q1</th><th>2025Q2</th><th>2025Q3</th><th>2025Q4</th><th>2026Q1</th><th>2026Q2</th><th>2026Q3</th></tr></thead>
+              <tbody id="cloudCapexTable"></tbody>
+            </table>
+          </div>
+          <div class="source-note capex-source-links">
+            口径说明：Microsoft、Alphabet、Amazon、Meta均采用现金流量表PP&amp;E购置额，不含融资租赁；Microsoft财年季度已映射为自然季度。
+            Oracle财季错月约一个月，因此单列且不计入四大合计。2026Q3尚未披露，不使用预测值冒充实际值。
+            来源：
+            <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm" target="_blank" rel="noopener noreferrer">Microsoft</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000066/googexhibit991q22026.htm" target="_blank" rel="noopener noreferrer">Alphabet</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener noreferrer">Amazon</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm" target="_blank" rel="noopener noreferrer">Meta</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm" target="_blank" rel="noopener noreferrer">Oracle</a>
+          </div>
+        </section>
+
+        <div class="semi-lower-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">情景时间轴</div>
+                <div class="panel-note">主观概率区间 · 根据当前研究基线</div>
+              </div>
+            </div>
+            <div class="scenario-list">
+              <div class="scenario-row">
+                <div class="scenario-window">至 2026-12</div>
+                <div><div class="scenario-copy">上涨 30% · 震荡 40% · 下跌 30%</div><div class="probability-bar"><span style="width:30%"></span><span style="width:40%"></span><span style="width:30%"></span></div><div class="scenario-copy">财报与利率驱动，仍可能冲高，但预期门槛已经很高。</div></div>
+              </div>
+              <div class="scenario-row">
+                <div class="scenario-window">至 2027-03</div>
+                <div><div class="scenario-copy">上涨 30% · 震荡 35% · 下跌 35%</div><div class="probability-bar"><span style="width:30%"></span><span style="width:35%"></span><span style="width:35%"></span></div><div class="scenario-copy">云厂商2027年资本开支指引是最重要变量。</div></div>
+              </div>
+              <div class="scenario-row">
+                <div class="scenario-window">至 2027-09</div>
+                <div><div class="scenario-copy">上涨 35% · 震荡 30% · 下跌 35%</div><div class="probability-bar"><span style="width:35%"></span><span style="width:30%"></span><span style="width:35%"></span></div><div class="scenario-copy">AI变现与新增存储产能共同决定方向。</div></div>
+              </div>
+              <div class="scenario-row">
+                <div class="scenario-window">2028 H1-H2</div>
+                <div><div class="scenario-copy">上涨 30% · 震荡 25% · 下跌 45%</div><div class="probability-bar"><span style="width:30%"></span><span style="width:25%"></span><span style="width:45%"></span></div><div class="scenario-copy">前期设备支出转为晶圆产能，供给集中释放风险最高。</div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">近期验证节点</div>
+                <div class="panel-note">财报和政策事件会改变周期概率</div>
+              </div>
+            </div>
+            <div class="event-list">
+              <div class="event-row"><span class="event-date">2026-09-16</span><span>美联储FOMC与点阵图</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-09-30</span><span>美光FY26 Q4财报与FY27指引</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-10 中</span><span>台积电Q3法说及资本开支</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-10 中</span><span>ASML净订单与2027-28能见度</span><span class="event-level">重要</span></div>
+              <div class="event-row"><span class="event-date">2026-10-29</span><span>SK海力士Q3财报与长期协议</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-11</span><span>英伟达FY27 Q3财报</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2027-01/02</span><span>云厂商2027资本开支指引</span><span class="event-level">核心</span></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">子赛道景气 × 估值矩阵</div>
+              <div class="panel-note">用于判断上涨质量与潜在价值陷阱</div>
+            </div>
+          </div>
+          <div class="sector-matrix">
+            <div class="matrix-row"><span class="matrix-sector">AI GPU / 先进制程</span><span class="matrix-tag good">高景气合理估值</span><span class="matrix-note">盈利继续上修时仍有支撑；关注云厂商资本开支。</span></div>
+            <div class="matrix-row"><span class="matrix-sector">ASIC / AI网络</span><span class="matrix-tag hot">高景气高估值</span><span class="matrix-note">业绩必须持续大幅超预期，波动率最高。</span></div>
+            <div class="matrix-row"><span class="matrix-sector">HBM / 高端DRAM</span><span class="matrix-tag trap">低PE陷阱风险</span><span class="matrix-note">低PE可能来自周期峰值利润，优先看价格与库存。</span></div>
+            <div class="matrix-row"><span class="matrix-sector">半导体设备</span><span class="matrix-tag good">景气能见度最长</span><span class="matrix-note">可能最晚见顶，但也是2028年新增供给的来源。</span></div>
+            <div class="matrix-row"><span class="matrix-sector">模拟 / 功率 / MCU</span><span class="matrix-tag good">低位修复</span><span class="matrix-note">估值压力较小，需确认汽车和工业真实需求。</span></div>
+            <div class="matrix-row"><span class="matrix-sector">常规DRAM / NAND</span><span class="matrix-tag trap">边际恶化</span><span class="matrix-note">消费需求承压，最可能率先出现价格转负。</span></div>
+            <div class="matrix-row"><span class="matrix-sector">A股半导体整体</span><span class="matrix-tag hot">高景气高估值</span><span class="matrix-note">对盈利不及预期高度敏感，重点监控估值消化。</span></div>
+          </div>
+        </section>
+
+        <section class="panel" id="semiOpinionPanel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">观点时间轴</div>
+              <div class="panel-note">按日期保存最终判断，后续研究可持续追加或覆盖同日观点</div>
+            </div>
+          </div>
+          <div class="opinion-editor">
+            <input id="opinionDate" class="signal-input" type="date" aria-label="观点日期">
+            <select id="opinionConfidence" class="signal-input" aria-label="观点置信度">
+              <option value="高">高置信度</option>
+              <option value="中" selected>中等置信度</option>
+              <option value="低">低置信度</option>
+            </select>
+            <textarea id="opinionText" class="signal-input" placeholder="记录本次最终观点、关键变化、上涨/下跌条件和失效条件"></textarea>
+            <button type="button" id="saveOpinionBtn" class="opinion-save">保存当日观点</button>
+          </div>
+          <div id="opinionTimeline" class="opinion-timeline"></div>
+          <div class="source-note">
+            同一日期再次保存会覆盖该日观点。记录保存在当前浏览器；代码内的研究基线会在未来版本更新时自动合并。
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="qqqDecisionWorkspace" class="workspace" data-workspace="qqq-decision">
+      <div class="decision-dashboard">
+        <section class="panel decision-hero">
+          <div>
+            <div class="semi-kicker">QQQ DECISION DASHBOARD</div>
+            <h2>宏观驱动、结构风险与长期定投决策</h2>
+            <p>
+              QQQ 跟踪 Nasdaq-100，并不等同于整个纳斯达克市场。以下面板只整理已完成研究的结论，
+              用于检查长期投资计划和风险暴露，不以单次宏观数据预测短期涨跌。
+            </p>
+          </div>
+          <div class="decision-asof">研究基线 · 2026-09-11</div>
+        </section>
+        <div id="qqqDecisionGrid" class="decision-grid"></div>
+        <div class="source-note">
+          一般性投资研究，不构成个性化投资、税务或法律建议。后续研究结论应以新日期追加，保留历史判断。
+        </div>
+      </div>
+    </section>
+
+    <section id="qqqRiskWorkspace" class="workspace" data-workspace="qqq-risk">
+      <div class="qqq-risk-dashboard">
+        <div class="qqq-risk-hero">
+          <section class="panel qqq-risk-thesis">
+            <div class="semi-kicker">QQQ DOWNSIDE FACTOR MONITOR</div>
+            <h2>最危险的不是VIX上升，而是利率、内部结构与信用同时恶化</h2>
+            <p>
+              基于1999—2026年日度数据。波动率主要用于确认正在发生的下跌；实际利率、通胀和估值决定脆弱性，
+              半导体与市场宽度提供内部预警，信用利差与金融条件决定普通调整是否可能演变成持续性熊市。
+            </p>
+          </section>
+          <section class="panel qqq-risk-score">
+            <div class="qqq-risk-score-value">57.2</div>
+            <div class="qqq-risk-score-label">风险偏高</div>
+            <div class="qqq-risk-score-note">0—100复合评分 · 数据主要截至2026-09-10</div>
+          </section>
+        </div>
+
+        <div id="qqqRiskBlocks" class="qqq-block-grid"></div>
+
+        <div class="qqq-risk-columns">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">组合条件计数器</div>
+                <div class="panel-note">点击切换条件 · 根据历史样本映射未来63个交易日尾部风险</div>
+              </div>
+            </div>
+            <div id="qqqFactorToggles" class="factor-toggle-grid"></div>
+            <div class="qqq-condition-result">
+              <div class="qqq-condition-stat"><small>当前触发数</small><strong id="qqqConditionCount">5 / 10</strong></div>
+              <div class="qqq-condition-stat"><small>历史平均最大回撤</small><strong id="qqqConditionDrawdown">−8.55%</strong></div>
+              <div class="qqq-condition-stat"><small>发生≥10%回撤概率</small><strong id="qqqConditionProbability">33.46%</strong></div>
+            </div>
+            <div class="qqq-condition-bar"><span id="qqqConditionBar" style="width:50%"></span></div>
+            <div class="source-note">条件数与风险整体正相关但并非严格单调；6项以上同时触发时，历史尾部风险明显跃升。</div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">最危险的提前组合</div>
+                <div class="panel-note">QQQ距离历史高点3%以内时的历史统计</div>
+              </div>
+            </div>
+            <div class="qqq-callout-list">
+              <div class="qqq-callout">
+                <div class="qqq-callout-title">VIX低于15 ＋ 信用利差扩大</div>
+                <div class="qqq-callout-metric">63日出现≥10%回撤：71.9%</div>
+                <div class="qqq-callout-copy">市场表面平静，但信用市场已提前恶化；比单纯观察高VIX更有预警价值。</div>
+              </div>
+              <div class="qqq-callout">
+                <div class="qqq-callout-title">半导体落后 ＋ 信用利差扩大</div>
+                <div class="qqq-callout-metric">平均最大回撤 −10.39% · 概率63.9%</div>
+                <div class="qqq-callout-copy">科技高Beta前哨与融资环境同时转弱，回撤深度明显上升。</div>
+              </div>
+              <div class="qqq-callout">
+                <div class="qqq-callout-title">信用扩大 ＋ 金融条件收紧</div>
+                <div class="qqq-callout-metric">平均最大回撤 −10.96% · 概率63.1%</div>
+                <div class="qqq-callout-copy">更接近系统性压力，而不是单纯估值波动。</div>
+              </div>
+              <div class="qqq-callout">
+                <div class="qqq-callout-title">五项宏观条件中至少三项触发</div>
+                <div class="qqq-callout-metric">平均最大回撤 −16.60% · 概率93.7%</div>
+                <div class="qqq-callout-copy">样本仅由少数事件段构成，方向重要，但不可把概率当作稳定预测值。</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="qqq-risk-columns">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">QQQ下跌日的同步相关</div>
+                <div class="panel-note">相关性用于识别共振，不代表领先或因果</div>
+              </div>
+            </div>
+            <div class="factor-table-wrap">
+              <table class="factor-table">
+                <thead><tr><th>因子</th><th>日度相关</th><th>QQQ≤−2%日平均</th><th>同方向命中率</th><th>用途</th></tr></thead>
+                <tbody>
+                  <tr><td>SOXX收益</td><td class="factor-strong">+0.866</td><td>−3.82%</td><td>99.3%</td><td>高Beta前哨</td></tr>
+                  <tr><td>SOX收益</td><td>+0.847</td><td>−3.94%</td><td>97.8%</td><td>科技内部强弱</td></tr>
+                  <tr><td>标普500收益</td><td>+0.846</td><td>−2.04%</td><td>97.2%</td><td>系统性风险</td></tr>
+                  <tr><td>VXN变化</td><td class="factor-strong">−0.730</td><td>+2.90点</td><td>93.5%</td><td>同步确认</td></tr>
+                  <tr><td>HY信用利差</td><td>负相关</td><td>+0.108pp</td><td>86.1%</td><td>融资压力</td></tr>
+                  <tr><td>比特币收益</td><td>正相关</td><td>−2.07%</td><td>66.3%</td><td>流动性风险偏好</td></tr>
+                  <tr><td>TLT收益</td><td>Regime依赖</td><td>+0.55%</td><td>70.6%</td><td>通胀期可能失效</td></tr>
+                  <tr><td>黄金收益</td><td>弱</td><td>+0.09%</td><td>53.9%</td><td>预测力有限</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">当前已触发信号</div>
+                <div class="panel-note">2026-09-10研究快照 · 5/16项</div>
+              </div>
+            </div>
+            <div class="qqq-callout-list">
+              <div class="qqq-callout"><div class="qqq-callout-title">实际利率60日上升超过30bp</div><div class="qqq-callout-copy">折现率压力上升，通胀型Regime下对成长股更不利。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">CPI同比高于3%</div><div class="qqq-callout-copy">限制美联储快速宽松的空间。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">WTI同比上涨超过30%</div><div class="qqq-callout-copy">提高再通胀和长期利率风险。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">市场宽度转负</div><div class="qqq-callout-copy">指数上涨更依赖少数权重股，内部韧性下降。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">半导体相对标普走弱</div><div class="qqq-callout-copy">SOX 60日相对强弱处于历史低分位。</div></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">宏观Regime与历史回撤</div>
+              <div class="panel-note">同一因子在不同下跌机制中可能失效甚至反向</div>
+            </div>
+          </div>
+          <div class="qqq-regime-grid">
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2000—2002</div><div class="qqq-regime-title">估值与盈利泡沫</div><div class="qqq-regime-copy">QQQ约−83%，SOX约−83%。利率不是唯一主线，科技估值和盈利预期崩塌决定跌幅。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2008</div><div class="qqq-regime-title">信用危机</div><div class="qqq-regime-copy">VIX升至80以上，MOVE超过200，NFCI急剧收紧；信用与银行体系主导。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2018 Q4</div><div class="qqq-regime-title">政策与流动性收缩</div><div class="qqq-regime-copy">VIX升至36，SOX约−24%，风险偏好快速下降。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2020</div><div class="qqq-regime-title">外生流动性冲击</div><div class="qqq-regime-copy">疫情无法由常规宏观因子提前预测；VIX升至82，BTC与油价同步暴跌。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2022</div><div class="qqq-regime-title">通胀与实际利率冲击</div><div class="qqq-regime-copy">10Y实际利率由−1.02%升至1.74%，QQQ与TLT同时下跌，传统股债对冲失效。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2026研究快照</div><div class="qqq-regime-title">利率与内部结构风险</div><div class="qqq-regime-copy">风险主要集中在利率/通胀和估值/宽度模块，信用与波动尚未确认危机。</div></article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">更新节奏与阈值</div>
+              <div class="panel-note">先看组合，再看单点；连续2—3个交易日确认以减少噪音</div>
+            </div>
+          </div>
+          <div class="qqq-monitor-grid">
+            <div class="qqq-monitor-card"><h3>每日</h3><ul><li>QQQ与200日均线距离</li><li>SOX相对SPX 60日表现：−5% / −15%</li><li>VXN−VIX：5.5 / 8点</li><li>VIX3M/VIX：低于1为倒挂</li><li>10Y收益率：4.5% / 5.0%</li></ul></div>
+            <div class="qqq-monitor-card"><h3>每周</h3><ul><li>实际利率60日变化：+30 / +50bp</li><li>Baa−10Y 60日变化：+20 / +40bp</li><li>HY OAS：3.5% / 4.5%</li><li>CCC−HY：7.0 / 8.5pp</li><li>NFCI是否持续收紧</li></ul></div>
+            <div class="qqq-monitor-card"><h3>每月</h3><ul><li>CPI：3% / 4%</li><li>核心PCE：2.8% / 3.5%</li><li>WTI同比：+30% / +60%</li><li>NDX盈利修正是否低于1</li><li>隐含ERP：低于4.5% / 4.0%</li></ul></div>
+          </div>
+          <div class="source-note">
+            数据来源：
+            <a href="https://www.cboe.com/tradable_products/vix/vix_historical_data/" target="_blank" rel="noopener noreferrer">Cboe波动率</a> ·
+            <a href="https://fred.stlouisfed.org/series/DFII10" target="_blank" rel="noopener noreferrer">10Y实际利率</a> ·
+            <a href="https://fred.stlouisfed.org/series/BAMLH0A0HYM2" target="_blank" rel="noopener noreferrer">HY OAS</a> ·
+            <a href="https://www.chicagofed.org/research/data/nfci/current-data" target="_blank" rel="noopener noreferrer">NFCI</a> ·
+            <a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer">BLS CPI</a>。
+            历史相关不代表因果，复合评分为样本内研究，不构成投资建议。
+          </div>
+        </section>
+      </div>
+    </section>
     <div class="attribution">
       Charts powered by
       <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">TradingView Lightweight Charts™</a>
@@ -776,7 +1770,20 @@
       crude: { name: "WTI 原油期货", short: "WTI", category: "commodities", symbol: "CL=F", digits: 2, prefix: "$", color: "#8d6e63" },
       brent: { name: "布伦特原油期货", short: "BRENT", category: "commodities", symbol: "BZ=F", digits: 2, prefix: "$", color: "#a1887f" },
       copper: { name: "铜期货", short: "COPPER", category: "commodities", symbol: "HG=F", digits: 2, prefix: "$", color: "#d07c4c" },
-      natgas: { name: "天然气期货", short: "NATGAS", category: "commodities", symbol: "NG=F", digits: 2, prefix: "$", color: "#90caf9" }
+      natgas: { name: "天然气期货", short: "NATGAS", category: "commodities", symbol: "NG=F", digits: 2, prefix: "$", color: "#90caf9" },
+      soxx: { name: "iShares 半导体 ETF", short: "SOXX", category: "stocks", symbol: "SOXX", digits: 2, prefix: "$", color: "#38d7c5" },
+      smh: { name: "VanEck 半导体 ETF", short: "SMH", category: "stocks", symbol: "SMH", digits: 2, prefix: "$", color: "#54a4ff" },
+      tsm: { name: "台积电 ADR", short: "TSM", category: "stocks", symbol: "TSM", digits: 2, prefix: "$", color: "#ff6577" },
+      amd: { name: "AMD", short: "AMD", category: "stocks", symbol: "AMD", digits: 2, prefix: "$", color: "#f5bd59" },
+      avgo: { name: "博通", short: "AVGO", category: "stocks", symbol: "AVGO", digits: 2, prefix: "$", color: "#a889ff" },
+      mu: { name: "美光科技", short: "MU", category: "stocks", symbol: "MU", digits: 2, prefix: "$", color: "#ef6c70" },
+      asml: { name: "阿斯麦 ADR", short: "ASML", category: "stocks", symbol: "ASML", digits: 2, prefix: "$", color: "#42a5f5" },
+      amat: { name: "应用材料", short: "AMAT", category: "stocks", symbol: "AMAT", digits: 2, prefix: "$", color: "#4db6ac" },
+      lrcx: { name: "泛林集团", short: "LRCX", category: "stocks", symbol: "LRCX", digits: 2, prefix: "$", color: "#76b7b2" },
+      klac: { name: "科磊", short: "KLAC", category: "stocks", symbol: "KLAC", digits: 2, prefix: "$", color: "#ff8a65" },
+      intc: { name: "英特尔", short: "INTC", category: "stocks", symbol: "INTC", digits: 2, prefix: "$", color: "#7e57c2" },
+      txn: { name: "德州仪器", short: "TXN", category: "stocks", symbol: "TXN", digits: 2, prefix: "$", color: "#ab47bc" },
+      us10y: { name: "美国10年期国债收益率", short: "US10Y", category: "bonds", symbol: "^TNX", digits: 2, unit: "%", color: "#f5bd59" }
     };
 
     const TICKER_CATEGORIES = [
@@ -857,6 +1864,24 @@
       key: "",
       series: new Map()
     };
+    const DATA_POINT_CACHE_TTL = 60_000;
+    const dataPointCache = new Map();
+
+    function cachedDataPoints(key, loader, ttl = DATA_POINT_CACHE_TTL) {
+      const cached = dataPointCache.get(key);
+      if (cached?.value && cached.expiresAt > Date.now()) return Promise.resolve(cached.value);
+      if (cached?.promise) return cached.promise;
+
+      const promise = loader().then(value => {
+        dataPointCache.set(key, { value, expiresAt: Date.now() + ttl });
+        return value;
+      }).catch(error => {
+        if (dataPointCache.get(key)?.promise === promise) dataPointCache.delete(key);
+        throw error;
+      });
+      dataPointCache.set(key, { promise });
+      return promise;
+    }
 
     function formatDisplayDate(value) {
       if (value && typeof value === "object" && "year" in value) {
@@ -927,6 +1952,157 @@
       market: createFinancialChart(document.getElementById("marketChart")),
       macro: createFinancialChart(document.getElementById("macroChart"))
     };
+    let semiChart = null;
+    const SEMI_MARKET_KEYS = ["soxx", "smh", "nvda", "tsm", "avgo", "mu", "amd", "asml", "amat", "lrcx", "klac", "intc", "txn"];
+    const SEMI_DEFAULT_KEYS = ["soxx", "nvda", "tsm", "mu", "asml"];
+    const SEMI_SIGNAL_KEY = "finance-dashboard-semiconductor-signals-v1";
+    const SEMI_OPINION_KEY = "finance-dashboard-semiconductor-opinions-v1";
+    const QQQ_DECISIONS = [
+      {
+        date: "2026-09-11",
+        title: "QQQ 是集中型成长组合，不是整个纳斯达克",
+        summary: "QQQ 跟踪 Nasdaq-100，主要持有 Nasdaq 上市的大型非金融公司，显著集中于超大型科技、互联网平台、半导体和成长消费股。它不是美国全市场或全球分散组合。",
+        action: "把行业集中度和前十大权重纳入仓位决策，不把 QQQ 当作天然低风险的唯一核心资产。",
+        sources: [["Nasdaq-100 事实表", "https://indexes.nasdaq.com/docs/FS_NDX.pdf"], ["Invesco QQQ", "https://www.invesco.com/qqq-etf/en/home.html"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "短期看折现率，长期看盈利兑现",
+        summary: "短期涨跌主要受实际利率、Fed 路径、风险溢价、仓位和财报意外影响；三至十年以上的回报最终取决于收入、EPS、自由现金流和资本回报率。",
+        action: "不要用一次宏观数据替代长期盈利判断；季度复核盈利与现金流是否跟上价格和估值。",
+        sources: [["美国财政部利率数据", "https://home.treasury.gov/resource-center/data-chart-center/interest-rates"], ["Nasdaq 盈利研究", "https://www.nasdaq.com/articles/global-indexes/nasdaq-100-outperforms-the-sp-500"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "最有利的是通胀下降且增长不失速",
+        summary: "通胀温和下降、经济保持增长、实际利率稳定或回落、信用利差平稳且盈利预期上修，通常是 QQQ 较有利的宏观组合。",
+        action: "观察核心 PCE/CPI 的 3—6 个月趋势、实际利率和 EPS 修正是否共同改善，而不是只看是否降息。",
+        sources: [["BLS CPI", "https://www.bls.gov/news.release/cpi.nr0.htm"], ["BEA PCE", "https://www.bea.gov/data/personal-consumption-expenditures-price-index"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "最危险的是利率、信用与盈利同时恶化",
+        summary: "实际利率上升、信用利差扩大、美元走强、就业和订单转弱，同时盈利预期下修，是比任何单一指标更值得警惕的风险组合。",
+        action: "至少等待两至三类指标共同恶化再重新检查配置；风险信号增加不等于立即清仓。",
+        sources: [["Fed 金融条件研究", "https://www.federalreserve.gov/econres/notes/feds-notes/financial-conditions-and-risks-to-the-economic-outlook-20240920.html"], ["Fed 美元指数", "https://www.federalreserve.gov/releases/h10/summary/"], ["BLS 就业数据", "https://www.bls.gov/news.release/empsit.nr0.htm"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "AI 资本开支不是单向利好",
+        summary: "AI Capex 短期推动 GPU、存储、网络和云基础设施收入，长期却必须转化为可持续收入、自由现金流和资本回报；否则折旧、电力及运维成本会反噬估值。",
+        action: "每季度同时比较 Capex、AI/云收入、自由现金流和 ROIC；Capex 上升而后三项走弱是风险信号。",
+        sources: [["Microsoft 投资者关系", "https://www.microsoft.com/en-us/investor"], ["Alphabet 投资者关系", "https://abc.xyz/investor/"], ["Amazon 投资者关系", "https://ir.aboutamazon.com/"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "半导体需要按库存与产能周期观察",
+        summary: "QQQ 对半导体权重较高，而 GPU、HBM、传统存储、汽车及工业芯片可能处于不同周期，不能只看行业总销售额。",
+        action: "联合观察销售、存储价格、库存天数、交货期、代工利用率、先进封装产能和云厂商订单。",
+        sources: [["WSTS", "https://www.wsts.org/"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "高估值是长期回报约束，不是短期卖出信号",
+        summary: "估值越高，未来回报越依赖盈利兑现，也越容易受到实际利率上升和业绩不及预期的冲击；但高估值本身不能可靠预测未来几个月走势。",
+        action: "用估值决定目标权重和再平衡纪律，不设置单一市盈率清仓线，也不因创新高而停止定投。",
+        sources: [["SEC 资产配置指南", "https://www.sec.gov/about/reports-publications/investorpubsassetallocationhtm"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "长期定投依赖期限、现金储备与分散",
+        summary: "QQQ 适合用至少 10 年、最好 15 年以上的资金承担波动；五年内明确要使用的资金不宜主要配置 QQQ。投资前应处理高息债务并建立应急储备。",
+        action: "发薪后自动投入固定金额或比例，把 QQQ 放在整体资产配置中，并以能否承受约 50% 回撤检验仓位。",
+        sources: [["Investor.gov 长期投资", "https://www.investor.gov/build-wealth-over-time-through-saving-and-investing"], ["Investor.gov 应急储备", "https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/save-rainy-day"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "已有现金通常尽早投入，分批用于管理行为风险",
+        summary: "历史研究中，一次性投入约三分之二时间优于分批投入，因为股票长期预期收益高于现金；工资按月到账则自然适合定投。",
+        action: "若一次投入会导致恐慌卖出，可预先限定 3—6 个月分批完成，避免根据行情无限延期。",
+        sources: [["Vanguard 定投研究", "https://externalcrewnet.vanguard.com/content/dam/corp/research/pdf/cost_averaging_invest_now_or_temporarily_hold_your_cash.pdf"]]
+      },
+      {
+        date: "2026-09-11",
+        title: "因个人目标和配置变化调整，不因新闻停投",
+        summary: "临近用钱、应急金不足、高息负债、收入结构变化、风险承受力下降或 QQQ 超出目标权重，都是合理的调整原因；单次 CPI、Fed 讲话或市场下跌通常不是。",
+        action: "每年检查一次，优先用新增资金再平衡；提前写好 20%、30% 和 40% 以上回撤时的执行纪律，不借款抄底。",
+        sources: [["SEC 资产配置指南", "https://www.sec.gov/about/reports-publications/investorpubsassetallocationhtm"]]
+      }
+    ];
+    const QQQ_RISK_BLOCKS = [
+      { name: "趋势", score: 39.0, color: "#54a4ff", note: "QQQ尚未进入明确趋势破坏" },
+      { name: "波动率", score: 48.4, color: "#a889ff", note: "VIX期限结构未倒挂" },
+      { name: "信用与金融条件", score: 39.2, color: "#32d49a", note: "整体利差仍低，低评级信用分化" },
+      { name: "利率与通胀", score: 86.7, color: "#ff6577", note: "当前最主要的风险来源" },
+      { name: "估值与市场宽度", score: 75.0, color: "#f5bd59", note: "半导体落后、宽度转弱" }
+    ];
+    const QQQ_RISK_CONDITIONS = [
+      { key: "below200d", name: "QQQ跌破200日均线", note: "趋势确认", active: false },
+      { key: "realYield", name: "实际利率60日上升>30bp", note: "折现率压力", active: true },
+      { key: "credit", name: "信用利差60日扩大>20bp", note: "融资环境恶化", active: false },
+      { key: "cpi", name: "CPI同比>3%", note: "限制货币宽松空间", active: true },
+      { key: "financial", name: "NFCI高于一年均值", note: "金融条件收紧", active: false },
+      { key: "breadth", name: "市场宽度转负", note: "上涨依赖少数权重股", active: true },
+      { key: "backwardation", name: "VIX期限结构倒挂", note: "短期压力进入确认", active: false },
+      { key: "oil", name: "WTI同比上涨>30%", note: "再通胀风险", active: true },
+      { key: "semis", name: "半导体相对标普走弱", note: "科技高Beta前哨", active: true },
+      { key: "twoYear", name: "2Y收益率60日下降>40bp", note: "可能定价衰退或危机降息", active: false }
+    ];
+    const QQQ_CONDITION_OUTCOMES = {
+      0: { drawdown: -4.23, probability: 10.19 },
+      1: { drawdown: -5.27, probability: 12.41 },
+      2: { drawdown: -6.67, probability: 19.53 },
+      3: { drawdown: -8.56, probability: 30.36 },
+      4: { drawdown: -7.74, probability: 28.71 },
+      5: { drawdown: -8.55, probability: 33.46 },
+      6: { drawdown: -12.01, probability: 48.46 },
+      7: { drawdown: -13.75, probability: 53.37 },
+      8: { drawdown: -13.04, probability: 45.10 },
+      9: { drawdown: -13.79, probability: 64.41 }
+    };
+    const QQQ_RISK_SELECTION_KEY = "finance-dashboard-qqq-risk-conditions-v1";
+    const SEMI_OPINION_DEFAULTS = [
+      {
+        id: "research-2026-09-11",
+        date: "2026-09-11",
+        confidence: "中",
+        source: "research",
+        text: "全球半导体仍处于高景气，但已经进入盈利暴涨、估值收缩的后周期阶段。最可能的顶部窗口为2026年Q4至2027年Q2；若DRAM/NAND现货连续四周下跌、合约价降至0–5%，并伴随云厂商资本开支下修，应视为周期下行确认。2027年下半年至2028年需重点防范新增产能集中释放。"
+      }
+    ];
+    const CLOUD_CAPEX = {
+      quarters: ["2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1", "2026Q2"],
+      companies: [
+        { key: "MSFT", name: "Microsoft", color: "#54a4ff", values: [16.745, 17.079, 19.394, 29.876, 30.876, 35.802], yoy: 109.6, qoq: 16.0 },
+        { key: "GOOGL", name: "Alphabet", color: "#f5bd59", values: [17.197, 22.446, 23.953, 27.851, 35.674, 44.924], yoy: 100.1, qoq: 25.9 },
+        { key: "AMZN", name: "Amazon", color: "#ff8a65", values: [25.019, 32.183, 35.095, 39.522, 44.203, 54.208], yoy: 68.4, qoq: 22.6 },
+        { key: "META", name: "Meta", color: "#a889ff", values: [12.941, 16.538, 18.829, 21.383, 18.997, 30.116], yoy: 82.1, qoq: 58.5 }
+      ],
+      totals: [71.902, 88.246, 97.271, 118.632, 129.750, 165.050],
+      totalYoy: 87.0,
+      totalQoq: 27.2,
+      oracle: { quarter: "FY27Q1", period: "2026-06-01 至 2026-08-31", value: 28.499, yoy: 235.2, qoq: 72.8 }
+    };
+    const SEMI_SIGNALS = [
+      { key: "spotTrend", name: "DRAM/NAND现货趋势", type: "select", value: "flat", options: [["up", "上涨"], ["flat", "横盘"], ["down4w", "连续4周下跌"]], threshold: "连续4周下跌 = +2风险", score: value => value === "down4w" ? 2 : value === "flat" ? 1 : 0 },
+      { key: "dramQoq", name: "DRAM合约价 QoQ", type: "number", value: 15.5, suffix: "%", threshold: "≤5% = +2风险", score: value => Number(value) <= 5 ? 2 : Number(value) <= 10 ? 1 : 0 },
+      { key: "nandQoq", name: "NAND合约价 QoQ", type: "number", value: 12.5, suffix: "%", threshold: "≤5% = +1风险", score: value => Number(value) <= 5 ? 1 : 0 },
+      { key: "tsmcYoy", name: "台积电月营收 YoY", type: "number", value: 53.3, suffix: "%", threshold: "<30% = +1风险", score: value => Number(value) < 30 ? 1 : 0 },
+      { key: "koreaExportYoy", name: "韩国芯片出口 YoY", type: "number", value: 209, suffix: "%", threshold: "<50% = +1风险", score: value => Number(value) < 50 ? 1 : 0 },
+      { key: "us10y", name: "美国10年期收益率", type: "number", value: 4.8, suffix: "%", threshold: ">5% = +1风险", score: value => Number(value) > 5 ? 1 : 0 },
+      { key: "capex", name: "云厂商资本开支指引", type: "select", value: "stable", options: [["up", "上调"], ["stable", "稳定"], ["cut", "下调/消化"]], threshold: "下调/消化 = +2风险", score: value => value === "cut" ? 2 : value === "stable" ? 1 : 0 },
+      { key: "earningsBreadth", name: "盈利修正广度", type: "select", value: "balanced", options: [["up", "上调占优"], ["balanced", "接近平衡"], ["down", "下调占优"]], threshold: "下调占优 = +1风险", score: value => value === "down" ? 1 : value === "balanced" ? 1 : 0 }
+    ];
+    const semiState = {
+      range: "1y",
+      selected: new Set(SEMI_DEFAULT_KEYS),
+      series: {},
+      signals: loadSemiSignals(),
+      opinions: loadSemiOpinions(),
+      animateKey: null,
+      loaded: false,
+      loading: false
+    };
 
     const fmt = new Intl.NumberFormat("zh-CN");
     const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -945,6 +2121,476 @@
       dragTrashDropHandler = null;
       dragTrash.classList.remove("visible", "active");
       dragTrash.setAttribute("aria-hidden", "true");
+    }
+
+    function loadSemiSignals() {
+      const defaults = Object.fromEntries(SEMI_SIGNALS.map(signal => [signal.key, signal.value]));
+      try {
+        const saved = JSON.parse(localStorage.getItem(SEMI_SIGNAL_KEY));
+        return saved && typeof saved === "object" ? { ...defaults, ...saved } : defaults;
+      } catch (error) {
+        console.warn("semiconductor signals", error);
+        return defaults;
+      }
+    }
+
+    function saveSemiSignals() {
+      try {
+        localStorage.setItem(SEMI_SIGNAL_KEY, JSON.stringify(semiState.signals));
+      } catch (error) {
+        console.warn("semiconductor signals save", error);
+      }
+    }
+
+    function loadSemiOpinions() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(SEMI_OPINION_KEY));
+        const merged = new Map(SEMI_OPINION_DEFAULTS.map(item => [item.id, item]));
+        if (Array.isArray(saved)) saved.forEach(item => {
+          if (item?.id && item?.date && item?.text) merged.set(item.id, item);
+        });
+        return [...merged.values()];
+      } catch (error) {
+        console.warn("semiconductor opinions", error);
+        return [...SEMI_OPINION_DEFAULTS];
+      }
+    }
+
+    function saveSemiOpinions() {
+      try {
+        localStorage.setItem(SEMI_OPINION_KEY, JSON.stringify(semiState.opinions));
+      } catch (error) {
+        console.warn("semiconductor opinions save", error);
+      }
+    }
+
+    function renderQqqDecisions() {
+      document.getElementById("qqqDecisionGrid").innerHTML = QQQ_DECISIONS.map((item, index) => `
+        <article class="panel decision-card">
+          <div class="decision-card-head">
+            <span class="decision-index">结论 ${String(index + 1).padStart(2, "0")}</span>
+            <time class="decision-date" datetime="${escapeHtml(item.date)}">${escapeHtml(item.date)}</time>
+          </div>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p class="decision-summary">${escapeHtml(item.summary)}</p>
+          <div class="decision-action"><strong>决策含义：</strong>${escapeHtml(item.action)}</div>
+          <div class="decision-sources">
+            ${item.sources.map(([label, url]) => `<a class="decision-source" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`).join("")}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function loadQqqRiskConditions() {
+      const defaults = QQQ_RISK_CONDITIONS.filter(item => item.active).map(item => item.key);
+      try {
+        const saved = JSON.parse(localStorage.getItem(QQQ_RISK_SELECTION_KEY));
+        return Array.isArray(saved) && saved.every(key => QQQ_RISK_CONDITIONS.some(item => item.key === key))
+          ? new Set(saved)
+          : new Set(defaults);
+      } catch (error) {
+        console.warn("QQQ risk conditions", error);
+        return new Set(defaults);
+      }
+    }
+
+    const qqqRiskState = { active: loadQqqRiskConditions() };
+
+    function renderQqqRiskBlocks() {
+      document.getElementById("qqqRiskBlocks").innerHTML = QQQ_RISK_BLOCKS.map(block => `
+        <section class="panel qqq-block-card">
+          <div class="qqq-block-name">${escapeHtml(block.name)}</div>
+          <div class="qqq-block-score" style="color:${block.color}">${block.score.toFixed(1)}</div>
+          <div class="qqq-block-meter"><span style="width:${block.score}%;background:${block.color}"></span></div>
+          <div class="qqq-block-note">${escapeHtml(block.note)}</div>
+        </section>
+      `).join("");
+    }
+
+    function renderQqqRiskConditions() {
+      const host = document.getElementById("qqqFactorToggles");
+      host.innerHTML = QQQ_RISK_CONDITIONS.map(item => `
+        <button type="button" class="factor-toggle ${qqqRiskState.active.has(item.key) ? "active" : ""}" data-qqq-condition="${item.key}" aria-pressed="${qqqRiskState.active.has(item.key)}">
+          <strong>${escapeHtml(item.name)}</strong>
+          <span>${escapeHtml(item.note)}</span>
+        </button>
+      `).join("");
+      host.querySelectorAll("[data-qqq-condition]").forEach(button => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.qqqCondition;
+          if (qqqRiskState.active.has(key)) qqqRiskState.active.delete(key);
+          else qqqRiskState.active.add(key);
+          try {
+            localStorage.setItem(QQQ_RISK_SELECTION_KEY, JSON.stringify([...qqqRiskState.active]));
+          } catch (error) {
+            console.warn("QQQ risk conditions save", error);
+          }
+          renderQqqRiskConditions();
+          renderQqqRiskOutcome();
+        });
+      });
+    }
+
+    function renderQqqRiskOutcome() {
+      const count = qqqRiskState.active.size;
+      const outcome = QQQ_CONDITION_OUTCOMES[count];
+      document.getElementById("qqqConditionCount").textContent = `${count} / ${QQQ_RISK_CONDITIONS.length}`;
+      document.getElementById("qqqConditionDrawdown").textContent = outcome ? `−${Math.abs(outcome.drawdown).toFixed(2)}%` : "样本不足";
+      document.getElementById("qqqConditionProbability").textContent = outcome ? `${outcome.probability.toFixed(2)}%` : "样本不足";
+      document.getElementById("qqqConditionBar").style.width = `${Math.min(100, count / QQQ_RISK_CONDITIONS.length * 100)}%`;
+    }
+
+    function renderQqqRiskDashboard() {
+      renderQqqRiskBlocks();
+      renderQqqRiskConditions();
+      renderQqqRiskOutcome();
+    }
+
+    function renderSemiOpinions() {
+      const host = document.getElementById("opinionTimeline");
+      const opinions = [...semiState.opinions].sort((a, b) => b.date.localeCompare(a.date));
+      host.innerHTML = opinions.length ? opinions.map(item => `
+        <article class="opinion-entry" data-opinion-id="${escapeHtml(item.id)}">
+          <div>
+            <div class="opinion-date">${escapeHtml(item.date)}</div>
+            <div class="opinion-confidence">${escapeHtml(item.confidence)}置信度${item.source === "research" ? " · 研究基线" : " · 手工记录"}</div>
+          </div>
+          <div>
+            <div class="opinion-title">${escapeHtml(item.text.split(/[。！？\n]/)[0] || "半导体周期观点")}</div>
+            <div class="opinion-body">${escapeHtml(item.text)}</div>
+          </div>
+          <div class="opinion-actions">
+            <button type="button" class="opinion-action" data-opinion-edit="${escapeHtml(item.id)}">编辑</button>
+            ${item.source === "research" ? "" : `<button type="button" class="opinion-action" data-opinion-delete="${escapeHtml(item.id)}">删除</button>`}
+          </div>
+        </article>
+      `).join("") : '<div class="opinion-empty">尚未记录观点</div>';
+
+      host.querySelectorAll("[data-opinion-edit]").forEach(button => {
+        button.addEventListener("click", () => {
+          const item = semiState.opinions.find(opinion => opinion.id === button.dataset.opinionEdit);
+          if (!item) return;
+          document.getElementById("opinionDate").value = item.date;
+          document.getElementById("opinionConfidence").value = item.confidence;
+          document.getElementById("opinionText").value = item.text;
+          document.getElementById("opinionText").focus();
+        });
+      });
+      host.querySelectorAll("[data-opinion-delete]").forEach(button => {
+        button.addEventListener("click", () => {
+          semiState.opinions = semiState.opinions.filter(item => item.id !== button.dataset.opinionDelete);
+          saveSemiOpinions();
+          renderSemiOpinions();
+        });
+      });
+    }
+
+    function saveCurrentOpinion() {
+      const date = document.getElementById("opinionDate").value;
+      const confidence = document.getElementById("opinionConfidence").value;
+      const text = document.getElementById("opinionText").value.trim();
+      if (!date || !text) {
+        document.getElementById("opinionText").focus();
+        return;
+      }
+      const existing = semiState.opinions.find(item => item.date === date);
+      const next = {
+        id: existing?.id || `manual-${date}`,
+        date,
+        confidence,
+        source: existing?.source || "manual",
+        text
+      };
+      semiState.opinions = [...semiState.opinions.filter(item => item.id !== next.id), next];
+      saveSemiOpinions();
+      renderSemiOpinions();
+      document.getElementById("opinionText").value = "";
+    }
+
+    function renderCloudCapex() {
+      const chart = document.getElementById("cloudCapexChart");
+      const width = 900;
+      const height = 340;
+      const margin = { top: 28, right: 24, bottom: 45, left: 48 };
+      const plotWidth = width - margin.left - margin.right;
+      const plotHeight = height - margin.top - margin.bottom;
+      const maxValue = 180;
+      const band = plotWidth / CLOUD_CAPEX.quarters.length;
+      const barWidth = Math.min(72, band * .56);
+      const y = value => margin.top + plotHeight - value / maxValue * plotHeight;
+      const gridValues = [0, 50, 100, 150];
+      const grid = gridValues.map(value => `
+        <line x1="${margin.left}" y1="${y(value)}" x2="${width - margin.right}" y2="${y(value)}" stroke="rgba(151,180,202,.12)" />
+        <text x="${margin.left - 9}" y="${y(value) + 4}" text-anchor="end" fill="#718796" font-size="10">${value}</text>
+      `).join("");
+      const bars = CLOUD_CAPEX.quarters.map((quarter, quarterIndex) => {
+        const x = margin.left + band * quarterIndex + (band - barWidth) / 2;
+        let cumulative = 0;
+        const segments = CLOUD_CAPEX.companies.map(company => {
+          const value = company.values[quarterIndex];
+          const segmentHeight = value / maxValue * plotHeight;
+          const rectY = y(cumulative + value);
+          cumulative += value;
+          return `<rect x="${x}" y="${rectY}" width="${barWidth}" height="${segmentHeight}" fill="${company.color}" rx="2"><title>${company.name} ${quarter}: $${value.toFixed(1)}B</title></rect>`;
+        }).join("");
+        return `
+          ${segments}
+          <text x="${x + barWidth / 2}" y="${y(cumulative) - 8}" text-anchor="middle" fill="#eaf4fa" font-size="10" font-weight="700">$${cumulative.toFixed(1)}B</text>
+          <text x="${x + barWidth / 2}" y="${height - 18}" text-anchor="middle" fill="#8297a7" font-size="10">${quarter}</text>
+        `;
+      }).join("");
+      chart.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="四大云厂商季度资本开支堆叠图">
+          ${grid}
+          ${bars}
+          <text x="12" y="17" fill="#8297a7" font-size="9">USD bn</text>
+        </svg>
+      `;
+
+      document.getElementById("cloudCapexLatest").innerHTML = CLOUD_CAPEX.companies.map(company => {
+        const latest = company.values.at(-1);
+        return `
+          <div class="capex-company">
+            <span class="capex-company-name">${escapeHtml(company.name)}</span>
+            <span class="capex-company-value">$${latest.toFixed(1)}B</span>
+            <span class="capex-company-growth">+${company.yoy.toFixed(1)}%</span>
+          </div>
+        `;
+      }).join("");
+
+      const rows = [
+        ...CLOUD_CAPEX.companies.map(company => ({
+          name: company.name,
+          values: company.values,
+          total: false
+        })),
+        { name: "四大合计", values: CLOUD_CAPEX.totals, total: true }
+      ];
+      document.getElementById("cloudCapexTable").innerHTML = rows.map(row => `
+        <tr class="${row.total ? "capex-total" : ""}">
+          <td>${escapeHtml(row.name)}</td>
+          ${row.values.map(value => `<td>${value.toFixed(1)}</td>`).join("")}
+          <td>待披露</td>
+        </tr>
+      `).join("");
+    }
+
+    function semiRiskScore() {
+      return SEMI_SIGNALS.reduce((sum, signal) => sum + signal.score(semiState.signals[signal.key]), 0);
+    }
+
+    function semiRiskProfile(score = semiRiskScore()) {
+      if (score >= 6) return { label: "周期转向", state: "risk", headline: "领先指标确认转弱 · 下行风险占优" };
+      if (score >= 3) return { label: "高位预警", state: "watch", headline: "高景气 · 后周期 · 等待转向确认" };
+      return { label: "景气延续", state: "safe", headline: "高景气延续 · 尚未形成下行确认" };
+    }
+
+    function renderSemiSignals() {
+      const host = document.getElementById("semiSignalList");
+      host.innerHTML = SEMI_SIGNALS.map(signal => {
+        const value = semiState.signals[signal.key];
+        const points = signal.score(value);
+        const state = points >= 2 ? "risk" : points === 1 ? "watch" : "safe";
+        const label = points >= 2 ? `风险 +${points}` : points === 1 ? "观察 +1" : "正常";
+        const control = signal.type === "select"
+          ? `<select class="signal-input" data-semi-signal="${signal.key}">${signal.options.map(([key, text]) => `<option value="${key}" ${value === key ? "selected" : ""}>${text}</option>`).join("")}</select>`
+          : `<input class="signal-input" data-semi-signal="${signal.key}" type="number" step="0.1" value="${escapeHtml(value)}" aria-label="${escapeHtml(signal.name)}">`;
+        return `
+          <div class="signal-row">
+            <div><div class="signal-name">${escapeHtml(signal.name)}</div><div class="signal-threshold">${escapeHtml(signal.threshold)}</div></div>
+            ${control}
+            <span class="signal-state ${state}">${label}</span>
+          </div>
+        `;
+      }).join("");
+      host.querySelectorAll("[data-semi-signal]").forEach(input => {
+        input.addEventListener("change", () => {
+          semiState.signals[input.dataset.semiSignal] = input.type === "number" ? Number(input.value) : input.value;
+          saveSemiSignals();
+          renderSemiSignals();
+          renderSemiRisk();
+        });
+      });
+      renderSemiRisk();
+    }
+
+    function renderSemiRisk() {
+      const score = semiRiskScore();
+      const profile = semiRiskProfile(score);
+      document.getElementById("cycleScore").textContent = `${score}/11`;
+      document.getElementById("cycleScore").style.color = profile.state === "risk" ? "var(--red)" : profile.state === "watch" ? "var(--amber)" : "var(--green)";
+      document.getElementById("cycleLabel").textContent = profile.label;
+      document.getElementById("cycleDetail").textContent = score >= 6
+        ? "至少三类领先指标已显著恶化，应按周期下行管理风险"
+        : score >= 3
+          ? "边际风险正在累积，等待价格、资本开支和盈利修正共同确认"
+          : "主要领先指标仍支持景气延续";
+      document.getElementById("semiHeadline").textContent = profile.headline;
+      document.getElementById("semiRiskState").textContent = profile.label;
+      document.getElementById("semiRiskState").style.color = profile.state === "risk" ? "var(--red)" : profile.state === "watch" ? "var(--amber)" : "var(--green)";
+    }
+
+    function renderSemiAssetChips() {
+      const host = document.getElementById("semiAssetChips");
+      host.innerHTML = SEMI_MARKET_KEYS.map(key => `
+        <button type="button" class="semi-chip ${semiState.selected.has(key) ? "active" : ""}" data-semi-asset="${key}">
+          ${escapeHtml(ASSETS[key].short)}
+        </button>
+      `).join("");
+      host.querySelectorAll("[data-semi-asset]").forEach(button => {
+        button.addEventListener("click", async () => {
+          const key = button.dataset.semiAsset;
+          if (semiState.selected.has(key) && semiState.selected.size > 1) semiState.selected.delete(key);
+          else {
+            semiState.selected.add(key);
+            semiState.animateKey = key;
+            if (!semiState.series[key]?.length) {
+              button.textContent = "读取中";
+              try {
+                semiState.series[key] = await fetchYahoo(key, ASSETS[key], semiState.range);
+              } catch (error) {
+                console.warn(`semiconductor ${key}`, error);
+              }
+            }
+          }
+          renderSemiAssetChips();
+          renderSemiMarketChart();
+        });
+      });
+    }
+
+    function periodReturn(rows, days) {
+      const valid = rows?.filter(row => Number.isFinite(row.close)) || [];
+      if (valid.length < 2) return NaN;
+      const cutoff = valid.at(-1).time - days * 86400000;
+      const first = valid.find(row => row.time >= cutoff) || valid[0];
+      const last = valid.at(-1);
+      return first.close ? (last.close / first.close - 1) * 100 : NaN;
+    }
+
+    function formatPct(value) {
+      return Number.isFinite(value) ? `${value >= 0 ? "+" : ""}${value.toFixed(1)}%` : "暂无";
+    }
+
+    function animateLineSeries(series, rows, duration = 500) {
+      if (!rows.length) return;
+      const startedAt = performance.now();
+      let renderedCount = 0;
+      const draw = now => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - (1 - progress) ** 3;
+        const nextCount = Math.max(1, Math.ceil(rows.length * eased));
+        if (nextCount !== renderedCount) {
+          series.setData(rows.slice(0, nextCount));
+          renderedCount = nextCount;
+        }
+        if (progress < 1) requestAnimationFrame(draw);
+      };
+      requestAnimationFrame(draw);
+    }
+
+    function renderSemiStats() {
+      const soxx1m = periodReturn(semiState.series.soxx, 30);
+      const soxx3m = periodReturn(semiState.series.soxx, 91);
+      const spy3m = periodReturn(semiState.series.spy, 91);
+      const relative = Number.isFinite(soxx3m) && Number.isFinite(spy3m) ? soxx3m - spy3m : NaN;
+      const yieldRow = semiState.series.us10y?.at(-1);
+      const yieldValue = Number.isFinite(yieldRow?.close) ? yieldRow.close / 10 : NaN;
+      document.getElementById("semiSoxx1m").textContent = formatPct(soxx1m);
+      document.getElementById("semiSoxx1m").className = `semi-stat-value ${soxx1m >= 0 ? "up" : "down"}`;
+      document.getElementById("semiRelative3m").textContent = formatPct(relative);
+      document.getElementById("semiRelative3m").className = `semi-stat-value ${relative >= 0 ? "up" : "down"}`;
+      document.getElementById("semiUs10y").textContent = Number.isFinite(yieldValue) ? `${yieldValue.toFixed(2)}%` : "暂无";
+      if (Number.isFinite(yieldValue)) {
+        semiState.signals.us10y = +yieldValue.toFixed(2);
+        saveSemiSignals();
+        renderSemiSignals();
+      }
+      document.getElementById("semiUpdatedAt").textContent = `行情更新 ${new Date().toLocaleTimeString("zh-CN", { hour12: false, hour: "2-digit", minute: "2-digit" })}`;
+    }
+
+    function renderSemiMarketChart() {
+      if (!semiChart) semiChart = createFinancialChart(document.getElementById("semiMarketChart"));
+      clearChart(semiChart);
+      const keys = [...semiState.selected].filter(key => semiState.series[key]?.length);
+      if (!keys.length) {
+        showChartEmpty(semiChart, "半导体行情暂不可用");
+        return;
+      }
+      const legendItems = [];
+      keys.forEach(key => {
+        const rows = semiState.series[key];
+        const first = rows.find(row => Number.isFinite(row.close))?.close;
+        if (!first) return;
+        const series = semiChart.api.addSeries(LightweightCharts.LineSeries, {
+          color: ASSETS[key].color,
+          lineWidth: key === "soxx" ? 3 : 2,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          priceFormat: { type: "custom", minMove: .1, formatter: value => value.toFixed(1) }
+        });
+        const normalizedRows = rows.map(row => ({
+          time: chartTime(row.time),
+          value: +(row.close / first * 100).toFixed(3)
+        }));
+        if (key === semiState.animateKey) animateLineSeries(series, normalizedRows, 500);
+        else series.setData(normalizedRows);
+        semiChart.series.push(series);
+        legendItems.push({ label: ASSETS[key].short, color: ASSETS[key].color, series, formatter: data => data.value.toFixed(1) });
+      });
+      setChartLegend(semiChart, legendItems);
+      semiChart.api.timeScale().fitContent();
+      if (semiState.animateKey) {
+        const animatedButton = document.querySelector(`[data-semi-asset="${semiState.animateKey}"]`);
+        animatedButton?.classList.add("drawing");
+        setTimeout(() => animatedButton?.classList.remove("drawing"), 500);
+        semiState.animateKey = null;
+      }
+    }
+
+    async function loadSemiDashboard() {
+      if (semiState.loading) return;
+      semiState.loading = true;
+      const button = document.getElementById("refreshSemiBtn");
+      button.textContent = "更新中";
+      button.disabled = true;
+      try {
+        const keys = [...new Set([...semiState.selected, "soxx", "spy", "us10y"])];
+        const results = await Promise.all(keys.map(async key => {
+          try {
+            semiState.series[key] = await fetchYahoo(key, ASSETS[key], semiState.range);
+            return true;
+          } catch (error) {
+            console.warn(`semiconductor ${key}`, error);
+            return false;
+          }
+        }));
+        semiState.loaded = results.some(Boolean);
+        renderSemiMarketChart();
+        renderSemiStats();
+      } finally {
+        semiState.loading = false;
+        button.textContent = "刷新";
+        button.disabled = false;
+      }
+    }
+
+    function activateWorkspace(name) {
+      document.querySelectorAll("[data-workspace]").forEach(workspace => {
+        workspace.classList.toggle("active", workspace.dataset.workspace === name);
+      });
+      document.querySelectorAll("[data-workspace-tab]").forEach(button => {
+        button.classList.toggle("active", button.dataset.workspaceTab === name);
+      });
+      if (name === "semiconductor") {
+        requestAnimationFrame(() => {
+          if (semiChart) semiChart.api.resize(
+            document.getElementById("semiMarketChart").clientWidth,
+            document.getElementById("semiMarketChart").clientHeight
+          );
+          if (!semiState.loaded) loadSemiDashboard();
+        });
+      }
     }
 
     dragTrash.addEventListener("dragover", event => {
@@ -1225,44 +2871,46 @@
     }
 
     async function fetchYahoo(key, asset, range = state.range) {
-      const servedLocally = ["localhost", "127.0.0.1"].includes(location.hostname);
-      if (servedLocally && asset.futu) {
-        try {
-          const response = await fetch(`/api/futu?asset=${encodeURIComponent(key)}&range=${encodeURIComponent(range)}`, {
-            cache: "no-store"
-          });
-          if (!response.ok) {
-            const payload = await response.json().catch(() => ({}));
-            throw new Error(payload.error || `HTTP ${response.status}`);
+      return cachedDataPoints(`market:${key}:${range}`, async () => {
+        const servedLocally = ["localhost", "127.0.0.1"].includes(location.hostname);
+        if (servedLocally && asset.futu) {
+          try {
+            const response = await fetch(`/api/futu?asset=${encodeURIComponent(key)}&range=${encodeURIComponent(range)}`, {
+              cache: "no-store"
+            });
+            if (!response.ok) {
+              const payload = await response.json().catch(() => ({}));
+              throw new Error(payload.error || `HTTP ${response.status}`);
+            }
+            const payload = await response.json();
+            if (!Array.isArray(payload.rows) || !payload.rows.length) {
+              throw new Error(`${asset.name} 无 OpenD 数据`);
+            }
+            return payload.rows.filter(row => Number.isFinite(row.close));
+          } catch (error) {
+            console.warn(`${asset.name} OpenD fallback`, error);
           }
-          const payload = await response.json();
-          if (!Array.isArray(payload.rows) || !payload.rows.length) {
-            throw new Error(`${asset.name} 无 OpenD 数据`);
-          }
-          return payload.rows.filter(row => Number.isFinite(row.close));
-        } catch (error) {
-          console.warn(`${asset.name} OpenD fallback`, error);
         }
-      }
-      const option = RANGE_OPTIONS[range];
-      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(asset.symbol)}?range=${option.range}&interval=${option.interval}&includePrePost=false&events=div%2Csplits`;
-      const response = await fetchWithFallback(url);
-      const payload = await response.json();
-      const result = payload.chart?.result?.[0];
-      if (!result) throw new Error(payload.chart?.error?.description || `${asset.name} 无数据`);
-      const quote = result.indicators?.quote?.[0] || {};
-      const rows = (result.timestamp || []).map((timestamp, index) => {
-        const row = {
-          time: timestamp * 1000,
-          open: quote.open?.[index],
-          high: quote.high?.[index],
-          low: quote.low?.[index],
-          close: quote.close?.[index],
-          volume: quote.volume?.[index]
-        };
-        return asset.invert ? transformInverted(row) : row;
-      }).filter(row => Number.isFinite(row.close));
-      return range === "20y" ? filterSeriesRange(rows, range) : rows;
+        const option = RANGE_OPTIONS[range];
+        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(asset.symbol)}?range=${option.range}&interval=${option.interval}&includePrePost=false&events=div%2Csplits`;
+        const response = await fetchWithFallback(url);
+        const payload = await response.json();
+        const result = payload.chart?.result?.[0];
+        if (!result) throw new Error(payload.chart?.error?.description || `${asset.name} 无数据`);
+        const quote = result.indicators?.quote?.[0] || {};
+        const rows = (result.timestamp || []).map((timestamp, index) => {
+          const row = {
+            time: timestamp * 1000,
+            open: quote.open?.[index],
+            high: quote.high?.[index],
+            low: quote.low?.[index],
+            close: quote.close?.[index],
+            volume: quote.volume?.[index]
+          };
+          return asset.invert ? transformInverted(row) : row;
+        }).filter(row => Number.isFinite(row.close));
+        return range === "20y" ? filterSeriesRange(rows, range) : rows;
+      });
     }
 
     function rangeStart(range = state.range) {
@@ -2134,6 +3782,40 @@
       }
     }
 
+    async function clearDataCache() {
+      const button = document.getElementById("clearCacheBtn");
+      button.disabled = true;
+      button.textContent = "清理中";
+      setStatus("loading", "正在清除数据缓存...");
+      try {
+        const response = await fetch("/api/cache", { method: "DELETE", cache: "no-store" });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+
+        state.usdataPromise = null;
+        state.series = {};
+        state.macroAll = {};
+        correlationState.series = {};
+        semiState.series = {};
+        marketRenderCache.key = "";
+        marketRenderCache.series.clear();
+        dataPointCache.clear();
+
+        await loadMarkets();
+        const reloads = [loadCorrelationData(), loadMacroCalendar(), loadMacroHistory()];
+        if (semiState.loaded) reloads.push(loadSemiDashboard());
+        await Promise.all(reloads);
+        setStatus("live", `缓存已清除 · ${payload.cleared || 0} 项`);
+      } catch (error) {
+        console.error("clear cache", error);
+        setStatus("error", "清除缓存失败");
+        showError(`无法清除数据缓存：${error.message}`);
+      } finally {
+        button.disabled = false;
+        button.textContent = "清除缓存";
+      }
+    }
+
     function renderAll() {
       renderTickers();
       renderMarketChart();
@@ -2170,6 +3852,7 @@
     });
 
     document.getElementById("refreshBtn").addEventListener("click", loadCorrelationData);
+    document.getElementById("clearCacheBtn").addEventListener("click", clearDataCache);
     document.getElementById("closeMacroDialog").addEventListener("click", () => {
       document.getElementById("macroIndicatorDialog").close();
     });
@@ -2184,6 +3867,19 @@
     document.getElementById("tickerDialog").addEventListener("click", event => {
       if (event.target === event.currentTarget) event.currentTarget.close();
     });
+    document.querySelectorAll("[data-workspace-tab]").forEach(button => {
+      button.addEventListener("click", () => activateWorkspace(button.dataset.workspaceTab));
+    });
+    document.querySelectorAll("[data-semi-range]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-semi-range]").forEach(item => item.classList.toggle("active", item === button));
+        semiState.range = button.dataset.semiRange;
+        semiState.series = {};
+        loadSemiDashboard();
+      });
+    });
+    document.getElementById("refreshSemiBtn").addEventListener("click", loadSemiDashboard);
+    document.getElementById("saveOpinionBtn").addEventListener("click", saveCurrentOpinion);
 
     function setupMovablePanels() {
       const columns = [...document.querySelectorAll(".main-column, .side-column")];
@@ -2228,6 +3924,13 @@
     updateClock();
     setInterval(updateClock, 1000);
     setupMovablePanels();
+    renderSemiAssetChips();
+    renderSemiSignals();
+    renderCloudCapex();
+    renderQqqDecisions();
+    renderQqqRiskDashboard();
+    document.getElementById("opinionDate").value = new Date().toISOString().slice(0, 10);
+    renderSemiOpinions();
     renderSelectors();
     renderTickers();
     (async function initialize() {
