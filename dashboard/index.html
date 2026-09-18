@@ -1232,10 +1232,7 @@
               <div class="panel-title">变化相关性</div>
               <div class="panel-note">宏观与市场混选时按月对齐，-1 至 +1</div>
             </div>
-          </div>
-          <div class="module-controls">
-            <div id="assetSelector" class="asset-selector"></div>
-            <div class="controls">
+            <div class="panel-actions">
               <div class="range" aria-label="相关性时间范围">
                 <button type="button" data-range="1d">1D</button>
                 <button type="button" data-range="1mo">1M</button>
@@ -1245,6 +1242,11 @@
                 <button type="button" data-range="10y">10Y</button>
                 <button type="button" data-range="20y">20Y</button>
               </div>
+            </div>
+          </div>
+          <div class="module-controls">
+            <div id="assetSelector" class="asset-selector"></div>
+            <div class="controls">
               <button type="button" id="refreshBtn" class="refresh-btn" title="刷新数据">刷新</button>
             </div>
           </div>
@@ -1976,7 +1978,7 @@
           secondsVisible: false,
           tickMarkFormatter: formatDisplayDate,
           rightOffset: 2,
-          minBarSpacing: .5
+          minBarSpacing: .05
         },
         handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true },
         handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: true }
@@ -3155,6 +3157,12 @@
       return [...rowsByTime.values()].sort((a, b) => a.time - b.time);
     }
 
+    function marketChartRows(key) {
+      return ASSETS[key]?.kind === "macro"
+        ? state.macroAll[key] || state.series[key]
+        : state.marketAll[key] || state.series[key];
+    }
+
     function preloadMarketHistory(key) {
       const asset = ASSETS[key];
       if (!asset || asset.kind === "macro") return Promise.resolve();
@@ -3167,6 +3175,7 @@
       ).then(rows => {
         state.marketAll[key] = mergeSeriesRows(rows, state.series[key]);
         if (state.active === key) renderMarketCandleChart();
+        if (state.selected.has(key)) renderMarketCompareChart();
         return state.marketAll[key];
       }).catch(error => {
         console.warn(`preload history ${key}`, error);
@@ -3456,11 +3465,7 @@
     function renderMarketCandleChart() {
       const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
       const activeKey = state.series[state.active]?.length ? state.active : selectedKeys[0];
-      const sourceRows = activeKey
-        ? (ASSETS[activeKey].kind === "macro"
-            ? state.macroAll[activeKey] || state.series[activeKey]
-            : state.marketAll[activeKey] || state.series[activeKey])
-        : null;
+      const sourceRows = activeKey ? marketChartRows(activeKey) : null;
       const renderKeys = [activeKey].filter(Boolean);
       const renderKey = `${activeKey || ""}:${state.klinePeriod}`;
       const cache = marketRenderCache.candle;
@@ -3527,19 +3532,20 @@
     function renderMarketCompareChart() {
       const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
       const renderKey = selectedKeys.join(",");
+      const rowsByKey = new Map(selectedKeys.map(key => [key, marketChartRows(key)]));
       const cache = marketRenderCache.compare;
       const unchanged = cache.key === renderKey &&
-        selectedKeys.every(key => cache.series.get(key) === state.series[key]);
+        selectedKeys.every(key => cache.series.get(key) === rowsByKey.get(key));
       if (unchanged && !state.resetMarketRange) return;
       cache.key = renderKey;
-      cache.series = new Map(selectedKeys.map(key => [key, state.series[key]]));
+      cache.series = rowsByKey;
 
       const chart = charts.marketCompare;
       const timeScale = chart.api.timeScale();
       const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
       const useDualPriceScales = selectedKeys.length === 2;
       const hasZeroBaseline = selectedKeys.some(key =>
-        state.series[key].find(row => Number.isFinite(row.close))?.close === 0
+        rowsByKey.get(key).find(row => Number.isFinite(row.close))?.close === 0
       );
       const useZScore = selectedKeys.length > 2 ||
         selectedKeys.some(key => ASSETS[key].kind === "macro") ||
@@ -3556,7 +3562,8 @@
       clearChart(chart);
       const legendItems = [];
       selectedKeys.forEach((key, index) => {
-        const values = state.series[key].map(x => x.close).filter(Number.isFinite);
+        const rows = rowsByKey.get(key);
+        const values = rows.map(x => x.close).filter(Number.isFinite);
         const first = values[0];
         if (!useZScore && first === 0) return;
         const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
@@ -3574,12 +3581,13 @@
             formatter: value => useZScore ? value.toFixed(1) : value.toFixed(0)
           }
         });
-        series.setData(state.series[key].map(row => ({
+        const normalizedData = rows.map(row => ({
           time: chartTime(row.time),
           value: useZScore
             ? +((row.close - mean) / deviation).toFixed(3)
             : +(row.close / first * 100).toFixed(3)
-        })));
+        }));
+        series.setData(normalizedData);
         chart.series.push(series);
         legendItems.push({
           label: useDualPriceScales
@@ -3587,6 +3595,8 @@
             : ASSETS[key].short,
           color: ASSETS[key].color,
           series,
+          data: normalizedData,
+          carryForward: true,
           formatter: data => useZScore ? data.value.toFixed(2) : data.value.toFixed(1)
         });
       });

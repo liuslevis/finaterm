@@ -134,6 +134,9 @@ def main() -> int:
         assert 'const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();' in page
         assert "if (visibleRange) timeScale.setVisibleRange(visibleRange);" in page
         assert "function renderMarketCompareChart()" in page
+        assert "const normalizedData = rows.map(row => ({" in page
+        assert "series.setData(normalizedData);" in page
+        assert "data: normalizedData," in page
         assert "const correlationState = {" in page
         assert "correlationState.selected.add(input.value)" in page
         assert "changesByPeriod(key, correlationState.series[key], monthly)" in page
@@ -142,6 +145,7 @@ def main() -> int:
         assert "function formatDisplayDate(value)" in page
         assert "timeFormatter: formatDisplayDate" in page
         assert "tickMarkFormatter: formatDisplayDate" in page
+        assert "minBarSpacing: .05" in page
         assert "function findLatestDataPoint(data, time)" in page
         assert "renderChartLegend(chart, param.seriesData, param.time)" in page
         assert "(item.carryForward ? findLatestDataPoint(item.data, time) : null)" in page
@@ -157,9 +161,12 @@ def main() -> int:
         assert "function cachedDataPoints(" in page
         assert "const marketHistoryPromises = new Map();" in page
         assert "async function preloadAllMarketDataPoints(keys)" in page
-        assert "state.marketAll[activeKey] || state.series[activeKey]" in page
+        assert "function marketChartRows(key)" in page
+        assert "const sourceRows = activeKey ? marketChartRows(activeKey) : null;" in page
         assert "await preloadMarketHistory(activeKey);" in page
         assert "void preloadMarketHistory(key);" in page
+        assert "if (state.selected.has(key)) renderMarketCompareChart();" in page
+        assert "const rowsByKey = new Map(selectedKeys.map(key => [key, marketChartRows(key)]));" in page
         assert "dataPointCache.clear()" in page
         assert "futuErrors: new Map()" in page
         assert 'setStatus("error", "Futu OpenD 连接失败 · 已回退 Yahoo")' in page

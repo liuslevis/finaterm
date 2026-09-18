@@ -20,6 +20,10 @@ INDICATORS = (
 )
 
 
+def requires_refresh(payload: dict) -> bool:
+    return bool(payload.get("ok") and payload["data"].get("is_stale"))
+
+
 async def fetch_series(server_root: str) -> dict:
     start = datetime.now(UTC) - timedelta(days=365 * 20 + 5)
     environment = dict(os.environ)
@@ -53,13 +57,6 @@ async def fetch_series(server_root: str) -> dict:
                     },
                 )
 
-            def requires_refresh(indicator_id: str, payload: dict) -> bool:
-                if indicator_id != "fed_funds_rate" or not payload.get("ok"):
-                    return False
-                observations = payload["data"].get("observations", [])
-                recent_cutoff = (datetime.now(UTC) - timedelta(days=60)).date().isoformat()
-                return sum(row["date"] >= recent_cutoff for row in observations) < 20
-
             refresh_ids = []
             for indicator_id in INDICATORS:
                 payload = await read_indicator(indicator_id)
@@ -69,7 +66,7 @@ async def fetch_series(server_root: str) -> dict:
                         continue
                     message = payload.get("error", {}).get("message", "unknown error")
                     raise RuntimeError(f"usdata MCP failed for {indicator_id}: {message}")
-                if requires_refresh(indicator_id, payload):
+                if requires_refresh(payload):
                     refresh_ids.append(indicator_id)
                 else:
                     output[indicator_id] = payload["data"]
