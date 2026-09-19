@@ -15,7 +15,6 @@ YAHOO_SYMBOLS = {
     "BTC": "BTC-USD",
     "GOLD": "GC=F",
     "QQQ": "QQQ",
-    "CSI300": "000300.SS",
     "NASDAQ": "^IXIC",
 }
 

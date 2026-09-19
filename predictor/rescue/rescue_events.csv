@@ -1,0 +1,17 @@
+event_date,cluster_id,category,core_event,institution,title,asset_scope,asset_symbols,mapping_quality,source_url,note
+2023-10-11,2023-10-11-huijin-banks,confirmed_purchase,1,中央汇金,增持四大国有银行A股,银行股,601398|601288|601988|601939,exact,https://www.huijin-inv.cn/huijin-inv/c100074/2023-10/1002221.shtml,已在二级市场增持并承诺未来六个月继续增持
+2023-10-23,2023-10-23-huijin-etf,confirmed_purchase,1,中央汇金,买入交易型开放式指数基金,宽基ETF,510050|510300|510500|512100|588000,proxy,https://www.huijin-inv.cn/huijin-inv/c100074/2023-10/1002226.shtml,公告未披露产品明细；用五只核心宽基ETF代理
+2023-12-01,2023-12-01-guoxin-etf,confirmed_purchase,1,中国国新旗下国新投资,增持央企科技类指数基金,央企科技ETF,560170,exact_secondary,https://www.crhc.cn/qygg/2023/12/a97c8ecf60774265a5cd119045dfa2c8.htm,官网未列代码；公开成交报道指向南方央企科技ETF
+2024-01-28,2024-01-28-short-lending,regulatory_stabilization,0,中国证监会,全面暂停限售股出借,A股市场,510300,proxy,https://www.csrc.gov.cn/csrc/c100028/c7459730/content.shtml,制度措施以沪深300ETF代表市场表现
+2024-02-06,2024-02-06-stabilization,confirmed_purchase,1,中央汇金,扩大ETF增持范围和规模,宽基ETF,510050|510300|510500|512100|588000,proxy,https://www.huijin-inv.cn/huijin-inv/c100077/2024-02/1002262.shtml,公告未披露产品明细；用五只核心宽基ETF代理
+2024-02-06,2024-02-06-stabilization,regulatory_stabilization,0,中国证监会,暂停新增转融券规模,A股市场,510300,proxy,https://www.csrc.gov.cn/csrc/c100028/c7462169/content.shtml,与汇金公告同属一个事件簇
+2024-07-10,2024-07-10-short-lending,regulatory_stabilization,0,中国证监会,批准暂停转融券业务,A股市场,510300,proxy,https://www.csrc.gov.cn/csrc/c100028/c7493852/content.shtml,7月11日起实施并提高融券保证金比例
+2024-09-13,2024-09-13-guoxin-etf,confirmed_purchase,1,中国国新旗下国新投资,增持央企科技类指数基金,央企科技ETF,560170|563050|562380,exact_family,https://www.crhc.cn/qygg/2024/9/4eb5837c20ca422f8bb3c799c364c40d.htm,公告披露指数基金类别；使用同指数三只ETF
+2024-10-17,2024-10-capital-tools,liquidity_facility,0,中国人民银行等三部门,设立股票回购增持再贷款,A股市场,510300,proxy,https://www.gov.cn/zhengce/zhengceku/202410/content_6981220.htm,工具适用全市场；以沪深300ETF代表
+2024-10-18,2024-10-capital-tools,liquidity_facility,0,中国人民银行和中国证监会,正式启动证券基金保险公司互换便利,股票和股票ETF,510300,proxy,https://www.gov.cn/lianbo/bumen/202410/content_6981211.htm,与再贷款合并为同一政策工具事件簇
+2025-04-07,2025-04-07-joint-stabilization,confirmed_purchase,1,中央汇金,再次增持ETF,宽基ETF,510050|510300|510500|512100|588000,proxy,https://www.huijin-inv.cn/huijin-inv/SC20252/2025-04/1002841.shtml,公告未披露产品明细；用五只核心宽基ETF代理
+2025-04-07,2025-04-07-joint-stabilization,confirmed_purchase,1,中国诚通旗下诚通金控和诚旸投资,增持ETF和央企股票,央企ETF和央企股票,561790|510060,proxy_secondary,https://www.cctgroup.com.cn/cctgroup/2025-04/07/article_2025052219311019648.html,官网未列代码；央企现代能源ETF由公开报道指向并加央企ETF代理
+2025-04-08,2025-04-07-joint-stabilization,confirmed_purchase,1,中国诚通旗下诚通金控和诚旸投资,继续大额增持ETF和央企股票,央企ETF和央企股票,561790|510060,proxy_secondary,https://www.cctgroup.com.cn/cctgroup/2025-04/08/article_2025052219311119059.html,连续行动与前一日使用同一标的代理
+2025-04-08,2025-04-07-joint-stabilization,committed_purchase,1,中国国新旗下国新投资,宣布以专项再贷款增持,央企股票和科技股票及ETF,510060|560170|588000,proxy,https://www.crhc.cn/rmzx/tzggs/2025/4/b74695bf20e44de58a97e6dc9cab6ea1.htm,原文未列明细且为将增持；用央企与科技ETF代理
+2026-07-19,2026-07-19-central-soe-purchases,confirmed_purchase,1,中国诚通及所属平台,累计买入近百亿元中国股票资产,央企和科技企业股票,510060|560170|588000,proxy,https://www.cctgroup.com.cn/cctgroup/2026-07/19/article_2026071922183814028.html,公告未列证券明细；用央企与科技ETF代理
+2026-07-19,2026-07-19-central-soe-purchases,confirmed_purchase,1,中国国新旗下国新投资相关主体,已使用再贷款及配套资金超500亿元,中央企业股票,510060,proxy,https://www.crhc.cn/rmzx/tzggs/2026/7/7b8c4ecaa1184480ae758621f455c6e9.htm,公告未列证券明细；用央企ETF代理

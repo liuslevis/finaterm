@@ -15,6 +15,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import akshare as ak
+
 
 mimetypes.add_type("text/javascript", ".js")
 
@@ -27,7 +29,7 @@ FUTU_PYTHON = FUTU_ROOT / ".venv" / "Scripts" / "python.exe"
 FUTU_KLINE = FUTU_ROOT / "skills" / "futuapi" / "scripts" / "quote" / "get_kline.py"
 USDATA_PYTHON = USDATA_ROOT / ".venv" / "Scripts" / "python.exe"
 USDATA_BRIDGE = ROOT / "usdata_mcp_bridge.py"
-SERVER_ID = "finance-dashboard-uv-v1"
+SERVER_ID = "finance-dashboard-uv-v2"
 ALLOWED_HOSTS = {
     "query1.finance.yahoo.com",
     "economic-calendar.tradingview.com",
@@ -194,6 +196,51 @@ def fetch_usdata() -> dict:
     return payload
 
 
+AKSHARE_INDEX_SYMBOLS = {"sh000300"}
+AKSHARE_RANGE_DAYS = {
+    "1d": 10,
+    "1mo": 40,
+    "6mo": 190,
+    "1y": 370,
+    "5y": 365 * 5 + 5,
+    "10y": 365 * 10 + 10,
+    "20y": 365 * 20 + 20,
+}
+
+
+def fetch_akshare_index(symbol: str, range_key: str) -> dict:
+    if symbol not in AKSHARE_INDEX_SYMBOLS or range_key not in AKSHARE_RANGE_DAYS:
+        raise ValueError("Unsupported AKShare index or range")
+
+    end = datetime.now()
+    start = end - timedelta(days=AKSHARE_RANGE_DAYS[range_key])
+    frame = ak.stock_zh_index_daily_tx(
+        symbol=symbol,
+        start_date=start.strftime("%Y%m%d"),
+        end_date=end.strftime("%Y%m%d"),
+    )
+    timezone = ZoneInfo("Asia/Shanghai")
+    rows = [
+        {
+            "time": int(
+                datetime.combine(item.date, datetime.min.time())
+                .replace(tzinfo=timezone)
+                .timestamp()
+                * 1000
+            ),
+            "open": float(item.open),
+            "close": float(item.close),
+            "high": float(item.high),
+            "low": float(item.low),
+            "volume": float(item.amount),
+        }
+        for item in frame.itertuples(index=False)
+    ]
+    if not rows:
+        raise RuntimeError(f"AKShare returned no data for {symbol}")
+    return {"provider": "akshare", "symbol": symbol, "rows": rows}
+
+
 class DashboardHandler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
@@ -241,6 +288,10 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
         if request.path == "/api/futu":
             self.handle_futu(request)
+            return
+
+        if request.path == "/api/akshare":
+            self.handle_akshare(request)
             return
 
         if request.path == "/api/usdata":
@@ -300,6 +351,24 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_json_error(504, "FutuOpenD request timed out")
         except Exception as error:
             self.send_json_error(502, f"FutuOpenD unavailable: {error}")
+
+    def handle_akshare(self, request: urllib.parse.ParseResult) -> None:
+        values = urllib.parse.parse_qs(request.query)
+        symbol = (values.get("symbol") or [""])[0]
+        range_key = (values.get("range") or [""])[0]
+        try:
+            body = cached_json(
+                f"akshare:index:{symbol}:{range_key}",
+                60,
+                lambda: fetch_akshare_index(symbol, range_key),
+            )
+            self.send_body(200, body, "application/json; charset=utf-8")
+        except ValueError as error:
+            self.send_json_error(400, str(error))
+        except (urllib.error.URLError, TimeoutError, socket.timeout):
+            self.send_json_error(504, "AKShare data source timed out")
+        except Exception as error:
+            self.send_json_error(502, f"AKShare unavailable: {error}")
 
     def handle_usdata(self) -> None:
         try:

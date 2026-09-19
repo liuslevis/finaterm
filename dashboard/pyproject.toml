@@ -3,5 +3,9 @@ name = "finance-dashboard"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
+    "akshare",
     "tzdata>=2025.2",
 ]
+
+[tool.uv.sources]
+akshare = { path = "../akshare", editable = true }

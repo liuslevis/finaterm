@@ -65,6 +65,12 @@ def main() -> int:
         assert '["economy", "Economy"]' in page
         assert '["options", "Options"]' in page
         assert 'async function loadAssetSeries' in page
+        assert 'akshareSymbol: "sh000300"' in page
+        assert 'chartType: "candlestick"' in page
+        assert "async function fetchAkshareMarket(asset, range)" in page
+        assert "if (state.active !== key) state.resetMarketRange = true;" in page
+        assert "function fitMarketRange(timeScale, keys)" in page
+        assert "else fitMarketRange(timeScale, [activeKey]);" in page
         assert 'data-module-id="market"' in page
         assert 'data-module-id="correlation"' in page
         assert 'data-module-id="market-compare"' in page
@@ -131,6 +137,11 @@ def main() -> int:
         assert "selectedKeys.length > 2" in page
         assert "hasZeroBaseline" in page
         assert "function renderMarketCandleChart()" in page
+        assert "function ohlcChartRows(rows)" in page
+        assert 'const useCandlesticks = asset.chartType === "candlestick" || asset.kind !== "macro";' in page
+        assert "function volumeChartRows(rows)" in page
+        assert "LightweightCharts.HistogramSeries" in page
+        assert 'priceScaleId: "volume"' in page
         assert 'const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();' in page
         assert "if (visibleRange) timeScale.setVisibleRange(visibleRange);" in page
         assert "function renderMarketCompareChart()" in page
@@ -199,7 +210,7 @@ def main() -> int:
             assert rows and all(row.get("close") is not None for row in rows)
             print(f"PASS Futu OpenD {asset}")
 
-        for name in ("RMBUSD", "GOLD", "CSI300", "NASDAQ"):
+        for name in ("RMBUSD", "GOLD", "NASDAQ"):
             symbol = YAHOO_SYMBOLS[name]
             encoded_symbol = urllib.parse.quote(symbol, safe="")
             upstream = (
@@ -214,6 +225,12 @@ def main() -> int:
             )
             assert any(value is not None for value in closes), f"{name}: no proxy data"
             print(f"PASS proxy {name}")
+
+        csi300 = json.loads(get(f"{base}/api/akshare?symbol=sh000300&range=1mo"))
+        assert csi300.get("provider") == "akshare"
+        assert len(csi300.get("rows") or []) > 1
+        assert all(row.get("close") is not None for row in csi300["rows"])
+        print("PASS AKShare CSI300")
 
         usdata = json.loads(get(f"{base}/api/usdata"))
         assert usdata.get("provider") == "usdata-mcp"

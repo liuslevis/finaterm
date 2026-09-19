@@ -1762,7 +1762,7 @@
       meta: { name: "Meta", short: "META", category: "stocks", symbol: "META", digits: 2, prefix: "$", color: "#5b8def" },
       amzn: { name: "亚马逊", short: "AMZN", category: "stocks", symbol: "AMZN", digits: 2, prefix: "$", color: "#f3a847" },
       googl: { name: "Alphabet", short: "GOOGL", category: "stocks", symbol: "GOOGL", digits: 2, prefix: "$", color: "#4285f4" },
-      csi300: { name: "沪深 300", short: "CSI300", category: "stocks", symbol: "000300.SS", digits: 2, color: "#ff6577" },
+      csi300: { name: "沪深 300", short: "CSI300", category: "stocks", symbol: "000300.SS", akshareSymbol: "sh000300", chartType: "candlestick", digits: 2, color: "#ff6577" },
       nasdaq: { name: "纳斯达克综指", short: "NASDAQ", category: "stocks", symbol: "^IXIC", digits: 2, color: "#a889ff" },
       sp500: { name: "标普 500 指数", short: "S&P 500", category: "stocks", symbol: "^GSPC", digits: 2, color: "#4fc3f7" },
       dow: { name: "道琼斯工业指数", short: "DJIA", category: "stocks", symbol: "^DJI", digits: 2, color: "#42a5f5" },
@@ -2805,6 +2805,7 @@
         card.addEventListener("click", () => {
           if (card.dataset.dragged === "true") return;
           const key = card.dataset.key;
+          if (state.active !== key) state.resetMarketRange = true;
           state.active = key;
           void preloadMarketHistory(key);
           renderAll();
@@ -2896,6 +2897,7 @@
     function tickerDataSource(asset) {
       if (asset.source === "usdata" || asset.usdataId) return "USData";
       if (asset.source === "calendar-history") return "TradingView";
+      if (asset.akshareSymbol) return "AKShare";
       if (asset.futu) return "Futu / Yahoo";
       return "Yahoo Finance";
     }
@@ -2914,6 +2916,8 @@
           sources.add("USData");
         } else if (asset?.source === "calendar-history") {
           sources.add("TradingView");
+        } else if (asset?.akshareSymbol) {
+          sources.add("AKShare");
         } else if (servedLocally && asset?.futu && !state.futuErrors.has(result.key)) {
           sources.add("Futu OpenD");
         } else if (asset) {
@@ -2965,6 +2969,19 @@
       };
     }
 
+    async function fetchAkshareMarket(asset, range) {
+      const response = await fetch(
+        `/api/akshare?symbol=${encodeURIComponent(asset.akshareSymbol)}&range=${encodeURIComponent(range)}`,
+        { cache: "no-store" }
+      );
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+      if (!Array.isArray(payload.rows) || !payload.rows.length) {
+        throw new Error(`${asset.name} 无 AKShare 数据`);
+      }
+      return payload.rows.filter(row => Number.isFinite(row.close));
+    }
+
     async function fetchYahoo(key, asset, range = state.range) {
       return cachedDataPoints(`market:${key}:${range}`, async () => {
         const servedLocally = ["localhost", "127.0.0.1"].includes(location.hostname);
@@ -2988,6 +3005,7 @@
             state.futuErrors.set(key, error.message);
           }
         }
+        if (asset.akshareSymbol) return fetchAkshareMarket(asset, range);
         const option = RANGE_OPTIONS[range];
         const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(asset.symbol)}?range=${option.range}&interval=${option.interval}&includePrePost=false&events=div%2Csplits`;
         const response = await fetchWithFallback(url);
@@ -3462,6 +3480,53 @@
       };
     }
 
+    function fitMarketRange(timeScale, keys) {
+      const timestamps = keys.flatMap(key => {
+        const rows = state.series[key] || [];
+        return rows.length > 1 ? [rows[0].time, rows[rows.length - 1].time] : [];
+      });
+      if (!timestamps.length) {
+        timeScale.fitContent();
+        return;
+      }
+      timeScale.setVisibleRange({
+        from: chartTime(Math.min(...timestamps)),
+        to: chartTime(Math.max(...timestamps))
+      });
+    }
+
+    function ohlcChartRows(rows) {
+      return rows.map(row => ({
+        time: chartTime(Number(row.time)),
+        open: Number(row.open),
+        high: Number(row.high),
+        low: Number(row.low),
+        close: Number(row.close)
+      })).filter(row =>
+        Number.isFinite(row.time) &&
+        [row.open, row.high, row.low, row.close].every(Number.isFinite) &&
+        row.high >= Math.max(row.open, row.close) &&
+        row.low <= Math.min(row.open, row.close)
+      );
+    }
+
+    function volumeChartRows(rows) {
+      return rows.map(row => ({
+        time: chartTime(Number(row.time)),
+        value: Number(row.volume),
+        color: Number(row.close) >= Number(row.open) ? "#ff657780" : "#32d49a80"
+      })).filter(row => Number.isFinite(row.time) && Number.isFinite(row.value));
+    }
+
+    function formatVolume(value) {
+      const amount = Number(value);
+      if (!Number.isFinite(amount)) return "";
+      if (Math.abs(amount) >= 1e9) return `${(amount / 1e9).toFixed(2)}B`;
+      if (Math.abs(amount) >= 1e6) return `${(amount / 1e6).toFixed(2)}M`;
+      if (Math.abs(amount) >= 1e3) return `${(amount / 1e3).toFixed(2)}K`;
+      return amount.toFixed(0);
+    }
+
     function renderMarketCandleChart() {
       const selectedKeys = [...state.selected].filter(key => state.series[key]?.length);
       const activeKey = state.series[state.active]?.length ? state.active : selectedKeys[0];
@@ -3488,7 +3553,9 @@
       document.getElementById("chartTitle").textContent =
         `${asset.name} · ${asset.kind === "macro" ? "历史走势" : KLINE_PERIODS[state.klinePeriod].label}`;
       const rows = aggregateKlineRows(sourceRows);
-      const series = asset.kind === "macro"
+      const useCandlesticks = asset.chartType === "candlestick" || asset.kind !== "macro";
+      const volumeData = useCandlesticks ? volumeChartRows(rows) : [];
+      const series = !useCandlesticks
         ? charts.market.api.addSeries(LightweightCharts.AreaSeries, {
             lineColor: asset.color,
             topColor: `${asset.color}30`,
@@ -3504,28 +3571,42 @@
             wickDownColor: "#32d49a",
             priceFormat: priceFormat(activeKey)
           });
-      series.setData(asset.kind === "macro"
-        ? rows.map(row => ({ time: chartTime(row.time), value: row.close }))
-        : rows.filter(row => [row.open, row.high, row.low, row.close].every(Number.isFinite))
-          .map(row => ({
-            time: chartTime(row.time),
-            open: row.open,
-            high: row.high,
-            low: row.low,
-            close: row.close
-          })));
+      series.setData(useCandlesticks
+        ? ohlcChartRows(rows)
+        : rows.map(row => ({ time: chartTime(row.time), value: row.close })));
       charts.market.series.push(series);
-      setChartLegend(charts.market, [{
+      const legendItems = [{
         label: asset.name,
         color: asset.color,
         series,
         formatter: data => "value" in data
           ? formatValue(activeKey, data.value)
           : `O ${formatValue(activeKey, data.open)}  H ${formatValue(activeKey, data.high)}  L ${formatValue(activeKey, data.low)}  C ${formatValue(activeKey, data.close)}`
-      }]);
+      }];
+      if (volumeData.length) {
+        series.priceScale().applyOptions({ scaleMargins: { top: .08, bottom: .28 } });
+        const volumeSeries = charts.market.api.addSeries(LightweightCharts.HistogramSeries, {
+          priceScaleId: "volume",
+          priceFormat: { type: "volume" },
+          priceLineVisible: false,
+          lastValueVisible: false
+        });
+        volumeSeries.priceScale().applyOptions({
+          scaleMargins: { top: .78, bottom: 0 }
+        });
+        volumeSeries.setData(volumeData);
+        charts.market.series.push(volumeSeries);
+        legendItems.push({
+          label: "成交量",
+          color: "#718796",
+          series: volumeSeries,
+          formatter: data => formatVolume(data.value)
+        });
+      }
+      setChartLegend(charts.market, legendItems);
       state.marketRangeChangeBlockedUntil = performance.now() + 300;
       if (visibleRange) timeScale.setVisibleRange(visibleRange);
-      else timeScale.fitContent();
+      else fitMarketRange(timeScale, [activeKey]);
       state.marketLogicalRange = timeScale.getVisibleLogicalRange();
     }
 
@@ -3602,7 +3683,7 @@
       });
       setChartLegend(chart, legendItems);
       if (visibleRange) timeScale.setVisibleRange(visibleRange);
-      else timeScale.fitContent();
+      else fitMarketRange(timeScale, selectedKeys);
     }
 
     function renderMarketCharts() {
