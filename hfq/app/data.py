@@ -315,11 +315,23 @@ class StockData:
             o = agg["orders"][0]
             filled = sum(t["qty"] for t in agg["trades"])
             canceled = sum(c["qty"] for c in agg["cancels"])
+            consumed = 0
+            end_t = 0
+            end_type = ""
+            lifecycle = sorted(agg["trades"] + agg["cancels"],
+                               key=lambda e: (e["t"], e["aseq"]))
+            for event in lifecycle:
+                consumed += event["qty"]
+                if consumed >= o["qty"]:
+                    end_t = event["t"]
+                    end_type = event["type"]
+                    break
             self.orders_summary.append({
                 "t": o["t"], "order_id": oid, "side": o["side"],
                 "price": o["price"], "qty": o["qty"],
                 "filled": filled, "canceled": canceled,
                 "remain": max(o["qty"] - filled - canceled, 0),
+                "end_t": end_t, "end_type": end_type,
             })
         self.orders_summary.sort(key=lambda x: (x["t"], x["order_id"]))
 

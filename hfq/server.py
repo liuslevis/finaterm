@@ -155,15 +155,17 @@ class Handler(BaseHTTPRequestHandler):
             min_qty = _iopt(self._get(q, "min_qty"))
             max_qty = _iopt(self._get(q, "max_qty"))
             buy, sell = [], []
-            for e in sd.events:
-                if e["type"] != "委托" or e["price"] <= 0:
+            for order in sd.orders_summary:
+                if order["price"] <= 0:
                     continue
-                if min_qty is not None and e["qty"] < min_qty:
+                if min_qty is not None and order["qty"] < min_qty:
                     continue
-                if max_qty is not None and e["qty"] > max_qty:
+                if max_qty is not None and order["qty"] > max_qty:
                     continue
-                rec = [day_ms(e["t"]), e["price"], e["qty"], e["order_id"]]
-                (buy if e["side"] == "买" else sell).append(rec)
+                end_t = day_ms(order["end_t"]) if order["end_t"] else 0
+                rec = [day_ms(order["t"]), order["price"], order["qty"],
+                       order["order_id"], end_t, order["end_type"]]
+                (buy if order["side"] == "买" else sell).append(rec)
             return self._json({"code": code, "buy": buy, "sell": sell,
                                "basic": sd.basic})
 
@@ -290,7 +292,13 @@ def _region_stats(sd, ts, te):
 def main():
     print(f"hfq LV2 终端启动：http://{HOST}:{PORT}  (交易日 {', '.join(data.DATES) or data.DEFAULT_DATE})")
     print("首次加载某只股票会从归档抽取并解析，稍候几秒。")
-    ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
+    server = ThreadingHTTPServer((HOST, PORT), Handler)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\n收到中断，服务已停止。")
+    finally:
+        server.server_close()
 
 
 if __name__ == "__main__":

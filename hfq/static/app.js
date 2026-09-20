@@ -352,7 +352,23 @@ const dayMs = (t) => {                      // HHMMSSmmm -> 当日毫秒
     s = Math.floor(t / 1e3) % 100, ms = t % 1000;
   return ((h * 60 + m) * 60 + s) * 1000 + ms;
 };
+const OPEN_MS = dayMs(93000000);            // 连续竞价开始（09:30）
+let HEAT_BAND_W = 0;                         // 盘前时间带宽度（毫秒）
+const HEAT_PRICE_TICK = 0.01;               // 热力单元价格高度
+function heatRenderItem(params, api) {
+  const [cx, cy] = api.coord([api.value(0), api.value(1)]);
+  const wPix = Math.abs(api.size([HEAT_BAND_W * 0.42, 0])[0]);
+  const hPix = Math.max(Math.abs(api.size([0, HEAT_PRICE_TICK])[1]), 3);
+  const base = api.value(3) === 0 ? "47,207,143" : "255,95,109";
+  const alpha = (0.12 + 0.8 * api.value(2)).toFixed(3);
+  return {
+    type: "rect",
+    shape: { x: cx - wPix / 2, y: cy - hPix / 2, width: wPix, height: hPix },
+    style: { fill: `rgba(${base},${alpha})` },
+  };
+}
 async function loadMap() {
+  pausePlay();
   $("#rightTitle").textContent = "十档盘口";
   const [d, lad, bk] = await Promise.all([
     api("ordermap", { code: state.code, min_qty: $("#mapMin").value, max_qty: $("#mapMax").value }),
@@ -360,39 +376,51 @@ async function loadMap() {
     api("books", { code: state.code }),
   ]);
   state.ladder = lad.ladder; state.books = bk;
+  state.mapBuy = d.buy; state.mapSell = d.sell;
+  HEAT_BAND_W = OPEN_MS - dayMs(91500000);
   if (!mapChart) mapChart = echarts.init($("#mapChart"), "dark");
-  const buy = d.buy, sell = d.sell;   // 服务端已输出 [日内毫秒, 价, 量, 委托号]
+  const buy = d.buy, sell = d.sell;   // [委托毫秒, 价, 量, 委托号, 结束毫秒, 结束类型]
   let sizeMax = 1;
   for (let i = 0; i < buy.length; i++) if (buy[i][2] > sizeMax) sizeMax = buy[i][2];
   for (let i = 0; i < sell.length; i++) if (sell[i][2] > sizeMax) sizeMax = sell[i][2];
-  const sym = (v) => 4 + 22 * Math.sqrt(v[2] / sizeMax);
+  state.mapSizeMax = sizeMax;
+  const sym = (v) => 4 + 22 * Math.sqrt(v[2] / state.mapSizeMax);
+  let priceMin = Infinity, priceMax = -Infinity;
+  buy.concat(sell).forEach((p) => {
+    if (p[1] < priceMin) priceMin = p[1];
+    if (p[1] > priceMax) priceMax = p[1];
+  });
+  if (!Number.isFinite(priceMin)) { priceMin = 0; priceMax = 1; }
+  const pricePad = Math.max((priceMax - priceMin) * .03, .01);
   mapChart.setOption({
     backgroundColor: "transparent",
+    animationDurationUpdate: 0,   // 禁用更新过渡，避免散点按下标匹配产生漂移
     grid: { left: 55, right: 20, top: 20, bottom: 40 },
     tooltip: {
       formatter: (p) => `价格 ${p.value[1].toFixed(2)}<br>委托量 ${fmtNum(p.value[2])}股<br>委托号 ${p.value[3]}<br>${fmtHMS(p.value[0])}`,
     },
     xAxis: { type: "value", min: dayMs(91500000), max: dayMs(150000000),
       axisLabel: { formatter: fmtHMS, color: "#8196a5" }, splitLine: { show: false } },
-    yAxis: { scale: true, axisLabel: { color: "#8196a5" },
+    yAxis: { scale: true, min: priceMin - pricePad, max: priceMax + pricePad,
+      axisLabel: { color: "#8196a5" },
       splitLine: { lineStyle: { color: "#16242f" } } },
-    dataZoom: [{ type: "inside" }, { type: "inside", orient: "vertical" }],
+    dataZoom: [{ type: "inside", xAxisIndex: 0, filterMode: "none" }],
     series: [
-      { name: "委托买入", type: "scatterGL", data: buy, symbolSize: sym,
+      { name: "委托买入", type: "scatterGL", data: [], symbolSize: sym,
         itemStyle: { color: "#2fcf8f", opacity: .5 } },
-      { name: "委托卖出", type: "scatterGL", data: sell, symbolSize: sym,
+      { name: "委托卖出", type: "scatterGL", data: [], symbolSize: sym,
         itemStyle: { color: "#ff5f6d", opacity: .5 } },
+      { name: "撮合完成", type: "effectScatter", data: [], silent: true,
+        symbolSize: sym, rippleEffect: { scale: 2.4, brushType: "stroke", number: 2 },
+        itemStyle: { opacity: .85 } },
+      { name: "盘前热力", type: "custom", data: [], silent: true, z: 1,
+        encode: { x: 0, y: 1 }, renderItem: heatRenderItem },
       { name: "_cursor", type: "scatter", data: [], silent: true },
     ],
   }, true);
   mapChart.getZr().off("mousemove");
-  mapChart.getZr().on("mousemove", (e) => {
-    if (playTimer) return;
-    const pt = mapChart.convertFromPixel({ gridIndex: 0 }, [e.offsetX, e.offsetY]);
-    if (pt) { clearTimeout(mapChart._tm); mapChart._tm = setTimeout(() =>
-      mapSetTime(msToHMS(pt[0]) / 1000, true), 120); }
-  });
-  mapSetTime(150000, false);
+  lastMapPointT = 0;
+  mapSetTime(91500, false, true);
 }
 $("#mapApply").onclick = () => loadMap();
 
@@ -445,6 +473,7 @@ function renderLadder(bk) {
 
 // 回放引擎
 let playTimer = null, playT = 150000, lastTblT = 0;
+let lastMapPointT = 0, mapExitTimer = null;
 const hmsToSec = (v) => Math.floor(v / 10000) * 3600 + Math.floor(v / 100) % 100 * 60 + v % 100;
 const secToHms = (t) => { t = Math.max(0, Math.round(t)); return Math.floor(t / 3600) * 10000 + Math.floor(t / 60) % 60 * 100 + t % 60; };
 function addSec(hms, sec) {
@@ -452,15 +481,65 @@ function addSec(hms, sec) {
   if (r > 113000 && r < 130000) r = 130000;   // 跳过午休
   return r;
 }
-function mapSetTime(hms, fromUser) {
+function preMarketHeatData(tt) {
+  const agg = new Map();
+  const consume = (points, key) => {
+    for (const p of points) {
+      if (p[0] > tt || p[0] >= OPEN_MS) continue;   // 只取盘前、已到达的委托
+      if (p[4] && p[4] <= tt) continue;             // 已撮合/撤单的剔除
+      const cur = agg.get(p[1]) || { buy: 0, sell: 0 };
+      cur[key] += p[2];
+      agg.set(p[1], cur);
+    }
+  };
+  consume(state.mapBuy, "buy");
+  consume(state.mapSell, "sell");
+  let maxQ = 1;
+  agg.forEach((v) => { maxQ = Math.max(maxQ, v.buy, v.sell); });
+  const bandStart = dayMs(91500000);
+  const buyX = bandStart + HEAT_BAND_W * 0.25, sellX = bandStart + HEAT_BAND_W * 0.75;
+  const cells = [];
+  agg.forEach((v, price) => {
+    if (v.buy) cells.push([buyX, price, v.buy / maxQ, 0]);
+    if (v.sell) cells.push([sellX, price, v.sell / maxQ, 1]);
+  });
+  return cells;
+}
+function updateMapOrderPoints(tt, animate) {
+  if (!mapChart || !state.mapBuy || !state.mapSell) return;
+  let exits = [];
+  const active = (points) => points.filter((p) => p[0] <= tt && (!p[4] || p[4] > tt));
+  const buy = active(state.mapBuy);          // 委托圆圈：盘前、盘中均逐笔显示
+  const sell = active(state.mapSell);
+  if (animate && tt > lastMapPointT) {
+    const from = Math.max(lastMapPointT, OPEN_MS);
+    const ended = (points, color) => points
+      .filter((p) => p[4] && p[4] > from && p[4] <= tt)
+      .map((p) => ({ value: p, itemStyle: { color } }));
+    exits = ended(state.mapBuy, "#2fcf8f").concat(ended(state.mapSell, "#ff5f6d"));
+  }
+  // 游标 markLine 与散点合并到同一次渲染，避免时间轴与委托点不同步
+  mapChart.setOption({ series: [
+    { data: buy }, { data: sell }, { data: exits }, { data: [] },
+    { markLine: {
+      silent: true, symbol: "none", label: { show: false },
+      lineStyle: { color: "#f2b84b", width: 1 }, data: [{ xAxis: tt }] } },
+  ] });
+  clearTimeout(mapExitTimer);
+  if (exits.length) {
+    mapExitTimer = setTimeout(() => {
+      if (mapChart) mapChart.setOption({ series: [{}, {}, { data: [] }] });
+    }, 420);
+  }
+  lastMapPointT = tt;
+}
+function mapSetTime(hms, fromUser, forcePoints = false) {
   playT = hms;
   $("#mapScrubT").textContent = scrubFmt(hms);
   syncLocSelects(hms);
-  const tt = hms * 1000, bk = bookObjAt(tt);
+  const tt = hms * 1000, ttMs = dayMs(tt), bk = bookObjAt(tt);
   if (bk) { renderBookPanel(bk, `盘口 @ ${bk.time}`); renderLadder(bk); }
-  if (mapChart) mapChart.setOption({ series: [{}, {}, { markLine: {
-    silent: true, symbol: "none", label: { show: false },
-    lineStyle: { color: "#f2b84b", width: 1 }, data: [{ xAxis: tt }] } }] });
+  updateMapOrderPoints(ttMs, Boolean(playTimer) && ttMs > lastMapPointT);
   const now = Date.now();
   if (fromUser || now - lastTblT > 700) {
     lastTblT = now; const e = String(hms).padStart(6, "0") + "000";
@@ -472,9 +551,9 @@ function pausePlay() {
   if (playTimer) clearInterval(playTimer);
   playTimer = null; $("#mapPlay").textContent = "▶ 启动"; $("#mapPlay").classList.remove("active");
 }
-$("#mapPlay").onclick = () => {
-  if (playTimer) { pausePlay(); return; }
-  if (playT >= 150000) mapSetTime(91500, true);
+function startMapPlay() {
+  if (playTimer) return;
+  if (playT >= 150000) mapSetTime(91500, true, true);
   $("#mapPlay").textContent = "⏸ 暂停"; $("#mapPlay").classList.add("active");
   playTimer = setInterval(() => {
     const spd = Number($("#mapSpeed").value);
@@ -482,8 +561,36 @@ $("#mapPlay").onclick = () => {
     if (nt >= 150000) { mapSetTime(150000); pausePlay(); return; }
     mapSetTime(nt);
   }, 100);
-};
-$("#mapReset").onclick = () => { pausePlay(); mapSetTime(91500, true); };
+}
+$("#mapPlay").onclick = () => { if (playTimer) pausePlay(); else startMapPlay(); };
+$("#mapReset").onclick = () => { pausePlay(); mapSetTime(91500, true, true); };
+
+// 键盘控制：空格 暂停/继续，←→ 时间轴，↑↓ 倍速
+function mapStepTime(dir) {
+  pausePlay();
+  const spd = Number($("#mapSpeed").value);
+  const step = Math.max(1, Math.round(spd / 10));
+  let nt = secToHms(hmsToSec(playT) + dir * step);
+  if (nt > 113000 && nt < 130000) nt = dir >= 0 ? 130000 : 113000;
+  nt = Math.min(150000, Math.max(91500, nt));
+  mapSetTime(nt, true);
+}
+function mapChangeSpeed(dir) {
+  const sel = $("#mapSpeed");
+  sel.selectedIndex = Math.min(sel.options.length - 1, Math.max(0, sel.selectedIndex + dir));
+}
+document.addEventListener("keydown", (e) => {
+  if (!state.code || !$("#view-map").classList.contains("on")) return;
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "select" || tag === "textarea") return;
+  switch (e.key) {
+    case " ": e.preventDefault(); if (playTimer) pausePlay(); else startMapPlay(); break;
+    case "ArrowRight": e.preventDefault(); mapStepTime(1); break;
+    case "ArrowLeft": e.preventDefault(); mapStepTime(-1); break;
+    case "ArrowUp": e.preventDefault(); mapChangeSpeed(1); break;
+    case "ArrowDown": e.preventDefault(); mapChangeSpeed(-1); break;
+  }
+});
 
 // 委托明细表（委托时间/编号/数量/已成交/已撤单）
 async function renderOrders(wrapId, side, title, start, end) {
@@ -519,7 +626,7 @@ function syncLocSelects(hms) {
 $("#mapLocBtn").onclick = () => {
   pausePlay();
   const h = Number($("#mapLocH").value), m = Number($("#mapLocM").value), s = Number($("#mapLocS").value);
-  mapSetTime(h * 10000 + m * 100 + s, true);
+  mapSetTime(h * 10000 + m * 100 + s, true, true);
 };
 const fmtHMS = (ms) => {
   const s = Math.floor(ms / 1000); const h = Math.floor(s / 3600),
@@ -533,9 +640,22 @@ const msToHMS = (ms) => {                   // -> HHMMSSmmm 供后端
 };
 
 // ---------------------------------------------------------------- 逐笔 / 分时
+let tickTimer = null, tickTableTimer = null;
 async function loadTick() {
   $("#rightTitle").textContent = "十档盘口";
-  const d = await api("intraday", { code: state.code });
+  stopTickPlay();
+  const [d, books] = await Promise.all([
+    api("intraday", { code: state.code }),
+    api("books", { code: state.code }),
+  ]);
+  state.tickPoints = d.points;
+  state.books = books;
+  state.tickRange = null;
+  state.tickSelecting = false;
+  $("#regionBtn").disabled = true;
+  $("#regionClear").disabled = true;
+  $("#regionSelect").classList.remove("active");
+  $("#regionStatus").textContent = "点击“框选区间”，再在分时图上横向拖拽；松开后立即应用到三联表。";
   if (!tickChart) tickChart = echarts.init($("#tickChart"), "dark");
   const times = d.points.map((p) => p.time.slice(0, 8));
   const price = d.points.map((p) => p.price);
@@ -545,6 +665,10 @@ async function loadTick() {
     backgroundColor: "transparent",
     axisPointer: { link: [{ xAxisIndex: "all" }] },
     tooltip: { trigger: "axis" },
+    toolbox: {
+      show: false,
+      feature: { dataZoom: { xAxisIndex: [0, 1], yAxisIndex: false } },
+    },
     grid: [{ left: 55, right: 20, top: 15, height: "60%" },
            { left: 55, right: 20, top: "72%", height: "18%" }],
     xAxis: [
@@ -564,9 +688,96 @@ async function loadTick() {
         itemStyle: { color: "#3a6b82" } },
     ],
   }, true);
+  tickChart.off("datazoom");
+  tickChart.on("datazoom", () => {
+    if (!state.tickSelecting) return;
+    clearTimeout(tickChart._regionTimer);
+    tickChart._regionTimer = setTimeout(() => applyVisibleTickRange(true), 80);
+  });
+  tickSetIndex(d.points.length - 1, false);
   loadTrades();
   showBookAt("150000000");
 }
+
+function stopTickPlay() {
+  if (tickTimer) clearInterval(tickTimer);
+  tickTimer = null;
+  $("#tickPlay").textContent = "▶ 播放";
+  $("#tickPlay").classList.remove("active");
+}
+
+function tickSetIndex(index, refreshTables = true) {
+  const pts = state.tickPoints;
+  if (!pts.length) return;
+  state.tickIndex = Math.max(0, Math.min(index, pts.length - 1));
+  const p = pts[state.tickIndex];
+  const chg = state.basic && state.basic.prev_close
+    ? (p.price - state.basic.prev_close) / state.basic.prev_close * 100 : 0;
+  $("#tickNow").textContent = p.time.slice(0, 8);
+  $("#tickPrice").textContent = p.price.toFixed(2);
+  $("#tickChange").textContent = `${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%`;
+  $("#tickChange").className = `mono ${clsChg(chg)}`;
+  $("#tickLocate").value = p.time.slice(0, 8);
+  if (tickChart) tickChart.setOption({ series: [{ markLine: {
+    silent: true, symbol: "none", label: { show: false },
+    lineStyle: { color: "#f2b84b", width: 1 }, data: [{ xAxis: p.time.slice(0, 8) }],
+  } }] });
+  const bk = bookObjAt(p.t);
+  if (bk) renderBookPanel(bk, `十档盘口 ${bk.time}`);
+  if (refreshTables) {
+    clearTimeout(tickTableTimer);
+    tickTableTimer = setTimeout(() => loadTrades(undefined, p.time), 120);
+  }
+}
+
+function nearestTickIndex(raw) {
+  if (!raw) return -1;
+  const digits = raw.replace(/\D/g, "").padEnd(9, "0").slice(0, 9);
+  const target = Number(digits);
+  if (Number.isNaN(target) || !state.tickPoints.length) return -1;
+  let lo = 0, hi = state.tickPoints.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (state.tickPoints[mid].t < target) lo = mid + 1;
+    else hi = mid;
+  }
+  if (lo > 0 && target - state.tickPoints[lo - 1].t < state.tickPoints[lo].t - target) return lo - 1;
+  return lo;
+}
+
+$("#tickPlay").onclick = () => {
+  if (!state.tickPoints.length) return;
+  if (tickTimer) { stopTickPlay(); return; }
+  if (state.tickIndex >= state.tickPoints.length - 1) tickSetIndex(0);
+  $("#tickPlay").textContent = "⏸ 暂停";
+  $("#tickPlay").classList.add("active");
+  tickTimer = setInterval(() => {
+    const step = Number($("#tickSpeed").value);
+    const next = Math.min(state.tickIndex + step, state.tickPoints.length - 1);
+    tickSetIndex(next);
+    if (next === state.tickPoints.length - 1) stopTickPlay();
+  }, 150);
+};
+$("#tickReset").onclick = () => {
+  stopTickPlay();
+  tickSetIndex(0);
+};
+$("#tickPrev").onclick = () => {
+  stopTickPlay();
+  tickSetIndex(state.tickIndex - 1);
+};
+$("#tickNext").onclick = () => {
+  stopTickPlay();
+  tickSetIndex(state.tickIndex + 1);
+};
+$("#tickLocateBtn").onclick = () => {
+  stopTickPlay();
+  const i = nearestTickIndex($("#tickLocate").value.trim());
+  if (i < 0) { alert("请输入有效时间，例如 13:21:09"); return; }
+  tickSetIndex(i);
+};
+$("#tickLocate").onkeydown = (e) => { if (e.key === "Enter") $("#tickLocateBtn").click(); };
+
 async function loadTrades(start, end) {
   const d = await api("trades", { code: state.code, start, end, limit: 800 });
   const rows = d.trades.map((e) => `
@@ -581,16 +792,43 @@ async function loadTrades(start, end) {
   renderOrders("tbuyWrap", "买", "委托买入", start, end);
   renderOrders("tsellWrap", "卖", "委托卖出", start, end);
 }
-$("#regionBtn").onclick = async () => {
-  if (!tickChart || !state.code) return;
+
+function visibleTickRange() {
+  if (!tickChart || !state.tickPoints.length) return null;
   const opt = tickChart.getOption();
   const dz = opt.dataZoom[0];
   const cats = opt.xAxis[0].data;
   const n = cats.length;
-  const s = cats[Math.floor((dz.startValue != null ? dz.startValue : (dz.start / 100) * (n - 1)))];
-  const e = cats[Math.floor((dz.endValue != null ? dz.endValue : (dz.end / 100) * (n - 1)))];
-  const d = await api("region", { code: state.code, start: s, end: e });
+  const indexOf = (value, pct) => {
+    if (typeof value === "number") return Math.max(0, Math.min(value, n - 1));
+    if (typeof value === "string") {
+      const found = cats.indexOf(value);
+      if (found >= 0) return found;
+    }
+    return Math.max(0, Math.min(Math.round((pct / 100) * (n - 1)), n - 1));
+  };
+  const a = indexOf(dz.startValue, dz.start == null ? 0 : dz.start);
+  const b = indexOf(dz.endValue, dz.end == null ? 100 : dz.end);
+  return [cats[Math.min(a, b)], cats[Math.max(a, b)]];
+}
+
+async function applyVisibleTickRange(openStats) {
+  const range = visibleTickRange();
+  if (!range) return;
+  state.tickSelecting = false;
+  state.tickRange = range;
+  $("#regionSelect").classList.remove("active");
+  $("#regionBtn").disabled = false;
+  $("#regionClear").disabled = false;
+  $("#regionStatus").textContent = `已应用 ${range[0]} ～ ${range[1]}；三联表仅显示该区间。`;
+  await loadTrades(range[0], range[1]);
+  const d = await api("region", { code: state.code, start: range[0], end: range[1] });
   if (!d.found) { alert("该区间无成交"); return; }
+  if (openStats) showTickRegionModal(d, range[0], range[1]);
+}
+
+function showTickRegionModal(d, start, end) {
+  $("#modal").classList.add("region-modal");
   $("#modalTitle").textContent = `区间统计 · ${state.code}`;
   const rows = [
     ["开始时间", d.start_time], ["结束时间", d.end_time],
@@ -601,10 +839,77 @@ $("#regionBtn").onclick = async () => {
     ["最大单笔", fmtNum(d.max_vol) + "股"], ["最大单方向", d.max_vol_side],
     ["成交笔数", fmtNum(d.count)],
   ];
-  $("#modalBody").innerHTML = `<div class="kv">${rows.map(kvRow).join("")}</div>`;
-  $("#modalFoot").textContent = "区间由分时图当前可视范围决定";
+  $("#modalBody").innerHTML = `<div class="region-result">
+    <div id="regionChart" class="region-chart"></div>
+    <div class="kv">${rows.map(kvRow).join("")}</div>
+  </div>`;
+  $("#modalFoot").textContent = `已同步应用到成交、委托买入、委托卖出三联表`;
   $("#modalBg").classList.add("on");
-  loadTrades(s, e);
+  renderRegionChart(start, end);
+}
+
+function renderRegionChart(start, end) {
+  const el = $("#regionChart");
+  if (!el) return;
+  const pts = state.tickPoints.filter((p) => p.time >= start && p.time <= end);
+  if (!pts.length) {
+    el.innerHTML = '<div class="hint">当前区间无分时快照。</div>';
+    return;
+  }
+  const chart = echarts.init(el, "dark");
+  chart.setOption({
+    backgroundColor: "transparent",
+    tooltip: { trigger: "axis" },
+    grid: [{ left: 48, right: 12, top: 12, height: "60%" },
+           { left: 48, right: 12, top: "75%", height: "17%" }],
+    xAxis: [
+      { type: "category", data: pts.map((p) => p.time.slice(0, 8)),
+        axisLabel: { color: "#8196a5", hideOverlap: true } },
+      { type: "category", data: pts.map((p) => p.time.slice(0, 8)), gridIndex: 1,
+        axisLabel: { show: false } },
+    ],
+    yAxis: [
+      { scale: true, axisLabel: { color: "#8196a5" },
+        splitLine: { lineStyle: { color: "#16242f" } } },
+      { gridIndex: 1, axisLabel: { color: "#8196a5" }, splitLine: { show: false } },
+    ],
+    series: [
+      { name: "价格", type: "line", data: pts.map((p) => p.price), showSymbol: false,
+        lineStyle: { color: "#e7d27a", width: 1 } },
+      { name: "成交量", type: "bar", data: pts.map((p) => p.vol),
+        xAxisIndex: 1, yAxisIndex: 1, itemStyle: { color: "#3a6b82" } },
+    ],
+  });
+}
+
+$("#regionSelect").onclick = () => {
+  if (!tickChart || !state.code) return;
+  stopTickPlay();
+  state.tickSelecting = true;
+  $("#regionSelect").classList.add("active");
+  $("#regionStatus").textContent = "框选已启用：请在分时图上按住鼠标横向拖拽。";
+  tickChart.dispatchAction({
+    type: "takeGlobalCursor",
+    key: "dataZoomSelect",
+    dataZoomSelectActive: true,
+  });
+};
+$("#regionBtn").onclick = async () => {
+  if (!state.tickRange) return;
+  const [start, end] = state.tickRange;
+  const d = await api("region", { code: state.code, start, end });
+  if (d.found) showTickRegionModal(d, start, end);
+};
+$("#regionClear").onclick = () => {
+  if (!tickChart) return;
+  state.tickSelecting = false;
+  state.tickRange = null;
+  $("#regionSelect").classList.remove("active");
+  $("#regionBtn").disabled = true;
+  $("#regionClear").disabled = true;
+  $("#regionStatus").textContent = "点击“框选区间”，再在分时图上横向拖拽；松开后立即应用到三联表。";
+  tickChart.dispatchAction({ type: "dataZoom", dataZoomIndex: 0, start: 0, end: 100 });
+  loadTrades();
 };
 
 // ---------------------------------------------------------------- 日期切换
