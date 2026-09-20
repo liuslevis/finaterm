@@ -11,6 +11,7 @@ import csv
 import io
 import json
 import os
+import struct
 import threading
 from collections import OrderedDict
 from functools import lru_cache
@@ -19,10 +20,8 @@ import py7zr
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-ARCHIVE = os.path.join(ROOT, "data-lv2", "20260918.7z")
+DATA_DIR = os.path.join(ROOT, "data-lv2")
 CACHE_DIR = os.path.join(ROOT, "cache")
-INDEX_PATH = os.path.join(CACHE_DIR, "_index.json")
-TRADE_DATE = "20260918"
 
 PRICE_SCALE = 10000.0  # 原始价格为 元 * 10000
 
@@ -32,65 +31,110 @@ _archive_lock = threading.Lock()
 _index_lock = threading.Lock()
 
 
+def list_dates() -> list[str]:
+    """扫描 data-lv2/*.7z，返回升序交易日列表（文件名即 YYYYMMDD）。"""
+    ds = []
+    try:
+        for fn in os.listdir(DATA_DIR):
+            if fn.endswith(".7z") and fn[:-3].isdigit():
+                ds.append(fn[:-3])
+    except OSError:
+        pass
+    ds.sort()
+    return ds
+
+
+DATES = list_dates()
+DEFAULT_DATE = DATES[-1] if DATES else "20260918"
+TRADE_DATE = DEFAULT_DATE  # 兼容旧引用：默认（最新）交易日
+
+
+def _norm_date(date: str | None) -> str:
+    return date if date in DATES else DEFAULT_DATE
+
+
+def _archive_path(date: str) -> str:
+    return os.path.join(DATA_DIR, f"{date}.7z")
+
+
+def prev_date(date: str) -> str | None:
+    d = _norm_date(date)
+    i = DATES.index(d)
+    return DATES[i - 1] if i > 0 else None
+
+
+def next_date(date: str) -> str | None:
+    d = _norm_date(date)
+    i = DATES.index(d)
+    return DATES[i + 1] if i < len(DATES) - 1 else None
+
+
 # --------------------------------------------------------------------------- #
 # 归档索引 / 抽取
 # --------------------------------------------------------------------------- #
-def _build_index() -> dict:
-    """扫描归档，建立 code -> [成员文件名] 索引，缓存到磁盘。"""
+def _build_index(date: str) -> dict:
+    """扫描某日归档，建立 code -> [成员文件名] 索引，缓存到磁盘。"""
     index: dict[str, list[str]] = {}
     with _archive_lock:
-        with py7zr.SevenZipFile(ARCHIVE, "r") as a:
+        with py7zr.SevenZipFile(_archive_path(date), "r") as a:
             for f in a.list():
                 if f.is_directory:
                     continue
                 parts = f.filename.split("/")
                 if len(parts) >= 3 and parts[1]:
                     index.setdefault(parts[1], []).append(f.filename)
-    tmp = INDEX_PATH + ".tmp"
+    date_dir = os.path.join(CACHE_DIR, date)
+    os.makedirs(date_dir, exist_ok=True)
+    ipath = os.path.join(date_dir, "_index.json")
+    tmp = ipath + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(index, fh)
-    os.replace(tmp, INDEX_PATH)
+    os.replace(tmp, ipath)
     return index
 
 
-def get_index() -> dict:
+def get_index(date: str = DEFAULT_DATE) -> dict:
+    date = _norm_date(date)
+    ipath = os.path.join(CACHE_DIR, date, "_index.json")
     with _index_lock:
-        if os.path.exists(INDEX_PATH):
+        if os.path.exists(ipath):
             try:
-                with open(INDEX_PATH, encoding="utf-8") as fh:
+                with open(ipath, encoding="utf-8") as fh:
                     return json.load(fh)
             except Exception:
                 pass
-        return _build_index()
+        return _build_index(date)
 
 
-def list_stocks() -> list[dict]:
-    idx = get_index()
+def list_stocks(date: str = DEFAULT_DATE) -> list[dict]:
+    idx = get_index(date)
     out = [{"code": c, "market": c.split(".")[-1]} for c in idx]
     out.sort(key=lambda x: x["code"])
     return out
 
 
-def _stock_dir(code: str) -> str:
-    return os.path.join(CACHE_DIR, code)
+def _stock_dir(code: str, date: str) -> str:
+    return os.path.join(CACHE_DIR, date, code)
 
 
-def ensure_extracted(code: str) -> str:
-    """确保某只股票的 CSV 已抽取到本地缓存目录，返回该目录。"""
-    dest = _stock_dir(code)
+def ensure_extracted(code: str, date: str) -> str:
+    """确保某只股票某日的 CSV 已抽取到本地缓存目录，返回该目录。"""
+    date = _norm_date(date)
+    dest = _stock_dir(code, date)
     needed = ["行情.csv", "逐笔委托.csv", "逐笔成交.csv"]
     if all(os.path.exists(os.path.join(dest, n)) for n in needed):
         return dest
-    idx = get_index()
+    idx = get_index(date)
     members = idx.get(code)
     if not members:
         raise KeyError(f"未知代码: {code}")
     os.makedirs(dest, exist_ok=True)
+    stage_root = os.path.join(CACHE_DIR, date, "_stage")
     with _archive_lock:
-        with py7zr.SevenZipFile(ARCHIVE, "r") as a:
-            a.extract(path=CACHE_DIR + os.sep + "_stage", targets=members)
-    # 归档内路径为 20260918/<code>/<name>，移动到 cache/<code>/<name>
-    staged = os.path.join(CACHE_DIR, "_stage", TRADE_DATE, code)
+        with py7zr.SevenZipFile(_archive_path(date), "r") as a:
+            a.extract(path=stage_root, targets=members)
+    # 归档内路径为 <date>/<code>/<name>，移动到 cache/<date>/<code>/<name>
+    staged = os.path.join(stage_root, date, code)
     for n in needed:
         src = os.path.join(staged, n)
         if os.path.exists(src):
@@ -134,8 +178,9 @@ def _int(raw: str) -> int:
 class StockData:
     """单只股票某交易日的全部解析结果。"""
 
-    def __init__(self, code: str):
+    def __init__(self, code: str, date: str = DEFAULT_DATE):
         self.code = code
+        self.date = _norm_date(date)
         self.market = code.split(".")[-1]
         self.events: list[dict] = []          # 统一逐笔事件（按 aseq 排序）
         self.quotes: list[dict] = []          # 行情快照（分时 / 盘口）
@@ -145,7 +190,15 @@ class StockData:
 
     # --- 解析各文件 --------------------------------------------------------- #
     def _load(self):
-        d = ensure_extracted(self.code)
+        if not self._load_binary():
+            self._parse_all()
+            self._save_binary()
+        self._index_orders()
+        self._compute_basic()
+
+    def _parse_all(self):
+        """慢速路径：从 7z 抽取 + 解析 GBK CSV（首次访问某股票时执行一次）。"""
+        d = ensure_extracted(self.code, self.date)
         self._parse_quotes(os.path.join(d, "行情.csv"))
         raw_events = []
         raw_events += self._parse_orders(os.path.join(d, "逐笔委托.csv"))
@@ -154,8 +207,6 @@ class StockData:
         for i, e in enumerate(raw_events, 1):
             e["seq"] = i
         self.events = raw_events
-        self._index_orders()
-        self._compute_basic()
 
     def _parse_orders(self, path: str) -> list[dict]:
         out = []
@@ -274,6 +325,7 @@ class StockData:
 
     def _compute_basic(self):
         prev_close = high = low = open_ = last = 0.0
+        cum_vol = cum_amt = 0
         for q in self.quotes:
             if q["prev_close"]:
                 prev_close = q["prev_close"]
@@ -282,21 +334,146 @@ class StockData:
         for q in reversed(self.quotes):
             if q["last"]:
                 last = q["last"]; high = q["high"]; low = q["low"]
+                cum_vol = q["cum_vol"]; cum_amt = q["cum_amt"]
                 break
         change_pct = ((last - prev_close) / prev_close * 100) if prev_close else 0.0
         limit_up = round(prev_close * 1.1, 2)
         limit_down = round(prev_close * 0.9, 2)
         self.basic = {
-            "code": self.code, "date": TRADE_DATE, "market": self.market,
+            "code": self.code, "date": self.date, "market": self.market,
             "open": open_, "prev_close": prev_close, "high": high, "low": low,
             "last": last, "change_pct": change_pct,
             "limit_up": limit_up, "limit_down": limit_down,
             "hit_limit_up": bool(high and high >= limit_up - 0.005),
             "hit_limit_down": bool(low and low <= limit_down + 0.005),
             "records": len(self.events),
+            "cum_vol": cum_vol, "cum_amt": cum_amt,
             "turnover_rate": None, "prev_change_pct": None,
             "float_shares": None, "market_cap": None,
         }
+
+    # --- 列式二进制缓存（避免重复的 7z 抽取 + GBK CSV 解析） --------------- #
+    _TYPE_CODE = {"委托": 0, "成交": 1, "撤单": 2}
+    _CODE_TYPE = {0: "委托", 1: "成交", 2: "撤单"}
+
+    def _bin_path(self) -> str:
+        return os.path.join(_stock_dir(self.code, self.date), f"_cache_v{_CACHE_VER}.bin")
+
+    def _save_binary(self):
+        try:
+            data_bytes = _encode_stock(self.events, self.quotes)
+            p = self._bin_path()
+            tmp = p + ".tmp"
+            with open(tmp, "wb") as fh:
+                fh.write(data_bytes)
+            os.replace(tmp, p)
+        except OSError:
+            pass  # 缓存写失败不影响功能
+
+    def _load_binary(self) -> bool:
+        p = self._bin_path()
+        if not os.path.exists(p):
+            return False
+        try:
+            with open(p, "rb") as fh:
+                blob = fh.read()
+            self.events, self.quotes = _decode_stock(blob)
+            return True
+        except (OSError, ValueError, struct.error):
+            return False
+
+
+# 缓存格式版本：结构变更时递增使旧缓存失效
+_CACHE_VER = 1
+
+
+def _encode_stock(events: list, quotes: list) -> bytes:
+    import array
+    n = len(events)
+    cols = {
+        "aseq": array.array("q", (e["aseq"] for e in events)),
+        "t": array.array("i", (e["t"] for e in events)),
+        "type": array.array("b", (StockData._TYPE_CODE.get(e["type"], 0) for e in events)),
+        "side": array.array("b", (0 if e["side"] == "买" else 1 for e in events)),
+        "price": array.array("i", (round(e["price"] * PRICE_SCALE) for e in events)),
+        "qty": array.array("i", (e["qty"] for e in events)),
+        "buy": array.array("q", (e["buy_id"] for e in events)),
+        "sell": array.array("q", (e["sell_id"] for e in events)),
+        "oid": array.array("q", (e["order_id"] for e in events)),
+    }
+    m = len(quotes)
+    q_scalars = ["t", "last", "high", "low", "open", "prev_close"]
+    qcols = {k: array.array("i", (round(q[k] * PRICE_SCALE) if k != "t" else q[k]
+             for q in quotes)) for k in q_scalars}
+    qcols["cum_vol"] = array.array("q", (q["cum_vol"] for q in quotes))
+    qcols["cum_amt"] = array.array("q", (q["cum_amt"] for q in quotes))
+    ladder = array.array("i")
+    for q in quotes:
+        for px, qy in q["asks"]:
+            ladder.append(round(px * PRICE_SCALE)); ladder.append(qy)
+        for px, qy in q["bids"]:
+            ladder.append(round(px * PRICE_SCALE)); ladder.append(qy)
+    out = bytearray()
+    out += b"HFQ2" + struct.pack("<ii", _CACHE_VER, n)
+    for k in ("aseq", "t", "type", "side", "price", "qty", "buy", "sell", "oid"):
+        b = cols[k].tobytes()
+        out += struct.pack("<Q", len(b)); out += b
+    out += struct.pack("<i", m)
+    for k in ("t", "last", "high", "low", "open", "prev_close", "cum_vol", "cum_amt"):
+        b = qcols[k].tobytes()
+        out += struct.pack("<Q", len(b)); out += b
+    lb = ladder.tobytes()
+    out += struct.pack("<Q", len(lb)); out += lb
+    return bytes(out)
+
+
+def _decode_stock(blob: bytes):
+    import array
+    mv = memoryview(blob)
+    if bytes(mv[:4]) != b"HFQ2":
+        raise ValueError("bad magic")
+    ver, n = struct.unpack_from("<ii", mv, 4)
+    if ver != _CACHE_VER:
+        raise ValueError("version mismatch")
+    off = 12
+
+    def take(typ):
+        nonlocal off
+        (ln,) = struct.unpack_from("<Q", mv, off); off += 8
+        a = array.array(typ); a.frombytes(mv[off:off + ln]); off += ln
+        return a
+
+    aseq = take("q"); t = take("i"); typ = take("b"); side = take("b")
+    price = take("i"); qty = take("i"); buy = take("q"); sell = take("q"); oid = take("q")
+    events = []
+    ct = StockData._CODE_TYPE
+    for i in range(n):
+        p = price[i] / PRICE_SCALE
+        et = ct[typ[i]]; qn = qty[i]
+        events.append({
+            "aseq": aseq[i], "t": t[i], "type": et,
+            "side": "买" if side[i] == 0 else "卖",
+            "price": p, "qty": qn,
+            "amount": (p * qn / 1e4) if et == "成交" else 0.0,
+            "buy_id": buy[i], "sell_id": sell[i], "order_id": oid[i], "seq": i + 1,
+        })
+    (m,) = struct.unpack_from("<i", mv, off); off += 4
+    qt = take("i"); last = take("i"); high = take("i"); low = take("i")
+    qopen = take("i"); prev = take("i"); cum_vol = take("q"); cum_amt = take("q")
+    ladder = take("i")
+    quotes = []
+    for j in range(m):
+        base = j * 40
+        asks = [[ladder[base + 2 * k] / PRICE_SCALE, ladder[base + 2 * k + 1]] for k in range(10)]
+        bids = [[ladder[base + 20 + 2 * k] / PRICE_SCALE, ladder[base + 20 + 2 * k + 1]] for k in range(10)]
+        quotes.append({
+            "t": qt[j], "last": last[j] / PRICE_SCALE,
+            "cum_vol": cum_vol[j], "cum_amt": cum_amt[j],
+            "high": high[j] / PRICE_SCALE, "low": low[j] / PRICE_SCALE,
+            "open": qopen[j] / PRICE_SCALE, "prev_close": prev[j] / PRICE_SCALE,
+            "asks": asks, "bids": bids,
+        })
+    return events, quotes
 
 
 # 简单的 LRU 内存缓存（避免重复解析）

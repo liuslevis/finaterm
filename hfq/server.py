@@ -43,6 +43,14 @@ def parse_time(s):
         return None
 
 
+def day_ms(t: int) -> int:
+    """HHMMSSmmm -> 当日毫秒（整数），供委托地图 x 轴直接使用。"""
+    h = t // 10_000_000
+    m = t // 100_000 % 100
+    s = t // 1000 % 100
+    return ((h * 60 + m) * 60 + s) * 1000 + t % 1000
+
+
 def slim(e):
     return {
         "seq": e["seq"], "time": data.fmt_time(e["t"]), "type": e["type"],
@@ -60,7 +68,8 @@ class Handler(BaseHTTPRequestHandler):
 
     # --- 响应辅助 --------------------------------------------------------- #
     def _json(self, obj, status=200):
-        body = json.dumps(obj, ensure_ascii=False, default=float).encode("utf-8")
+        body = json.dumps(obj, ensure_ascii=False, default=float,
+                          separators=(",", ":")).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -78,6 +87,10 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if path.startswith("/api/"):
                 return self._api(path[5:], q)
+            if path == "/favicon.ico":
+                self.send_response(204)
+                self.end_headers()
+                return
             return self._static(path)
         except KeyError as e:
             self._err(f"未找到: {e}", 404)
@@ -131,13 +144,16 @@ class Handler(BaseHTTPRequestHandler):
         if route == "ordermap":
             sd = data.get_stock(code)
             min_qty = _iopt(self._get(q, "min_qty"))
+            max_qty = _iopt(self._get(q, "max_qty"))
             buy, sell = [], []
             for e in sd.events:
                 if e["type"] != "委托" or e["price"] <= 0:
                     continue
                 if min_qty is not None and e["qty"] < min_qty:
                     continue
-                rec = [e["t"] / 1.0, e["price"], e["qty"], e["order_id"]]
+                if max_qty is not None and e["qty"] > max_qty:
+                    continue
+                rec = [day_ms(e["t"]), e["price"], e["qty"], e["order_id"]]
                 (buy if e["side"] == "买" else sell).append(rec)
             return self._json({"code": code, "buy": buy, "sell": sell,
                                "basic": sd.basic})

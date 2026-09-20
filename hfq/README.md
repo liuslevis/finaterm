@@ -47,7 +47,7 @@ python server.py            # 默认 http://127.0.0.1:8770
 
 `GET /api/` 静态页面；JSON 接口：
 `health` · `stocks?kw=` · `basic?code=` · `events?code=&start=&end=&type=&min_qty=&max_qty=&min_amt=&max_amt=` ·
-`ordermap?code=&min_qty=` · `orderbook?code=&t=` · `ladder?code=` · `books?code=` · `intraday?code=` ·
+`ordermap?code=&min_qty=&max_qty=` · `orderbook?code=&t=` · `ladder?code=` · `books?code=` · `intraday?code=` ·
 `trades?code=&start=&end=` · `orders?code=&side=&start=&end=` ·
 `track?code=&order_id=` · `locate?code=&order_id=` · `region?code=&start=&end=`
 

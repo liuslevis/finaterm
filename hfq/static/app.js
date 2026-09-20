@@ -342,15 +342,16 @@ const dayMs = (t) => {                      // HHMMSSmmm -> 当日毫秒
 async function loadMap() {
   $("#rightTitle").textContent = "十档盘口";
   const [d, lad, bk] = await Promise.all([
-    api("ordermap", { code: state.code, min_qty: $("#mapMin").value }),
+    api("ordermap", { code: state.code, min_qty: $("#mapMin").value, max_qty: $("#mapMax").value }),
     api("ladder", { code: state.code }),
     api("books", { code: state.code }),
   ]);
   state.ladder = lad.ladder; state.books = bk;
   if (!mapChart) mapChart = echarts.init($("#mapChart"), "dark");
-  const conv = (arr) => arr.map((r) => [dayMs(r[0]), r[1], r[2], r[3]]);
-  const buy = conv(d.buy), sell = conv(d.sell);
-  const sizeMax = Math.max(1, ...buy.map((x) => x[2]), ...sell.map((x) => x[2]));
+  const buy = d.buy, sell = d.sell;   // 服务端已输出 [日内毫秒, 价, 量, 委托号]
+  let sizeMax = 1;
+  for (let i = 0; i < buy.length; i++) if (buy[i][2] > sizeMax) sizeMax = buy[i][2];
+  for (let i = 0; i < sell.length; i++) if (sell[i][2] > sizeMax) sizeMax = sell[i][2];
   const sym = (v) => 4 + 22 * Math.sqrt(v[2] / sizeMax);
   mapChart.setOption({
     backgroundColor: "transparent",
@@ -364,12 +365,11 @@ async function loadMap() {
       splitLine: { lineStyle: { color: "#16242f" } } },
     dataZoom: [{ type: "inside" }, { type: "inside", orient: "vertical" }],
     series: [
-      { name: "委托买入", type: "scatter", data: buy, symbolSize: sym,
-        progressiveThreshold: 1000000,
+      { name: "委托买入", type: "scatterGL", data: buy, symbolSize: sym,
         itemStyle: { color: "#2fcf8f", opacity: .5 } },
-      { name: "委托卖出", type: "scatter", data: sell, symbolSize: sym,
-        progressiveThreshold: 1000000,
+      { name: "委托卖出", type: "scatterGL", data: sell, symbolSize: sym,
         itemStyle: { color: "#ff5f6d", opacity: .5 } },
+      { name: "_cursor", type: "scatter", data: [], silent: true },
     ],
   }, true);
   mapChart.getZr().off("mousemove");
@@ -441,10 +441,11 @@ function addSec(hms, sec) {
 }
 function mapSetTime(hms, fromUser) {
   playT = hms;
-  $("#mapScrub").value = hms; $("#mapScrubT").textContent = scrubFmt(hms);
+  $("#mapScrubT").textContent = scrubFmt(hms);
+  syncLocSelects(hms);
   const tt = hms * 1000, bk = bookObjAt(tt);
   if (bk) { renderBookPanel(bk, `盘口 @ ${bk.time}`); renderLadder(bk); }
-  if (mapChart) mapChart.setOption({ series: [{ markLine: {
+  if (mapChart) mapChart.setOption({ series: [{}, {}, { markLine: {
     silent: true, symbol: "none", label: { show: false },
     lineStyle: { color: "#f2b84b", width: 1 }, data: [{ xAxis: tt }] } }] });
   const now = Date.now();
@@ -483,15 +484,29 @@ async function renderOrders(wrapId, side, title, start, end) {
 }
 const scrubFmt = (v) => {
   const h = Math.floor(v / 10000), m = Math.floor(v / 100) % 100, s = v % 100;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}.000`;
 };
-let scrubTm;
-$("#mapScrub").oninput = (e) => {
+// 定位下拉：时(9-15) / 分 / 秒
+function fillSelect(sel, from, to, pad) {
+  let o = "";
+  for (let i = from; i <= to; i++) o += `<option value="${i}">${String(i).padStart(pad, "0")}</option>`;
+  sel.innerHTML = o;
+}
+fillSelect($("#mapLocH"), 9, 15, 2);
+fillSelect($("#mapLocM"), 0, 59, 2);
+fillSelect($("#mapLocS"), 0, 59, 2);
+let locSyncing = false;
+function syncLocSelects(hms) {
+  locSyncing = true;
+  $("#mapLocH").value = Math.floor(hms / 10000);
+  $("#mapLocM").value = Math.floor(hms / 100) % 100;
+  $("#mapLocS").value = hms % 100;
+  locSyncing = false;
+}
+$("#mapLocBtn").onclick = () => {
   pausePlay();
-  const v = Number(e.target.value);
-  $("#mapScrubT").textContent = scrubFmt(v);
-  clearTimeout(scrubTm);
-  scrubTm = setTimeout(() => mapSetTime(v, true), 60);
+  const h = Number($("#mapLocH").value), m = Number($("#mapLocM").value), s = Number($("#mapLocS").value);
+  mapSetTime(h * 10000 + m * 100 + s, true);
 };
 const fmtHMS = (ms) => {
   const s = Math.floor(ms / 1000); const h = Math.floor(s / 3600),
