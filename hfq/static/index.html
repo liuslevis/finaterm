@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hfq LV2 逐笔研究终端</title>
+<link rel="stylesheet" href="/styles.css">
+<script src="/vendor/echarts.min.js"></script>
+</head>
+<body>
+<div id="top">
+  <span class="brand">HFQ · LV2 逐笔研究终端</span>
+  <input id="codeInput" placeholder="代码，如 000001.SZ / 600519.SH" style="width:220px" spellcheck="false">
+  <button id="loadBtn">加载</button>
+  <div id="tabs">
+    <button data-view="viewer" class="active">委托成交查看器</button>
+    <button data-view="map">委托地图</button>
+    <button data-view="tick">逐笔成交 / 分时</button>
+  </div>
+  <span class="sep"></span>
+  <span class="status" id="status">交易日 20260918 · 请选择或输入代码</span>
+</div>
+
+<div id="main">
+  <!-- 左：标的列表 -->
+  <div class="col" id="left">
+    <h3>标的列表</h3>
+    <input id="stockSearch" placeholder="搜索代码…" spellcheck="false">
+    <div id="stockList"></div>
+  </div>
+
+  <!-- 中：视图区 -->
+  <div class="col" id="center">
+    <!-- 委托成交查看器 -->
+    <div class="view on" id="view-viewer">
+      <div class="toolbar">
+        <label>起始</label><input id="fStart" class="mono" style="width:96px" placeholder="09:15:00">
+        <label>结束</label><input id="fEnd" class="mono" style="width:96px" placeholder="15:00:00">
+        <label>类型</label>
+        <select id="fType">
+          <option>全部</option><option>成交</option><option>全委托</option>
+          <option>委托买</option><option>委托卖</option><option>全撤单</option>
+          <option>撤买单</option><option>撤卖单</option>
+        </select>
+        <label>数量(股)</label>
+        <input id="fMin" style="width:72px" placeholder="最小">
+        <input id="fMax" style="width:72px" placeholder="最大">
+        <label>金额(万)</label>
+        <input id="fMinAmt" style="width:64px" placeholder="最小">
+        <input id="fMaxAmt" style="width:64px" placeholder="最大">
+        <button id="applyBtn">筛选</button>
+        <button id="resetBtn">重置</button>
+        <label>委托号</label><input id="fOrder" style="width:90px" placeholder="追踪">
+        <button id="orderTrackBtn">追踪</button>
+        <label>跳转</label><input id="fJump" class="mono" style="width:86px" placeholder="HH:MM:SS">
+        <button id="jumpBtn">定位</button>
+        <span class="sep"></span>
+        <span id="viewerCount" class="status"></span>
+      </div>
+      <div class="tablewrap" id="eventWrap">
+        <div class="hint">请选择左侧标的或输入代码后加载。</div>
+      </div>
+    </div>
+
+    <!-- 委托地图 -->
+    <div class="view" id="view-map">
+      <div class="toolbar">
+        <button id="mapPlay">▶ 启动</button>
+        <button id="mapReset">■ 复位</button>
+        <label>倍速</label>
+        <select id="mapSpeed"><option value="60">×1</option><option value="600" selected>×10</option>
+          <option value="1800">×30</option><option value="6000">×100</option></select>
+        <input type="range" id="mapScrub" min="91500" max="150000" value="91500" style="width:220px">
+        <span id="mapScrubT" class="mono status">09:15:00</span>
+        <label>数量≥</label><input id="mapMin" style="width:70px" value="0">
+        <button id="mapApply">应用</button>
+      </div>
+      <div class="maprow">
+        <div class="ladder" id="mapLadder"></div>
+        <div id="mapChart" class="chart"></div>
+      </div>
+      <div class="maptables">
+        <div class="tablewrap" id="mapBuyWrap"><h4>委托买入</h4></div>
+        <div class="tablewrap" id="mapSellWrap"><h4>委托卖出</h4></div>
+      </div>
+    </div>
+
+    <!-- 逐笔成交 / 分时 -->
+    <div class="view" id="view-tick">
+      <div class="toolbar">
+        <span class="status">分时图上拖拽 dataZoom 可框选区间；下方为成交 / 委托买入 / 委托卖出三联明细。</span>
+        <span class="sep"></span>
+        <button id="regionBtn">当前可视区间统计</button>
+      </div>
+      <div id="tickChart" class="chart"></div>
+      <div class="ticktables">
+        <div class="tablewrap" id="tradeWrap"><h4>成交</h4></div>
+        <div class="tablewrap" id="tbuyWrap"><h4>委托买入</h4></div>
+        <div class="tablewrap" id="tsellWrap"><h4>委托卖出</h4></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右：信息面板 -->
+  <div class="col" id="right">
+    <h3 id="rightTitle">基本信息 / 汇总统计</h3>
+    <div class="scroll" id="rightBody"></div>
+  </div>
+</div>
+
+<!-- 右键菜单 -->
+<div class="ctx" id="ctx">
+  <div data-act="track">追踪订单</div>
+  <div data-act="book">查看盘口</div>
+  <div data-act="region">统计选中范围</div>
+  <div data-act="csv">导出选中为 CSV</div>
+  <div data-act="txt">导出选中为 TXT</div>
+</div>
+
+<!-- 订单追踪弹窗 -->
+<div id="modalBg">
+  <div id="modal">
+    <div class="hd"><b id="modalTitle">追踪订单</b><button id="modalClose">关闭</button></div>
+    <div class="bd" id="modalBody"></div>
+    <div class="foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
