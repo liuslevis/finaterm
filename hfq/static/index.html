@@ -100,10 +100,29 @@
 
     <!-- 逐笔成交 / 分时 -->
     <div class="view" id="view-tick">
-      <div class="toolbar">
-        <span class="status">分时图上拖拽 dataZoom 可框选区间；下方为成交 / 委托买入 / 委托卖出三联明细。</span>
+      <div class="toolbar tickbar">
+        <button id="tickPlay">▶ 播放</button>
+        <button id="tickReset">■ 复位</button>
+        <button id="tickPrev">◀ 上一帧</button>
+        <button id="tickNext">下一帧 ▶</button>
+        <label>倍速</label>
+        <select id="tickSpeed">
+          <option value="1">×1</option><option value="10" selected>×10</option>
+          <option value="30">×30</option><option value="100">×100</option>
+        </select>
+        <strong id="tickNow" class="mono">--:--:--</strong>
+        <span id="tickPrice" class="mono">--</span>
+        <span id="tickChange" class="mono flat">--</span>
         <span class="sep"></span>
-        <button id="regionBtn">当前可视区间统计</button>
+        <label>定位</label>
+        <input id="tickLocate" class="mono" style="width:90px" placeholder="HH:MM:SS">
+        <button id="tickLocateBtn">定位</button>
+      </div>
+      <div class="toolbar regionbar">
+        <button id="regionSelect">＋ 框选区间</button>
+        <button id="regionBtn" disabled>区间统计</button>
+        <button id="regionClear" disabled>清除区间</button>
+        <span id="regionStatus" class="status">点击“框选区间”，再在分时图上横向拖拽；松开后立即应用到三联表。</span>
       </div>
       <div id="tickChart" class="chart"></div>
       <div class="ticktables">

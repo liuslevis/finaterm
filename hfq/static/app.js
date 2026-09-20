@@ -23,7 +23,10 @@ const yi = (v) => {                       // 元 -> 亿/万 缩写
 const wanYuan = (w) => yi(w * 1e4);       // 输入单位为“万元”
 const clsChg = (v) => (v > 0 ? "up" : v < 0 ? "down" : "flat");
 
-const state = { code: null, date: null, dates: [], basic: null, filterRecs: [], selEvent: null };
+const state = {
+  code: null, date: null, dates: [], basic: null, filterRecs: [], selEvent: null,
+  tickPoints: [], tickIndex: -1, tickRange: null, tickSelecting: false,
+};
 
 // ---------------------------------------------------------------- tabs
 document.querySelectorAll("#tabs button").forEach((b) => {
@@ -244,6 +247,7 @@ async function statSelectedRange() {
 }
 function showRegionModal(d, start, end) {
   $("#modalTitle").textContent = `区间统计 · ${state.code}`;
+  $("#modal").classList.add("region-modal");
   if (!d.found) {
     $("#modalBody").innerHTML = '<div class="hint">选中范围内无成交。</div>';
     $("#modalFoot").textContent = ""; $("#modalBg").classList.add("on"); return;
@@ -260,12 +264,13 @@ function showRegionModal(d, start, end) {
     ["最大成交量方向", d.max_vol_side || "中性"],
     ["成交笔数", fmtNum(d.count)],
   ];
-  $("#modalBody").innerHTML =
-    `<table><thead><tr><th class="l">指标</th><th>数值</th></tr></thead><tbody>` +
-    rows.map((r) => `<tr><td class="l">${r[0]}</td><td>${r[1]}</td></tr>`).join("") +
-    `</tbody></table>`;
+  $("#modalBody").innerHTML = `<div class="region-result">
+    <div id="regionChart" class="region-chart"></div>
+    <div class="kv">${rows.map(kvRow).join("")}</div>
+  </div>`;
   $("#modalFoot").textContent = "";
   $("#modalBg").classList.add("on");
+  renderRegionChart(start, end);
 }
 
 // ---------------------------------------------------------------- track order
@@ -288,8 +293,12 @@ async function trackOrder(oid) {
     `委托 ${fmtNum(d.total_qty)}股 · 委托价 ${d.order_price.toFixed(2)}　成交 ${fmtNum(d.filled_qty)}股　撤单 ${fmtNum(d.canceled_qty)}股`;
   $("#modalBg").classList.add("on");
 }
-$("#modalClose").onclick = () => $("#modalBg").classList.remove("on");
-$("#modalBg").onclick = (e) => { if (e.target.id === "modalBg") $("#modalBg").classList.remove("on"); };
+function closeModal() {
+  $("#modalBg").classList.remove("on");
+  $("#modal").classList.remove("region-modal");
+}
+$("#modalClose").onclick = closeModal;
+$("#modalBg").onclick = (e) => { if (e.target.id === "modalBg") closeModal(); };
 
 // ---------------------------------------------------------------- export csv/txt
 function exportSel(fmt) {
