@@ -3,7 +3,9 @@
 const $ = (s) => document.querySelector(s);
 const api = async (path, params) => {
   const u = new URL("/api/" + path, location.origin);
-  Object.entries(params || {}).forEach(([k, v]) => {
+  const merged = Object.assign({}, params);
+  if (state.date && merged.date === undefined) merged.date = state.date;
+  Object.entries(merged).forEach(([k, v]) => {
     if (v !== undefined && v !== null && v !== "") u.searchParams.set(k, v);
   });
   const r = await fetch(u);
@@ -21,7 +23,7 @@ const yi = (v) => {                       // 元 -> 亿/万 缩写
 const wanYuan = (w) => yi(w * 1e4);       // 输入单位为“万元”
 const clsChg = (v) => (v > 0 ? "up" : v < 0 ? "down" : "flat");
 
-const state = { code: null, basic: null, filterRecs: [], selEvent: null };
+const state = { code: null, date: null, dates: [], basic: null, filterRecs: [], selEvent: null };
 
 // ---------------------------------------------------------------- tabs
 document.querySelectorAll("#tabs button").forEach((b) => {
@@ -34,6 +36,7 @@ document.querySelectorAll("#tabs button").forEach((b) => {
     if (!state.code) return;
     if (v === "map") loadMap();
     else if (v === "tick") loadTick();
+    else if (v === "daily") loadDaily();
     else refreshRightViewer();
   };
 });
@@ -71,6 +74,7 @@ async function selectStock(code) {
     const active = $("#tabs button.active").dataset.view;
     if (active === "map") loadMap();
     else if (active === "tick") loadTick();
+    else if (active === "daily") loadDaily();
   } catch (e) {
     $("#status").textContent = "加载失败：" + e.message;
   }
@@ -166,7 +170,7 @@ function renderEvents(evs) {
 // ---------------------------------------------------------------- right panel
 function refreshRightViewer() {
   const active = $("#tabs button.active").dataset.view;
-  if (active !== "viewer") return;
+  if (active !== "viewer" && active !== "daily") return;
   $("#rightTitle").textContent = "基本信息 / 汇总统计";
   const b = state.basic, s = state.lastSummary || {};
   if (!b) { $("#rightBody").innerHTML = ""; return; }
@@ -594,6 +598,92 @@ $("#regionBtn").onclick = async () => {
   loadTrades(s, e);
 };
 
+// ---------------------------------------------------------------- 日期切换
+function fillDateSel() {
+  $("#dateSel").innerHTML = state.dates.map((d) =>
+    `<option value="${d}">${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}</option>`).join("");
+  $("#dateSel").value = state.date;
+}
+async function switchDate(d) {
+  if (!d || d === state.date || !state.dates.includes(d)) return;
+  state.date = d;
+  $("#dateSel").value = d;
+  await loadStocks($("#stockSearch").value.trim());
+  if (state.code) await selectStock(state.code);
+}
+$("#dateSel").onchange = (e) => switchDate(e.target.value);
+$("#prevDay").onclick = () => {
+  const i = state.dates.indexOf(state.date);
+  if (i > 0) switchDate(state.dates[i - 1]);
+};
+$("#nextDay").onclick = () => {
+  const i = state.dates.indexOf(state.date);
+  if (i >= 0 && i < state.dates.length - 1) switchDate(state.dates[i + 1]);
+};
+
+// ---------------------------------------------------------------- 日K走势
+let dailyChart;
+async function loadDaily() {
+  refreshRightViewer();
+  const d = await api("daily", { code: state.code });
+  const days = d.days || [];
+  $("#dailyCount").textContent = `${days.length} 个交易日`;
+  if (!dailyChart) dailyChart = echarts.init($("#dailyChart"), "dark");
+  const cats = days.map((x) => `${x.date.slice(4, 6)}-${x.date.slice(6, 8)}`);
+  const kdata = days.map((x) => [x.open, x.close, x.low, x.high]);
+  const vol = days.map((x, i) => ({
+    value: x.vol,
+    itemStyle: { color: x.close >= x.open ? "#e05a5a" : "#3ec28f" },
+  }));
+  const curIdx = days.findIndex((x) => x.date === state.date);
+  dailyChart.setOption({
+    backgroundColor: "transparent",
+    axisPointer: { link: [{ xAxisIndex: "all" }] },
+    tooltip: {
+      trigger: "axis", axisPointer: { type: "cross" },
+      formatter: (ps) => {
+        const i = ps[0].dataIndex, x = days[i];
+        return `${x.date}<br>开 ${x.open.toFixed(2)}　收 ${x.close.toFixed(2)}<br>` +
+          `高 ${x.high.toFixed(2)}　低 ${x.low.toFixed(2)}<br>` +
+          `涨幅 ${x.change_pct.toFixed(2)}%<br>量 ${yi(x.vol)}股　额 ${wanYuan(x.amt)}`;
+      },
+    },
+    grid: [{ left: 55, right: 20, top: 20, height: "62%" },
+           { left: 55, right: 20, top: "74%", height: "16%" }],
+    xAxis: [
+      { type: "category", data: cats, axisLabel: { color: "#8196a5" },
+        axisPointer: { label: { show: false } } },
+      { type: "category", data: cats, gridIndex: 1, axisLabel: { show: false } }],
+    yAxis: [
+      { scale: true, axisLabel: { color: "#8196a5" }, splitLine: { lineStyle: { color: "#16242f" } } },
+      { gridIndex: 1, axisLabel: { show: false }, splitLine: { show: false } }],
+    series: [
+      { name: "日K", type: "candlestick", data: kdata,
+        itemStyle: { color: "#e05a5a", color0: "#3ec28f", borderColor: "#e05a5a", borderColor0: "#3ec28f" },
+        markPoint: curIdx >= 0 ? { symbol: "pin", symbolSize: 26, data: [{
+          coord: [curIdx, kdata[curIdx][3]], value: "当前",
+          itemStyle: { color: "#e7d27a" }, label: { color: "#0b1116", fontSize: 10 } }] } : undefined },
+      { name: "成交量", type: "bar", data: vol, xAxisIndex: 1, yAxisIndex: 1 },
+    ],
+  }, true);
+  dailyChart.off("click");
+  dailyChart.on("click", (p) => {
+    const x = days[p.dataIndex];
+    if (x) switchDate(x.date);
+  });
+}
+
 // ---------------------------------------------------------------- init
-window.addEventListener("resize", () => { mapChart && mapChart.resize(); tickChart && tickChart.resize(); });
-loadStocks("");
+window.addEventListener("resize", () => {
+  mapChart && mapChart.resize(); tickChart && tickChart.resize(); dailyChart && dailyChart.resize();
+});
+(async function init() {
+  try {
+    const d = await api("dates", {});
+    state.dates = d.dates || [];
+    state.date = d.default || state.dates[state.dates.length - 1] || null;
+    fillDateSel();
+    if (state.date) $("#status").textContent = `交易日 ${state.date} · 请选择或输入代码`;
+  } catch (e) { /* 单日归档兜底：无 dates 接口时照常运行 */ }
+  loadStocks("");
+})();

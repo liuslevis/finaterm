@@ -6,7 +6,9 @@
 ## 数据源
 
 本实现使用真实 **深交所 / 上交所 Level-2 逐笔行情**（万得 Wind CSV 格式），
-放在 `data-lv2/20260918.7z`（交易日 20260918，含 7902 只 SZ/SH 个股）。
+放在 `data-lv2/<交易日>.7z`（目前含 `20260916` / `20260917` / `20260918` 三个交易日，
+每个归档含 7900+ 只 SZ/SH 个股）。新增交易日只需把对应 `<YYYYMMDD>.7z` 放入 `data-lv2/`，
+服务启动时自动发现，前端「日期 / 前一天 / 后一天 / 日K走势」即可用。
 
 > SPEC 中原以富途 Futu OpenAPI 作为默认数据源；由于已获得完整的逐笔委托+逐笔成交
 > 原始数据，本实现直接解析该归档，无需 Futu，逐笔委托号/撤单/委托地图等核心能力
@@ -28,7 +30,8 @@ python server.py            # 默认 http://127.0.0.1:8770
 ```
 
 依赖：`py7zr`（从 7z 归档按需抽取单只股票）。仅本机监听。
-首次加载某只股票会从归档抽取三个 CSV 到 `cache/<code>/` 并解析（约 1 秒），随后走内存缓存。
+首次加载某只股票（某交易日）会从对应归档抽取三个 CSV 到 `cache/<交易日>/<code>/` 并解析（约 1 秒），
+随后走内存缓存 +（按 交易日×代码 键的）列式二进制缓存 `cache/<交易日>/<code>/_cache_vN.bin`。
 
 环境变量：`HFQ_HOST`（默认 127.0.0.1）、`HFQ_PORT`（默认 8770）。
 
@@ -39,23 +42,27 @@ python server.py            # 默认 http://127.0.0.1:8770
 | 委托成交查看器 | 逐笔主表（委托/成交/撤单）+ 时间/类型/数量(股)/金额(万) 区间筛选 + 委托号追踪 + 时间定位 + 汇总统计 + 基本信息 + 筛选记录（累计筛选日志）+ 多选行（Shift/Ctrl）右键统计选中范围 / 导出 CSV·TXT |
 | 委托地图 | 时间×价格散点（绿买/红卖，气泡=委托量）+ 左侧十档累积阶梯（每价位累计委托买/卖量与撤单量，叠加当前时刻十档队列）+ 回放引擎（启动/暂停/复位/倍速×1~×100，时间游标驱动盘口、阶梯、散点游标线与底部明细）+ 时间滑块定位 + 底部委托买入/卖出明细（已成交/已撤单）|
 | 逐笔成交/分时 | 分时价+均价+成交量 + 成交/委托买入/委托卖出三联明细 + 区间统计 |
+| 日K走势 | 跨全部已加载交易日的日 K（蜡烛 OHLC + 成交量），标注当前交易日；点击某日 K 线即切换到该交易日逐笔 |
+| 交易日切换 | 顶栏「日期」下拉 + 前一天 / 后一天，按 交易日×代码 缓存，切换后基本信息/汇总/逐笔/地图/分时全部随之刷新 |
 | 追踪订单 | 右键任意行或输入委托号 → 单委托号 委托→成交→撤单 生命周期 |
 | 区间统计 | 分时图可视区间 或 主表多选行右键「统计选中范围」→ 涨幅/高低/成交量额/最大单笔/笔数 |
 | 导出 | 右键 → 导出选中（或全部）逐笔为 CSV / TXT |
 
 ## API
 
-`GET /api/` 静态页面；JSON 接口：
-`health` · `stocks?kw=` · `basic?code=` · `events?code=&start=&end=&type=&min_qty=&max_qty=&min_amt=&max_amt=` ·
-`ordermap?code=&min_qty=&max_qty=` · `orderbook?code=&t=` · `ladder?code=` · `books?code=` · `intraday?code=` ·
-`trades?code=&start=&end=` · `orders?code=&side=&start=&end=` ·
-`track?code=&order_id=` · `locate?code=&order_id=` · `region?code=&start=&end=`
+`GET /api/` 静态页面；JSON 接口（除 `dates` / `daily` 外均接受可选 `date=<YYYYMMDD>`，缺省取最新交易日）：
+`health` · `dates` · `stocks?kw=&date=` · `basic?code=&date=` · `daily?code=`（跨日日K） ·
+`events?code=&date=&start=&end=&type=&min_qty=&max_qty=&min_amt=&max_amt=` ·
+`ordermap?code=&date=&min_qty=&max_qty=` · `orderbook?code=&date=&t=` · `ladder?code=&date=` ·
+`books?code=&date=` · `intraday?code=&date=` · `trades?code=&date=&start=&end=` ·
+`orders?code=&date=&side=&start=&end=` · `track?code=&date=&order_id=` ·
+`locate?code=&date=&order_id=` · `region?code=&date=&start=&end=`
 
 > `min_amt`/`max_amt` 单位为**万元**；委托类事件按名义额（价×量）计，成交类按实际成交额计。
 
 ## 已知限制
 
-- 归档仅含单一交易日，故**日 K 走势**（需多日历史）暂未提供；分时/逐笔为当日完整数据。
+- 日 K 走势仅覆盖 `data-lv2/` 中已放入的交易日；日 K 的 OHLC 由当日十档快照派生（非官方日线）。
 - 换手率 / 流通股 / 市值 需外部静态数据，本数据集不含，界面按占位显示 `--`（不臆造）。
 - 个股名称不在数据内，列表以代码展示。
 
@@ -63,9 +70,9 @@ python server.py            # 默认 http://127.0.0.1:8770
 
 ```
 hfq/
-├── server.py          # 标准库 HTTP 服务 + 路由
-├── app/data.py        # 归档抽取、CSV 解析、统一事件流、统计、订单追踪
+├── server.py          # 标准库 HTTP 服务 + 路由（多交易日感知）
+├── app/data.py        # 交易日发现、归档抽取、CSV 解析、统一事件流、统计、订单追踪、日K
 ├── static/            # index.html / app.js / styles.css / vendor/echarts.min.js
-├── cache/             # 按需抽取的个股 CSV（自动生成）
-└── data-lv2/20260918.7z
+├── cache/<交易日>/    # 按需抽取的个股 CSV + 二进制缓存（自动生成）
+└── data-lv2/*.7z      # 每个交易日一个归档（20260916 / 20260917 / 20260918 …）
 ```

@@ -476,24 +476,56 @@ def _decode_stock(blob: bytes):
     return events, quotes
 
 
-# 简单的 LRU 内存缓存（避免重复解析）
-_MEM: "OrderedDict[str, StockData]" = OrderedDict()
+# 简单的 LRU 内存缓存（避免重复解析），按 (code, date) 键
+_MEM: "OrderedDict[tuple, StockData]" = OrderedDict()
 _MEM_CAP = 12
 _mem_lock = threading.Lock()
 
 
-def get_stock(code: str) -> StockData:
+def get_stock(code: str, date: str = DEFAULT_DATE) -> StockData:
+    date = _norm_date(date)
+    key = (code, date)
     with _mem_lock:
-        if code in _MEM:
-            _MEM.move_to_end(code)
-            return _MEM[code]
-    sd = StockData(code)  # 解析在锁外进行
+        if key in _MEM:
+            _MEM.move_to_end(key)
+            return _MEM[key]
+    sd = StockData(code, date)  # 解析在锁外进行
     with _mem_lock:
-        _MEM[code] = sd
-        _MEM.move_to_end(code)
+        _MEM[key] = sd
+        _MEM.move_to_end(key)
         while len(_MEM) > _MEM_CAP:
             _MEM.popitem(last=False)
     return sd
+
+
+def daily_kline(code: str) -> dict:
+    """跨全部可用交易日的日 K（OHLC + 量/额），供日 K 走势视图。
+
+    每日 OHLC 来自当日十档快照派生的 basic；量/额取当日最后一笔累计值。
+    首日缺前收时以开盘价兜底。逐日解析走二进制缓存，除首访外很快。
+    """
+    days = []
+    for d in DATES:
+        try:
+            sd = get_stock(code, d)
+        except KeyError:
+            continue  # 该日无此标的
+        b = sd.basic
+        if not b.get("last"):
+            continue
+        prev = b["prev_close"] or b["open"] or b["last"]
+        days.append({
+            "date": d,
+            "open": b["open"] or prev,
+            "high": b["high"] or b["last"],
+            "low": b["low"] or b["last"],
+            "close": b["last"],
+            "prev_close": prev,
+            "change_pct": b["change_pct"],
+            "vol": b.get("cum_vol", 0),
+            "amt": round(b.get("cum_amt", 0) / 1e4, 2),  # 万元
+        })
+    return {"code": code, "days": days}
 
 
 # --------------------------------------------------------------------------- #

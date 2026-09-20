@@ -104,11 +104,17 @@ class Handler(BaseHTTPRequestHandler):
 
     def _api(self, route, q):
         if route == "health":
-            return self._json({"status": "ok", "service": "hfq-lv2", "date": data.TRADE_DATE})
+            return self._json({"status": "ok", "service": "hfq-lv2",
+                               "date": data.DEFAULT_DATE, "dates": data.DATES})
+
+        if route == "dates":
+            return self._json({"dates": data.DATES, "default": data.DEFAULT_DATE})
+
+        date = self._get(q, "date")
 
         if route == "stocks":
             kw = (self._get(q, "kw", "") or "").upper()
-            stocks = data.list_stocks()
+            stocks = data.list_stocks(date)
             if kw:
                 stocks = [s for s in stocks if kw in s["code"]]
             return self._json({"total": len(stocks), "stocks": stocks[:500]})
@@ -117,11 +123,14 @@ class Handler(BaseHTTPRequestHandler):
         if not code:
             return self._err("缺少参数 code")
 
+        if route == "daily":
+            return self._json(data.daily_kline(code))
+
         if route == "basic":
-            return self._json(data.get_stock(code).basic)
+            return self._json(data.get_stock(code, date).basic)
 
         if route == "events":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             ev = data.filter_events(
                 sd,
                 t_start=parse_time(self._get(q, "start")),
@@ -142,7 +151,7 @@ class Handler(BaseHTTPRequestHandler):
             })
 
         if route == "ordermap":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             min_qty = _iopt(self._get(q, "min_qty"))
             max_qty = _iopt(self._get(q, "max_qty"))
             buy, sell = [], []
@@ -159,21 +168,21 @@ class Handler(BaseHTTPRequestHandler):
                                "basic": sd.basic})
 
         if route == "orderbook":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             t = parse_time(self._get(q, "t")) or 150000000
             return self._json(data.order_book_at(sd, t))
 
         if route == "ladder":
-            return self._json({"code": code, "ladder": data.build_ladder(data.get_stock(code))})
+            return self._json({"code": code, "ladder": data.build_ladder(data.get_stock(code, date))})
 
         if route == "books":
-            return self._json(data.all_books(data.get_stock(code)))
+            return self._json(data.all_books(data.get_stock(code, date)))
 
         if route == "intraday":
-            return self._json(data.intraday(data.get_stock(code)))
+            return self._json(data.intraday(data.get_stock(code, date)))
 
         if route == "trades":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             ts = parse_time(self._get(q, "start"))
             te = parse_time(self._get(q, "end"))
             out = []
@@ -190,7 +199,7 @@ class Handler(BaseHTTPRequestHandler):
                                "trades": out[-limit:]})
 
         if route == "orders":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             side = self._get(q, "side")
             side = side if side in ("买", "卖") else None
             return self._json(data.list_orders(
@@ -200,21 +209,21 @@ class Handler(BaseHTTPRequestHandler):
                 limit=min(int(self._get(q, "limit", "800")), 5000)))
 
         if route == "locate":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             oid = _iopt(self._get(q, "order_id"))
             if oid is None:
                 return self._err("缺少 order_id")
             return self._json(data.locate_order(sd, oid))
 
         if route == "track":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             oid = _iopt(self._get(q, "order_id"))
             if oid is None:
                 return self._err("缺少 order_id")
             return self._json(data.track_order(sd, oid))
 
         if route == "region":
-            sd = data.get_stock(code)
+            sd = data.get_stock(code, date)
             ts = parse_time(self._get(q, "start"))
             te = parse_time(self._get(q, "end"))
             return self._json(_region_stats(sd, ts, te))
@@ -279,7 +288,7 @@ def _region_stats(sd, ts, te):
 
 
 def main():
-    print(f"hfq LV2 终端启动：http://{HOST}:{PORT}  (交易日 {data.TRADE_DATE})")
+    print(f"hfq LV2 终端启动：http://{HOST}:{PORT}  (交易日 {', '.join(data.DATES) or data.DEFAULT_DATE})")
     print("首次加载某只股票会从归档抽取并解析，稍候几秒。")
     ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
 

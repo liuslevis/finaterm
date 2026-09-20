@@ -23,6 +23,7 @@ input::placeholder { color: #56707f; }
 #top .brand { font-weight: 700; color: var(--accent); letter-spacing: .5px; }
 #top .sep { flex: 1; }
 #top .status { color: var(--fg2); font-size: 12px; }
+#top label { color: var(--fg2); font-size: 12px; }
 #tabs { display: flex; gap: 4px; }
 #tabs button { padding: 5px 14px; }
 
@@ -91,6 +92,7 @@ td.l, th.l { text-align: left; }
 .chart { width: 100%; }
 .maprow { display: flex; flex: 1; min-height: 0; }
 #mapChart { flex: 1; min-height: 0; } #tickChart { height: 42%; }
+#dailyChart { flex: 1; min-height: 0; }
 .ladder { width: 300px; overflow-y: auto; border-right: 1px solid var(--border);
   background: var(--panel); font-family: Consolas, monospace; font-size: 11px; }
 .ladder table { width: 100%; border-collapse: collapse; }
