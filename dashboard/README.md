@@ -6,11 +6,11 @@ A local financial dashboard for monitoring global markets, macro trends, semicon
 
 | Semiconductor Cycle | Macro & Correlation |
 |---|---|
-| ![Semiconductor cycle dashboard](1.jpg) | ![Macro and correlation dashboard](2.jpg) |
+| ![Semiconductor cycle dashboard](img/1.jpg) | ![Macro and correlation dashboard](img/2.jpg) |
 
 | Global Markets | QQQ Downside Factors |
 |---|---|
-| ![Global markets dashboard](3.jpg) | ![QQQ downside factors dashboard](4.jpg) |
+| ![Global markets dashboard](img/3.jpg) | ![QQQ downside factors dashboard](img/4.jpg) |
 
 ## Run
 

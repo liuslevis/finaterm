@@ -3,6 +3,13 @@
 复现 `hfq/screenshot` 中「委托成交查看器」的 A 股 Level-2 逐笔数据回放/复盘工具。
 设计规格见 [`SPEC_OPUS48.md`](SPEC_OPUS48.md)。
 
+## 截图
+
+![img](img/1.JPG)
+![img](img/2.JPG)
+![img](img/3.JPG)
+![img](img/4.JPG)
+
 ## 数据源
 
 本实现使用真实 **深交所 / 上交所 Level-2 逐笔行情**（万得 Wind CSV 格式），
