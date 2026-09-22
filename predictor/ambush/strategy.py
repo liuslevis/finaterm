@@ -26,6 +26,8 @@ CACHE_DIR = HFQ_DIR / "cache" / "ambush"
 DEFAULT_SIGNAL_DATE = "20260901"
 PRICE_SCALE = 10_000
 FORWARD_HORIZONS = {"3d": 3, "1w": 5, "2w": 10, "3w": 15}
+LV2_MODEL_PATH = Path(__file__).with_name("lv2_score_model.json")
+SKIPPED_KLINE_CODES = {"689009.SH"}
 
 
 @dataclass(frozen=True)
@@ -140,6 +142,8 @@ def fetch_candidate_klines(
     result: dict[str, pd.DataFrame] = {}
     missing: list[str] = []
     for code in event["code"]:
+        if code in SKIPPED_KLINE_CODES:
+            continue
         path = cache / f"{code.replace('.', '_')}.csv"
         if path.exists():
             frame = pd.read_csv(path, parse_dates=["date"])
@@ -251,6 +255,43 @@ def percentile_score(
     return score / total_weight * 100
 
 
+def signed_percentile_score(
+    frame: pd.DataFrame,
+    directions: dict[str, int],
+    group_column: str | None = None,
+) -> pd.Series:
+    return weighted_signed_percentile_score(frame, directions, group_column)
+
+
+def weighted_signed_percentile_score(
+    frame: pd.DataFrame,
+    weights: dict[str, float],
+    group_column: str | None = None,
+) -> pd.Series:
+    raw = pd.Series(0.0, index=frame.index)
+    for feature, weight in weights.items():
+        if group_column:
+            rank = frame.groupby(group_column)[feature].rank(
+                method="average", pct=True
+            )
+        else:
+            rank = frame[feature].rank(method="average", pct=True)
+        raw += weight * (rank - 0.5)
+    if group_column:
+        return raw.groupby(frame[group_column]).rank(method="average", pct=True) * 100
+    return raw.rank(method="average", pct=True) * 100
+
+
+def load_production_lv2_model(signal_date: str) -> dict | None:
+    if not LV2_MODEL_PATH.exists():
+        return None
+    model = json.loads(LV2_MODEL_PATH.read_text(encoding="utf-8"))
+    available_after = model.get("validated_through", model["trained_through"])
+    if signal_date <= available_after:
+        return None
+    return model
+
+
 def limit_up_rate(code: str, name: str = "") -> float:
     if "ST" in name.upper():
         return 0.05
@@ -294,6 +335,7 @@ def kline_selection_metrics(
         "event_close": event_row["close"],
         "event_volume": event_row["volume"],
         "event_amount": event_row["amount"],
+        "previous_close": previous["close"],
         "event_gain_pct": (event_row["close"] / previous["close"] - 1) * 100,
         "limit_up_rate_pct": rate * 100,
         "limit_up_price": limit_price,
@@ -316,6 +358,134 @@ def _clock_ms_to_seconds(value: int) -> float:
     return hours * 3600 + minutes * 60 + seconds + milliseconds / 1000
 
 
+def _seconds_to_clock_ms(value: float) -> int:
+    milliseconds = round((value - math.floor(value)) * 1000)
+    whole = math.floor(value)
+    hours, remainder = divmod(whole, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return hours * 10_000_000 + minutes * 100_000 + seconds * 1000 + milliseconds
+
+
+def detect_launch_window(
+    trades: list[tuple[float, int, int, str]],
+    previous_close: float,
+    limit_rate: float,
+) -> dict[str, float | int | str | bool]:
+    valid = [trade for trade in trades if trade[1] > 0 and trade[2] > 0]
+    if not valid or previous_close <= 0:
+        return {
+            "launch_detected": False,
+            "launch_type": "NONE",
+            "t_start": 0,
+            "t_detect": 0,
+        }
+
+    threshold_price = previous_close * (1 + limit_rate * 0.7) * PRICE_SCALE
+    auction = [trade for trade in valid if trade[0] < 9.5 * 3600]
+    if auction:
+        auction_buy = sum(qty for _, _, qty, side in auction if side == "B")
+        auction_qty = sum(qty for _, _, qty, _ in auction)
+        if (
+            max(price for _, price, _, _ in auction) >= threshold_price
+            and auction_buy / auction_qty >= 0.60
+        ):
+            start = min(second for second, _, _, _ in auction)
+            detect = max(second for second, _, _, _ in auction)
+            return {
+                "launch_detected": True,
+                "launch_type": "AUCTION_TRIGGER",
+                "t_start": _seconds_to_clock_ms(start),
+                "t_detect": _seconds_to_clock_ms(detect),
+            }
+
+    continuous = [trade for trade in valid if trade[0] >= 9.5 * 3600]
+    minute_rows: dict[int, dict[str, float]] = {}
+    running_high = 0
+    cumulative_qty = 0
+    for second, price, qty, side in continuous:
+        minute = int(second // 60)
+        row = minute_rows.setdefault(
+            minute,
+            {"open": price, "close": price, "high": price, "qty": 0, "buy_qty": 0},
+        )
+        row["close"] = price
+        row["high"] = max(row["high"], price)
+        row["qty"] += qty
+        if side == "B":
+            row["buy_qty"] += qty
+
+    minutes = sorted(minute_rows)
+    effective_volumes: list[float] = []
+    for index, minute in enumerate(minutes):
+        row = minute_rows[minute]
+        cumulative_qty += row["qty"]
+        running_high = max(running_high, row["high"])
+        effective_volumes.append(row["qty"])
+        if index < 2:
+            continue
+        window_minutes = minutes[index - 2 : index + 1]
+        if window_minutes[-1] - window_minutes[0] != 2:
+            continue
+        window = [minute_rows[item] for item in window_minutes]
+        window_qty = sum(item["qty"] for item in window)
+        window_buy = sum(item["buy_qty"] for item in window)
+        prior_volumes = effective_volumes[max(0, index - 22) : index - 2]
+        if len(prior_volumes) < 3:
+            continue
+        baseline = float(pd.Series(prior_volumes).median())
+        three_min_return = window[-1]["close"] / window[0]["open"] - 1
+        price_condition = (
+            window[-1]["high"] >= threshold_price or three_min_return >= 0.03
+        )
+        if (
+            price_condition
+            and baseline > 0
+            and window_qty >= baseline * 8
+            and window_buy / window_qty >= 0.60
+            and window_qty / cumulative_qty >= 0.10
+            and window[-1]["high"] >= running_high
+        ):
+            return {
+                "launch_detected": True,
+                "launch_type": "CONTINUOUS_TRIGGER",
+                "t_start": _seconds_to_clock_ms(window_minutes[0] * 60),
+                "t_detect": _seconds_to_clock_ms((window_minutes[-1] + 1) * 60 - 0.001),
+            }
+    return {
+        "launch_detected": False,
+        "launch_type": "NONE",
+        "t_start": 0,
+        "t_detect": 0,
+    }
+
+
+def _record_trade_fill(
+    orders: dict[int, dict],
+    sequence: int,
+    linked_side: str,
+    market: str,
+    aggressor: str,
+    event_time: int,
+    qty: int,
+) -> tuple[bool, bool]:
+    is_passive = (
+        (aggressor == "B" and linked_side == "S")
+        or (aggressor == "S" and linked_side == "B")
+    )
+    is_link_opportunity = bool(sequence) and (market == "SZ" or is_passive)
+    order = orders.get(sequence)
+    if order is None:
+        return is_link_opportunity, is_link_opportunity
+    is_immediate_sh_aggressor = (
+        market == "SH"
+        and not is_passive
+        and event_time <= order["time"]
+    )
+    if not is_immediate_sh_aggressor:
+        order["events"].append((event_time, qty, "fill"))
+    return is_link_opportunity, False
+
+
 def analyze_lv2(
     order_path: Path,
     trade_path: Path,
@@ -323,9 +493,12 @@ def analyze_lv2(
     market: str,
     outstanding_share: float,
     limits: Thresholds,
-    cutoff: int = 132000000,
+    previous_close: float,
+    limit_rate: float,
 ) -> dict[str, float]:
     orders: dict[int, dict] = {}
+    orphan_cancel_cnt = 0
+    orphan_cancel_qty = 0
     with order_path.open(encoding="gbk", errors="replace", newline="") as handle:
         reader = csv.reader(handle)
         next(reader, None)
@@ -339,6 +512,9 @@ def analyze_lv2(
                     orders[sequence]["events"].append(
                         (_raw_int(row[3]), _raw_int(row[9]), "cancel")
                     )
+                else:
+                    orphan_cancel_cnt += 1
+                    orphan_cancel_qty += _raw_int(row[9])
                 continue
             if side not in {"B", "S"} or (market == "SH" and order_type != "A"):
                 continue
@@ -351,6 +527,8 @@ def analyze_lv2(
             }
 
     trades: list[tuple[float, int, int, str]] = []
+    unknown_link_qty = 0
+    link_opportunity_qty = 0
     with trade_path.open(encoding="gbk", errors="replace", newline="") as handle:
         reader = csv.reader(handle)
         next(reader, None)
@@ -366,10 +544,27 @@ def analyze_lv2(
                 sequence = buy_sequence or sell_sequence
                 if sequence in orders:
                     orders[sequence]["events"].append((event_time, qty, "cancel"))
+                else:
+                    orphan_cancel_cnt += 1
+                    orphan_cancel_qty += qty
                 continue
-            for sequence in (sell_sequence, buy_sequence):
-                if sequence in orders:
-                    orders[sequence]["events"].append((event_time, qty, "fill"))
+            for sequence, linked_side in (
+                (sell_sequence, "S"),
+                (buy_sequence, "B"),
+            ):
+                is_opportunity, is_unknown = _record_trade_fill(
+                    orders,
+                    sequence,
+                    linked_side,
+                    market,
+                    aggressor,
+                    event_time,
+                    qty,
+                )
+                if is_opportunity:
+                    link_opportunity_qty += qty
+                if is_unknown:
+                    unknown_link_qty += qty
             if aggressor in {"B", "S"}:
                 trades.append(
                     (
@@ -380,10 +575,44 @@ def analyze_lv2(
                     )
                 )
 
+    launch = detect_launch_window(trades, previous_close, limit_rate)
+    cutoff = int(launch["t_start"])
+
+    quote_times: list[int] = []
+    quote_last_prices: list[float] = []
+    order_book_imbalances = []
+    last_price = 0.0
+    with quote_path.open(encoding="gbk", errors="replace", newline="") as handle:
+        reader = csv.reader(handle)
+        next(reader, None)
+        for row in reader:
+            if len(row) < 58:
+                continue
+            quote_time = _raw_int(row[3])
+            quote_last = _raw_int(row[4]) / PRICE_SCALE
+            if quote_last:
+                quote_times.append(quote_time)
+                quote_last_prices.append(quote_last)
+                last_price = quote_last
+            ask_qty = sum(_raw_int(row[27 + index]) for index in range(10))
+            bid_qty = sum(_raw_int(row[47 + index]) for index in range(10))
+            total = bid_qty + ask_qty
+            if total:
+                order_book_imbalances.append((bid_qty - ask_qty) / total * 100)
+
+    def last_at(event_time: int) -> float:
+        index = bisect.bisect_right(quote_times, event_time) - 1
+        return quote_last_prices[index] if index >= 0 else previous_close
+
     pre_cutoff_sell_qty = sum(
         order["qty"]
         for order in orders.values()
         if order["side"] == "S" and order["time"] <= cutoff
+    )
+    fixed_1320_gross_sell_qty = sum(
+        order["qty"]
+        for order in orders.values()
+        if order["side"] == "S" and order["time"] <= 132000000
     )
     persistent_sell_qty = 0
     persistent_sell_orders = 0
@@ -391,6 +620,11 @@ def analyze_lv2(
     canceled_sell_qty_before_cutoff = 0
     filled_sell_qty_before_cutoff = 0
     canceled_order_qty_before_cutoff = 0
+    negative_remaining_cnt = 0
+    negative_remaining_qty = 0
+    sell_lifetimes = []
+    above_market_sell_qty = 0
+    above_market_distance_qty_bps = 0.0
     minimum_lifetime = limits.min_persistent_minutes * 60
     cutoff_seconds = _clock_ms_to_seconds(cutoff)
     for order in orders.values():
@@ -407,7 +641,11 @@ def analyze_lv2(
             for event_time, qty, kind in order["events"]
             if event_time <= cutoff and kind == "cancel"
         )
-        remaining = max(order["qty"] - filled - canceled, 0)
+        raw_remaining = order["qty"] - filled - canceled
+        if raw_remaining < 0:
+            negative_remaining_cnt += 1
+            negative_remaining_qty += -raw_remaining
+        remaining = max(raw_remaining, 0)
         active_sell_qty_at_cutoff += remaining
         canceled_sell_qty_before_cutoff += canceled
         filled_sell_qty_before_cutoff += filled
@@ -418,6 +656,13 @@ def analyze_lv2(
         ):
             persistent_sell_qty += remaining
             persistent_sell_orders += 1
+        sell_lifetimes.append(max(cutoff_seconds - start, 0))
+        market_price = last_at(order["time"])
+        if market_price > 0 and order["price"] > market_price:
+            above_market_sell_qty += order["qty"]
+            above_market_distance_qty_bps += (
+                (order["price"] / market_price - 1) * 10_000 * order["qty"]
+            )
 
     for order in orders.values():
         if order["time"] > cutoff:
@@ -493,6 +738,9 @@ def analyze_lv2(
     for completions in completion_by_side_price.values():
         completions.sort()
     refill_qty = {"B": 0, "S": 0}
+    post_detect_refill_qty = {"B": 0, "S": 0}
+    sell_wall_refill_qty = 0
+    detect_seconds = _clock_ms_to_seconds(int(launch["t_detect"]))
     for order in orders.values():
         completions = completion_by_side_price.get(
             (order["side"], order["price"]), []
@@ -501,22 +749,14 @@ def analyze_lv2(
         index_at = bisect.bisect_right(completions, start)
         if index_at and start - completions[index_at - 1] <= 3:
             refill_qty[order["side"]] += order["qty"]
-
-    order_book_imbalances = []
-    last_price = 0.0
-    with quote_path.open(encoding="gbk", errors="replace", newline="") as handle:
-        reader = csv.reader(handle)
-        next(reader, None)
-        for row in reader:
-            if len(row) < 58:
-                continue
-            ask_qty = sum(_raw_int(row[27 + index]) for index in range(10))
-            bid_qty = sum(_raw_int(row[47 + index]) for index in range(10))
-            total = bid_qty + ask_qty
-            if total:
-                order_book_imbalances.append((bid_qty - ask_qty) / total * 100)
-            if _raw_int(row[4]):
-                last_price = _raw_int(row[4]) / PRICE_SCALE
+            if start >= detect_seconds:
+                post_detect_refill_qty[order["side"]] += order["qty"]
+            if (
+                order["side"] == "S"
+                and order["time"] <= cutoff
+                and order["price"] > last_at(order["time"])
+            ):
+                sell_wall_refill_qty += order["qty"]
 
     buy_trades = sorted((second, qty) for second, _, qty, side in trades if side == "B")
     buy_trades.sort()
@@ -530,12 +770,95 @@ def analyze_lv2(
             left += 1
         max_buy_3m = max(max_buy_3m, rolling_qty)
 
+    launch_trades = [
+        trade
+        for trade in trades
+        if cutoff_seconds <= trade[0] <= detect_seconds
+    ]
+    launch_buy_qty = sum(qty for _, _, qty, side in launch_trades if side == "B")
+    launch_absorption_ratio_pct = (
+        launch_buy_qty / active_sell_qty_at_cutoff * 100
+        if active_sell_qty_at_cutoff
+        else 0
+    )
+    post_detect_trades = [trade for trade in trades if trade[0] > detect_seconds]
+    post_detect_qty = sum(qty for _, _, qty, _ in post_detect_trades)
+    limit_price_raw = previous_close * (1 + limit_rate) * PRICE_SCALE
+    narrow_band_qty = sum(
+        qty
+        for _, price, qty, _ in post_detect_trades
+        if abs(price - limit_price_raw) / limit_price_raw <= 0.002
+    )
+    if post_detect_trades:
+        post_first = post_detect_trades[0][1]
+        post_last = post_detect_trades[-1][1]
+        post_net_move_ratio = abs(post_last - post_first) / max(post_first, 1)
+    else:
+        post_net_move_ratio = 0
+    bilateral_refill_ratio = (
+        min(post_detect_refill_qty.values()) / post_detect_qty
+        if post_detect_qty
+        else 0
+    )
+    churn_proxy_pct = (
+        post_detect_qty
+        / max(trade_qty, 1)
+        * (narrow_band_qty / max(post_detect_qty, 1))
+        * max(1 - post_net_move_ratio / 0.005, 0)
+        * min(bilateral_refill_ratio, 1)
+        * 100
+    )
+
     first_trade_price = price_values[0] / PRICE_SCALE if price_values else 0
     price_change_pct = (
         (last_price / first_trade_price - 1) * 100 if first_trade_price else 0
     )
+    unknown_link_ratio_pct = (
+        unknown_link_qty / max(link_opportunity_qty, 1) * 100
+    )
+    data_quality_valid = (
+        bool(launch["launch_detected"])
+        and negative_remaining_cnt == 0
+        and orphan_cancel_cnt == 0
+        and unknown_link_ratio_pct <= 1
+    )
+    quality_reasons = []
+    if not launch["launch_detected"]:
+        quality_reasons.append("launch_not_detected")
+    if negative_remaining_cnt:
+        quality_reasons.append("negative_remaining")
+    if orphan_cancel_cnt:
+        quality_reasons.append("orphan_cancel")
+    if unknown_link_ratio_pct > 1:
+        quality_reasons.append("unknown_link_gt_1pct")
+    large_sell_orders = [
+        order
+        for order in orders.values()
+        if order["side"] == "S"
+        and order["time"] <= cutoff
+        and order["qty"] >= limits.min_order_qty
+    ]
+    large_sell_qty = sum(order["qty"] for order in large_sell_orders)
+    large_sell_cancel_qty = sum(
+        qty
+        for order in large_sell_orders
+        for event_time, qty, kind in order["events"]
+        if event_time <= cutoff and kind == "cancel"
+    )
     return {
+        **launch,
+        "data_quality_valid": data_quality_valid,
+        "data_quality_reason": "|".join(quality_reasons),
+        "negative_remaining_cnt": negative_remaining_cnt,
+        "negative_remaining_qty": negative_remaining_qty,
+        "orphan_cancel_cnt": orphan_cancel_cnt,
+        "orphan_cancel_qty": orphan_cancel_qty,
+        "unknown_link_ratio_pct": unknown_link_ratio_pct,
         "pre_cutoff_sell_qty": pre_cutoff_sell_qty,
+        "fixed_1320_gross_sell_qty": fixed_1320_gross_sell_qty,
+        "fixed_1320_gross_sell_float_ratio_pct": fixed_1320_gross_sell_qty
+        / outstanding_share
+        * 100,
         "active_sell_qty_at_cutoff": active_sell_qty_at_cutoff,
         "persistent_sell_orders": persistent_sell_orders,
         "persistent_sell_qty": persistent_sell_qty,
@@ -543,6 +866,30 @@ def analyze_lv2(
             persistent_sell_qty / pre_cutoff_sell_qty * 100
             if pre_cutoff_sell_qty
             else 0
+        ),
+        "sell_lifetime_mean_seconds": (
+            float(pd.Series(sell_lifetimes).mean()) if sell_lifetimes else 0
+        ),
+        "sell_lifetime_median_seconds": (
+            float(pd.Series(sell_lifetimes).median()) if sell_lifetimes else 0
+        ),
+        "above_market_sell_share_pct": (
+            above_market_sell_qty / pre_cutoff_sell_qty * 100
+            if pre_cutoff_sell_qty
+            else 0
+        ),
+        "above_market_sell_distance_bps": (
+            above_market_distance_qty_bps / above_market_sell_qty
+            if above_market_sell_qty
+            else 0
+        ),
+        "sell_wall_refill_ratio_pct": (
+            sell_wall_refill_qty / pre_cutoff_sell_qty * 100
+            if pre_cutoff_sell_qty
+            else 0
+        ),
+        "large_sell_cancel_ratio_pct": (
+            large_sell_cancel_qty / large_sell_qty * 100 if large_sell_qty else 0
         ),
         "sell_cancel_ratio_pct": (
             canceled_sell_qty_before_cutoff / pre_cutoff_sell_qty * 100
@@ -567,6 +914,18 @@ def analyze_lv2(
         / outstanding_share
         * 100,
         "max_aggressive_buy_3m": max_buy_3m,
+        "max_aggressive_buy_3m_float_pct": max_buy_3m
+        / outstanding_share
+        * 100,
+        "max_aggressive_buy_3m_volume_pct": max_buy_3m / max(trade_qty, 1) * 100,
+        "max_aggressive_buy_3m_prelaunch_sell_pct": (
+            max_buy_3m / pre_cutoff_sell_qty * 100
+            if pre_cutoff_sell_qty
+            else 0
+        ),
+        "launch_buy_qty": launch_buy_qty,
+        "launch_absorption_ratio_pct": launch_absorption_ratio_pct,
+        "churn_proxy_pct": churn_proxy_pct,
         "delta_qty": delta_qty,
         "delta_ratio_pct": delta_qty / trade_qty * 100 if trade_qty else 0,
         "price_change_from_first_trade_pct": price_change_pct,
@@ -773,6 +1132,8 @@ def main() -> None:
                 code.split(".")[1],
                 row["outstanding_share"],
                 limits,
+                row["previous_close"],
+                row["limit_up_rate_pct"] / 100,
             )
             result = {**row, **lv2}
             result["aggressive_buy_3m_event_volume_pct"] = (
@@ -807,23 +1168,45 @@ def main() -> None:
             "median_order_book_imbalance_pct": (5, True),
         },
     )
+    diagnostics["lv2_model_score"] = math.nan
+    diagnostics["lv2_score_used"] = "legacy"
+    lv2_for_final_score = diagnostics["lv2_score"]
+    production_model = load_production_lv2_model(date)
+    if production_model:
+        model_weights = production_model.get(
+            "production_weights", production_model["production_directions"]
+        )
+        diagnostics["lv2_model_score"] = weighted_signed_percentile_score(
+            diagnostics,
+            model_weights,
+        )
+        diagnostics["lv2_score_used"] = f"v{production_model['version']}"
+        lv2_for_final_score = diagnostics["lv2_model_score"]
     diagnostics["score"] = (
         diagnostics["dormancy_score"] * 0.45
         + diagnostics["trigger_score"] * 0.20
-        + diagnostics["lv2_score"] * 0.35
+        + lv2_for_final_score * 0.35
     )
     high_confidence = (
         diagnostics["passes_dormant_filter"]
+        & diagnostics["data_quality_valid"]
         & diagnostics["meets_10pct_gross_sell_proxy"]
+        & (diagnostics["active_sell_float_ratio_pct"] >= 2)
         & (diagnostics["persistent_sell_share_pct"] >= 5)
+        & (diagnostics["sell_cancel_ratio_pct"] <= 50)
     )
-    medium_confidence = diagnostics["passes_dormant_filter"] & (
+    medium_confidence = (
+        diagnostics["passes_dormant_filter"]
+        & diagnostics["data_quality_valid"]
+        & (
         (diagnostics["gross_sell_float_ratio_pct"] >= 5)
         | (diagnostics["persistent_sell_share_pct"] >= 5)
+        )
     )
     diagnostics["signal_quality"] = "watch"
     diagnostics.loc[medium_confidence, "signal_quality"] = "medium"
     diagnostics.loc[high_confidence, "signal_quality"] = "high"
+    diagnostics.loc[~diagnostics["launch_detected"], "signal_quality"] = "invalid"
     diagnostics = diagnostics.sort_values(
         ["score", "dormancy_score", "lv2_score"], ascending=False
     ).reset_index(drop=True)
@@ -853,7 +1236,16 @@ def main() -> None:
         "dormancy_score",
         "trigger_score",
         "lv2_score",
+        "lv2_model_score",
+        "lv2_score_used",
         "signal_quality",
+        "launch_type",
+        "t_start",
+        "t_detect",
+        "data_quality_valid",
+        "negative_remaining_cnt",
+        "orphan_cancel_cnt",
+        "unknown_link_ratio_pct",
         "event_gain_pct",
         "event_volume_ratio",
         "bottom_percentile",
@@ -869,6 +1261,11 @@ def main() -> None:
         "cancel_to_trade_qty_ratio_pct",
         "meets_10pct_gross_sell_proxy",
         "max_aggressive_buy_3m",
+        "max_aggressive_buy_3m_float_pct",
+        "max_aggressive_buy_3m_volume_pct",
+        "max_aggressive_buy_3m_prelaunch_sell_pct",
+        "launch_absorption_ratio_pct",
+        "churn_proxy_pct",
         "delta_ratio_pct",
         "bullish_cvd_divergence",
         "large_order_net_flow_pct",
