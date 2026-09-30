@@ -1,6 +1,11 @@
+import argparse
+import json
+
 import pandas as pd
 import pytest
+import strategy
 from strategy import (
+    _kline_cache_covers,
     _record_trade_fill,
     Thresholds,
     add_forward_returns,
@@ -9,6 +14,8 @@ from strategy import (
     is_a_share,
     limit_up_rate,
     load_production_lv2_model,
+    opening_buy_layout_metrics,
+    parse_cache_k_after,
     passes_dormant_filter,
     percentile_score,
     rounded_limit_price,
@@ -25,13 +32,56 @@ def test_a_share_code_filter():
     assert not is_a_share("510300.SH")
 
 
-def test_known_unavailable_kline_is_skipped():
-    assert "689009.SH" in SKIPPED_KLINE_CODES
+def test_known_unavailable_klines_are_skipped():
+    assert SKIPPED_KLINE_CODES == {
+        "000004.SZ",
+        "002808.SZ",
+        "002898.SZ",
+        "300029.SZ",
+        "689009.SH",
+    }
 
 
-def test_v4_model_is_only_available_after_validation_window():
-    assert load_production_lv2_model("20260916") is None
-    assert load_production_lv2_model("20260917")["version"] == 4
+def test_cache_k_after_requires_valid_month():
+    assert parse_cache_k_after("202601") == "202601"
+    with pytest.raises(argparse.ArgumentTypeError, match="YYYYMM"):
+        parse_cache_k_after("2026-01")
+    with pytest.raises(argparse.ArgumentTypeError, match="month 01-12"):
+        parse_cache_k_after("202613")
+
+
+def test_kline_cache_uses_requested_coverage_not_last_trade(tmp_path):
+    coverage = tmp_path / "000001_SZ.coverage.json"
+    coverage.write_text(
+        json.dumps({"start_date": "20260101", "end_date": "20260921"}),
+        encoding="utf-8",
+    )
+
+    assert _kline_cache_covers(coverage, "20260101", "20260921")
+    assert not _kline_cache_covers(coverage, "20251201", "20260921")
+    assert not _kline_cache_covers(coverage, "20260101", "20260922")
+    with pytest.raises(Exception, match="month 01-12"):
+        parse_cache_k_after("202613")
+
+
+def test_v5_model_is_available_after_training_window(tmp_path, monkeypatch):
+    model_path = tmp_path / "lv2_score_model.json"
+    model_path.write_text(
+        json.dumps(
+            {
+                "version": 5,
+                "trained_through": "20260731",
+                "available_after": "20260731",
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(strategy, "LV2_MODEL_PATH", model_path)
+
+    assert load_production_lv2_model("20260731") is None
+    model = load_production_lv2_model("20260801")
+    assert model is not None
+    assert model["version"] == 5
 
 
 def test_horizontal_thresholds_are_inclusive():
@@ -187,3 +237,74 @@ def test_sz_records_both_sides_and_flags_missing_links():
     assert opportunity and not unknown
     assert missing_opportunity and missing_unknown
     assert orders[10]["events"] == [(1000, 300, "fill")]
+
+
+def test_opening_buy_layout_aggregates_split_orders_and_final_fills():
+    orders = {
+        1: {
+            "time": 92000000,
+            "side": "B",
+            "price": 10.0,
+            "qty": 400,
+            "events": [(93000000, 300, "fill"), (93100000, 100, "cancel")],
+        },
+        2: {
+            "time": 92400000,
+            "side": "B",
+            "price": 9.99,
+            "qty": 600,
+            "events": [(140000000, 500, "fill")],
+        },
+        3: {
+            "time": 92600000,
+            "side": "B",
+            "price": 9.98,
+            "qty": 10_000,
+            "events": [(101000000, 10_000, "fill")],
+        },
+    }
+
+    metrics = opening_buy_layout_metrics(
+        orders,
+        trade_qty=2_000,
+        launch_start=92500000,
+    )
+
+    assert metrics["opening_buy_submission_end"] == 92500000
+    assert metrics["opening_buy_order_count"] == 2
+    assert metrics["opening_buy_price_levels"] == 2
+    assert metrics["opening_buy_order_volume_pct"] == 50
+    assert metrics["opening_buy_fill_ratio_pct"] == 80
+    assert metrics["opening_buy_filled_volume_pct"] == 40
+    assert metrics["opening_buy_filled_order_count"] == 2
+    assert metrics["opening_buy_completed_order_count"] == 0
+    assert metrics["opening_buy_cancel_ratio_pct"] == 10
+
+
+def test_opening_buy_layout_caps_continuous_session_at_open():
+    orders = {
+        1: {
+            "time": 92959999,
+            "side": "B",
+            "price": 10.0,
+            "qty": 1_000,
+            "events": [(100000000, 1_000, "fill")],
+        },
+        2: {
+            "time": 93000001,
+            "side": "B",
+            "price": 10.01,
+            "qty": 9_000,
+            "events": [(100000000, 9_000, "fill")],
+        },
+    }
+
+    metrics = opening_buy_layout_metrics(
+        orders,
+        trade_qty=10_000,
+        launch_start=94500000,
+    )
+
+    assert metrics["opening_buy_submission_end"] == 93000000
+    assert metrics["opening_buy_order_qty"] == 1_000
+    assert metrics["opening_buy_fill_ratio_pct"] == 100

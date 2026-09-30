@@ -18,6 +18,7 @@ from pathlib import Path
 
 import pandas as pd
 import py7zr
+from py7zr.io import Py7zIO, WriterFactory
 
 ROOT = Path(__file__).resolve().parents[2]
 HFQ_DIR = ROOT / "hfq"
@@ -25,9 +26,17 @@ DATA_DIR = HFQ_DIR / "data-lv2"
 CACHE_DIR = HFQ_DIR / "cache" / "ambush"
 DEFAULT_SIGNAL_DATE = "20260901"
 PRICE_SCALE = 10_000
+OPENING_LAYOUT_START = 91500000
+OPENING_LAYOUT_END = 93000000
 FORWARD_HORIZONS = {"3d": 3, "1w": 5, "2w": 10, "3w": 15}
 LV2_MODEL_PATH = Path(__file__).with_name("lv2_score_model.json")
-SKIPPED_KLINE_CODES = {"689009.SH"}
+SKIPPED_KLINE_CODES = {
+    "000004.SZ",
+    "002808.SZ",
+    "002898.SZ",
+    "300029.SZ",
+    "689009.SH",
+}
 
 
 @dataclass(frozen=True)
@@ -63,9 +72,45 @@ def build_archive_index(archive: Path) -> dict[str, list[str]]:
 
 
 def extract_members(archive: Path, members: list[str], destination: Path) -> None:
-    destination.mkdir(parents=True, exist_ok=True)
+    class FileWriter(Py7zIO):
+        def __init__(self, path: Path):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            self.handle = path.open("w+b")
+
+        def write(self, data: bytes | bytearray) -> int:
+            return self.handle.write(data)
+
+        def read(self, size: int | None = None) -> bytes:
+            return self.handle.read(-1 if size is None else size)
+
+        def seek(self, offset: int, whence: int = 0) -> int:
+            return self.handle.seek(offset, whence)
+
+        def flush(self) -> None:
+            self.handle.flush()
+
+        def size(self) -> int:
+            position = self.handle.tell()
+            self.handle.seek(0, os.SEEK_END)
+            size = self.handle.tell()
+            self.handle.seek(position)
+            return size
+
+        def close(self) -> None:
+            self.handle.close()
+
+    class CanonicalCsvFactory(WriterFactory):
+        def create(self, filename: str) -> Py7zIO:
+            parts = filename.replace("\\", "/").split("/")
+            basename = next(
+                expected
+                for expected in ("行情.csv", "逐笔委托.csv", "逐笔成交.csv")
+                if filename.endswith(expected)
+            )
+            return FileWriter(destination / parts[0] / parts[1] / basename)
+
     with py7zr.SevenZipFile(archive, "r") as handle:
-        handle.extract(path=destination, targets=members)
+        handle.extract(targets=members, factory=CanonicalCsvFactory())
 
 
 def _load_akshare():
@@ -131,6 +176,28 @@ def _fetch_kline_worker(
         return code, None, str(exc)
 
 
+def parse_cache_k_after(value: str) -> str:
+    if len(value) != 6 or not value.isdigit():
+        raise argparse.ArgumentTypeError("expected YYYYMM")
+    month = int(value[4:])
+    if month < 1 or month > 12:
+        raise argparse.ArgumentTypeError("expected YYYYMM with month 01-12")
+    return value
+
+
+def _kline_cache_covers(path: Path, start_date: str, end_date: str) -> bool:
+    if not path.exists():
+        return False
+    try:
+        coverage = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError, TypeError):
+        return False
+    return (
+        str(coverage.get("start_date", "")) <= start_date
+        and str(coverage.get("end_date", "")) >= end_date
+    )
+
+
 def fetch_candidate_klines(
     event: pd.DataFrame,
     start_date: str,
@@ -145,9 +212,26 @@ def fetch_candidate_klines(
         if code in SKIPPED_KLINE_CODES:
             continue
         path = cache / f"{code.replace('.', '_')}.csv"
+        coverage_path = path.with_suffix(".coverage.json")
         if path.exists():
             frame = pd.read_csv(path, parse_dates=["date"])
-            if not frame.empty and frame["date"].max() >= pd.Timestamp(end_date):
+            covered = _kline_cache_covers(
+                coverage_path, start_date, end_date
+            )
+            if (
+                not covered
+                and not frame.empty
+                and frame["date"].min() <= pd.Timestamp(start_date)
+                and frame["date"].max() >= pd.Timestamp(end_date)
+            ):
+                coverage_path.write_text(
+                    json.dumps(
+                        {"start_date": start_date, "end_date": end_date}
+                    ),
+                    encoding="utf-8",
+                )
+                covered = True
+            if covered and not frame.empty:
                 result[code] = frame
                 continue
         missing.append(code)
@@ -173,10 +257,44 @@ def fetch_candidate_klines(
                 print(error, file=sys.stderr)
                 continue
             assert frame is not None
+            path = cache / f"{loaded_code.replace('.', '_')}.csv"
+            coverage_path = path.with_suffix(".coverage.json")
+            if path.exists():
+                cached = pd.read_csv(path, parse_dates=["date"])
+                frame = (
+                    pd.concat([cached, frame], ignore_index=True)
+                    .drop_duplicates(subset=["date"], keep="last")
+                    .sort_values("date")
+                    .reset_index(drop=True)
+                )
             frame.to_csv(
-                cache / f"{loaded_code.replace('.', '_')}.csv",
+                path,
                 index=False,
                 encoding="utf-8-sig",
+            )
+            previous_start = start_date
+            previous_end = end_date
+            if coverage_path.exists():
+                try:
+                    coverage = json.loads(
+                        coverage_path.read_text(encoding="utf-8")
+                    )
+                    previous_start = min(
+                        str(coverage.get("start_date", start_date)), start_date
+                    )
+                    previous_end = max(
+                        str(coverage.get("end_date", end_date)), end_date
+                    )
+                except (json.JSONDecodeError, OSError, TypeError):
+                    pass
+            coverage_path.write_text(
+                json.dumps(
+                    {
+                        "start_date": previous_start,
+                        "end_date": previous_end,
+                    }
+                ),
+                encoding="utf-8",
             )
             result[loaded_code] = frame
             if completed % 100 == 0 or completed == len(missing):
@@ -286,7 +404,10 @@ def load_production_lv2_model(signal_date: str) -> dict | None:
     if not LV2_MODEL_PATH.exists():
         return None
     model = json.loads(LV2_MODEL_PATH.read_text(encoding="utf-8"))
-    available_after = model.get("validated_through", model["trained_through"])
+    available_after = model.get(
+        "available_after",
+        model.get("validated_through", model["trained_through"]),
+    )
     if signal_date <= available_after:
         return None
     return model
@@ -486,6 +607,76 @@ def _record_trade_fill(
     return is_link_opportunity, False
 
 
+def opening_buy_layout_metrics(
+    orders: dict[int, dict],
+    trade_qty: int,
+    launch_start: int,
+) -> dict[str, float | int]:
+    submission_end = (
+        min(OPENING_LAYOUT_END, launch_start)
+        if launch_start > 0
+        else OPENING_LAYOUT_END
+    )
+    opening_orders = [
+        order
+        for order in orders.values()
+        if order["side"] == "B"
+        and order["price"] > 0
+        and OPENING_LAYOUT_START <= order["time"] <= submission_end
+    ]
+    order_qty = sum(order["qty"] for order in opening_orders)
+    fills = [
+        min(
+            order["qty"],
+            sum(
+                qty
+                for event_time, qty, kind in order["events"]
+                if kind == "fill" and event_time >= order["time"]
+            ),
+        )
+        for order in opening_orders
+    ]
+    filled_qty = sum(fills)
+    canceled_qty = sum(
+        min(
+            order["qty"] - filled,
+            sum(
+                qty
+                for event_time, qty, kind in order["events"]
+                if kind == "cancel" and event_time >= order["time"]
+            ),
+        )
+        for order, filled in zip(opening_orders, fills)
+    )
+    return {
+        "opening_buy_submission_end": submission_end,
+        "opening_buy_order_qty": order_qty,
+        "opening_buy_order_count": len(opening_orders),
+        "opening_buy_price_levels": len(
+            {order["price"] for order in opening_orders}
+        ),
+        "opening_buy_filled_qty": filled_qty,
+        "opening_buy_filled_order_count": sum(fill > 0 for fill in fills),
+        "opening_buy_completed_order_count": sum(
+            fill >= order["qty"]
+            for order, fill in zip(opening_orders, fills)
+        ),
+        "opening_buy_canceled_qty": canceled_qty,
+        "opening_buy_order_volume_pct": (
+            order_qty / trade_qty * 100 if trade_qty else 0
+        ),
+        "opening_buy_fill_ratio_pct": (
+            filled_qty / order_qty * 100 if order_qty else 0
+        ),
+        "opening_buy_filled_volume_pct": (
+            filled_qty / trade_qty * 100 if trade_qty else 0
+        ),
+        "opening_buy_cancel_ratio_pct": (
+            canceled_qty / order_qty * 100 if order_qty else 0
+        ),
+    }
+
+
 def analyze_lv2(
     order_path: Path,
     trade_path: Path,
@@ -674,6 +865,7 @@ def analyze_lv2(
         )
 
     trade_qty = sum(qty for _, _, qty, _ in trades)
+    opening_layout = opening_buy_layout_metrics(orders, trade_qty, cutoff)
     buy_qty = sum(qty for _, _, qty, side in trades if side == "B")
     sell_qty = sum(qty for _, _, qty, side in trades if side == "S")
     delta_qty = buy_qty - sell_qty
@@ -847,6 +1039,7 @@ def analyze_lv2(
     )
     return {
         **launch,
+        **opening_layout,
         "data_quality_valid": data_quality_valid,
         "data_quality_reason": "|".join(quality_reasons),
         "negative_remaining_cnt": negative_remaining_cnt,
@@ -997,6 +1190,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--date", default=DEFAULT_SIGNAL_DATE)
     parser.add_argument("--workers", type=int, default=24)
     parser.add_argument(
+        "--cache-k-after",
+        type=parse_cache_k_after,
+        metavar="YYYYMM",
+        help="Only cache K-lines from this month onward, then exit",
+    )
+    parser.add_argument(
         "--top",
         type=int,
         default=0,
@@ -1036,12 +1235,25 @@ def main() -> None:
         (path.stem for path in DATA_DIR.glob("*.7z") if path.stem.isdigit()),
         default=date,
     )
+    kline_start_date = (
+        f"{args.cache_k_after}01"
+        if args.cache_k_after
+        else (signal_date - pd.Timedelta(days=550)).strftime("%Y%m%d")
+    )
+    if kline_start_date > end_date:
+        raise ValueError("--cache-k-after cannot be later than the latest archive")
     klines = fetch_candidate_klines(
         universe,
-        start_date=(signal_date - pd.Timedelta(days=550)).strftime("%Y%m%d"),
+        start_date=kline_start_date,
         end_date=end_date,
         workers=args.workers,
     )
+    if args.cache_k_after:
+        print(
+            f"K-line cache complete: {len(klines)}/{len(universe)} stocks, "
+            f"{kline_start_date}-{end_date}"
+        )
+        return
     stock_names = fetch_stock_names()
 
     candidate_rows = []
@@ -1168,6 +1380,14 @@ def main() -> None:
             "median_order_book_imbalance_pct": (5, True),
         },
     )
+    diagnostics["lv2_score_v5"] = percentile_score(
+        diagnostics,
+        {
+            "opening_buy_order_volume_pct": (35, True),
+            "opening_buy_fill_ratio_pct": (35, True),
+            "opening_buy_filled_volume_pct": (30, True),
+        },
+    )
     diagnostics["lv2_model_score"] = math.nan
     diagnostics["lv2_score_used"] = "legacy"
     lv2_for_final_score = diagnostics["lv2_score"]
@@ -1182,11 +1402,7 @@ def main() -> None:
         )
         diagnostics["lv2_score_used"] = f"v{production_model['version']}"
         lv2_for_final_score = diagnostics["lv2_model_score"]
-    diagnostics["score"] = (
-        diagnostics["dormancy_score"] * 0.45
-        + diagnostics["trigger_score"] * 0.20
-        + lv2_for_final_score * 0.35
-    )
+    diagnostics["score"] = lv2_for_final_score
     high_confidence = (
         diagnostics["passes_dormant_filter"]
         & diagnostics["data_quality_valid"]
@@ -1208,7 +1424,7 @@ def main() -> None:
     diagnostics.loc[high_confidence, "signal_quality"] = "high"
     diagnostics.loc[~diagnostics["launch_detected"], "signal_quality"] = "invalid"
     diagnostics = diagnostics.sort_values(
-        ["score", "dormancy_score", "lv2_score"], ascending=False
+        ["score", "code"], ascending=[False, True]
     ).reset_index(drop=True)
     diagnostics.insert(0, "rank", diagnostics.index + 1)
     diagnostics.to_csv(
@@ -1236,6 +1452,7 @@ def main() -> None:
         "dormancy_score",
         "trigger_score",
         "lv2_score",
+        "lv2_score_v5",
         "lv2_model_score",
         "lv2_score_used",
         "signal_quality",
@@ -1252,6 +1469,18 @@ def main() -> None:
         "mean_turnover_20d_pct",
         "pre_cutoff_sell_qty",
         "active_sell_qty_at_cutoff",
+        "opening_buy_submission_end",
+        "opening_buy_order_qty",
+        "opening_buy_order_count",
+        "opening_buy_price_levels",
+        "opening_buy_filled_qty",
+        "opening_buy_filled_order_count",
+        "opening_buy_completed_order_count",
+        "opening_buy_canceled_qty",
+        "opening_buy_order_volume_pct",
+        "opening_buy_fill_ratio_pct",
+        "opening_buy_filled_volume_pct",
+        "opening_buy_cancel_ratio_pct",
         "persistent_sell_qty",
         "persistent_sell_share_pct",
         "gross_sell_float_ratio_pct",
