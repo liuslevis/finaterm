@@ -6,11 +6,15 @@ import pytest
 import strategy
 from strategy import (
     _kline_cache_covers,
+    _minute_bars,
+    _normalized_gap_entropy,
     _record_trade_fill,
+    ambush_v6_metrics,
     Thresholds,
     add_forward_returns,
     build_evaluation,
     detect_launch_window,
+    horizontal_metrics,
     is_a_share,
     limit_up_rate,
     load_production_lv2_model,
@@ -18,9 +22,11 @@ from strategy import (
     parse_cache_k_after,
     passes_dormant_filter,
     percentile_score,
+    probe_pulse_metrics,
     rounded_limit_price,
     SKIPPED_KLINE_CODES,
     signed_percentile_score,
+    V6_SCORE_WEIGHTS,
     weighted_signed_percentile_score,
 )
 
@@ -155,6 +161,20 @@ def test_weighted_signed_percentile_score_respects_factor_strength():
     score = weighted_signed_percentile_score(
         frame, {"strong": 2, "weak": -1}
     )
+    assert score.iloc[2] > score.iloc[0]
+
+
+def test_weighted_signed_percentile_score_treats_missing_factors_as_neutral():
+    frame = pd.DataFrame(
+        {
+            "strong": [1.0, 2.0, 3.0],
+            "sparse": [float("nan"), float("nan"), 5.0],
+        }
+    )
+
+    score = weighted_signed_percentile_score(frame, {"strong": 1, "sparse": 1})
+
+    assert score.notna().all()
     assert score.iloc[2] > score.iloc[0]
 
 
@@ -308,3 +328,210 @@ def test_opening_buy_layout_caps_continuous_session_at_open():
     assert metrics["opening_buy_submission_end"] == 93000000
     assert metrics["opening_buy_order_qty"] == 1_000
     assert metrics["opening_buy_fill_ratio_pct"] == 100
+
+
+def test_v6_score_weights_sum_to_one_hundred():
+    assert sum(weight for weight, _ in V6_SCORE_WEIGHTS.values()) == 100
+
+
+def test_split_interval_entropy_is_zero_for_fixed_cadence():
+    assert _normalized_gap_entropy([0.0, 2.0, 4.0, 6.0]) == 0.0
+    assert _normalized_gap_entropy([0.0, 1.0, 5.0, 30.0]) > 0.4
+    assert _normalized_gap_entropy([0.0, 2.0]) == 1.0
+
+
+def test_minute_bars_skip_the_opening_auction():
+    trades = [
+        (9 * 3600 + 25 * 60, 100_000, 500, "B"),
+        (10 * 3600, 100_000, 300, "B"),
+        (10 * 3600 + 30, 101_000, 200, "S"),
+    ]
+
+    bars = _minute_bars(trades)
+
+    assert len(bars) == 1
+    assert bars[0]["qty"] == 500
+    assert bars[0]["high"] == 101_000
+
+
+def test_probe_pulse_requires_a_low_volume_pullback():
+    bars = [
+        {"minute": 570, "open": 10_000, "high": 10_000, "low": 10_000, "close": 10_000, "qty": 1_000},
+        {"minute": 571, "open": 10_000, "high": 10_400, "low": 10_000, "close": 10_400, "qty": 5_000},
+        {"minute": 572, "open": 10_400, "high": 10_400, "low": 10_050, "close": 10_050, "qty": 500},
+    ]
+
+    count, ratio = probe_pulse_metrics(bars)
+
+    assert count == 1
+    assert ratio == pytest.approx(500 / 6_000 * 100)
+
+    holding = bars[:2] + [
+        {"minute": 572, "open": 10_400, "high": 10_500, "low": 10_380, "close": 10_500, "qty": 500}
+    ]
+    held_count, held_ratio = probe_pulse_metrics(holding)
+
+    assert held_count == 0
+    assert pd.isna(held_ratio)
+
+
+def test_v6_metrics_capture_split_orders_book_control_and_wash_trades():
+    orders = {
+        1: {"time": 100000000, "side": "B", "price": 10.00, "qty": 300, "events": []},
+        2: {"time": 100002000, "side": "B", "price": 10.00, "qty": 300, "events": []},
+        3: {"time": 100004000, "side": "B", "price": 10.00, "qty": 300, "events": []},
+        4: {"time": 100006000, "side": "B", "price": 10.00, "qty": 300, "events": []},
+        5: {"time": 100000000, "side": "B", "price": 9.95, "qty": 20_000, "events": []},
+        6: {
+            "time": 100000000,
+            "side": "B",
+            "price": 10.01,
+            "qty": 20_000,
+            "events": [(100000500, 20_000, "cancel")],
+        },
+        10: {
+            "time": 100100000,
+            "side": "S",
+            "price": 10.00,
+            "qty": 20_000,
+            "events": [(100200000, 5_000, "fill")],
+        },
+        20: {"time": 103000000, "side": "B", "price": 10.00, "qty": 1_000, "events": []},
+        21: {
+            "time": 103000500,
+            "side": "S",
+            "price": 10.00,
+            "qty": 1_000,
+            "events": [(103000500, 1_000, "fill")],
+        },
+    }
+    trades = [
+        (36_000.0, 100_000, 300, "B"),
+        (36_001.0, 100_000, 300, "B"),
+        (36_002.0, 100_000, 300, "B"),
+        (36_060.0, 100_000, 5_000, "S"),
+        (37_800.0, 100_000, 1_000, "B"),
+    ]
+    trade_links = [(103000500, 100_000, 1_000, 20, 21)]
+
+    metrics = ambush_v6_metrics(
+        orders,
+        trades,
+        trade_links,
+        trade_qty=6_900,
+        min_order_qty=10_000,
+        last_at=lambda event_time: 10.00,
+    )
+
+    assert metrics["small_buy_volume_share_pct"] == pytest.approx(900 / 1_900 * 100)
+    assert metrics["split_modal_order_qty"] == 300
+    assert metrics["split_order_size_concentration_pct"] == pytest.approx(4 / 7 * 100)
+    assert metrics["split_order_interval_entropy"] == 0.0
+    assert metrics["odd_price_buy_volume_share_pct"] == pytest.approx(
+        20_000 / 42_200 * 100
+    )
+    assert metrics["large_buy_cancel_gap_pct"] == pytest.approx(50.0)
+    assert metrics["bid_support_dwell_ratio_pct"] == pytest.approx(50.0)
+    assert metrics["passive_sell_absorb_ratio_pct"] == pytest.approx(25.0)
+    assert metrics["wash_trade_count"] == 1
+    assert metrics["wash_trade_volume_pct"] == pytest.approx(1_000 / 6_900 * 100)
+    assert metrics["equal_size_streak_volume_pct"] == pytest.approx(900 / 6_900 * 100)
+    assert metrics["flat_price_volume_share_pct"] == pytest.approx(100.0)
+    assert metrics["probe_pulse_count"] == 0
+    assert pd.isna(metrics["probe_pullback_volume_ratio_pct"])
+
+
+def test_v6_large_sell_cancellation_lowers_the_absorption_ratio():
+    orders = {
+        10: {
+            "time": 100100000,
+            "side": "S",
+            "price": 10.00,
+            "qty": 20_000,
+            "events": [(100200000, 5_000, "fill")],
+        },
+        11: {
+            "time": 100100000,
+            "side": "S",
+            "price": 10.00,
+            "qty": 20_000,
+            "events": [(100200000, 20_000, "cancel")],
+        },
+    }
+
+    metrics = ambush_v6_metrics(
+        orders,
+        [(37_800.0, 100_000, 5_000, "B")],
+        [],
+        trade_qty=5_000,
+        min_order_qty=10_000,
+        last_at=lambda event_time: 10.00,
+    )
+
+    assert metrics["passive_sell_absorb_ratio_pct"] == pytest.approx(12.5)
+
+
+def test_percentile_score_can_treat_missing_factors_as_neutral():
+    frame = pd.DataFrame(
+        {
+            "probe": [float("nan"), 10.0, 20.0],
+            "volume": [1.0, 2.0, 3.0],
+        }
+    )
+
+    penalized = percentile_score(frame, {"probe": (1, False), "volume": (1, True)})
+    neutral = percentile_score(
+        frame,
+        {"probe": (1, False), "volume": (1, True)},
+        neutral_missing=True,
+    )
+
+    assert penalized.iloc[0] < neutral.iloc[0]
+    assert neutral.iloc[0] == pytest.approx((0.5 + 1 / 3) / 2 * 100)
+
+
+def test_v6_wash_detection_ignores_unrelated_counterparties():
+    orders = {
+        20: {"time": 103000000, "side": "B", "price": 10.00, "qty": 1_000, "events": []},
+        21: {"time": 103300000, "side": "S", "price": 10.00, "qty": 9_000, "events": []},
+    }
+
+    metrics = ambush_v6_metrics(
+        orders,
+        [(37_800.0, 100_000, 1_000, "B")],
+        [(103300000, 100_000, 1_000, 20, 21)],
+        trade_qty=1_000,
+        min_order_qty=10_000,
+        last_at=lambda event_time: 10.00,
+    )
+
+    assert metrics["wash_trade_count"] == 0
+    assert metrics["wash_trade_volume_pct"] == 0
+
+
+def test_locked_chip_kline_factors_use_recent_history():
+    dates = pd.bdate_range("2026-01-01", periods=130)
+    closes = [10.0 if index % 2 == 0 else 10.1 for index in range(130)]
+    volumes = [500 if index % 2 == 0 else 1_000 for index in range(130)]
+    frame = pd.DataFrame(
+        {
+            "date": dates,
+            "close": closes,
+            "high": closes,
+            "low": closes,
+            "volume": volumes,
+            "turnover": [0.01] * 130,
+            "outstanding_share": [1e8] * 130,
+        }
+    )
+
+    metrics = horizontal_metrics(
+        frame,
+        dates[-1] + pd.Timedelta(days=1),
+        event_volume=2_000,
+    )
+
+    assert metrics["down_day_volume_ratio_20d"] == pytest.approx(0.5)
+    assert metrics["max_drawdown_60d_pct"] == pytest.approx(
+        (1 - 10.0 / 10.1) * 100
+    )

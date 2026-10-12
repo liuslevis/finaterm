@@ -24,12 +24,35 @@ ROOT = Path(__file__).resolve().parents[2]
 HFQ_DIR = ROOT / "hfq"
 DATA_DIR = HFQ_DIR / "data-lv2"
 CACHE_DIR = HFQ_DIR / "cache" / "ambush"
+OUTPUT_DIR = Path(__file__).with_name("data")
 DEFAULT_SIGNAL_DATE = "20260901"
 PRICE_SCALE = 10_000
 OPENING_LAYOUT_START = 91500000
 OPENING_LAYOUT_END = 93000000
+SESSION_END = 150000000
+PROBE_PULSE_GAIN = 0.03
+PROBE_PULLBACK_BAND = 0.01
+PROBE_PULLBACK_MINUTES = 5
+SPLIT_INTERVAL_MAX_SECONDS = 10
+SUPPORT_DWELL_SECONDS = 60
 FORWARD_HORIZONS = {"3d": 3, "1w": 5, "2w": 10, "3w": 15}
 LV2_MODEL_PATH = Path(__file__).with_name("lv2_score_model.json")
+V6_SCORE_WEIGHTS = {
+    "small_buy_volume_share_pct": (10, True),
+    "split_order_size_concentration_pct": (8, True),
+    "split_order_interval_entropy": (7, False),
+    "odd_price_buy_volume_share_pct": (5, True),
+    "large_buy_cancel_gap_pct": (7, True),
+    "bid_support_dwell_ratio_pct": (10, True),
+    "passive_sell_absorb_ratio_pct": (8, True),
+    "wash_trade_volume_pct": (10, True),
+    "equal_size_streak_volume_pct": (7, True),
+    "flat_price_volume_share_pct": (5, True),
+    "probe_pulse_count": (5, True),
+    "probe_pullback_volume_ratio_pct": (8, False),
+    "down_day_volume_ratio_20d": (5, False),
+    "max_drawdown_60d_pct": (5, False),
+}
 SKIPPED_KLINE_CODES = {
     "000004.SZ",
     "002808.SZ",
@@ -337,6 +360,10 @@ def horizontal_metrics(
         (history.iloc[-1]["close"] - low_240) / price_span if price_span > 0 else 0
     )
     mean_turnover = last_20["turnover"].mean() * 100
+    up_volume = last_20.loc[last_20["return_pct"] > 0, "volume"].mean()
+    down_volume = last_20.loc[last_20["return_pct"] < 0, "volume"].mean()
+    close_60 = last_60["close"]
+    drawdown = (close_60 / close_60.cummax() - 1) * 100
     return {
         "bottom_percentile": bottom_percentile,
         "range_60d_pct": (last_60["high"].max() / last_60["low"].min() - 1) * 100,
@@ -344,6 +371,12 @@ def horizontal_metrics(
         "mean_turnover_20d_pct": mean_turnover,
         "recent_volume_ratio": last_20["volume"].mean()
         / history.tail(120)["volume"].median(),
+        "down_day_volume_ratio_20d": (
+            down_volume / up_volume
+            if up_volume and up_volume > 0 and not pd.isna(down_volume)
+            else math.nan
+        ),
+        "max_drawdown_60d_pct": -float(drawdown.min()) if len(close_60) else math.nan,
         "event_volume_ratio": event_volume / last_20["volume"].mean(),
         "outstanding_share": history.iloc[-1]["outstanding_share"],
     }
@@ -362,6 +395,7 @@ def passes_dormant_filter(metrics: dict[str, float], limits: Thresholds) -> bool
 def percentile_score(
     frame: pd.DataFrame,
     weighted_columns: dict[str, tuple[float, bool]],
+    neutral_missing: bool = False,
 ) -> pd.Series:
     score = pd.Series(0.0, index=frame.index)
     total_weight = sum(weight for weight, _ in weighted_columns.values())
@@ -369,7 +403,7 @@ def percentile_score(
         rank = frame[column].rank(method="average", pct=True)
         if not higher_is_better:
             rank = 1 - rank
-        score += rank.fillna(0) * weight
+        score += rank.fillna(0.5 if neutral_missing else 0) * weight
     return score / total_weight * 100
 
 
@@ -394,7 +428,7 @@ def weighted_signed_percentile_score(
             )
         else:
             rank = frame[feature].rank(method="average", pct=True)
-        raw += weight * (rank - 0.5)
+        raw += weight * (rank.fillna(0.5) - 0.5)
     if group_column:
         return raw.groupby(frame[group_column]).rank(method="average", pct=True) * 100
     return raw.rank(method="average", pct=True) * 100
@@ -677,6 +711,267 @@ def opening_buy_layout_metrics(
     }
 
 
+def _event_qty(order: dict, kind: str) -> int:
+    return min(
+        order["qty"],
+        sum(qty for _, qty, event_kind in order["events"] if event_kind == kind),
+    )
+
+
+def _first_cancel_seconds(order: dict) -> float | None:
+    cancels = [
+        _clock_ms_to_seconds(event_time)
+        for event_time, _, kind in order["events"]
+        if kind == "cancel"
+    ]
+    return min(cancels) if cancels else None
+
+
+def _minute_bars(trades: list[tuple[float, int, int, str]]) -> list[dict]:
+    bars: dict[int, dict] = {}
+    for second, price, qty, _ in trades:
+        if second < 9.5 * 3600 or price <= 0:
+            continue
+        minute = int(second // 60)
+        bar = bars.get(minute)
+        if bar is None:
+            bars[minute] = {
+                "minute": minute,
+                "open": price,
+                "high": price,
+                "low": price,
+                "close": price,
+                "qty": qty,
+            }
+            continue
+        bar["high"] = max(bar["high"], price)
+        bar["low"] = min(bar["low"], price)
+        bar["close"] = price
+        bar["qty"] += qty
+    return [bars[minute] for minute in sorted(bars)]
+
+
+def _normalized_gap_entropy(times: list[float]) -> float:
+    if len(times) < 3:
+        return 1.0
+    ordered = sorted(times)
+    buckets: dict[int, int] = {}
+    for previous, current in zip(ordered, ordered[1:]):
+        gap = current - previous
+        bucket = (
+            min(int(round(gap)), SPLIT_INTERVAL_MAX_SECONDS)
+            if gap <= SPLIT_INTERVAL_MAX_SECONDS
+            else SPLIT_INTERVAL_MAX_SECONDS + 1
+        )
+        buckets[bucket] = buckets.get(bucket, 0) + 1
+    total = sum(buckets.values())
+    entropy = -sum(
+        (count / total) * math.log(count / total) for count in buckets.values()
+    )
+    return entropy / math.log(SPLIT_INTERVAL_MAX_SECONDS + 2)
+
+
+def probe_pulse_metrics(
+    bars: list[dict],
+) -> tuple[int, float]:
+    pulses = 0
+    ratios: list[float] = []
+    index = 0
+    while index < len(bars):
+        matched = False
+        for length in (1, 2):
+            end = index + length - 1
+            if end >= len(bars):
+                continue
+            window = bars[index : end + 1]
+            if window[-1]["minute"] - window[0]["minute"] != length - 1:
+                continue
+            start_price = window[0]["open"]
+            peak = max(bar["high"] for bar in window)
+            if start_price <= 0 or peak / start_price - 1 < PROBE_PULSE_GAIN:
+                continue
+            pullback_qty = 0
+            pulled_back = False
+            cursor = end + 1
+            while cursor < len(bars) and cursor - end <= PROBE_PULLBACK_MINUTES:
+                pullback_qty += bars[cursor]["qty"]
+                if bars[cursor]["low"] <= start_price * (1 + PROBE_PULLBACK_BAND):
+                    pulled_back = True
+                    break
+                cursor += 1
+            if not pulled_back:
+                continue
+            pulse_qty = sum(bar["qty"] for bar in window)
+            pulses += 1
+            if pulse_qty:
+                ratios.append(pullback_qty / pulse_qty * 100)
+            index = cursor + 1
+            matched = True
+            break
+        if not matched:
+            index += 1
+    mean_ratio = sum(ratios) / len(ratios) if ratios else math.nan
+    return pulses, mean_ratio
+
+
+def ambush_v6_metrics(
+    orders: dict[int, dict],
+    trades: list[tuple[float, int, int, str]],
+    trade_links: list[tuple[int, int, int, int, int]],
+    trade_qty: int,
+    min_order_qty: int,
+    last_at,
+) -> dict[str, float | int]:
+    """Level-2 fingerprints of covert accumulation, book control and wash trades."""
+    buy_orders = [
+        order
+        for order in orders.values()
+        if order["side"] == "B" and order["price"] > 0 and order["qty"] > 0
+    ]
+    buy_order_qty = sum(order["qty"] for order in buy_orders)
+
+    aggressive_buy_qty = sum(qty for _, _, qty, side in trades if side == "B")
+    small_buy_qty = sum(
+        qty for _, _, qty, side in trades if side == "B" and 100 <= qty <= 500
+    )
+
+    size_counts: dict[int, int] = {}
+    for order in buy_orders:
+        size_counts[order["qty"]] = size_counts.get(order["qty"], 0) + 1
+    modal_size = max(size_counts, key=size_counts.get) if size_counts else 0
+    modal_count = size_counts.get(modal_size, 0)
+    modal_times = [
+        _clock_ms_to_seconds(order["time"])
+        for order in buy_orders
+        if order["qty"] == modal_size
+    ]
+
+    digit_qty: dict[int, int] = {}
+    for order in buy_orders:
+        cent = int(round(order["price"] * 100)) % 10
+        digit_qty[cent] = digit_qty.get(cent, 0) + order["qty"]
+    odd_digit_qty = max(
+        (qty for digit, qty in digit_qty.items() if digit not in {0, 5}),
+        default=0,
+    )
+
+    large_buy_orders = [order for order in buy_orders if order["qty"] >= min_order_qty]
+    small_buy_orders = [order for order in buy_orders if order["qty"] < min_order_qty]
+    large_buy_qty = sum(order["qty"] for order in large_buy_orders)
+    small_buy_qty_ordered = sum(order["qty"] for order in small_buy_orders)
+    large_buy_cancel_qty = sum(_event_qty(order, "cancel") for order in large_buy_orders)
+    small_buy_cancel_qty = sum(_event_qty(order, "cancel") for order in small_buy_orders)
+
+    support_qty = 0
+    for order in large_buy_orders:
+        market_price = last_at(order["time"])
+        if market_price <= 0 or order["price"] >= market_price:
+            continue
+        cancel_seconds = _first_cancel_seconds(order)
+        end_seconds = (
+            cancel_seconds
+            if cancel_seconds is not None
+            else _clock_ms_to_seconds(SESSION_END)
+        )
+        if end_seconds - _clock_ms_to_seconds(order["time"]) >= SUPPORT_DWELL_SECONDS:
+            support_qty += order["qty"]
+
+    large_sell_orders = [
+        order
+        for order in orders.values()
+        if order["side"] == "S" and order["qty"] >= min_order_qty
+    ]
+    large_sell_qty = sum(order["qty"] for order in large_sell_orders)
+    held_sell_filled_qty = sum(
+        _event_qty(order, "fill")
+        for order in large_sell_orders
+        if _event_qty(order, "cancel") == 0
+    )
+
+    wash_qty = 0
+    wash_trades = 0
+    for event_time, price, qty, buy_sequence, sell_sequence in trade_links:
+        buy_order = orders.get(buy_sequence)
+        sell_order = orders.get(sell_sequence)
+        if buy_order is None or sell_order is None:
+            continue
+        if buy_order["price"] != sell_order["price"]:
+            continue
+        submission_gap = abs(
+            _clock_ms_to_seconds(buy_order["time"])
+            - _clock_ms_to_seconds(sell_order["time"])
+        )
+        smaller = min(buy_order["qty"], sell_order["qty"])
+        larger = max(buy_order["qty"], sell_order["qty"])
+        if (
+            submission_gap <= 1
+            and smaller > 0
+            and smaller / larger >= 0.9
+            and qty >= smaller * 0.9
+        ):
+            wash_qty += qty
+            wash_trades += 1
+
+    streak_qty = 0
+    streak_size = None
+    streak_length = 0
+    streak_volume = 0
+    for _, _, qty, _ in trades:
+        if qty == streak_size:
+            streak_length += 1
+            streak_volume += qty
+        else:
+            if streak_length >= 3:
+                streak_qty += streak_volume
+            streak_size = qty
+            streak_length = 1
+            streak_volume = qty
+    if streak_length >= 3:
+        streak_qty += streak_volume
+
+    bars = _minute_bars(trades)
+    flat_minute_qty = sum(bar["qty"] for bar in bars if bar["high"] == bar["low"])
+    probe_pulse_count, probe_pullback_ratio = probe_pulse_metrics(bars)
+
+    return {
+        "small_buy_volume_share_pct": (
+            small_buy_qty / aggressive_buy_qty * 100 if aggressive_buy_qty else 0
+        ),
+        "split_order_size_concentration_pct": (
+            modal_count / len(buy_orders) * 100 if buy_orders else 0
+        ),
+        "split_order_interval_entropy": _normalized_gap_entropy(modal_times),
+        "split_modal_order_qty": modal_size,
+        "odd_price_buy_volume_share_pct": (
+            odd_digit_qty / buy_order_qty * 100 if buy_order_qty else 0
+        ),
+        "large_buy_cancel_gap_pct": (
+            (large_buy_cancel_qty / large_buy_qty * 100 if large_buy_qty else 0)
+            - (
+                small_buy_cancel_qty / small_buy_qty_ordered * 100
+                if small_buy_qty_ordered
+                else 0
+            )
+        ),
+        "bid_support_dwell_ratio_pct": (
+            support_qty / large_buy_qty * 100 if large_buy_qty else 0
+        ),
+        "passive_sell_absorb_ratio_pct": (
+            held_sell_filled_qty / large_sell_qty * 100 if large_sell_qty else 0
+        ),
+        "wash_trade_count": wash_trades,
+        "wash_trade_volume_pct": wash_qty / trade_qty * 100 if trade_qty else 0,
+        "equal_size_streak_volume_pct": (
+            streak_qty / trade_qty * 100 if trade_qty else 0
+        ),
+        "flat_price_volume_share_pct": (
+            flat_minute_qty / trade_qty * 100 if trade_qty else 0
+        ),
+        "probe_pulse_count": probe_pulse_count,
+        "probe_pullback_volume_ratio_pct": probe_pullback_ratio,
+    }
+
+
 def analyze_lv2(
     order_path: Path,
     trade_path: Path,
@@ -718,6 +1013,7 @@ def analyze_lv2(
             }
 
     trades: list[tuple[float, int, int, str]] = []
+    trade_links: list[tuple[int, int, int, int, int]] = []
     unknown_link_qty = 0
     link_opportunity_qty = 0
     with trade_path.open(encoding="gbk", errors="replace", newline="") as handle:
@@ -763,6 +1059,15 @@ def analyze_lv2(
                         _raw_int(row[8]),
                         qty,
                         aggressor,
+                    )
+                )
+                trade_links.append(
+                    (
+                        event_time,
+                        _raw_int(row[8]),
+                        qty,
+                        buy_sequence,
+                        sell_sequence,
                     )
                 )
 
@@ -866,6 +1171,14 @@ def analyze_lv2(
 
     trade_qty = sum(qty for _, _, qty, _ in trades)
     opening_layout = opening_buy_layout_metrics(orders, trade_qty, cutoff)
+    v6_metrics = ambush_v6_metrics(
+        orders,
+        trades,
+        trade_links,
+        trade_qty,
+        limits.min_order_qty,
+        last_at,
+    )
     buy_qty = sum(qty for _, _, qty, side in trades if side == "B")
     sell_qty = sum(qty for _, _, qty, side in trades if side == "S")
     delta_qty = buy_qty - sell_qty
@@ -1040,6 +1353,7 @@ def analyze_lv2(
     return {
         **launch,
         **opening_layout,
+        **v6_metrics,
         "data_quality_valid": data_quality_valid,
         "data_quality_reason": "|".join(quality_reasons),
         "negative_remaining_cnt": negative_remaining_cnt,
@@ -1213,6 +1527,7 @@ def main() -> None:
     if not archive.exists():
         raise FileNotFoundError(archive)
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     if args.refresh:
         for path in (
             CACHE_DIR / f"{date}_archive_index.json",
@@ -1297,7 +1612,7 @@ def main() -> None:
     )
     pool.insert(0, "pool_rank", pool.index + 1)
     pool.to_csv(
-        Path(__file__).with_name(f"ambush_kline_pool_{date}.csv"),
+        OUTPUT_DIR / f"ambush_kline_pool_{date}.csv",
         index=False,
         encoding="utf-8-sig",
     )
@@ -1311,7 +1626,7 @@ def main() -> None:
         },
     )
     limit_hits.to_csv(
-        Path(__file__).with_name(f"ambush_limit_hits_{date}.csv"),
+        OUTPUT_DIR / f"ambush_limit_hits_{date}.csv",
         index=False,
         encoding="utf-8-sig",
     )
@@ -1388,6 +1703,9 @@ def main() -> None:
             "opening_buy_filled_volume_pct": (30, True),
         },
     )
+    diagnostics["lv2_score_v6"] = percentile_score(
+        diagnostics, V6_SCORE_WEIGHTS, neutral_missing=True
+    )
     diagnostics["lv2_model_score"] = math.nan
     diagnostics["lv2_score_used"] = "legacy"
     lv2_for_final_score = diagnostics["lv2_score"]
@@ -1428,16 +1746,16 @@ def main() -> None:
     ).reset_index(drop=True)
     diagnostics.insert(0, "rank", diagnostics.index + 1)
     diagnostics.to_csv(
-        Path(__file__).with_name(f"ambush_candidates_{date}.csv"),
+        OUTPUT_DIR / f"ambush_candidates_{date}.csv",
         index=False,
         encoding="utf-8-sig",
     )
     results = diagnostics if args.top <= 0 else diagnostics.head(args.top)
-    output = Path(__file__).with_name(f"ambush_results_{date}.csv")
+    output = OUTPUT_DIR / f"ambush_results_{date}.csv"
     results.to_csv(output, index=False, encoding="utf-8-sig")
     evaluation = build_evaluation(results)
     evaluation.to_csv(
-        Path(__file__).with_name(f"ambush_evaluation_{date}.csv"),
+        OUTPUT_DIR / f"ambush_evaluation_{date}.csv",
         index=False,
         encoding="utf-8-sig",
     )
@@ -1453,6 +1771,7 @@ def main() -> None:
         "trigger_score",
         "lv2_score",
         "lv2_score_v5",
+        "lv2_score_v6",
         "lv2_model_score",
         "lv2_score_used",
         "signal_quality",
@@ -1502,6 +1821,21 @@ def main() -> None:
         "bullish_absorption_ratio_pct",
         "buy_refill_float_ratio_pct",
         "median_order_book_imbalance_pct",
+        "small_buy_volume_share_pct",
+        "split_order_size_concentration_pct",
+        "split_order_interval_entropy",
+        "odd_price_buy_volume_share_pct",
+        "large_buy_cancel_gap_pct",
+        "bid_support_dwell_ratio_pct",
+        "passive_sell_absorb_ratio_pct",
+        "wash_trade_count",
+        "wash_trade_volume_pct",
+        "equal_size_streak_volume_pct",
+        "flat_price_volume_share_pct",
+        "probe_pulse_count",
+        "probe_pullback_volume_ratio_pct",
+        "down_day_volume_ratio_20d",
+        "max_drawdown_60d_pct",
         "forward_3d_pct",
         "forward_1w_pct",
         "forward_2w_pct",

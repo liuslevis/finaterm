@@ -7,8 +7,11 @@ from optimize_score import (
     V5_FEATURES,
     apply_weighted_model,
     blind_validation_labels,
+    centered_feature_ranks,
+    daily_rank_ic,
     evaluate_score,
     features_are_trainable,
+    fit_ridge_weights,
     select_production_model,
     split_datasets,
     train_ridge_model,
@@ -146,3 +149,75 @@ def test_production_model_uses_weighted_test_spearman():
 
     assert name == "v4"
     assert model["version"] == 4
+
+
+def _single_candidate_day(date: str) -> dict:
+    return {
+        "signal_date": date,
+        "target_rank": 1.0,
+        **{f"{feature}_rank": 1.0 for feature in FEATURES},
+    }
+
+
+def test_single_candidate_day_is_centered_to_zero():
+    panel = pd.DataFrame([_single_candidate_day("20260901")])
+
+    design = centered_feature_ranks(panel, FEATURES)
+
+    assert (design.abs().to_numpy() < 1e-12).all()
+
+
+def test_single_candidate_days_do_not_shift_ridge_weights():
+    rows = []
+    for date in ("20260901", "20260902", "20260903"):
+        for rank in (0.25, 0.5, 0.75):
+            row = {
+                "signal_date": date,
+                "target_rank": rank,
+                **{f"{feature}_rank": 0.5 for feature in FEATURES},
+            }
+            row[f"{FEATURES[0]}_rank"] = rank
+            rows.append(row)
+    panel = pd.DataFrame(rows)
+    padded = pd.DataFrame(
+        rows + [_single_candidate_day(f"2026090{index}") for index in (4, 5, 6)]
+    )
+
+    clean = fit_ridge_weights(panel, 1.0, FEATURES)
+    padded_weights = fit_ridge_weights(padded, 1.0, FEATURES)
+
+    for feature in FEATURES:
+        assert math.isclose(
+            clean[feature], padded_weights[feature], abs_tol=1e-12
+        )
+
+
+def test_daily_rank_ic_skips_thin_cross_sections():
+    panel = pd.DataFrame(
+        {
+            "signal_date": ["20260901"] * 3 + ["20260902"] * 2,
+            "model_score": [1.0, 2.0, 3.0, 1.0, 2.0],
+            "forward_3d_pct": [1.0, 2.0, 3.0, 3.0, 1.0],
+        }
+    )
+
+    metrics = daily_rank_ic(panel, "model_score", "forward_3d_pct")
+
+    assert metrics["daily_ic_days"] == 1
+    assert math.isclose(metrics["daily_ic_mean"], 1.0)
+
+
+def test_evaluation_reports_daily_rank_ic_columns():
+    panel = pd.DataFrame(
+        {
+            "signal_date": ["20260901"] * 3 + ["20260902"] * 3,
+            "model_score": [1.0, 2.0, 3.0, 1.0, 2.0, 3.0],
+            "forward_3d_pct": [1.0, 2.0, 3.0, 3.0, 2.0, 1.0],
+            "forward_1w_pct": [float("nan")] * 6,
+        }
+    )
+
+    rows = evaluate_score(panel, "model_score")
+
+    assert rows[0]["daily_ic_days"] == 2
+    assert math.isclose(rows[0]["daily_ic_mean"], 0.0)
