@@ -1209,7 +1209,7 @@
           <div class="panel-head">
             <div>
               <div id="chartTitle" class="panel-title">市场走势</div>
-              <div class="panel-note">完整历史数据后台预载 · 滚轮缩放时间轴 · 按住图表左右拖拽</div>
+              <div class="panel-note">自然日时间轴 · 切换资产保留视窗 · 滚轮缩放 · 按住图表左右拖拽</div>
             </div>
             <div class="panel-actions">
               <div class="range" aria-label="K 线周期">
@@ -2805,7 +2805,6 @@
         card.addEventListener("click", () => {
           if (card.dataset.dragged === "true") return;
           const key = card.dataset.key;
-          if (state.active !== key) state.resetMarketRange = true;
           state.active = key;
           void preloadMarketHistory(key);
           renderAll();
@@ -3422,7 +3421,7 @@
       const year = date.getUTCFullYear();
       const month = date.getUTCMonth();
       const day = date.getUTCDate();
-      if (period === "day") return timestamp;
+      if (period === "day") return Date.UTC(year, month, day);
       if (period === "week") {
         const daysSinceMonday = (date.getUTCDay() + 6) % 7;
         return Date.UTC(year, month, day - daysSinceMonday);
@@ -3434,7 +3433,6 @@
     }
 
     function aggregateKlineRows(rows, period = state.klinePeriod) {
-      if (period === "day") return rows;
       let periodCache = klineAggregationCache.get(rows);
       if (!periodCache) {
         periodCache = new Map();
@@ -3480,18 +3478,65 @@
       };
     }
 
-    function fitMarketRange(timeScale, keys) {
-      const timestamps = keys.flatMap(key => {
-        const rows = state.series[key] || [];
-        return rows.length > 1 ? [rows[0].time, rows[rows.length - 1].time] : [];
+    const CALENDAR_DAY = 86400;
+
+    function captureMarketRange(chart) {
+      const range = chart.api.timeScale().getVisibleLogicalRange();
+      if (!range || !chart.calendar) return null;
+      return {
+        from: chart.calendar.from + range.from * CALENDAR_DAY,
+        to: chart.calendar.from + range.to * CALENDAR_DAY
+      };
+    }
+
+    function ensureMarketCalendar(chart, visibleRange) {
+      const today = chartTime(klineBucketTime(Date.now(), "day"));
+      let from = chartTime(new Date(`${rangeStart("20y")}T00:00:00Z`).getTime());
+      let to = today;
+      new Set([...state.tickers, ...state.selected, state.active]).forEach(key => {
+        const rows = marketChartRows(key);
+        if (!rows?.length) return;
+        from = Math.min(from, chartTime(klineBucketTime(rows[0].time, "day")));
+        from = Math.min(from, chartTime(klineBucketTime(rows[0].time, state.klinePeriod)));
+        to = Math.max(to, chartTime(klineBucketTime(rows[rows.length - 1].time, "day")));
       });
-      if (!timestamps.length) {
-        timeScale.fitContent();
-        return;
+      if (visibleRange) {
+        from = Math.min(from, Math.floor(visibleRange.from / CALENDAR_DAY) * CALENDAR_DAY);
+        to = Math.max(to, Math.ceil(visibleRange.to / CALENDAR_DAY) * CALENDAR_DAY);
       }
-      timeScale.setVisibleRange({
-        from: chartTime(Math.min(...timestamps)),
-        to: chartTime(Math.max(...timestamps))
+      if (chart.calendar) {
+        from = Math.min(from, chart.calendar.from);
+        to = Math.max(to, chart.calendar.to);
+        if (from === chart.calendar.from && to === chart.calendar.to) return;
+      } else {
+        // A hidden endpoint anchors scrolling even beyond the last real observation.
+        chart.calendar = {
+          series: chart.api.addSeries(LightweightCharts.LineSeries, {
+            priceScaleId: "calendar",
+            visible: false,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false
+          })
+        };
+        chart.api.applyOptions({ rightPriceScale: { minimumWidth: 104 } });
+      }
+      const dates = [];
+      for (let time = from; time <= to; time += CALENDAR_DAY) dates.push({ time });
+      dates[dates.length - 1] = { time: to, value: 0 };
+      chart.calendar.series.setData(dates);
+      chart.calendar.from = from;
+      chart.calendar.to = to;
+    }
+
+    function restoreMarketRange(chart, visibleRange) {
+      const range = visibleRange || {
+        from: chartTime(new Date(`${rangeStart()}T00:00:00Z`).getTime()),
+        to: chartTime(klineBucketTime(Date.now(), "day"))
+      };
+      chart.api.timeScale().setVisibleLogicalRange({
+        from: (range.from - chart.calendar.from) / CALENDAR_DAY,
+        to: (range.to - chart.calendar.from) / CALENDAR_DAY
       });
     }
 
@@ -3541,7 +3586,9 @@
       cache.series = new Map(renderKeys.map(key => [key, sourceRows]));
 
       const timeScale = charts.market.api.timeScale();
-      const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
+      const visibleRange = state.resetMarketRange ? null : captureMarketRange(charts.market);
+      state.marketRangeChangeBlockedUntil = performance.now() + 300;
+      ensureMarketCalendar(charts.market, visibleRange);
       charts.market.api.applyOptions({ leftPriceScale: { visible: false } });
       if (!activeKey) {
         showChartEmpty(charts.market, "暂无市场数据");
@@ -3605,8 +3652,7 @@
       }
       setChartLegend(charts.market, legendItems);
       state.marketRangeChangeBlockedUntil = performance.now() + 300;
-      if (visibleRange) timeScale.setVisibleRange(visibleRange);
-      else fitMarketRange(timeScale, [activeKey]);
+      restoreMarketRange(charts.market, visibleRange);
       state.marketLogicalRange = timeScale.getVisibleLogicalRange();
     }
 
@@ -3622,8 +3668,8 @@
       cache.series = rowsByKey;
 
       const chart = charts.marketCompare;
-      const timeScale = chart.api.timeScale();
-      const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();
+      const visibleRange = state.resetMarketRange ? null : captureMarketRange(chart);
+      ensureMarketCalendar(chart, visibleRange);
       const useDualPriceScales = selectedKeys.length === 2;
       const hasZeroBaseline = selectedKeys.some(key =>
         rowsByKey.get(key).find(row => Number.isFinite(row.close))?.close === 0
@@ -3643,7 +3689,7 @@
       clearChart(chart);
       const legendItems = [];
       selectedKeys.forEach((key, index) => {
-        const rows = rowsByKey.get(key);
+        const rows = aggregateKlineRows(rowsByKey.get(key), "day");
         const values = rows.map(x => x.close).filter(Number.isFinite);
         const first = values[0];
         if (!useZScore && first === 0) return;
@@ -3682,8 +3728,7 @@
         });
       });
       setChartLegend(chart, legendItems);
-      if (visibleRange) timeScale.setVisibleRange(visibleRange);
-      else fitMarketRange(timeScale, selectedKeys);
+      restoreMarketRange(chart, visibleRange);
     }
 
     function renderMarketCharts() {

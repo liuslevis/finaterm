@@ -21,3 +21,23 @@ uv run python dashboard/dashboard_server.py
 ```
 
 The dashboard opens automatically at `http://localhost:8765`.
+
+## Market time axis
+
+Market and multi-asset comparison charts use an equally spaced UTC calendar-day
+axis, including weekends, holidays, and dates without macro releases. Missing
+dates contain no synthetic prices. Daily observations are grouped by UTC date;
+weekly and longer candles retain the same daily axis.
+
+Switching assets or candle periods, refreshing data, and loading additional
+history preserve the current zoom and pan window, including fractional-day
+positions. The initial window is the last calendar year, independent of the
+selected asset's data coverage.
+
+The offline browser regression test uses Puppeteer from the `lightweight-charts`
+development dependencies. With a system Chrome installation on Windows:
+
+```powershell
+$env:PUPPETEER_EXECUTABLE_PATH = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+node --test .\dashboard\test_market_time_axis.cjs
+```

@@ -68,9 +68,9 @@ def main() -> int:
         assert 'akshareSymbol: "sh000300"' in page
         assert 'chartType: "candlestick"' in page
         assert "async function fetchAkshareMarket(asset, range)" in page
-        assert "if (state.active !== key) state.resetMarketRange = true;" in page
-        assert "function fitMarketRange(timeScale, keys)" in page
-        assert "else fitMarketRange(timeScale, [activeKey]);" in page
+        assert "if (state.active !== key) state.resetMarketRange = true;" not in page
+        assert "function ensureMarketCalendar(chart, visibleRange)" in page
+        assert "restoreMarketRange(charts.market, visibleRange);" in page
         assert 'data-module-id="market"' in page
         assert 'data-module-id="correlation"' in page
         assert 'data-module-id="market-compare"' in page
@@ -142,8 +142,8 @@ def main() -> int:
         assert "function volumeChartRows(rows)" in page
         assert "LightweightCharts.HistogramSeries" in page
         assert 'priceScaleId: "volume"' in page
-        assert 'const visibleRange = state.resetMarketRange ? null : timeScale.getVisibleRange();' in page
-        assert "if (visibleRange) timeScale.setVisibleRange(visibleRange);" in page
+        assert 'const visibleRange = state.resetMarketRange ? null : captureMarketRange(charts.market);' in page
+        assert "restoreMarketRange(chart, visibleRange);" in page
         assert "function renderMarketCompareChart()" in page
         assert "const normalizedData = rows.map(row => ({" in page
         assert "series.setData(normalizedData);" in page
