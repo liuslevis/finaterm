@@ -40,6 +40,8 @@ __pycache__/
 
 # JavaScript
 node_modules/
+# 仓库根没有 package.json，这个是误执行 npm 留下的空 lock（dashboard/ 的才是真在用的）
+/package-lock.json
 
 # Tool output
 .cache/
