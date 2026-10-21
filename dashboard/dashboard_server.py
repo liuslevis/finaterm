@@ -28,6 +28,7 @@ FUTU_ROOT = Path(os.getenv("FUTU_OPEND_ROOT", FINANCE_ROOT / "FutuOpenD"))
 USDATA_ROOT = Path(os.getenv("USDATA_ROOT", FINANCE_ROOT / "usdata"))
 FUTU_PYTHON = FUTU_ROOT / ".venv" / "Scripts" / "python.exe"
 FUTU_KLINE = FUTU_ROOT / "skills" / "futuapi" / "scripts" / "quote" / "get_kline.py"
+FUTU_APPDATA = FUTU_ROOT / ".venv" / ".futu-appdata"
 USDATA_PYTHON = USDATA_ROOT / ".venv" / "Scripts" / "python.exe"
 USDATA_BRIDGE = ROOT / "usdata_mcp_bridge.py"
 SERVER_ID = "finance-dashboard-uv-v2"
@@ -144,6 +145,7 @@ def fetch_futu(asset_key: str, range_key: str) -> dict:
     result = subprocess.run(
         command,
         cwd=FUTU_ROOT,
+        env={**os.environ, "APPDATA": str(FUTU_APPDATA)},
         capture_output=True,
         text=True,
         encoding="utf-8",
