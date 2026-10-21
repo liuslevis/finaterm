@@ -1,5 +1,6 @@
 import argparse
 from datetime import datetime, timedelta
+import hmac
 import json
 import mimetypes
 import os
@@ -30,6 +31,7 @@ FUTU_KLINE = FUTU_ROOT / "skills" / "futuapi" / "scripts" / "quote" / "get_kline
 USDATA_PYTHON = USDATA_ROOT / ".venv" / "Scripts" / "python.exe"
 USDATA_BRIDGE = ROOT / "usdata_mcp_bridge.py"
 SERVER_ID = "finance-dashboard-uv-v2"
+SHUTDOWN_TOKEN = os.getenv("FINANCE_DASHBOARD_SHUTDOWN_TOKEN", "")
 ALLOWED_HOSTS = {
     "query1.finance.yahoo.com",
     "economic-calendar.tradingview.com",
@@ -276,6 +278,18 @@ class DashboardHandler(BaseHTTPRequestHandler):
         body = json.dumps({"cleared": cleared}, ensure_ascii=False).encode("utf-8")
         self.send_body(200, body, "application/json; charset=utf-8")
 
+    def do_POST(self) -> None:
+        request = urllib.parse.urlparse(self.path)
+        if request.path != "/__finance_dashboard_shutdown":
+            self.send_json_error(404, "Not Found")
+            return
+        token = (urllib.parse.parse_qs(request.query).get("token") or [""])[0]
+        if not SHUTDOWN_TOKEN or not hmac.compare_digest(token, SHUTDOWN_TOKEN):
+            self.send_json_error(403, "Forbidden")
+            return
+        self.send_body(200, b"shutting down", "text/plain; charset=utf-8")
+        threading.Thread(target=self.server.shutdown, daemon=True).start()
+
     def do_GET(self) -> None:
         request = urllib.parse.urlparse(self.path)
         if request.path == "/__finance_dashboard_health":
@@ -401,7 +415,7 @@ def find_or_create_server(start_port: int) -> tuple[ThreadingHTTPServer | None, 
         try:
             server = ThreadingHTTPServer(("127.0.0.1", port), DashboardHandler)
             server.daemon_threads = True
-            return server, port
+            return server, server.server_port
         except OSError:
             continue
     raise RuntimeError("No free local port found in the configured range")
@@ -423,7 +437,7 @@ def main() -> int:
     if server is None:
         return 0
 
-    print(f"Finance dashboard: {url}")
+    print(f"Finance dashboard: {url}", flush=True)
     try:
         server.serve_forever(poll_interval=0.25)
     except KeyboardInterrupt:

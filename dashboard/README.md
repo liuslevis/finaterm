@@ -14,7 +14,23 @@ A local financial dashboard for monitoring global markets, macro trends, semicon
 
 ## Run
 
-Requires Python 3.11 or newer and [uv](https://docs.astral.sh/uv/).
+### Electron desktop app
+
+Requires Node.js, Python 3.11 or newer, and [uv](https://docs.astral.sh/uv/).
+
+```powershell
+cd dashboard
+npm install
+npm start
+```
+
+On Windows, you can also double-click `打开金融仪表盘 Electron.cmd`. The
+Electron process starts the local Python API on an available random port and
+stops it when the desktop app exits. The launcher keeps a runtime copy under
+`%LOCALAPPDATA%\FinanceDashboard` so the Windows Electron sandbox can access
+its binaries even when the repository has restricted development-folder ACLs.
+
+### Browser
 
 ```powershell
 uv run python dashboard/dashboard_server.py

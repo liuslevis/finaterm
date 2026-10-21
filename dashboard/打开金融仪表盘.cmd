@@ -17,6 +17,13 @@ if errorlevel 1 (
   exit /b 1
 )
 
+where npm >nul 2>nul
+if errorlevel 1 (
+  echo 未找到 npm，请先安装 Node.js。
+  pause
+  exit /b 1
+)
+
 if not exist "%FUTU_PYTHON%" (
   echo 未找到富途 Python 环境：%FUTU_PYTHON%
   echo 请在 FutuOpenD 目录运行 uv sync。
@@ -57,6 +64,16 @@ if errorlevel 1 (
   exit /b 1
 )
 
+if not exist "%~dp0node_modules\electron\package.json" (
+  echo 正在安装 Electron...
+  call npm install --no-audit --no-fund
+  if errorlevel 1 (
+    echo Electron 安装失败。
+    pause
+    exit /b 1
+  )
+)
+
 set "OPEND_EXE="
 if exist "%APPDATA%\Futu_OpenD\Futu_OpenD.exe" set "OPEND_EXE=%APPDATA%\Futu_OpenD\Futu_OpenD.exe"
 if not defined OPEND_EXE if exist "%LOCALAPPDATA%\Futu_OpenD\Futu_OpenD.exe" set "OPEND_EXE=%LOCALAPPDATA%\Futu_OpenD\Futu_OpenD.exe"
@@ -94,7 +111,7 @@ echo Futu OpenD API 已就绪。
 
 :start_dashboard
 set "FINANCE_DATA_ROOT=%FINANCE_ROOT%"
-start "金融数据终端" /min uv run --project "%~dp0." python "%~dp0dashboard_server.py"
+powershell -NoProfile -WindowStyle Hidden -Command "$workingDirectory = [IO.Path]::GetFullPath('%~dp0.'); Start-Process -FilePath $env:ComSpec -ArgumentList '/d','/c','npm start' -WorkingDirectory $workingDirectory -WindowStyle Hidden"
 
 if errorlevel 1 (
   echo 无法启动金融数据终端。

@@ -1,0 +1,14 @@
+{
+  "name": "finance-dashboard-electron",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Electron shell for the Global Finance Dashboard",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "node start-electron.js",
+    "test:smoke": "node start-electron.js --smoke-test"
+  },
+  "devDependencies": {
+    "electron": "44.9.3"
+  }
+}
