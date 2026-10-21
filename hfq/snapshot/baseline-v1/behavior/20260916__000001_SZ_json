@@ -1,0 +1,185 @@
+{
+  "date": "20260916",
+  "code": "000001.SZ",
+  "counts": {
+    "events": 261697,
+    "quotes": 4816,
+    "orders_summary": 136114,
+    "ladder": 233,
+    "intraday_points": 4763
+  },
+  "fingerprints": {
+    "events": "7b3577962049805aa28cc117193e588315cf29259d746d38ada6b5e557d25abe",
+    "quotes": "6bde7f42c032b24769da3e31196d77e3539dedfde5d6a4ddc56559ffcd28655c",
+    "basic": "bbcac8fa9b23a9081933a6fc0d8d3a349063f8d926a338671ea581b6dfdb593a",
+    "ladder": "f4d9484a91e6b58a61f0fb8aa1977584250331451d50ef463722acc39bacaaaa",
+    "all_books": "151fb6c4c1bf653d566fd0af96f7cf451f779610bf733a4d34ce9bb9d3f699d2",
+    "intraday": "99669cb39429a118abca256ea1b4a0e3f881ec1e27da33b32e6b782bf608da2b",
+    "summary": "3e5f2cbe07d59c1993a780d18740a3f3a8c523a1c44a7b0bb8a892ff30549e99",
+    "track": "685d97e425c57a144661ec4fa09b303038f47e083cd0a2200ed934f91ae5bae0",
+    "locate": "1e9dc85899295d08b42550c9b413a5f04c9485f64808a7e613c033645644e77d",
+    "orderbook": "534fac05a643e8924e122a28748106ecac5ec5026b96a1546f1d2f6448462ee3",
+    "orders_head": "0275c35f25f6d3301a2b58dd09deeaf216ebecc0c09a3d199e6b197d8cee5a41",
+    "events_head50": "0e414b7a2c9cd4b8c8d4c21cc24e391e04991264323920f842f533475bdc92e4",
+    "events_tail50": "8c51a1ec9534722dffe282648888664469697663b0b3c638c99c1fb32e1b3581"
+  },
+  "samples": {
+    "basic": {
+      "code": "000001.SZ",
+      "date": "20260916",
+      "market": "SZ",
+      "open": 11.8,
+      "prev_close": 11.82,
+      "high": 11.84,
+      "low": 11.57,
+      "last": 11.7,
+      "change_pct": -1.0152284263959475,
+      "limit_up": 13.0,
+      "limit_down": 10.64,
+      "hit_limit_up": false,
+      "hit_limit_down": false,
+      "records": 261697,
+      "cum_vol": 94962632,
+      "cum_amt": 1106652940,
+      "turnover_rate": null,
+      "prev_change_pct": null,
+      "float_shares": null,
+      "market_cap": null
+    },
+    "first_event": {
+      "aseq": 56,
+      "t": 91500000,
+      "type": "委托",
+      "side": "买",
+      "price": 11.81,
+      "qty": 100,
+      "amount": 0.0,
+      "buy_id": 56,
+      "sell_id": 0,
+      "order_id": 56,
+      "seq": 1
+    },
+    "last_event": {
+      "aseq": 36633669,
+      "t": 150000000,
+      "type": "成交",
+      "side": "买",
+      "price": 11.7,
+      "qty": 3600,
+      "amount": 4.212,
+      "buy_id": 36627753,
+      "sell_id": 33981578,
+      "order_id": 0,
+      "seq": 261697
+    },
+    "first_quote": {
+      "t": 80000000,
+      "last": 0.0,
+      "cum_vol": 0,
+      "cum_amt": 0,
+      "high": 0.0,
+      "low": 0.0,
+      "open": 0.0,
+      "prev_close": 11.82,
+      "asks": [
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ]
+      ],
+      "bids": [
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          0
+        ]
+      ]
+    },
+    "summary": {
+      "count": 261697,
+      "total_vol": 94962632.0,
+      "total_amt": 110665.29396601234,
+      "buy_vol": 41977807.0,
+      "buy_amt": 48928.01114501186,
+      "sell_vol": 52984825.0,
+      "sell_amt": 61737.28282100047,
+      "buy_sell_ratio": 0.792519672219338,
+      "net_amt": -12809.271675988617,
+      "buy_pct": 44.20455300775573,
+      "buy_avg": 11.655685382757573,
+      "sell_avg": 11.651880103595788
+    }
+  },
+  "load_seconds": 0.8072
+}

@@ -1,0 +1,59 @@
+{
+  "date": "20260731",
+  "sentinel_rows": 7,
+  "codes_with_sentinel": 7,
+  "old_price": 1844674407370954.2,
+  "new_price": -1.0,
+  "all_expected": true,
+  "detail": [
+    {
+      "code": "001267.SZ",
+      "status": "OLD_BROKEN",
+      "events": 165358,
+      "old_error": "OverflowError: Python int too large to convert to C long",
+      "ok": true
+    },
+    {
+      "code": "002463.SZ",
+      "status": "OLD_BROKEN",
+      "events": 718343,
+      "old_error": "OverflowError: Python int too large to convert to C long",
+      "ok": true
+    },
+    {
+      "code": "002837.SZ",
+      "status": "OLD_BROKEN",
+      "events": 500223,
+      "old_error": "OverflowError: Python int too large to convert to C long",
+      "ok": true
+    },
+    {
+      "code": "300308.SZ",
+      "status": "OLD_BROKEN",
+      "events": 933646,
+      "old_error": "Bad7zFile: Specified path is bad: C:\\Users\\david\\dev\\finance\\hfq\\cache\\_ab_old\\20260731\\_stage\\20260731\\300308.SZ\\逐笔成交.csv",
+      "ok": true
+    },
+    {
+      "code": "300394.SZ",
+      "status": "OLD_BROKEN",
+      "events": 808110,
+      "old_error": "OverflowError: Python int too large to convert to C long",
+      "ok": true
+    },
+    {
+      "code": "300395.SZ",
+      "status": "OLD_BROKEN",
+      "events": 304169,
+      "old_error": "Bad7zFile: Specified path is bad: C:\\Users\\david\\dev\\finance\\hfq\\cache\\_ab_old\\20260731\\_stage\\20260731\\300395.SZ\\逐笔成交.csv",
+      "ok": true
+    },
+    {
+      "code": "300502.SZ",
+      "status": "OLD_BROKEN",
+      "events": 1039325,
+      "old_error": "OverflowError: Python int too large to convert to C long",
+      "ok": true
+    }
+  ]
+}

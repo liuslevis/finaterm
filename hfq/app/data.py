@@ -1,7 +1,11 @@
 """LV2 逐笔数据访问层。
 
-从 7z 归档按需抽取单只股票的三个 GBK 编码 CSV（行情 / 逐笔委托 / 逐笔成交），
-解析为统一的逐笔事件流（委托 / 成交 / 撤单），并提供汇总统计、订单追踪、
+数据源优先级：
+  1. Parquet 列存（``data-parquet/``，按月/周分区）—— 随机访问与列裁剪最优
+  2. 7z 归档按需抽取单只股票的三个 GBK CSV（行情 / 逐笔委托 / 逐笔成交）
+  3. 单股票二进制缓存 ``_cache_vN.bin``（无 Parquet 时的加速层）
+
+解析结果为统一的逐笔事件流（委托 / 成交 / 撤单），并提供汇总统计、订单追踪、
 盘口快照与分时数据。支持深交所（.SZ）与上交所（.SH）两种编码约定。
 """
 
@@ -18,10 +22,18 @@ from functools import lru_cache
 
 import py7zr
 
+from .parquet_store import Store as ParquetStore
+from .paths import archive_dir, parquet_candidates
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-DATA_DIR = os.path.join(ROOT, "data-lv2")
+
+# 7z 归档目录（HFQ_ARCHIVE_DIR 可覆盖；本机已挪到 D:\data-lv2）
+DATA_DIR = archive_dir()
 CACHE_DIR = os.path.join(ROOT, "cache")
+
+# Parquet 数据集位置（HFQ_PARQUET_DIR 可覆盖；本机在仓库内 C: 盘）
+PQ_CANDIDATES = parquet_candidates()
 
 PRICE_SCALE = 10000.0  # 原始价格为 元 * 10000
 
@@ -30,9 +42,24 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 _archive_lock = threading.Lock()
 _index_lock = threading.Lock()
 
+# --------------------------------------------------------------------------- #
+# Parquet 数据集探测（都不可用则完全回退到 7z 路径）
+# --------------------------------------------------------------------------- #
+_PQ: ParquetStore | None = None
+for _cand_path in PQ_CANDIDATES:
+    try:
+        _cand = ParquetStore(_cand_path)
+        if _cand.exists():
+            _PQ = _cand.open()
+            break
+    except Exception:  # noqa: BLE001  数据集损坏时尝试下一个候选
+        continue
 
-def list_dates() -> list[str]:
-    """扫描 data-lv2/*.7z，返回升序交易日列表（文件名即 YYYYMMDD）。"""
+PARQUET_DIR = _PQ.root if _PQ is not None else PQ_CANDIDATES[-1]
+PARQUET_ENABLED = _PQ is not None
+
+
+def _archive_dates() -> list[str]:
     ds = []
     try:
         for fn in os.listdir(DATA_DIR):
@@ -44,6 +71,21 @@ def list_dates() -> list[str]:
     return ds
 
 
+def list_dates() -> list[str]:
+    """返回升序交易日列表。
+
+    取 Parquet 数据集与 7z 归档的**并集**，这样渐进迁移时尚未转换的交易日
+    仍可走 7z 回退路径，不会因为部分转换而丢数据。
+    """
+    ds = set(_archive_dates())
+    if _PQ is not None:
+        try:
+            ds.update(_PQ.dates)
+        except Exception:  # noqa: BLE001
+            pass
+    return sorted(ds)
+
+
 DATES = list_dates()
 DEFAULT_DATE = DATES[-1] if DATES else "20260918"
 TRADE_DATE = DEFAULT_DATE  # 兼容旧引用：默认（最新）交易日
@@ -51,6 +93,30 @@ TRADE_DATE = DEFAULT_DATE  # 兼容旧引用：默认（最新）交易日
 
 def _norm_date(date: str | None) -> str:
     return date if date in DATES else DEFAULT_DATE
+
+
+def refresh_dates() -> bool:
+    """后台转换新增交易日时，刷新模块级 DATES/DEFAULT_DATE。
+
+    只做「manifest 变了才重算」，由 :func:`_maybe_refresh` 按请求触发。
+    """
+    global DATES, DEFAULT_DATE, TRADE_DATE
+    DATES = list_dates()
+    DEFAULT_DATE = DATES[-1] if DATES else DEFAULT_DATE
+    TRADE_DATE = DEFAULT_DATE
+    _PQ_CODES.clear()
+    return True
+
+
+def _maybe_refresh() -> None:
+    """节流检查 Parquet manifest 是否变化（转换期间数据集会持续增长）。"""
+    if _PQ is None:
+        return
+    try:
+        if _PQ.maybe_reload():
+            refresh_dates()
+    except Exception:  # noqa: BLE001  刷新失败不影响本次请求
+        pass
 
 
 def _archive_path(date: str) -> str:
@@ -93,7 +159,15 @@ def _build_index(date: str) -> dict:
     return index
 
 
-def get_index(date: str = DEFAULT_DATE) -> dict:
+_PQ_CODES: dict[str, list[str]] = {}
+
+
+def _archive_index(date: str) -> dict:
+    """code -> 归档内成员文件名（真正的 7z 索引，供抽取用）。
+
+    注意与 :func:`get_index` 的区别：后者在 Parquet 可用时会直接返回当日代码清单，
+    其 value 是空占位，**不能**用来做 7z 抽取。
+    """
     date = _norm_date(date)
     ipath = os.path.join(CACHE_DIR, date, "_index.json")
     with _index_lock:
@@ -104,6 +178,28 @@ def get_index(date: str = DEFAULT_DATE) -> dict:
             except Exception:
                 pass
         return _build_index(date)
+
+
+def get_index(date: str = DEFAULT_DATE) -> dict:
+    """code -> 成员文件名 索引（用于「当日有哪些标的」）。
+
+    Parquet 数据集只在该交易日为**全量**构建时才作为清单来源；若为部分构建
+    （只转了一部分标的），清单回退到归档索引，避免隐藏未转换的标的。
+    Parquet 路径下 value 只是空占位——需要真实成员名时用 :func:`_archive_index`。
+    """
+    _maybe_refresh()
+    date = _norm_date(date)
+    if _PQ is not None and date in _PQ.dates and not _PQ.is_partial(date):
+        codes = _PQ_CODES.get(date)
+        if codes is None:
+            try:
+                codes = _PQ.list_codes(date)
+                _PQ_CODES[date] = codes
+            except Exception:  # noqa: BLE001
+                pass
+        if codes is not None:
+            return dict.fromkeys(codes, ())
+    return _archive_index(date)
 
 
 def list_stocks(date: str = DEFAULT_DATE) -> list[dict]:
@@ -124,15 +220,27 @@ def ensure_extracted(code: str, date: str) -> str:
     needed = ["行情.csv", "逐笔委托.csv", "逐笔成交.csv"]
     if all(os.path.exists(os.path.join(dest, n)) for n in needed):
         return dest
-    idx = get_index(date)
+    # 必须用归档索引（真实成员名），不能用 get_index——Parquet 可用时后者返回空占位
+    idx = _archive_index(date)
     members = idx.get(code)
     if not members:
-        raise KeyError(f"未知代码: {code}")
+        raise KeyError(f"归档中无此代码: {code} @ {date} ({_archive_path(date)})")
     os.makedirs(dest, exist_ok=True)
     stage_root = os.path.join(CACHE_DIR, date, "_stage")
     with _archive_lock:
-        with py7zr.SevenZipFile(_archive_path(date), "r") as a:
-            a.extract(path=stage_root, targets=members)
+        last = None
+        for attempt in range(3):
+            try:
+                with py7zr.SevenZipFile(_archive_path(date), "r") as a:
+                    a.extract(path=stage_root, targets=members)
+                last = None
+                break
+            except Exception as e:  # noqa: BLE001  py7zr 偶发 Bad7zFile，清临时目录重试
+                last = e
+                import shutil as _sh
+                _sh.rmtree(stage_root, ignore_errors=True)
+        if last is not None:
+            raise last
     # 归档内路径为 <date>/<code>/<name>，移动到 cache/<date>/<code>/<name>
     staged = os.path.join(stage_root, date, code)
     for n in needed:
@@ -190,11 +298,24 @@ class StockData:
 
     # --- 解析各文件 --------------------------------------------------------- #
     def _load(self):
-        if not self._load_binary():
-            self._parse_all()
-            self._save_binary()
+        if not self._load_parquet():
+            if not self._load_binary():
+                self._parse_all()
+                self._save_binary()
         self._index_orders()
         self._compute_basic()
+
+    def _load_parquet(self) -> bool:
+        """首选路径：从 Parquet 列存直接取列式结果。"""
+        if _PQ is None:
+            return False
+        if self.date not in _PQ.dates:
+            return False
+        try:
+            self.events, self.quotes = _PQ.load_stock(self.code, self.date)
+            return True
+        except (KeyError, OSError, ValueError):
+            return False
 
     def _parse_all(self):
         """慢速路径：从 7z 抽取 + 解析 GBK CSV（首次访问某股票时执行一次）。"""
@@ -495,6 +616,7 @@ _mem_lock = threading.Lock()
 
 
 def get_stock(code: str, date: str = DEFAULT_DATE) -> StockData:
+    _maybe_refresh()
     date = _norm_date(date)
     key = (code, date)
     with _mem_lock:
@@ -513,31 +635,80 @@ def get_stock(code: str, date: str = DEFAULT_DATE) -> StockData:
 def daily_kline(code: str) -> dict:
     """跨全部可用交易日的日 K（OHLC + 量/额），供日 K 走势视图。
 
-    每日 OHLC 来自当日十档快照派生的 basic；量/额取当日最后一笔累计值。
-    首日缺前收时以开盘价兜底。逐日解析走二进制缓存，除首访外很快。
+    已全量转换的交易日直接读日线目录（catalog，1 个小文件）；未转换的交易日
+    回退到逐日派生。两种来源的字段语义完全一致（见 _day_from_catalog /
+    _day_from_basic），因此可以混用。
     """
+    _maybe_refresh()
+    cat_dates: set[str] = set()
+    cat_rows: dict[str, dict] = {}
+    if _PQ is not None:
+        try:
+            cat_dates = {d for d in _PQ.dates if not _PQ.is_partial(d)}
+            if cat_dates:
+                for r in _PQ.read_catalog(code=code).to_pylist():
+                    cat_rows[str(r["date"])] = r
+        except Exception:  # noqa: BLE001
+            cat_dates, cat_rows = set(), {}
+
     days = []
     for d in DATES:
+        if d in cat_dates:
+            rec = _day_from_catalog(d, cat_rows.get(d))
+            if rec is not None:
+                days.append(rec)
+            continue
         try:
             sd = get_stock(code, d)
         except KeyError:
             continue  # 该日无此标的
-        b = sd.basic
-        if not b.get("last"):
-            continue
-        prev = b["prev_close"] or b["open"] or b["last"]
-        days.append({
-            "date": d,
-            "open": b["open"] or prev,
-            "high": b["high"] or b["last"],
-            "low": b["low"] or b["last"],
-            "close": b["last"],
-            "prev_close": prev,
-            "change_pct": b["change_pct"],
-            "vol": b.get("cum_vol", 0),
-            "amt": round(b.get("cum_amt", 0) / 1e4, 2),  # 万元
-        })
+        rec = _day_from_basic(d, sd.basic)
+        if rec is not None:
+            days.append(rec)
     return {"code": code, "days": days}
+
+
+def _day_from_basic(d: str, b: dict) -> dict | None:
+    """与改动前逐日派生的日 K 记录完全一致。"""
+    if not b.get("last"):
+        return None
+    prev = b["prev_close"] or b["open"] or b["last"]
+    return {
+        "date": d,
+        "open": b["open"] or prev,
+        "high": b["high"] or b["last"],
+        "low": b["low"] or b["last"],
+        "close": b["last"],
+        "prev_close": prev,
+        "change_pct": b["change_pct"],
+        "vol": b.get("cum_vol", 0),
+        "amt": round(b.get("cum_amt", 0) / 1e4, 2),  # 万元
+    }
+
+
+def _day_from_catalog(d: str, r: dict | None) -> dict | None:
+    """把 catalog 的一行还原成同一口径的日 K 记录。"""
+    if r is None:
+        return None
+    close = r["close"] / PRICE_SCALE
+    if not close:
+        return None
+    open_ = r["open"] / PRICE_SCALE
+    high = r["high"] / PRICE_SCALE
+    low = r["low"] / PRICE_SCALE
+    prev = r["prev_close"] / PRICE_SCALE
+    prev = prev or open_ or close
+    return {
+        "date": d,
+        "open": open_ or prev,
+        "high": high or close,
+        "low": low or close,
+        "close": close,
+        "prev_close": prev,
+        "change_pct": r["change_pct"],
+        "vol": r["vol"],
+        "amt": round(r["amt"] / 1e4, 2),
+    }
 
 
 # --------------------------------------------------------------------------- #

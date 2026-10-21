@@ -1,0 +1,89 @@
+{
+  "date": "20260901",
+  "codes": [
+    "000001.SZ",
+    "159119.SZ",
+    "300965.SZ",
+    "600525.SH",
+    "900948.SH"
+  ],
+  "rows": [
+    {
+      "code": "000001.SZ",
+      "old_cold_s": 1.8556,
+      "events": 292200,
+      "quotes": 4824,
+      "bin_bytes": 14406160,
+      "csv_bytes": 22896918,
+      "old_warm_s": 0.8828,
+      "new_s": 1.1708,
+      "same_events": true,
+      "new_mem_s": 1.21262
+    },
+    {
+      "code": "159119.SZ",
+      "old_cold_s": 0.5096,
+      "events": 17135,
+      "quotes": 3097,
+      "bin_bytes": 1407770,
+      "csv_bytes": 2236930,
+      "old_warm_s": 0.06,
+      "new_s": 0.2009,
+      "same_events": true,
+      "new_mem_s": 0.10953
+    },
+    {
+      "code": "300965.SZ",
+      "old_cold_s": 0.5034,
+      "events": 15506,
+      "quotes": 2712,
+      "bin_bytes": 1255836,
+      "csv_bytes": 2048897,
+      "old_warm_s": 0.0944,
+      "new_s": 0.2064,
+      "same_events": true,
+      "new_mem_s": 0.21093
+    },
+    {
+      "code": "600525.SH",
+      "old_cold_s": 0.4522,
+      "events": 17827,
+      "quotes": 3553,
+      "bin_bytes": 1530802,
+      "csv_bytes": 2621468,
+      "old_warm_s": 0.0636,
+      "new_s": 0.3455,
+      "same_events": true,
+      "new_mem_s": 0.31815
+    },
+    {
+      "code": "900948.SH",
+      "old_cold_s": 0.5641,
+      "events": 25528,
+      "quotes": 4338,
+      "bin_bytes": 2042048,
+      "csv_bytes": 3224266,
+      "old_warm_s": 0.0818,
+      "new_s": 0.1797,
+      "same_events": true,
+      "new_mem_s": 0.18015
+    }
+  ],
+  "median": {
+    "old_cold_s": 0.5096,
+    "old_warm_s": 0.0818,
+    "new_s": 0.2064,
+    "new_mem_s": 0.21093,
+    "bin_bytes": 1530802,
+    "csv_bytes": 2621468
+  },
+  "day": {
+    "stocks": 7895,
+    "archive_bytes": 5523951917,
+    "raw_bytes": 49290634214,
+    "parquet_bytes": 298627473841,
+    "extract_seconds": 108.2,
+    "parse_seconds": 254.6,
+    "total_seconds": 606.7
+  }
+}

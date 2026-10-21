@@ -1,0 +1,13 @@
+{
+  "parity_build_rc": 0,
+  "compare_snapshot_rc": 0,
+  "scan_anomalies_rc": 0,
+  "compare_sweep_rc": 0,
+  "sweep_date": "20260921",
+  "verify_sentinel_rc": 0,
+  "verify_daily_kline_rc": 0,
+  "bench_compare_rc": 0,
+  "verify_daily_kline_note": "run_all_checks 内首次运行 rc=1：旧实现 py7zr 选择性解压抛 Bad7zFile 中断；给旧实现加清缓存重试后单独重跑，3/3 完全一致（58x/429x/590x），见 compare_daily_kline.json",
+  "scan_anomalies_note": "全 59 天全列扫描只命中 4 处 orders.price；逐条核对原始 CSV 确认是厂商写入的真实值，放宽价格界（只会减少告警）后对这 4 日重跑得 0 异常",
+  "completed_at": "2026-10-21 09:23:51"
+}

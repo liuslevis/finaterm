@@ -12,14 +12,45 @@
 
 ## 数据源
 
-本实现使用真实 **深交所 / 上交所 Level-2 逐笔行情**（万得 Wind CSV 格式），
-放在 `data-lv2/<交易日>.7z`（目前含 `20260916` / `20260917` / `20260918` 三个交易日，
-每个归档含 7900+ 只 SZ/SH 个股）。新增交易日只需把对应 `<YYYYMMDD>.7z` 放入 `data-lv2/`，
-服务启动时自动发现，前端「日期 / 前一天 / 后一天 / 日K走势」即可用。
+本实现使用真实 **深交所 / 上交所 Level-2 逐笔行情**（万得 Wind CSV 格式）。
+原始数据放在 `data-lv2/<交易日>.7z`（目前 59 个交易日，`20260630` … `20260921`，
+每个归档含 7900+ 只 SZ/SH 标的）。新增交易日只需把对应 `<YYYYMMDD>.7z` 放入
+`data-lv2/`，服务启动时自动发现。
 
-> SPEC 中原以富途 Futu OpenAPI 作为默认数据源；由于已获得完整的逐笔委托+逐笔成交
-> 原始数据，本实现直接解析该归档，无需 Futu，逐笔委托号/撤单/委托地图等核心能力
-> 全部可用。
+**读取路径有两级，自动选择：**
+
+1. **Parquet 列存**（zstd-3，按月/周分区，按 code 分片）。存在即优先使用：
+   比原归档还小约 15%，随机访问快 2.3x，跨日日 K 只扫一个小文件。
+2. 否则回退到 7z 归档按需抽取（归档目录见下）。
+
+数据集位置按顺序自动探测，用第一个能打开的：
+
+1. 环境变量 `HFQ_PARQUET_DIR`
+2. 仓库内 `hfq/data-parquet/` —— **当前实际位置（C: 快盘，冷加载 0.235 s）**
+
+7z 归档目录同理：`HFQ_ARCHIVE_DIR` → 仓库内 `hfq/data-lv2/` → **`D:\data-lv2`（当前实际位置）**。
+两者可以分开放在不同盘——本机就是 Parquet 在 C:（快）、7z 归档在 D:（慢，写入 82 MB/s）。
+
+两级的交易日取**并集**，因此可以渐进迁移——只转一部分交易日也不会丢数据。
+转换与校验见 [`docs/parquet-migration.md`](docs/parquet-migration.md)。
+
+**当前状态：59/59 个交易日已全部转换为 Parquet（278.12 GB）。**
+
+| 指标 | 结果 |
+|---|---|
+| 体积 | 7z 318.19 GB / CSV 2805.71 GB → **Parquet 278.12 GB**（10.09x vs CSV，比 7z 小 1.14x） |
+| 一致性 | 逐字段指纹 33/33、随机 120 只 120/120、全 59 天全列越界扫描 0 异常、HTTP 22/22 |
+| 跨日日 K | 46.7–80.5 s → **0.11–1.4 s（58–590x）** |
+| 磁盘 | 每「股票×日」额外占用 3.96 MB → **0.62 MB（6.4x）** |
+| 单只冷加载 | Parquet 在 C: 上 0.235 s；在 D: 上 1.148 s（D: 是慢盘，见文档） |
+
+> 转换用 `scripts/convert_all.py`（逐日 + 重试 + 时间戳日志）；临时解压必须放快盘
+> （C:），只把最终 Parquet 写 D:。
+
+```powershell
+# 转全部交易日至 D:（临时解压留 C:，否则单日 40+ GB 在慢盘上会拖慢 2 倍）
+python scripts/build_parquet.py --all --reuse-temp      # 默认写 hfq/data-parquet
+```
 
 每只股票含三个 GBK 编码 CSV：
 - `行情.csv` —— 十档盘口快照序列（分时/盘口来源）
@@ -28,6 +59,9 @@
 
 价格单位为「元 × 10000」，时间为 `HHMMSSmmm`。深交所委托号（交易所委托号）与
 成交编号共享同一 ApplSeqNum 序列，合并排序即得逐笔主表的精确时序。
+
+> 数据质量提示：`16xxxx.SZ` 基金的部分 `行情.csv` 首帧把「成交量/成交额」写成了
+> `2^64 - n` 形式的越界值。Parquet 数据集不收录这两列（应用也不消费），因此不受影响。
 
 ## 运行
 
@@ -77,9 +111,18 @@ python server.py            # 默认 http://127.0.0.1:8770
 
 ```
 hfq/
-├── server.py          # 标准库 HTTP 服务 + 路由（多交易日感知）
-├── app/data.py        # 交易日发现、归档抽取、CSV 解析、统一事件流、统计、订单追踪、日K
-├── static/            # index.html / app.js / styles.css / vendor/echarts.min.js
-├── cache/<交易日>/    # 按需抽取的个股 CSV + 二进制缓存（自动生成）
-└── data-lv2/*.7z      # 每个交易日一个归档（20260916 / 20260917 / 20260918 …）
+├── server.py              # 标准库 HTTP 服务 + 路由（多交易日感知）
+├── app/data.py            # 交易日发现、读取调度、统一事件流、统计、订单追踪、日K
+├── app/parquet_store.py   # Parquet 列存层（schema / 分区路由 / 列式读取）
+├── scripts/
+│   ├── build_parquet.py   # 7z -> Parquet 转换器（可断点续跑）
+│   ├── snapshot.py        # 改动前快照（源码 + 数据清单 + 行为指纹）
+│   ├── compare_snapshot.py / compare_sweep.py / verify_daily_kline.py
+│   └── bench_*.py / scan_*.py
+├── docs/parquet-migration.md
+├── static/                # index.html / app.js / styles.css / vendor/echarts.min.js
+├── cache/<交易日>/         # 7z 回退路径的按需抽取 CSV + 二进制缓存（自动生成）
+├── data-parquet/          # Parquet 列存数据集（当前实际位置，C: 盘）
+├── snapshot/              # 迁移前快照与对比结果
+└── data-lv2/*.7z          # 原始 7z 归档（已挪到 D:\data-lv2，仓库内为旧位置）
 ```

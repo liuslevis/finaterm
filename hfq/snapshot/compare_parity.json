@@ -1,0 +1,312 @@
+{
+  "root": "C:\\Users\\david\\dev\\finance\\hfq\\cache\\_parity_ds",
+  "snapshot": "C:\\Users\\david\\dev\\finance\\hfq\\snapshot\\baseline-v1",
+  "results": [
+    {
+      "date": "20260901",
+      "code": "001301.SZ",
+      "probe_seconds": 1.1346,
+      "load_seconds": 0.6843,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2917
+    },
+    {
+      "date": "20260901",
+      "code": "001317.SZ",
+      "probe_seconds": 0.5587,
+      "load_seconds": 0.2061,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2061
+    },
+    {
+      "date": "20260901",
+      "code": "001323.SZ",
+      "probe_seconds": 0.2907,
+      "load_seconds": 0.1261,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1369
+    },
+    {
+      "date": "20260901",
+      "code": "003039.SZ",
+      "probe_seconds": 0.6363,
+      "load_seconds": 0.2504,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.467
+    },
+    {
+      "date": "20260901",
+      "code": "600967.SH",
+      "probe_seconds": 0.8485,
+      "load_seconds": 0.3376,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.6402
+    },
+    {
+      "date": "20260902",
+      "code": "001301.SZ",
+      "probe_seconds": 0.6653,
+      "load_seconds": 0.3125,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2144
+    },
+    {
+      "date": "20260902",
+      "code": "001317.SZ",
+      "probe_seconds": 0.573,
+      "load_seconds": 0.2735,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1789
+    },
+    {
+      "date": "20260902",
+      "code": "001323.SZ",
+      "probe_seconds": 0.2381,
+      "load_seconds": 0.0779,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.0779
+    },
+    {
+      "date": "20260903",
+      "code": "001301.SZ",
+      "probe_seconds": 0.6013,
+      "load_seconds": 0.2972,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2968
+    },
+    {
+      "date": "20260903",
+      "code": "001317.SZ",
+      "probe_seconds": 0.5585,
+      "load_seconds": 0.2839,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1612
+    },
+    {
+      "date": "20260903",
+      "code": "001323.SZ",
+      "probe_seconds": 0.1774,
+      "load_seconds": 0.0563,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.065
+    },
+    {
+      "date": "20260904",
+      "code": "001301.SZ",
+      "probe_seconds": 0.6824,
+      "load_seconds": 0.3549,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1885
+    },
+    {
+      "date": "20260904",
+      "code": "001317.SZ",
+      "probe_seconds": 0.5688,
+      "load_seconds": 0.2211,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2377
+    },
+    {
+      "date": "20260904",
+      "code": "001323.SZ",
+      "probe_seconds": 0.3638,
+      "load_seconds": 0.2367,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2427
+    },
+    {
+      "date": "20260916",
+      "code": "000001.SZ",
+      "probe_seconds": 1.6588,
+      "load_seconds": 0.7875,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.8072
+    },
+    {
+      "date": "20260916",
+      "code": "001301.SZ",
+      "probe_seconds": 0.861,
+      "load_seconds": 0.274,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2513
+    },
+    {
+      "date": "20260916",
+      "code": "001317.SZ",
+      "probe_seconds": 0.4259,
+      "load_seconds": 0.1654,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1858
+    },
+    {
+      "date": "20260916",
+      "code": "001323.SZ",
+      "probe_seconds": 0.1442,
+      "load_seconds": 0.0601,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.0579
+    },
+    {
+      "date": "20260917",
+      "code": "000001.SZ",
+      "probe_seconds": 1.4037,
+      "load_seconds": 0.7086,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.6727
+    },
+    {
+      "date": "20260917",
+      "code": "001301.SZ",
+      "probe_seconds": 0.662,
+      "load_seconds": 0.3658,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.3631
+    },
+    {
+      "date": "20260917",
+      "code": "001317.SZ",
+      "probe_seconds": 0.4294,
+      "load_seconds": 0.1605,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1716
+    },
+    {
+      "date": "20260917",
+      "code": "001323.SZ",
+      "probe_seconds": 0.1143,
+      "load_seconds": 0.0476,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.0448
+    },
+    {
+      "date": "20260918",
+      "code": "000001.SZ",
+      "probe_seconds": 1.6187,
+      "load_seconds": 0.6903,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.6798
+    },
+    {
+      "date": "20260918",
+      "code": "000006.SZ",
+      "probe_seconds": 0.3174,
+      "load_seconds": 0.1263,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1525
+    },
+    {
+      "date": "20260918",
+      "code": "000007.SZ",
+      "probe_seconds": 0.262,
+      "load_seconds": 0.1044,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1096
+    },
+    {
+      "date": "20260918",
+      "code": "000008.SZ",
+      "probe_seconds": 0.2542,
+      "load_seconds": 0.0889,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.0961
+    },
+    {
+      "date": "20260918",
+      "code": "000009.SZ",
+      "probe_seconds": 0.6313,
+      "load_seconds": 0.398,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.196
+    },
+    {
+      "date": "20260918",
+      "code": "000010.SZ",
+      "probe_seconds": 0.136,
+      "load_seconds": 0.0636,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.0688
+    },
+    {
+      "date": "20260918",
+      "code": "000011.SZ",
+      "probe_seconds": 0.5143,
+      "load_seconds": 0.2017,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.2003
+    },
+    {
+      "date": "20260918",
+      "code": "001301.SZ",
+      "probe_seconds": 0.533,
+      "load_seconds": 0.1397,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.301
+    },
+    {
+      "date": "20260918",
+      "code": "001317.SZ",
+      "probe_seconds": 0.2735,
+      "load_seconds": 0.1323,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1303
+    },
+    {
+      "date": "20260918",
+      "code": "001323.SZ",
+      "probe_seconds": 0.143,
+      "load_seconds": 0.0554,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.054
+    },
+    {
+      "date": "20260918",
+      "code": "001332.SZ",
+      "probe_seconds": 0.5045,
+      "load_seconds": 0.1411,
+      "status": "PASS",
+      "diffs": [],
+      "baseline_seconds": 0.1386
+    }
+  ],
+  "summary": {
+    "pass": 33,
+    "fail": 0,
+    "error": 0,
+    "skip": 0,
+    "new_load_seconds": 8.4297,
+    "new_probe_seconds": 18.7847,
+    "baseline_seconds": 8.0864
+  }
+}

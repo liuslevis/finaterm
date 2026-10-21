@@ -1,0 +1,841 @@
+{
+  "root": "C:\\Users\\david\\dev\\finance\\hfq\\data-parquet",
+  "schema": 4,
+  "freq": "month",
+  "shard_size": 256,
+  "universe": 9143,
+  "shards": 36,
+  "write_opts": {
+    "compression": "zstd",
+    "compression_level": 3,
+    "row_group_size": 65536,
+    "write_statistics": true
+  },
+  "archive_dates": 59,
+  "converted": 59,
+  "missing": [],
+  "extra": [],
+  "bytes": {
+    "archive": 341655830126,
+    "csv": 3012606989387,
+    "parquet": 298627473841,
+    "files": 6422
+  },
+  "ratio": {
+    "vs_csv": 10.088,
+    "vs_7z": 1.144
+  },
+  "rows": {
+    "orders": 20815359799,
+    "trades": 13478690784,
+    "quotes": 1686787720
+  },
+  "codes_total": 459849,
+  "seconds": {
+    "median": 581.5,
+    "min": 427.0,
+    "max": 675.2,
+    "sum": 35617.2
+  },
+  "integrity": {
+    "expected_files_per_date": 108,
+    "missing_shards": {},
+    "extra_shards": {},
+    "sparse_dates": {
+      "20260706": {
+        "shards_with_codes": 32,
+        "shards": 36,
+        "files": 96
+      },
+      "20260707": {
+        "shards_with_codes": 23,
+        "shards": 36,
+        "files": 69
+      },
+      "20260708": {
+        "shards_with_codes": 32,
+        "shards": 36,
+        "files": 96
+      },
+      "20260807": {
+        "shards_with_codes": 35,
+        "shards": 36,
+        "files": 105
+      },
+      "20260814": {
+        "shards_with_codes": 35,
+        "shards": 36,
+        "files": 105
+      }
+    }
+  },
+  "per_date": {
+    "20260630": {
+      "files": 108,
+      "bytes": 5663528558,
+      "codes": 7778,
+      "rows": {
+        "orders": 403182878,
+        "trades": 256716868,
+        "quotes": 29111754
+      },
+      "extract_seconds": 122.7,
+      "parse_seconds": 269.0,
+      "total_seconds": 675.2
+    },
+    "20260701": {
+      "files": 108,
+      "bytes": 6118341331,
+      "codes": 7813,
+      "rows": {
+        "orders": 426739812,
+        "trades": 282491436,
+        "quotes": 29673716
+      },
+      "extract_seconds": 114.1,
+      "parse_seconds": 240.1,
+      "total_seconds": 624.4
+    },
+    "20260702": {
+      "files": 108,
+      "bytes": 6081649445,
+      "codes": 7758,
+      "rows": {
+        "orders": 427250033,
+        "trades": 281225502,
+        "quotes": 29684450
+      },
+      "extract_seconds": 113.6,
+      "parse_seconds": 238.9,
+      "total_seconds": 622.5
+    },
+    "20260703": {
+      "files": 108,
+      "bytes": 5793760193,
+      "codes": 7760,
+      "rows": {
+        "orders": 407997703,
+        "trades": 260731532,
+        "quotes": 29583181
+      },
+      "extract_seconds": 109.2,
+      "parse_seconds": 235.1,
+      "total_seconds": 603.8
+    },
+    "20260706": {
+      "files": 96,
+      "bytes": 5289616120,
+      "codes": 7489,
+      "rows": {
+        "orders": 352185046,
+        "trades": 251383247,
+        "quotes": 28236163
+      },
+      "extract_seconds": 101.8,
+      "parse_seconds": 268.4,
+      "total_seconds": 606.0
+    },
+    "20260707": {
+      "files": 69,
+      "bytes": 3823618408,
+      "codes": 5194,
+      "rows": {
+        "orders": 247928188,
+        "trades": 192289947,
+        "quotes": 21091331
+      },
+      "extract_seconds": 69.8,
+      "parse_seconds": 191.2,
+      "total_seconds": 427.0
+    },
+    "20260708": {
+      "files": 96,
+      "bytes": 4871433628,
+      "codes": 7473,
+      "rows": {
+        "orders": 325569869,
+        "trades": 225473098,
+        "quotes": 27660021
+      },
+      "extract_seconds": 93.9,
+      "parse_seconds": 215.1,
+      "total_seconds": 524.6
+    },
+    "20260709": {
+      "files": 108,
+      "bytes": 5629109295,
+      "codes": 7792,
+      "rows": {
+        "orders": 395286375,
+        "trades": 251659669,
+        "quotes": 29077976
+      },
+      "extract_seconds": 105.7,
+      "parse_seconds": 230.3,
+      "total_seconds": 583.9
+    },
+    "20260710": {
+      "files": 108,
+      "bytes": 6219231955,
+      "codes": 7794,
+      "rows": {
+        "orders": 408600397,
+        "trades": 274967092,
+        "quotes": 29462225
+      },
+      "extract_seconds": 119.4,
+      "parse_seconds": 250.6,
+      "total_seconds": 650.8
+    },
+    "20260713": {
+      "files": 108,
+      "bytes": 5025666124,
+      "codes": 7813,
+      "rows": {
+        "orders": 293232493,
+        "trades": 257672213,
+        "quotes": 29224989
+      },
+      "extract_seconds": 97.3,
+      "parse_seconds": 232.0,
+      "total_seconds": 561.1
+    },
+    "20260714": {
+      "files": 108,
+      "bytes": 5653076565,
+      "codes": 7791,
+      "rows": {
+        "orders": 399026913,
+        "trades": 250692859,
+        "quotes": 29199653
+      },
+      "extract_seconds": 111.8,
+      "parse_seconds": 245.9,
+      "total_seconds": 627.0
+    },
+    "20260715": {
+      "files": 108,
+      "bytes": 5269473355,
+      "codes": 7808,
+      "rows": {
+        "orders": 362096361,
+        "trades": 242014490,
+        "quotes": 28409703
+      },
+      "extract_seconds": 100.1,
+      "parse_seconds": 226.6,
+      "total_seconds": 561.2
+    },
+    "20260716": {
+      "files": 108,
+      "bytes": 5440192837,
+      "codes": 7807,
+      "rows": {
+        "orders": 387420477,
+        "trades": 239100496,
+        "quotes": 29309814
+      },
+      "extract_seconds": 103.2,
+      "parse_seconds": 229.8,
+      "total_seconds": 575.7
+    },
+    "20260717": {
+      "files": 108,
+      "bytes": 6020491005,
+      "codes": 7797,
+      "rows": {
+        "orders": 419000566,
+        "trades": 269290608,
+        "quotes": 30613923
+      },
+      "extract_seconds": 116.2,
+      "parse_seconds": 242.5,
+      "total_seconds": 630.0
+    },
+    "20260720": {
+      "files": 108,
+      "bytes": 6038889358,
+      "codes": 7819,
+      "rows": {
+        "orders": 409679963,
+        "trades": 277265976,
+        "quotes": 29996902
+      },
+      "extract_seconds": 112.9,
+      "parse_seconds": 244.1,
+      "total_seconds": 626.1
+    },
+    "20260721": {
+      "files": 108,
+      "bytes": 6314743913,
+      "codes": 7819,
+      "rows": {
+        "orders": 429988957,
+        "trades": 296439787,
+        "quotes": 29564435
+      },
+      "extract_seconds": 116.6,
+      "parse_seconds": 248.2,
+      "total_seconds": 646.9
+    },
+    "20260722": {
+      "files": 108,
+      "bytes": 5734305940,
+      "codes": 7852,
+      "rows": {
+        "orders": 405393707,
+        "trades": 257784691,
+        "quotes": 29395277
+      },
+      "extract_seconds": 107.9,
+      "parse_seconds": 237.0,
+      "total_seconds": 600.1
+    },
+    "20260723": {
+      "files": 108,
+      "bytes": 4972771608,
+      "codes": 7829,
+      "rows": {
+        "orders": 336392418,
+        "trades": 226856946,
+        "quotes": 28783372
+      },
+      "extract_seconds": 96.4,
+      "parse_seconds": 224.7,
+      "total_seconds": 542.8
+    },
+    "20260724": {
+      "files": 108,
+      "bytes": 4791559404,
+      "codes": 7794,
+      "rows": {
+        "orders": 334899814,
+        "trades": 213100104,
+        "quotes": 28086273
+      },
+      "extract_seconds": 93.6,
+      "parse_seconds": 220.5,
+      "total_seconds": 529.0
+    },
+    "20260727": {
+      "files": 108,
+      "bytes": 4789330580,
+      "codes": 7839,
+      "rows": {
+        "orders": 332787077,
+        "trades": 217392991,
+        "quotes": 27452582
+      },
+      "extract_seconds": 95.8,
+      "parse_seconds": 220.2,
+      "total_seconds": 529.3
+    },
+    "20260728": {
+      "files": 108,
+      "bytes": 4842214707,
+      "codes": 7804,
+      "rows": {
+        "orders": 334629363,
+        "trades": 219704565,
+        "quotes": 28083701
+      },
+      "extract_seconds": 94.3,
+      "parse_seconds": 221.8,
+      "total_seconds": 532.7
+    },
+    "20260729": {
+      "files": 108,
+      "bytes": 5544712373,
+      "codes": 7807,
+      "rows": {
+        "orders": 395142882,
+        "trades": 246562785,
+        "quotes": 29354870
+      },
+      "extract_seconds": 106.3,
+      "parse_seconds": 234.7,
+      "total_seconds": 588.5
+    },
+    "20260730": {
+      "files": 108,
+      "bytes": 5553494826,
+      "codes": 7827,
+      "rows": {
+        "orders": 393117739,
+        "trades": 246505706,
+        "quotes": 29851798
+      },
+      "extract_seconds": 105.4,
+      "parse_seconds": 235.3,
+      "total_seconds": 588.4
+    },
+    "20260731": {
+      "files": 108,
+      "bytes": 5457058295,
+      "codes": 7803,
+      "rows": {
+        "orders": 384670426,
+        "trades": 247948851,
+        "quotes": 29209128
+      },
+      "extract_seconds": 119.1,
+      "parse_seconds": 267.0,
+      "total_seconds": 667.3
+    },
+    "20260803": {
+      "files": 108,
+      "bytes": 4949157751,
+      "codes": 7834,
+      "rows": {
+        "orders": 348735823,
+        "trades": 219851420,
+        "quotes": 28874249
+      },
+      "extract_seconds": 97.6,
+      "parse_seconds": 226.5,
+      "total_seconds": 548.6
+    },
+    "20260804": {
+      "files": 108,
+      "bytes": 5022104423,
+      "codes": 7832,
+      "rows": {
+        "orders": 352776696,
+        "trades": 225663669,
+        "quotes": 28550448
+      },
+      "extract_seconds": 98.7,
+      "parse_seconds": 227.0,
+      "total_seconds": 551.9
+    },
+    "20260805": {
+      "files": 108,
+      "bytes": 5369739909,
+      "codes": 7839,
+      "rows": {
+        "orders": 378396154,
+        "trades": 244215837,
+        "quotes": 29119471
+      },
+      "extract_seconds": 103.1,
+      "parse_seconds": 232.7,
+      "total_seconds": 576.1
+    },
+    "20260806": {
+      "files": 108,
+      "bytes": 5462275433,
+      "codes": 7832,
+      "rows": {
+        "orders": 388040200,
+        "trades": 250475287,
+        "quotes": 29101680
+      },
+      "extract_seconds": 104.7,
+      "parse_seconds": 234.1,
+      "total_seconds": 583.6
+    },
+    "20260807": {
+      "files": 105,
+      "bytes": 5563522287,
+      "codes": 7817,
+      "rows": {
+        "orders": 397720521,
+        "trades": 253847329,
+        "quotes": 29235775
+      },
+      "extract_seconds": 105.7,
+      "parse_seconds": 235.8,
+      "total_seconds": 590.7
+    },
+    "20260810": {
+      "files": 108,
+      "bytes": 5303314704,
+      "codes": 7879,
+      "rows": {
+        "orders": 374575832,
+        "trades": 243312365,
+        "quotes": 28943287
+      },
+      "extract_seconds": 103.3,
+      "parse_seconds": 232.7,
+      "total_seconds": 575.9
+    },
+    "20260811": {
+      "files": 108,
+      "bytes": 5074532161,
+      "codes": 7849,
+      "rows": {
+        "orders": 355783622,
+        "trades": 228866049,
+        "quotes": 28657866
+      },
+      "extract_seconds": 98.2,
+      "parse_seconds": 227.4,
+      "total_seconds": 551.3
+    },
+    "20260812": {
+      "files": 108,
+      "bytes": 4797705349,
+      "codes": 7844,
+      "rows": {
+        "orders": 340534488,
+        "trades": 211476977,
+        "quotes": 28276859
+      },
+      "extract_seconds": 93.9,
+      "parse_seconds": 222.5,
+      "total_seconds": 532.6
+    },
+    "20260813": {
+      "files": 108,
+      "bytes": 5238349261,
+      "codes": 7869,
+      "rows": {
+        "orders": 368001509,
+        "trades": 238745111,
+        "quotes": 28709449
+      },
+      "extract_seconds": 101.7,
+      "parse_seconds": 230.8,
+      "total_seconds": 565.6
+    },
+    "20260814": {
+      "files": 105,
+      "bytes": 4888306790,
+      "codes": 7838,
+      "rows": {
+        "orders": 344865693,
+        "trades": 216488706,
+        "quotes": 28368799
+      },
+      "extract_seconds": 95.0,
+      "parse_seconds": 224.4,
+      "total_seconds": 538.2
+    },
+    "20260817": {
+      "files": 108,
+      "bytes": 4918604785,
+      "codes": 7862,
+      "rows": {
+        "orders": 345394830,
+        "trades": 218456989,
+        "quotes": 28535103
+      },
+      "extract_seconds": 99.6,
+      "parse_seconds": 224.6,
+      "total_seconds": 543.7
+    },
+    "20260818": {
+      "files": 108,
+      "bytes": 5036314531,
+      "codes": 7885,
+      "rows": {
+        "orders": 352478904,
+        "trades": 227083205,
+        "quotes": 28661710
+      },
+      "extract_seconds": 101.4,
+      "parse_seconds": 233.4,
+      "total_seconds": 564.8
+    },
+    "20260819": {
+      "files": 108,
+      "bytes": 5242187488,
+      "codes": 7899,
+      "rows": {
+        "orders": 356927762,
+        "trades": 245145504,
+        "quotes": 29057774
+      },
+      "extract_seconds": 105.8,
+      "parse_seconds": 236.7,
+      "total_seconds": 581.5
+    },
+    "20260821": {
+      "files": 108,
+      "bytes": 4616616942,
+      "codes": 7840,
+      "rows": {
+        "orders": 326964806,
+        "trades": 201249697,
+        "quotes": 28145509
+      },
+      "extract_seconds": 97.9,
+      "parse_seconds": 236.4,
+      "total_seconds": 558.2
+    },
+    "20260824": {
+      "files": 108,
+      "bytes": 4816008395,
+      "codes": 7882,
+      "rows": {
+        "orders": 336729077,
+        "trades": 215302655,
+        "quotes": 28610368
+      },
+      "extract_seconds": 101.2,
+      "parse_seconds": 251.2,
+      "total_seconds": 594.9
+    },
+    "20260825": {
+      "files": 108,
+      "bytes": 4742914417,
+      "codes": 7881,
+      "rows": {
+        "orders": 337572048,
+        "trades": 207705290,
+        "quotes": 28623171
+      },
+      "extract_seconds": 99.8,
+      "parse_seconds": 248.4,
+      "total_seconds": 583.5
+    },
+    "20260826": {
+      "files": 108,
+      "bytes": 4183405270,
+      "codes": 7885,
+      "rows": {
+        "orders": 292900145,
+        "trades": 177052502,
+        "quotes": 28183434
+      },
+      "extract_seconds": 91.2,
+      "parse_seconds": 239.8,
+      "total_seconds": 543.2
+    },
+    "20260827": {
+      "files": 108,
+      "bytes": 4796912054,
+      "codes": 7885,
+      "rows": {
+        "orders": 339821824,
+        "trades": 213418682,
+        "quotes": 28623846
+      },
+      "extract_seconds": 100.7,
+      "parse_seconds": 250.5,
+      "total_seconds": 595.3
+    },
+    "20260828": {
+      "files": 108,
+      "bytes": 4713618616,
+      "codes": 7856,
+      "rows": {
+        "orders": 332135847,
+        "trades": 211595560,
+        "quotes": 28473227
+      },
+      "extract_seconds": 101.7,
+      "parse_seconds": 248.0,
+      "total_seconds": 586.5
+    },
+    "20260831": {
+      "files": 108,
+      "bytes": 4918820524,
+      "codes": 7880,
+      "rows": {
+        "orders": 344873727,
+        "trades": 220245062,
+        "quotes": 29080690
+      },
+      "extract_seconds": 97.3,
+      "parse_seconds": 244.7,
+      "total_seconds": 582.3
+    },
+    "20260901": {
+      "files": 108,
+      "bytes": 4817515038,
+      "codes": 7895,
+      "rows": {
+        "orders": 335785379,
+        "trades": 217950050,
+        "quotes": 28863782
+      },
+      "extract_seconds": 108.2,
+      "parse_seconds": 254.6,
+      "total_seconds": 606.7
+    },
+    "20260902": {
+      "files": 108,
+      "bytes": 4548700500,
+      "codes": 7910,
+      "rows": {
+        "orders": 318700971,
+        "trades": 202409910,
+        "quotes": 28246841
+      },
+      "extract_seconds": 92.7,
+      "parse_seconds": 223.9,
+      "total_seconds": 524.5
+    },
+    "20260903": {
+      "files": 108,
+      "bytes": 4539933175,
+      "codes": 7926,
+      "rows": {
+        "orders": 320723202,
+        "trades": 200319069,
+        "quotes": 28393759
+      },
+      "extract_seconds": 94.9,
+      "parse_seconds": 227.8,
+      "total_seconds": 536.7
+    },
+    "20260904": {
+      "files": 108,
+      "bytes": 4798631444,
+      "codes": 7875,
+      "rows": {
+        "orders": 333281154,
+        "trades": 216540908,
+        "quotes": 28727268
+      },
+      "extract_seconds": 100.5,
+      "parse_seconds": 249.4,
+      "total_seconds": 589.9
+    },
+    "20260907": {
+      "files": 108,
+      "bytes": 4520264631,
+      "codes": 7921,
+      "rows": {
+        "orders": 316739505,
+        "trades": 202003033,
+        "quotes": 28197165
+      },
+      "extract_seconds": 96.1,
+      "parse_seconds": 248.7,
+      "total_seconds": 574.3
+    },
+    "20260908": {
+      "files": 108,
+      "bytes": 4617757170,
+      "codes": 7898,
+      "rows": {
+        "orders": 326002575,
+        "trades": 207530441,
+        "quotes": 28468571
+      },
+      "extract_seconds": 98.3,
+      "parse_seconds": 248.3,
+      "total_seconds": 581.2
+    },
+    "20260909": {
+      "files": 108,
+      "bytes": 4521130870,
+      "codes": 7902,
+      "rows": {
+        "orders": 321978174,
+        "trades": 203648258,
+        "quotes": 28163866
+      },
+      "extract_seconds": 96.9,
+      "parse_seconds": 243.4,
+      "total_seconds": 570.3
+    },
+    "20260910": {
+      "files": 108,
+      "bytes": 4303092650,
+      "codes": 7897,
+      "rows": {
+        "orders": 306426141,
+        "trades": 191508829,
+        "quotes": 27475049
+      },
+      "extract_seconds": 93.2,
+      "parse_seconds": 243.0,
+      "total_seconds": 558.6
+    },
+    "20260911": {
+      "files": 108,
+      "bytes": 4941407072,
+      "codes": 7875,
+      "rows": {
+        "orders": 348803102,
+        "trades": 220625177,
+        "quotes": 28980700
+      },
+      "extract_seconds": 105.4,
+      "parse_seconds": 252.8,
+      "total_seconds": 610.1
+    },
+    "20260914": {
+      "files": 108,
+      "bytes": 4345935926,
+      "codes": 7921,
+      "rows": {
+        "orders": 309965161,
+        "trades": 189363386,
+        "quotes": 27884805
+      },
+      "extract_seconds": 99.2,
+      "parse_seconds": 240.5,
+      "total_seconds": 564.8
+    },
+    "20260915": {
+      "files": 108,
+      "bytes": 4136326763,
+      "codes": 7894,
+      "rows": {
+        "orders": 290489506,
+        "trades": 181365411,
+        "quotes": 27444570
+      },
+      "extract_seconds": 102.9,
+      "parse_seconds": 252.0,
+      "total_seconds": 593.0
+    },
+    "20260916": {
+      "files": 108,
+      "bytes": 4466420662,
+      "codes": 7914,
+      "rows": {
+        "orders": 314859383,
+        "trades": 194451565,
+        "quotes": 28056650
+      },
+      "extract_seconds": 108.7,
+      "parse_seconds": 264.8,
+      "total_seconds": 633.9
+    },
+    "20260917": {
+      "files": 108,
+      "bytes": 4343403898,
+      "codes": 7926,
+      "rows": {
+        "orders": 305924111,
+        "trades": 192515978,
+        "quotes": 27364845
+      },
+      "extract_seconds": 94.9,
+      "parse_seconds": 263.3,
+      "total_seconds": 605.4
+    },
+    "20260918": {
+      "files": 108,
+      "bytes": 4568540107,
+      "codes": 7902,
+      "rows": {
+        "orders": 323959917,
+        "trades": 200665623,
+        "quotes": 28159313
+      },
+      "extract_seconds": 358.3,
+      "parse_seconds": 688.7,
+      "total_seconds": 1305.3
+    },
+    "20260921": {
+      "files": 108,
+      "bytes": 4543870176,
+      "codes": 7945,
+      "rows": {
+        "orders": 314272553,
+        "trades": 202323791,
+        "quotes": 28410584
+      },
+      "extract_seconds": 331.3,
+      "parse_seconds": 726.4,
+      "total_seconds": 1289.8
+    }
+  }
+}

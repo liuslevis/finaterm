@@ -1,0 +1,37 @@
+{
+  "int32_max": 2147483647,
+  "dates": {
+    "20260630": {
+      "total_codes": 7778,
+      "broken_codes": 1,
+      "by_table": {
+        "orders": 1
+      },
+      "sample": [
+        "001399.SZ"
+      ]
+    },
+    "20260731": {
+      "total_codes": 7803,
+      "broken_codes": 2,
+      "by_table": {
+        "orders": 1,
+        "quotes": 1
+      },
+      "sample": [
+        "159516.SZ",
+        "301677.SZ"
+      ]
+    },
+    "20260901": {
+      "total_codes": 7895,
+      "broken_codes": 1,
+      "by_table": {
+        "orders": 1
+      },
+      "sample": [
+        "301697.SZ"
+      ]
+    }
+  }
+}

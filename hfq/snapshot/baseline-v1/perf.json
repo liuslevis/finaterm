@@ -1,0 +1,170 @@
+{
+  "probes": [
+    {
+      "date": "20260901",
+      "code": "001301.SZ",
+      "load_seconds": 0.2917
+    },
+    {
+      "date": "20260901",
+      "code": "001317.SZ",
+      "load_seconds": 0.2061
+    },
+    {
+      "date": "20260901",
+      "code": "001323.SZ",
+      "load_seconds": 0.1369
+    },
+    {
+      "date": "20260901",
+      "code": "003039.SZ",
+      "load_seconds": 0.467
+    },
+    {
+      "date": "20260901",
+      "code": "600967.SH",
+      "load_seconds": 0.6402
+    },
+    {
+      "date": "20260902",
+      "code": "001301.SZ",
+      "load_seconds": 0.2144
+    },
+    {
+      "date": "20260902",
+      "code": "001317.SZ",
+      "load_seconds": 0.1789
+    },
+    {
+      "date": "20260902",
+      "code": "001323.SZ",
+      "load_seconds": 0.0779
+    },
+    {
+      "date": "20260903",
+      "code": "001301.SZ",
+      "load_seconds": 0.2968
+    },
+    {
+      "date": "20260903",
+      "code": "001317.SZ",
+      "load_seconds": 0.1612
+    },
+    {
+      "date": "20260903",
+      "code": "001323.SZ",
+      "load_seconds": 0.065
+    },
+    {
+      "date": "20260904",
+      "code": "001301.SZ",
+      "load_seconds": 0.1885
+    },
+    {
+      "date": "20260904",
+      "code": "001317.SZ",
+      "load_seconds": 0.2377
+    },
+    {
+      "date": "20260904",
+      "code": "001323.SZ",
+      "load_seconds": 0.2427
+    },
+    {
+      "date": "20260916",
+      "code": "000001.SZ",
+      "load_seconds": 0.8072
+    },
+    {
+      "date": "20260916",
+      "code": "001301.SZ",
+      "load_seconds": 0.2513
+    },
+    {
+      "date": "20260916",
+      "code": "001317.SZ",
+      "load_seconds": 0.1858
+    },
+    {
+      "date": "20260916",
+      "code": "001323.SZ",
+      "load_seconds": 0.0579
+    },
+    {
+      "date": "20260917",
+      "code": "000001.SZ",
+      "load_seconds": 0.6727
+    },
+    {
+      "date": "20260917",
+      "code": "001301.SZ",
+      "load_seconds": 0.3631
+    },
+    {
+      "date": "20260917",
+      "code": "001317.SZ",
+      "load_seconds": 0.1716
+    },
+    {
+      "date": "20260917",
+      "code": "001323.SZ",
+      "load_seconds": 0.0448
+    },
+    {
+      "date": "20260918",
+      "code": "000001.SZ",
+      "load_seconds": 0.6798
+    },
+    {
+      "date": "20260918",
+      "code": "000006.SZ",
+      "load_seconds": 0.1525
+    },
+    {
+      "date": "20260918",
+      "code": "000007.SZ",
+      "load_seconds": 0.1096
+    },
+    {
+      "date": "20260918",
+      "code": "000008.SZ",
+      "load_seconds": 0.0961
+    },
+    {
+      "date": "20260918",
+      "code": "000009.SZ",
+      "load_seconds": 0.196
+    },
+    {
+      "date": "20260918",
+      "code": "000010.SZ",
+      "load_seconds": 0.0688
+    },
+    {
+      "date": "20260918",
+      "code": "000011.SZ",
+      "load_seconds": 0.2003
+    },
+    {
+      "date": "20260918",
+      "code": "001301.SZ",
+      "load_seconds": 0.301
+    },
+    {
+      "date": "20260918",
+      "code": "001317.SZ",
+      "load_seconds": 0.1303
+    },
+    {
+      "date": "20260918",
+      "code": "001323.SZ",
+      "load_seconds": 0.054
+    },
+    {
+      "date": "20260918",
+      "code": "001332.SZ",
+      "load_seconds": 0.1386
+    }
+  ],
+  "note": "load_seconds 为 get_stock 单次耗时（基线含 7z 抽取+CSV 解析或二进制缓存）"
+}

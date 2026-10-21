@@ -1,6 +1,4 @@
 # Secrets and local configuration
-hfq/cache
-hfq/data-lv2
 .DS_Store
 .env
 .env.*
@@ -12,6 +10,24 @@ credentials.json
 secrets.json
 *_credentials.json
 *_secrets.json
+.futu_env_ok
+
+# ---------------------------------------------------------------------------
+# 大文件 / 本地数据（不进仓库）
+#
+# 数据目录：LV2 原始 7z 归档 318 GB、Parquet 列存 278 GB、按需抽取缓存
+#   位置见 hfq/app/paths.py（可用 HFQ_ARCHIVE_DIR / HFQ_PARQUET_DIR 覆盖）
+# ---------------------------------------------------------------------------
+hfq/cache
+hfq/data-lv2
+hfq/data-parquet
+hfq/data-parquet-*
+
+# 归档格式（仓库里没有任何被跟踪的 .7z；.zip/.parquet 有小的测试数据，不要一刀切）
+*.7z
+
+# 超过 10MB 的文件由 .githooks/pre-commit 拦截（gitignore 无法按大小过滤）
+# 启用：git config core.hooksPath .githooks
 
 # Python
 .venv/

@@ -1,0 +1,39 @@
+#!/bin/sh
+# 拒绝把超过 10MB 的文件提交进仓库。
+#
+# gitignore 无法按文件大小过滤，所以用这个钩子兜底：数据目录已在 .gitignore 里
+# （hfq/cache、hfq/data-lv2、hfq/data-parquet），这里拦住任何漏网的大文件。
+#
+# 启用：git config core.hooksPath .githooks
+# 绕过（确实需要提交大文件时）：git commit --no-verify
+
+LIMIT=10485760   # 10 MiB
+GITQ="git -c core.quotePath=false"
+
+out=$(mktemp 2>/dev/null) || out="/tmp/pre-commit-big.$$"
+
+# 注意：不要用 git diff -z + $(...)——命令替换会把 NUL 丢掉，导致一个文件都检测不到。
+# 这里用换行分隔（配合 quotePath=false，空格/中文路径都安全），并在管道外层重定向。
+$GITQ diff --cached --name-only --diff-filter=ACMR | while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    size=$($GITQ cat-file -s ":$f" 2>/dev/null) || size=0
+    [ -z "$size" ] && size=0
+    if [ "$size" -gt "$LIMIT" ]; then
+        printf '%s  (%s MB)\n' "$f" "$((size / 1048576))"
+    fi
+done > "$out"
+
+if [ -s "$out" ]; then
+    echo "" >&2
+    echo "提交被拒绝：以下文件超过 10MB" >&2
+    sed 's/^/    /' "$out" >&2
+    echo "" >&2
+    echo "处理方式：" >&2
+    echo "  1) 加进 .gitignore 并从索引移除：git rm --cached <file>" >&2
+    echo "  2) 确认要提交大文件：git commit --no-verify" >&2
+    rm -f "$out"
+    exit 1
+fi
+
+rm -f "$out"
+exit 0

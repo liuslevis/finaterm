@@ -1,0 +1,31 @@
+{
+  "codes": {
+    "000001.SZ": {
+      "old_days": 59,
+      "new_days": 59,
+      "old_seconds": 47.003,
+      "new_seconds": 0.4844,
+      "identical": true,
+      "diffs": [],
+      "speedup": 97.0
+    },
+    "001301.SZ": {
+      "old_days": 59,
+      "new_days": 59,
+      "old_seconds": 16.653,
+      "new_seconds": 0.1189,
+      "identical": true,
+      "diffs": [],
+      "speedup": 140.0
+    },
+    "600000.SH": {
+      "old_days": 59,
+      "new_days": 59,
+      "old_seconds": 25.859,
+      "new_seconds": 0.1197,
+      "identical": true,
+      "diffs": [],
+      "speedup": 216.0
+    }
+  }
+}
