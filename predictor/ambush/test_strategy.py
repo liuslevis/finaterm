@@ -104,13 +104,53 @@ def test_horizontal_thresholds_are_inclusive():
 
 def test_forward_returns_require_exact_sessions():
     dates = pd.bdate_range("2026-09-01", periods=14)
-    frame = pd.DataFrame({"date": dates, "close": range(100, 114)})
+    frame = pd.DataFrame({
+        "date": dates, "open": range(100, 114), "close": range(100, 114),
+    })
     row = {}
     add_forward_returns(row, frame, pd.Timestamp("2026-09-01"))
     assert row["forward_3d_pct"] == pytest.approx(3.0)
     assert row["forward_1w_pct"] == pytest.approx(5.0)
     assert row["forward_2w_pct"] == pytest.approx(10.0)
     assert pd.isna(row["forward_3w_pct"])
+    assert row["next_open_3d_pct"] == pytest.approx((103 / 101 - 1) * 100)
+    assert row["forward_1w_end_date"] == dates[5].strftime("%Y%m%d")
+
+
+def test_model_selected_on_test_cannot_be_used_during_test(tmp_path, monkeypatch):
+    path = tmp_path / "model.json"
+    path.write_text(json.dumps({
+        "trained_through": "20260731", "available_after": "20260731",
+        "tested_through": "20260831", "version": 7,
+    }))
+    monkeypatch.setattr(strategy, "LV2_MODEL_PATH", path)
+    assert load_production_lv2_model("20260831") is None
+    assert load_production_lv2_model("20260901")["version"] == 7
+
+
+def test_missing_factor_is_neutral_after_day_centering():
+    frame = pd.DataFrame({
+        "signal_date": ["20260901"] * 3,
+        "factor": [10.0, float("nan"), 20.0],
+    })
+    scores = weighted_signed_percentile_score(
+        frame, {"factor": 1}, "signal_date"
+    )
+    assert scores.iloc[0] < scores.iloc[1] < scores.iloc[2]
+
+
+def test_labels_do_not_move_next_open_entry_past_a_suspension():
+    calendar = pd.bdate_range("2026-09-01", periods=6)
+    frame = pd.DataFrame({
+        "date": calendar.delete(1),
+        "open": [100, 102, 103, 104, 105],
+        "close": [100, 102, 103, 104, 105],
+    })
+    row = {}
+    add_forward_returns(row, frame, calendar[0], calendar)
+    assert pd.isna(row["next_open_3d_pct"])
+    assert row["forward_3d_pct"] == pytest.approx(3.0)
+    assert row["forward_3d_end_date"] == calendar[3].strftime("%Y%m%d")
 
 
 def test_percentile_score_respects_factor_direction():

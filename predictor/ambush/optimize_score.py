@@ -9,7 +9,14 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from strategy import signed_percentile_score, weighted_signed_percentile_score
+from backtest import backtest_score, load_prices
+from strategy import (
+    SOL61_GROUPS,
+    add_forward_returns,
+    add_sol61_features,
+    signed_percentile_score,
+    weighted_signed_percentile_score,
+)
 
 HERE = Path(__file__).resolve().parent
 DATA_DIR = HERE / "data"
@@ -62,6 +69,7 @@ V6_FEATURES = (
 EXTRA_FEATURE_SETS = {
     "lv2_score_v5": V5_FEATURES,
     "lv2_score_v6": V6_FEATURES,
+    "lv2_score_v7": tuple(SOL61_GROUPS),
 }
 TARGET_WEIGHTS = {"3d": 0.4, "1w": 0.6}
 EVALUATION_HORIZONS = ("3d", "1w", "3w")
@@ -183,28 +191,99 @@ def load_panel(start_date: str, end_date: str) -> pd.DataFrame:
         match = re.fullmatch(r"ambush_results_(\d{8})\.csv", path.name)
         if not match or not start_date <= match.group(1) <= end_date:
             continue
-        frame = pd.read_csv(path)
+        frame = pd.read_csv(path).copy()
         frame["signal_date"] = match.group(1)
         frames.append(frame)
     if not frames:
         raise RuntimeError("No multi-date result files found")
     panel = pd.concat(frames, ignore_index=True)
+    # Historical result files predate executable labels and maturity dates.
+    price_cache = load_prices(panel["code"])
+    calendar = pd.DatetimeIndex(pd.to_datetime(sorted(
+        set().union(*(set(frame.index) for frame in price_cache.values()))
+    )))
+    labels = {}
+    for code, group in panel.groupby("code"):
+        prices = price_cache[code]
+        for index, row in group.iterrows():
+            values = {}
+            add_forward_returns(values, prices, pd.Timestamp(row["signal_date"]), calendar)
+            labels[index] = values
+    label_frame = pd.DataFrame.from_dict(labels, orient="index")
+    panel = panel.drop(columns=label_frame.columns, errors="ignore")
+    panel = pd.concat([panel, label_frame], axis=1)
+    reference = json.loads(
+        (HERE / "lv2_score_model_pre_sol61.json").read_text(encoding="utf-8")
+    )
+    raw = pd.Series(0.0, index=panel.index)
+    # Reproduce the old production universe and neutral-0.5 missing policy.
+    for feature, weight in reference["production_weights"].items():
+        rank = panel.groupby("signal_date")[feature].rank(method="average", pct=True)
+        raw += weight * (rank.fillna(0.5) - 0.5)
+    panel["lv2_score_pre_sol61"] = (
+        raw.groupby(panel["signal_date"]).rank(method="average", pct=True) * 100
+    )
+    return rank_panel(panel)
+
+
+def rank_panel(panel: pd.DataFrame) -> pd.DataFrame:
+    panel = add_sol61_features(panel, "signal_date")
     ranks = {}
-    for feature in (*FEATURES, *V5_FEATURES, *V6_FEATURES):
+    for feature in (*FEATURES, *V5_FEATURES, *V6_FEATURES, *SOL61_GROUPS):
         ranks[f"{feature}_rank"] = panel.groupby("signal_date")[feature].rank(
             method="average", pct=True
         )
     for horizon in EVALUATION_HORIZONS:
-        column = f"forward_{horizon}_pct"
+        column = f"next_open_{horizon}_pct"
         ranks[f"{horizon}_rank"] = panel.groupby("signal_date")[column].rank(
             method="average", pct=True
         )
-    panel = pd.concat([panel, pd.DataFrame(ranks, index=panel.index)], axis=1)
+    panel = panel.drop(columns=ranks, errors="ignore")
+    panel = pd.concat([panel, pd.DataFrame(ranks, index=panel.index)], axis=1).copy()
     panel["target_rank"] = sum(
         weight * panel[f"{horizon}_rank"]
         for horizon, weight in TARGET_WEIGHTS.items()
     )
+    maturity = panel[
+        [f"forward_{horizon}_end_date" for horizon in TARGET_WEIGHTS]
+    ].fillna("")
+    target_observed = panel[
+        [f"next_open_{horizon}_pct" for horizon in TARGET_WEIGHTS]
+    ].notna().all(axis=1)
+    row_maturity = maturity.max(axis=1).where(
+        maturity.ne("").all(axis=1) & target_observed
+    )
+    # A rank label also depends on peers' returns, not just this stock's exit.
+    missing_peer = row_maturity.isna().groupby(panel["signal_date"]).transform("any")
+    panel["target_available_date"] = (
+        row_maturity.fillna("").groupby(panel["signal_date"]).transform("max")
+    ).mask(missing_peer)
+    panel["lv2_score_v7_fixed"] = apply_weighted_model(
+        panel, dict.fromkeys(SOL61_GROUPS, 1 / len(SOL61_GROUPS))
+    )
     return panel
+
+
+def mature_training_rows(panel: pd.DataFrame, before: str) -> pd.DataFrame:
+    dates = panel["target_available_date"]
+    return panel[dates.notna() & (dates < before) & panel["target_rank"].notna()]
+
+
+def walk_forward_folds(panel: pd.DataFrame, features: tuple[str, ...]):
+    for signal_date in sorted(panel["signal_date"].unique()):
+        if "target_available_date" in panel:
+            train = mature_training_rows(panel, signal_date)
+        else:
+            # Synthetic callers without maturity metadata still use time order.
+            train = panel[panel["signal_date"] < signal_date]
+        test = panel[panel["signal_date"] == signal_date]
+        if (
+            len(test) >= MIN_DAILY_CROSS_SECTION
+            and train["signal_date"].nunique() >= 2
+            and features_are_trainable(train, features)
+            and has_cross_sectional_variation(train, features)
+        ):
+            yield signal_date, train, test
 
 
 def train_direction_model(panel: pd.DataFrame) -> dict:
@@ -231,10 +310,19 @@ def fit_ridge_weights(
 ) -> dict[str, float]:
     design = centered_feature_ranks(panel, features).to_numpy()
     target = centered_target_rank(panel).to_numpy()
+    prior = np.zeros(len(features))
+    if features == tuple(SOL61_GROUPS):
+        # Only three independent economic blocks; shrink toward equal weights.
+        prior[:] = 1 / len(features)
+        sizes = panel.groupby("signal_date")["signal_date"].transform("size")
+        informative = sizes >= MIN_DAILY_CROSS_SECTION
+        sample_weights = np.where(informative, 1 / sizes, 0.0)
+        design = design * np.sqrt(sample_weights)[:, None]
+        target = target * np.sqrt(sample_weights)
     penalty = alpha * np.eye(len(features))
     coefficients = np.linalg.solve(
         design.T @ design + penalty,
-        design.T @ target,
+        design.T @ target + alpha * prior,
     )
     return {
         feature: float(coefficient)
@@ -267,18 +355,15 @@ def train_ridge_model(
             "Ridge features lack within-day cross-sectional variation"
         )
     alpha_metrics = []
+    folds = list(walk_forward_folds(panel, features))
     for alpha in RIDGE_ALPHAS:
         fold_correlations = []
-        for signal_date in sorted(panel["signal_date"].unique()):
-            fold_train = panel[panel["signal_date"] != signal_date]
-            fold_test = panel[panel["signal_date"] == signal_date]
-            if len(fold_test) < MIN_DAILY_CROSS_SECTION:
-                continue
+        for _, fold_train, fold_test in folds:
             weights = fit_ridge_weights(fold_train, alpha, features)
             score = apply_weighted_model(fold_test, weights)
-            fold_correlations.append(
-                spearman(score, fold_test["target_rank"])
-            )
+            correlation = spearman(score, fold_test["target_rank"])
+            if not pd.isna(correlation):
+                fold_correlations.append(correlation)
         alpha_metrics.append(
             {
                 "alpha": alpha,
@@ -298,13 +383,18 @@ def train_ridge_model(
             scored_alphas,
             key=lambda row: (row["mean_date_spearman"], row["alpha"]),
         )
-        if scored_alphas
+        if scored_alphas and len(folds) >= 3
         else alpha_metrics[-1]
     )
     return {
         "alpha": selected["alpha"],
         "weights": fit_ridge_weights(panel, selected["alpha"], features),
         "alpha_cross_validation": alpha_metrics,
+        "cv_method": "purged_expanding_window",
+        "cv_dates": [date for date, _, _ in folds],
+        "alpha_selection": (
+            "walk_forward_ic" if len(folds) >= 3 else "insufficient_folds_max_shrinkage"
+        ),
     }
 
 
@@ -324,9 +414,8 @@ def cross_validate_by_date(
 ) -> list[dict]:
     extra_feature_sets = extra_feature_sets or {}
     rows = []
-    for signal_date in sorted(panel["signal_date"].unique()):
-        fold_train = panel[panel["signal_date"] != signal_date]
-        fold_test = panel[panel["signal_date"] == signal_date].copy()
+    for signal_date, fold_train, fold_test in walk_forward_folds(panel, FEATURES):
+        fold_test = fold_test.copy()
         v3_model = train_direction_model(fold_train)
         v4_model = train_ridge_model(fold_train)
         fold_test["lv2_score_v3_cv"] = apply_direction_model(
@@ -380,7 +469,7 @@ def evaluate_score(panel: pd.DataFrame, score_column: str) -> list[dict]:
             if bottom_count:
                 bottom_groups.append(group.nsmallest(bottom_count, score_column))
         top = pd.concat(top_groups)
-        bottom = pd.concat(bottom_groups)
+        bottom = pd.concat(bottom_groups) if bottom_groups else labeled.iloc[:0]
         rows.append(
             {
                 "score": score_column,
@@ -407,6 +496,7 @@ def evaluate_all_scores(
     extra_models: dict[str, dict | None],
 ) -> list[dict]:
     rows = evaluate_score(panel, "lv2_score")
+    rows += evaluate_score(panel, "lv2_score_pre_sol61")
     rows += evaluate_score(panel, "lv2_score_v2_baseline")
     rows += evaluate_score(panel, "lv2_score_v3")
     rows += evaluate_score(panel, "lv2_score_v4")
@@ -425,6 +515,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--train-through", default="20260731")
     parser.add_argument("--test-through", default="20260831")
     parser.add_argument("--validation-through", default="20260930")
+    parser.add_argument("--cost-bps-per-side", type=float, default=15.0)
+    parser.add_argument("--holding-sessions", type=int, default=5)
     parser.add_argument(
         "--evaluate-validation",
         action="store_true",
@@ -453,6 +545,10 @@ def split_datasets(
         & (panel["signal_date"] <= train_through)
         & panel["target_rank"].notna()
     ].copy()
+    if "target_available_date" in train:
+        train = mature_training_rows(
+            train, (pd.Timestamp(train_through) + pd.Timedelta(days=1)).strftime("%Y%m%d")
+        ).copy()
     test = panel[
         (panel["signal_date"] > train_through)
         & (panel["signal_date"] <= test_through)
@@ -494,21 +590,21 @@ def select_production_model(
     models: dict[str, dict],
 ) -> tuple[str, dict]:
     evaluation = pd.DataFrame(evaluation_rows)
-    weighted_spearman = {}
+    weighted_daily_ic = {}
     for score_name in models:
         rows = evaluation[evaluation["score"] == score_name].set_index("horizon")
         if not all(horizon in rows.index for horizon in TARGET_WEIGHTS):
             continue
-        values = [rows.loc[horizon, "spearman"] for horizon in TARGET_WEIGHTS]
+        values = [rows.loc[horizon, "daily_ic_mean"] for horizon in TARGET_WEIGHTS]
         if any(pd.isna(value) for value in values):
             continue
-        weighted_spearman[score_name] = sum(
-            TARGET_WEIGHTS[horizon] * rows.loc[horizon, "spearman"]
+        weighted_daily_ic[score_name] = sum(
+            TARGET_WEIGHTS[horizon] * rows.loc[horizon, "daily_ic_mean"]
             for horizon in TARGET_WEIGHTS
         )
-    if not weighted_spearman:
-        raise RuntimeError("No model has complete 3D and 1W test metrics")
-    selected = max(weighted_spearman, key=weighted_spearman.get)
+    if not weighted_daily_ic:
+        raise RuntimeError("No model has complete 3D and 1W daily rank IC metrics")
+    selected = max(weighted_daily_ic, key=weighted_daily_ic.get)
     return selected, models[selected]
 
 
@@ -519,19 +615,32 @@ def blind_validation_labels(panel: pd.DataFrame) -> pd.DataFrame:
         column
         for column in blinded
         if column.startswith("forward_")
+        or column.startswith("next_open_")
+        or column == "target_available_date"
         or column in {"3d_rank", "1w_rank", "3w_rank", "target_rank"}
     ]
     blinded.loc[validation_mask, label_columns] = np.nan
     return blinded
 
 
+def json_compatible(value):
+    if isinstance(value, dict):
+        return {key: json_compatible(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [json_compatible(item) for item in value]
+    if isinstance(value, (float, np.floating)) and not np.isfinite(value):
+        return None
+    return value
+
+
 def main() -> None:
     args = parse_args()
     panel = load_panel(args.train_from, args.validation_through)
-    eligible = panel[
+    eligible = rank_panel(panel[
         panel["launch_detected"].astype(bool)
         & panel["data_quality_valid"].astype(bool)
-    ].copy()
+    ].copy())
+    panel.loc[eligible.index, eligible.columns] = eligible
     train, test, validation = split_datasets(
         eligible,
         args.train_from,
@@ -595,6 +704,10 @@ def main() -> None:
             6,
             "covert_accumulation_wash_trade_date_cross_validated_ridge",
         ),
+        "lv2_score_v7": (
+            7,
+            "sol61_three_block_prior_shrunk_ridge",
+        ),
     }
     for score_name, model in extra_models.items():
         if not model:
@@ -606,9 +719,44 @@ def main() -> None:
             "parameters": model["weights"],
             "ridge": model,
         }
+    selectable_models["lv2_score_v7_fixed"] = {
+        "version": 7,
+        "method": "sol61_three_block_equal_weight",
+        "parameters": dict.fromkeys(SOL61_GROUPS, 1 / len(SOL61_GROUPS)),
+    }
+    selection_cutoff = (
+        pd.Timestamp(args.test_through) + pd.Timedelta(days=1)
+    ).strftime("%Y%m%d")
+    executable_test = mature_training_rows(test, selection_cutoff).copy()
+    if executable_test.empty:
+        raise RuntimeError("No test cross-section has mature labels by the selection cutoff")
+    for horizon in EVALUATION_HORIZONS:
+        executable_test[f"forward_{horizon}_pct"] = executable_test[f"next_open_{horizon}_pct"]
+    selection_rows = [
+        row for score_column in selectable_models
+        for row in evaluate_score(executable_test, score_column)
+    ]
     production_score, production_model = select_production_model(
-        evaluation_rows,
+        selection_rows,
         selectable_models,
+    )
+    prices = load_prices(eligible["code"])
+    calendar = sorted(set().union(*(set(frame.index) for frame in prices.values())))
+    test_start = (
+        pd.Timestamp(args.train_through) + pd.Timedelta(days=1)
+    ).strftime("%Y%m%d")
+    production_portfolio, _ = backtest_score(
+        test, production_score, prices, calendar, test_start, args.test_through,
+        args.holding_sessions, args.cost_bps_per_side,
+    )
+    selected_metrics = [
+        row for row in selection_rows
+        if row["score"] == production_score and row["horizon"] in TARGET_WEIGHTS
+    ]
+    trade_enabled = (
+        production_portfolio["net_sharpe"] > 0
+        and production_portfolio["net_return_pct"] > 0
+        and all(row["daily_ic_mean"] > 0 for row in selected_metrics)
     )
     production_weights = production_model["parameters"]
     production_directions = {
@@ -646,7 +794,7 @@ def main() -> None:
         "production_score": production_score,
         "trained_from": args.train_from,
         "trained_through": args.train_through,
-        "available_after": args.train_through,
+        "available_after": args.test_through,
         "tested_through": args.test_through,
         "validation_through": args.validation_through,
         "sample_count": len(train),
@@ -655,13 +803,22 @@ def main() -> None:
         "date_count": train["signal_date"].nunique(),
         "eligibility": "launch_detected and data_quality_valid",
         "target_rank_weights": TARGET_WEIGHTS,
+        "target_entry": "next_session_open",
         "evaluation_horizons": list(EVALUATION_HORIZONS),
         "minimum_absolute_training_spearman": MIN_ABS_CORRELATION,
         "ridge_alpha_candidates": RIDGE_ALPHAS,
         "features": list(production_weights),
         "production_directions": production_directions,
         "production_weights": production_weights,
-        "training_date_leave_one_out": cross_validation,
+        "training_purged_walk_forward": cross_validation,
+        "selection_metric": "0.4 * daily_3d_rank_ic + 0.6 * daily_1w_rank_ic",
+        "selection_entry": "next_session_open",
+        "selection_labels_mature_through": args.test_through,
+        "selection_sample_count": len(executable_test),
+        "trade_enabled": bool(trade_enabled),
+        "deployment_status": "eligible_for_further_validation" if trade_enabled else "research_only",
+        "test_execution": production_portfolio,
+        "test_execution_metrics": selection_rows,
         "test": {
             "train_through": args.train_through,
             "dates": sorted(test["signal_date"].unique()),
@@ -678,6 +835,10 @@ def main() -> None:
                 if extra_models.get("lv2_score_v6")
                 else None
             ),
+            "v7_weights": (
+                extra_models["lv2_score_v7"]["weights"]
+                if extra_models.get("lv2_score_v7") else None
+            ),
             "metrics": evaluation_rows,
         },
         "validation": {
@@ -685,7 +846,7 @@ def main() -> None:
                 pd.Timestamp(args.test_through) + pd.Timedelta(days=1)
             ).strftime("%Y%m%d"),
             "through": args.validation_through,
-            "status": "withheld_for_final_evaluation",
+            "status": "historical_diagnostic_not_used_for_selection",
         },
     }
     if "ridge" in production_model:
@@ -694,7 +855,7 @@ def main() -> None:
             "alpha_cross_validation"
         ]
     (HERE / "lv2_score_model.json").write_text(
-        json.dumps(model, ensure_ascii=False, indent=2),
+        json.dumps(json_compatible(model), ensure_ascii=False, indent=2, allow_nan=False),
         encoding="utf-8",
     )
     blinded_panel = blind_validation_labels(panel)
@@ -717,6 +878,47 @@ def main() -> None:
     print("Production weights:")
     for feature, weight in production_weights.items():
         print(f"  {feature}: {weight:+g}")
+    score_columns = ["lv2_score", "lv2_score_pre_sol61", *selectable_models]
+    portfolio_rows = []
+    for split_name, scored, through in (
+        ("test", test, args.test_through),
+        ("validation", validation, args.validation_through),
+    ):
+        if split_name == "validation" and not args.evaluate_validation:
+            continue
+        start = (
+            test_start if split_name == "test" else
+            (pd.Timestamp(args.test_through) + pd.Timedelta(days=1)).strftime("%Y%m%d")
+        )
+        for score_column in score_columns:
+            metrics, nav = backtest_score(
+                scored, score_column, prices, calendar, start, through,
+                args.holding_sessions, args.cost_bps_per_side,
+            )
+            portfolio_rows.append({"dataset_split": split_name, **metrics})
+            nav.to_csv(
+                DATA_DIR / f"ambush_sol61_{split_name}_{score_column}_nav.csv",
+                index=False, encoding="utf-8-sig",
+            )
+        executable = scored.copy()
+        for horizon in EVALUATION_HORIZONS:
+            executable[f"forward_{horizon}_pct"] = scored[f"next_open_{horizon}_pct"]
+        executable_rows = [
+            row for score_column in score_columns
+            for row in evaluate_score(executable, score_column)
+        ]
+        pd.DataFrame(executable_rows).to_csv(
+            DATA_DIR / f"ambush_sol61_{split_name}_next_open_evaluation.csv",
+            index=False, encoding="utf-8-sig",
+        )
+    portfolios = pd.DataFrame(portfolio_rows)
+    portfolios.to_csv(
+        DATA_DIR / "ambush_sol61_portfolio_evaluation.csv",
+        index=False, encoding="utf-8-sig",
+    )
+    print("Next-open daily NAV (cash included, net of costs):")
+    print(portfolios.to_string(index=False, float_format=lambda value: f"{value:.3f}"))
+    print(f"Deployment: {model['deployment_status']} (trade_enabled={trade_enabled})")
     if args.evaluate_validation:
         validation_rows = evaluate_all_scores(validation, extra_models)
         validation_evaluation = pd.DataFrame(validation_rows)

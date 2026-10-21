@@ -1,0 +1,659 @@
+{
+  "threshold_source": "mature_training_features_only",
+  "train_through": "20260731",
+  "training_samples": 23,
+  "attempted_rules": 54,
+  "minimum_train_samples": 6,
+  "minimum_train_dates": 3,
+  "frozen_rules": [
+    "flow_high__range_low",
+    "flow_high__bottom_low",
+    "flow_positive__cap_low"
+  ],
+  "rules": [
+    {
+      "rule": "turnover_low",
+      "conditions": [
+        {
+          "feature": "mean_turnover_20d_pct",
+          "operator": "le",
+          "threshold": 1.3079846466911873
+        }
+      ]
+    },
+    {
+      "rule": "turnover_high",
+      "conditions": [
+        {
+          "feature": "mean_turnover_20d_pct",
+          "operator": "gt",
+          "threshold": 1.3079846466911873
+        }
+      ]
+    },
+    {
+      "rule": "volume_ratio_low",
+      "conditions": [
+        {
+          "feature": "event_volume_ratio",
+          "operator": "le",
+          "threshold": 2.6754738813235424
+        }
+      ]
+    },
+    {
+      "rule": "volume_ratio_high",
+      "conditions": [
+        {
+          "feature": "event_volume_ratio",
+          "operator": "gt",
+          "threshold": 2.6754738813235424
+        }
+      ]
+    },
+    {
+      "rule": "range_low",
+      "conditions": [
+        {
+          "feature": "range_60d_pct",
+          "operator": "le",
+          "threshold": 35.36789297658862
+        }
+      ]
+    },
+    {
+      "rule": "range_high",
+      "conditions": [
+        {
+          "feature": "range_60d_pct",
+          "operator": "gt",
+          "threshold": 35.36789297658862
+        }
+      ]
+    },
+    {
+      "rule": "bottom_low",
+      "conditions": [
+        {
+          "feature": "bottom_percentile",
+          "operator": "le",
+          "threshold": 0.1195729537366547
+        }
+      ]
+    },
+    {
+      "rule": "bottom_high",
+      "conditions": [
+        {
+          "feature": "bottom_percentile",
+          "operator": "gt",
+          "threshold": 0.1195729537366547
+        }
+      ]
+    },
+    {
+      "rule": "volatility_low",
+      "conditions": [
+        {
+          "feature": "mean_abs_return_20d_pct",
+          "operator": "le",
+          "threshold": 1.8896187631600456
+        }
+      ]
+    },
+    {
+      "rule": "volatility_high",
+      "conditions": [
+        {
+          "feature": "mean_abs_return_20d_pct",
+          "operator": "gt",
+          "threshold": 1.8896187631600456
+        }
+      ]
+    },
+    {
+      "rule": "opening_fill_low",
+      "conditions": [
+        {
+          "feature": "opening_buy_fill_ratio_pct",
+          "operator": "le",
+          "threshold": 18.394844756883423
+        }
+      ]
+    },
+    {
+      "rule": "opening_fill_high",
+      "conditions": [
+        {
+          "feature": "opening_buy_fill_ratio_pct",
+          "operator": "gt",
+          "threshold": 18.394844756883423
+        }
+      ]
+    },
+    {
+      "rule": "sell_cancel_low",
+      "conditions": [
+        {
+          "feature": "sell_cancel_ratio_pct",
+          "operator": "le",
+          "threshold": 29.967703323697936
+        }
+      ]
+    },
+    {
+      "rule": "sell_cancel_high",
+      "conditions": [
+        {
+          "feature": "sell_cancel_ratio_pct",
+          "operator": "gt",
+          "threshold": 29.967703323697936
+        }
+      ]
+    },
+    {
+      "rule": "sell_pressure_low",
+      "conditions": [
+        {
+          "feature": "gross_sell_float_ratio_pct",
+          "operator": "le",
+          "threshold": 1.705404916088432
+        }
+      ]
+    },
+    {
+      "rule": "sell_pressure_high",
+      "conditions": [
+        {
+          "feature": "gross_sell_float_ratio_pct",
+          "operator": "gt",
+          "threshold": 1.705404916088432
+        }
+      ]
+    },
+    {
+      "rule": "buy_refill_low",
+      "conditions": [
+        {
+          "feature": "buy_refill_float_ratio_pct",
+          "operator": "le",
+          "threshold": 7.222437498103569
+        }
+      ]
+    },
+    {
+      "rule": "buy_refill_high",
+      "conditions": [
+        {
+          "feature": "buy_refill_float_ratio_pct",
+          "operator": "gt",
+          "threshold": 7.222437498103569
+        }
+      ]
+    },
+    {
+      "rule": "wash_low",
+      "conditions": [
+        {
+          "feature": "wash_trade_volume_pct",
+          "operator": "le",
+          "threshold": 0.1018928303382298
+        }
+      ]
+    },
+    {
+      "rule": "wash_high",
+      "conditions": [
+        {
+          "feature": "wash_trade_volume_pct",
+          "operator": "gt",
+          "threshold": 0.1018928303382298
+        }
+      ]
+    },
+    {
+      "rule": "flow_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "le",
+          "threshold": 4.7453458886494015
+        }
+      ]
+    },
+    {
+      "rule": "flow_high",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        }
+      ]
+    },
+    {
+      "rule": "cap_low",
+      "conditions": [
+        {
+          "feature": "free_float_cap_billion",
+          "operator": "le",
+          "threshold": 6.163248
+        }
+      ]
+    },
+    {
+      "rule": "cap_high",
+      "conditions": [
+        {
+          "feature": "free_float_cap_billion",
+          "operator": "gt",
+          "threshold": 6.163248
+        }
+      ]
+    },
+    {
+      "rule": "amount_low",
+      "conditions": [
+        {
+          "feature": "event_amount_million",
+          "operator": "le",
+          "threshold": 287.065693
+        }
+      ]
+    },
+    {
+      "rule": "amount_high",
+      "conditions": [
+        {
+          "feature": "event_amount_million",
+          "operator": "gt",
+          "threshold": 287.065693
+        }
+      ]
+    },
+    {
+      "rule": "absorption_low",
+      "conditions": [
+        {
+          "feature": "passive_sell_absorb_ratio_pct",
+          "operator": "le",
+          "threshold": 69.63761514323312
+        }
+      ]
+    },
+    {
+      "rule": "absorption_high",
+      "conditions": [
+        {
+          "feature": "passive_sell_absorb_ratio_pct",
+          "operator": "gt",
+          "threshold": 69.63761514323312
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        }
+      ]
+    },
+    {
+      "rule": "net_flow_positive",
+      "conditions": [
+        {
+          "feature": "large_order_net_flow_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        }
+      ]
+    },
+    {
+      "rule": "sealed",
+      "conditions": [
+        {
+          "feature": "closed_at_limit",
+          "operator": "eq",
+          "threshold": true
+        }
+      ]
+    },
+    {
+      "rule": "unsealed",
+      "conditions": [
+        {
+          "feature": "closed_at_limit",
+          "operator": "eq",
+          "threshold": false
+        }
+      ]
+    },
+    {
+      "rule": "main_board",
+      "conditions": [
+        {
+          "feature": "board_20pct",
+          "operator": "eq",
+          "threshold": false
+        }
+      ]
+    },
+    {
+      "rule": "growth_board",
+      "conditions": [
+        {
+          "feature": "board_20pct",
+          "operator": "eq",
+          "threshold": true
+        }
+      ]
+    },
+    {
+      "rule": "shanghai",
+      "conditions": [
+        {
+          "feature": "shanghai",
+          "operator": "eq",
+          "threshold": true
+        }
+      ]
+    },
+    {
+      "rule": "shenzhen",
+      "conditions": [
+        {
+          "feature": "shanghai",
+          "operator": "eq",
+          "threshold": false
+        }
+      ]
+    },
+    {
+      "rule": "morning_launch",
+      "conditions": [
+        {
+          "feature": "t_start",
+          "operator": "lt",
+          "threshold": 113000000
+        }
+      ]
+    },
+    {
+      "rule": "afternoon_launch",
+      "conditions": [
+        {
+          "feature": "t_start",
+          "operator": "ge",
+          "threshold": 130000000
+        }
+      ]
+    },
+    {
+      "rule": "flow_high__turnover_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        },
+        {
+          "feature": "mean_turnover_20d_pct",
+          "operator": "le",
+          "threshold": 1.3079846466911873
+        }
+      ]
+    },
+    {
+      "rule": "flow_high__volume_ratio_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        },
+        {
+          "feature": "event_volume_ratio",
+          "operator": "le",
+          "threshold": 2.6754738813235424
+        }
+      ]
+    },
+    {
+      "rule": "flow_high__range_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        },
+        {
+          "feature": "range_60d_pct",
+          "operator": "le",
+          "threshold": 35.36789297658862
+        }
+      ]
+    },
+    {
+      "rule": "flow_high__bottom_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        },
+        {
+          "feature": "bottom_percentile",
+          "operator": "le",
+          "threshold": 0.1195729537366547
+        }
+      ]
+    },
+    {
+      "rule": "flow_high__cap_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        },
+        {
+          "feature": "free_float_cap_billion",
+          "operator": "le",
+          "threshold": 6.163248
+        }
+      ]
+    },
+    {
+      "rule": "flow_high__sealed",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 4.7453458886494015
+        },
+        {
+          "feature": "closed_at_limit",
+          "operator": "eq",
+          "threshold": true
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive__turnover_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "mean_turnover_20d_pct",
+          "operator": "le",
+          "threshold": 1.3079846466911873
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive__volume_ratio_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "event_volume_ratio",
+          "operator": "le",
+          "threshold": 2.6754738813235424
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive__range_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "range_60d_pct",
+          "operator": "le",
+          "threshold": 35.36789297658862
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive__bottom_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "bottom_percentile",
+          "operator": "le",
+          "threshold": 0.1195729537366547
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive__cap_low",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "free_float_cap_billion",
+          "operator": "le",
+          "threshold": 6.163248
+        }
+      ]
+    },
+    {
+      "rule": "flow_positive__sealed",
+      "conditions": [
+        {
+          "feature": "delta_ratio_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "closed_at_limit",
+          "operator": "eq",
+          "threshold": true
+        }
+      ]
+    },
+    {
+      "rule": "net_flow_positive__turnover_low",
+      "conditions": [
+        {
+          "feature": "large_order_net_flow_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "mean_turnover_20d_pct",
+          "operator": "le",
+          "threshold": 1.3079846466911873
+        }
+      ]
+    },
+    {
+      "rule": "net_flow_positive__volume_ratio_low",
+      "conditions": [
+        {
+          "feature": "large_order_net_flow_pct",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "feature": "event_volume_ratio",
+          "operator": "le",
+          "threshold": 2.6754738813235424
+        }
+      ]
+    },
+    {
+      "rule": "absorption_high__sell_pressure_low",
+      "conditions": [
+        {
+          "feature": "passive_sell_absorb_ratio_pct",
+          "operator": "gt",
+          "threshold": 69.63761514323312
+        },
+        {
+          "feature": "gross_sell_float_ratio_pct",
+          "operator": "le",
+          "threshold": 1.705404916088432
+        }
+      ]
+    },
+    {
+      "rule": "opening_fill_high__sell_cancel_low",
+      "conditions": [
+        {
+          "feature": "opening_buy_fill_ratio_pct",
+          "operator": "gt",
+          "threshold": 18.394844756883423
+        },
+        {
+          "feature": "sell_cancel_ratio_pct",
+          "operator": "le",
+          "threshold": 29.967703323697936
+        }
+      ]
+    }
+  ],
+  "deployment": "research_only; no rule is promoted automatically",
+  "multiple_testing": "weekly sign-flip diagnostic with Holm adjustment",
+  "current_model_version": 6,
+  "current_model_weights": {
+    "small_buy_volume_share_pct": 0.005578209359927997,
+    "split_order_size_concentration_pct": 0.006220917667495498,
+    "split_order_interval_entropy": 0.0028184529018038655,
+    "odd_price_buy_volume_share_pct": 0.00503549429329702,
+    "large_buy_cancel_gap_pct": -0.0011423781611184561,
+    "bid_support_dwell_ratio_pct": -0.0028550599143310987,
+    "passive_sell_absorb_ratio_pct": -0.007836445516017265,
+    "wash_trade_volume_pct": -0.002376699588552303,
+    "equal_size_streak_volume_pct": 0.007927254241883869,
+    "flat_price_volume_share_pct": -0.0008244099691001116,
+    "probe_pulse_count": 1.1023609274373589e-05,
+    "probe_pullback_volume_ratio_pct": 0.0,
+    "down_day_volume_ratio_20d": 0.0022492360142670567,
+    "max_drawdown_60d_pct": 0.002888066319277248
+  },
+  "current_model_available_after": "20260831",
+  "diagnostic_only_rules": [
+    "bottom_low"
+  ],
+  "score_interpretation": "Training NAV for fitted models is retrospective, not out-of-sample. Current model was selected using August data; test NAV is diagnostic. Rule-only selection preserves original per-stock budgets and keeps rejected cash."
+}

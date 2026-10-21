@@ -12,6 +12,7 @@ from optimize_score import (
     apply_models,
     features_are_trainable,
     load_panel,
+    rank_panel,
     split_datasets,
     train_direction_model,
     train_ridge_model,
@@ -19,6 +20,7 @@ from optimize_score import (
 
 SCORE_LABELS = {
     "lv2_score": "LV2",
+    "lv2_score_pre_sol61": "PRE61",
     "lv2_score_v2_baseline": "V2",
     "lv2_score_v3": "V3",
     "lv2_score_v4": "V4",
@@ -26,6 +28,8 @@ SCORE_LABELS = {
     "lv2_score_v5_fixed": "V5F",
     "lv2_score_v6": "V6",
     "lv2_score_v6_fixed": "V6F",
+    "lv2_score_v7": "V7",
+    "lv2_score_v7_fixed": "V7F",
 }
 
 
@@ -80,10 +84,10 @@ def format_pct(value: float) -> str:
 def main() -> None:
     args = parse_args()
     panel = load_panel(args.train_from, args.validation_through)
-    eligible = panel[
+    eligible = rank_panel(panel[
         panel["launch_detected"].astype(bool)
         & panel["data_quality_valid"].astype(bool)
-    ].copy()
+    ].copy())
     train, test, validation = split_datasets(
         eligible,
         args.train_from,

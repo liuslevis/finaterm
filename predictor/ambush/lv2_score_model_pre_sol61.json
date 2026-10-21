@@ -1,0 +1,24 @@
+{
+  "source_commit": "899d09e04370c450bd88f5194b98a484a881a6e5",
+  "version": 6,
+  "method": "covert_accumulation_wash_trade_date_cross_validated_ridge",
+  "trained_through": "20260731",
+  "tested_through": "20260831",
+  "purpose": "Frozen pre-SOL61 reference only; never a selectable model",
+  "production_weights": {
+    "small_buy_volume_share_pct": -0.09157284400850478,
+    "split_order_size_concentration_pct": 0.21347659397335061,
+    "split_order_interval_entropy": 0.13401035981299889,
+    "odd_price_buy_volume_share_pct": 0.7224780837942429,
+    "large_buy_cancel_gap_pct": 0.06932402881430745,
+    "bid_support_dwell_ratio_pct": 0.3148708659589754,
+    "passive_sell_absorb_ratio_pct": -0.2407475145296954,
+    "wash_trade_volume_pct": -0.22157147399452076,
+    "equal_size_streak_volume_pct": 0.507108765693492,
+    "flat_price_volume_share_pct": 0.11949226382488788,
+    "probe_pulse_count": 0.18210676867693903,
+    "probe_pullback_volume_ratio_pct": 0.0,
+    "down_day_volume_ratio_20d": 0.16287638097336227,
+    "max_drawdown_60d_pct": 0.06571825753906933
+  }
+}

@@ -10,16 +10,18 @@ python .\predictor\ambush\strategy.py --date 20260803
 python .\predictor\ambush\strategy.py --date 20260901
 python .\predictor\ambush\optimize_score.py --train-from 20260601 --train-through 20260731 --test-through 20260831 --validation-through 20260930
 python .\predictor\ambush\optimize_score.py --train-from 20260601 --train-through 20260731 --test-through 20260831 --validation-through 20260930 --evaluate-validation
+python .\predictor\ambush\optimize_score.py --evaluate-validation --holding-sessions 5 --cost-bps-per-side 15
 python .\predictor\ambush\export_samples.py --markdown
+python .\predictor\ambush\analyze_subsets.py
 ```
 
 - `--cache-k-after YYYYMM`：仅从指定月份首日起获取所有 K 线并缓存到 `hfq\cache\ambush\kline`，完成后退出，不执行策略；缓存记录已请求区间，后续运行不会因末日停牌而重复访问 AkShare。
 - 回测 2026 年 1–8 月前先运行 `--cache-k-after 202406`，覆盖策略默认向前读取的 550 个自然日；之后逐日运行策略会复用本地缓存。
 - 训练集：2026 年 6–7 月，用于拟合因子方向、Ridge 权重和正则强度。
-- 测试集：2026 年 8 月，用于比较冻结模型的样本外表现，并按 `0.4 × 3D Spearman + 0.6 × 1W Spearman` 选择进入验证集的生产模型。
-- 验证集：2026 年 9 月，保留给最终盲测；默认运行只生成冻结模型分数，不计算验证集收益指标，并在建模面板中隐藏验证集收益标签；只有显式加 `--evaluate-validation` 才解盲并输出验证集评估 CSV，模型选择与 `lv2_score_model.json` 不受影响。
+- 测试集：2026 年 8 月，用于比较冻结模型的样本外表现；SOL61 按次日开盘收益的 `0.4 × 3D 平均日内 Rank IC + 0.6 × 1W 平均日内 Rank IC` 选择研究模型，仅使用 8 月末之前已成熟的完整横截面标签。
+- 历史诊断集：2026 年 9 月，此前已解盲，不再作为新的盲测；默认运行仍只生成冻结分数、隐藏该期收益与成熟日期。显式加 `--evaluate-validation` 才输出诊断指标，模型选择与模型文件不受影响。
 - 样本：`launch_detected=True` 且 `data_quality_valid=True`。
-- 目标：`0.4 × 3D 收益日内排名 + 0.6 × 1W 收益日内排名`。
+- 目标：`0.4 × 3D 次日开盘收益日内排名 + 0.6 × 1W 次日开盘收益日内排名`；信号日使用全日 LV2，不能假设当日收盘成交。
 - 评估指标覆盖 3D、1W、3W 三个区间；3W 只用于观察，不参与训练目标与生产模型选择。
 - 单日策略结果、面板与评估 CSV 统一写入 `predictor\ambush\data`。
 - 因子按交易日转为百分位，避免跨日量级差异。
@@ -34,6 +36,8 @@ python .\predictor\ambush\export_samples.py --markdown
 | `lv2_score_v4` | 23 因子 Ridge；正则强度仅在训练期按日期交叉验证选择 |
 | `lv2_score_v5` | 3 个开盘提前布局因子 Ridge |
 | `lv2_score_v6` | 14 个横盘埋伏/对倒指纹因子（`IDEA_OPUS.txt`）Ridge |
+| `lv2_score_v7` | `IDEA_SOL61.txt` 的 3 个经济块 Ridge，向等权先验收缩、有效日期等权 |
+| `lv2_score_v7_fixed` | 3 个经济块固定等权，不拟合权重 |
 
 最终分数：
 
@@ -139,13 +143,37 @@ V6 按 `IDEA_OPUS.txt` 实现，用当日逐笔委托、逐笔成交、十档行
 
 固定权重的 `lv2_score_v6` 用当日候选集内的百分位加权；空值按中性百分位 0.5 处理，不再当作最差值。优化脚本另外用这 14 个因子按日期交叉验证拟合 Ridge 版本参与生产模型选择。E 组两个因子来自信号日之前的历史 K 线，其余 12 个来自当日 LV2。
 
-如果信号日晚于模型的 `available_after` 且存在 `lv2_score_model.json`，最终 `score` 使用 `lv2_model_score`：先将模型因子分别转为当日百分位，计算 `Σ[模型权重 × (因子百分位 - 0.5)]`，再把该线性值转为当日 0–100 百分位分数。输出列 `lv2_score_used` 会标明实际使用 `legacy` 还是模型版本；没有可用生产模型时，`score` 直接使用上表的 `lv2_score`。
+如果信号日晚于模型的 `available_after` 及 `tested_through` 且存在 `lv2_score_model.json`，最终 `score` 使用 `lv2_model_score`：仅在 `launch_detected & data_quality_valid` 的当日候选中计算因子百分位，减去当日已观测排名均值，缺失值记为中性零贡献，再将加权线性值转为 0–100 百分位分数。与训练候选集合保持一致，质检失败样本不影响有效候选排名。输出列 `lv2_score_used` 标明模型版本；`trade_enabled=False` 表示仅供研究，不能把排序当作可部署信号。没有可用模型时保留旧 `lv2_score`，但不启用交易。
 
 测试期同时输出各版本 LV2 分数用于比较；未来收益只用于 8 月测试集评估，不参与分数计算。9 月验证集默认不输出收益评估，仅在 `--evaluate-validation` 下单独解盲评估。
 
 如果某组模型因子在训练期缺少至少两个非空且不同的横截面排名，该模型会被跳过，不会用全零权重生成生产分数。
 
-## 回测收益
+## SOL61：IC / Sharpe 改进与真实成交口径
+
+方案和限制见 `IDEA_SOL61.txt`。V7 将既有 V2 的 7 个因子压缩为卖压、订单流、实际承接三个块；固定版本块间等权，Ridge 版本只学习三个权重，并向等权先验收缩。训练标签和线上缺失值处理使用相同口径。
+
+`lv2_score_pre_sol61` 精确保留本次修改前生产 V6 的冻结权重、旧候选排名集合和缺失值口径。参考参数保存于 `lv2_score_model_pre_sol61.json`，仅作比较，不参加新模型选择；重新拟合的 `lv2_score_v6` 不是该旧模型，不能混称。
+
+全部 Ridge 改为已成熟标签的扩展窗口验证，不使用未来日期。训练截止日后才成熟的标签被清除；收益排名依赖同日其他股票，故整个横截面要等最后一个目标标签成熟。有效验证折不足 3 个时直接采用最大正则 α=100，而不是把样本不足称为交叉验证最优。生产择优同样清除 8 月末之后才成熟的测试标签。
+
+新增回测用次日开盘成交、默认持有 5 个市场交易日、单边 15bp 成本，每日新一批预算最多占净值 1/5。少于 3 个候选不新开仓；涨停开盘拒绝成交，停牌不补买，跌停/停牌退出延迟。日净值包含现金与空仓日，Sharpe 按日收益年化，不使用互相重叠的持有期收益年化。期末未平仓按最后可见价格盯市，数量单独报告。尚不模拟涨停队列、资金容量与冲击成本。
+
+`ambush_sol61_*_next_open_evaluation.csv` 是未扣费、未剔除不可成交股票的标签 IC；`ambush_sol61_portfolio_evaluation.csv` 才是计入成本和拒绝成交后的净值指标。全测试期诊断 IC 可能使用跨月成熟的标签，但模型择优只能使用测试截止日已成熟的标签。净收益、净 Sharpe 或两个目标日内 IC 非正时，模型标记 `research_only`，不自动启用交易。
+
+9 月此前已经解盲，本次只称历史诊断集，不再称新的盲测。当前缓存最后交易日为 2026-09-21，超出缓存的验证日期不伪造净值。下面旧表及 Appendix 是 SOL61 之前的历史快照，不代表当前输出；最新结果以 `data\ambush_sol61_*.csv` 和模型文件为准。
+
+本次 8 月测试对比：旧生产 V6 → V7_fixed 的 3D / 1W Pearson IC 为 `0.114 / 0.129 → 0.253 / 0.216`，净 Sharpe 为 `-4.372 → -2.411`，但 1W 平均日内 Rank IC 从 `0.284` 降至 `0.036`，最大回撤从 `4.02%` 增至 `5.29%`。9 月诊断的净 Sharpe 为 `-2.737 → -2.446`，仍非正值。V7 仅保留为研究候选；成熟标签择优选中重训 V6，`trade_enabled=False`，没有强行推广新版本。完整收益、回撤和样本数见 `IDEA_SOL61.txt`。
+
+### 盈利子集研究
+
+`analyze_subsets.py` 固定检查 54 个简单规则，阈值只来自成熟训练样本；训练筛出的规则与看过历史后发现的规则分开标记。分析比较旧模型、当前冻结模型、V7_fixed 和纯规则选股，输出匹配股票、标签收益、连续日净值、成本及删除最佳信号日压力测试。规则是对原已选组合的入场过滤，剔除预算留现金，不重新排名或加大剩余股票仓位；默认策略不启用这些规则。
+
+当前冻结 V6 的 8 月 1 日至 9 月 21 日连续历史回放中，`bottom_percentile <= 0.1195729537` 将净收益从 `-2.795%` 提升为 `+3.052%`，但训练期及 8 月仍亏损，主要收益集中在 9 月 3 日信号。这是历史诊断规则，不是新的样本外发现；删除该日信号后只剩 `+0.594%`。训练筛出的“同样低位且 `delta_ratio_pct > 4.7453458886`”净收益 `+0.321%`，实际只有 5 次入场、2 笔期末未平仓，不能据此推广。详细样本、失败规则与限制见 `IDEA_SOL61.txt` 第 6 节。
+
+输出为 `data\ambush_subset_rules.json`、`ambush_subset_training_screen.csv`、`ambush_subset_label_evaluation.csv`、`ambush_subset_portfolio_evaluation.csv`、`ambush_subset_frozen_matches.csv`、`ambush_subset_frozen_nav.csv` 及 `ambush_subset_stress_evaluation.csv`。当前模型曾用 8 月择优，9 月此前已解盲，所以这些均是历史研究；不会改变生产模型文件或开启 `trade_enabled`。
+
+## 历史回测收益（SOL61 之前口径）
 
 优化脚本默认只评估 8 月测试集，按分数分为上下半组，并输出 Spearman、Pearson IC、平均收益和胜率。9 月验证集指标在最终启动评估时用 `--evaluate-validation` 单独计算，不写入模型文件或测试评估 CSV。
 
@@ -188,7 +216,7 @@ V6 按 `IDEA_OPUS.txt` 实现，用当日逐笔委托、逐笔成交、十档行
 
 V6 的 14 个埋伏/对倒指纹因子在训练期拟合出的 Ridge 权重全为正且量级很小（α=1.0），测试期 3D/1W/3W 的 Spearman 与 IC 均为负，固定权重版本更差。按原样解读：在该样本上，“吸筹拆单 + 托压单 + 对倒刷量 + 试盘”越明显的触板股，后续 1–3 周反而跑输同日候选，与 `IDEA_OPUS.txt` 第 5 节的风险提示一致——对倒指纹同样对应派发与监管风险。样本量（30 个训练样本、74 个测试样本）不足以支撑反向使用该分数，因此 V6 只进入面板与评估，不参与生产排序。
 
-## eval 9 月（验证集解盲）
+## 历史 eval 9 月（原验证集解盲）
 
 命令：`python .\predictor\ambush\optimize_score.py --train-from 20260601 --train-through 20260731 --test-through 20260831 --validation-through 20260930 --evaluate-validation`。
 
@@ -234,6 +262,9 @@ V6 的 14 个埋伏/对倒指纹因子在训练期拟合出的 Ridge 权重全�
 - `ambush_lv2_validation_evaluation_20260930.csv`：仅在 `--evaluate-validation` 下生成的 9 月验证集评估。
 - `ambush_sample_appendix_20260601_20260930.csv`：`export_samples.py` 导出的样本清单，含入选日期、代码、数据集、3D/1W/3W 涨幅与各策略命中标记。
 - `lv2_score_model.json`：冻结模型参数、训练/测试/验证边界和 8 月测试指标（含 V5、V6 的训练期 Ridge 权重）；不含 9 月验证指标，与脚本同目录。
+- `ambush_sol61_portfolio_evaluation.csv`：同口径日净值的扣费 Sharpe、净收益、最大回撤、成交拒绝与未平仓数量。
+- `ambush_sol61_{test,validation}_next_open_evaluation.csv`：次日开盘标签的 Pearson IC / 日内 Rank IC；验证文件仅在显式解盲时生成。
+- `ambush_sol61_{test,validation}_{score}_nav.csv`：逐策略日净值、日收益、仓位暴露；验证净值仅在显式解盲时生成。
 
 逐笔数据不能识别账户身份，结果仅用于研究，不构成投资建议。
 
@@ -453,4 +484,3 @@ V6 的 14 个埋伏/对倒指纹因子在训练期拟合出的 Ridge 权重全�
 | 20260918 | 000002.SZ | 万  科Ａ | validation | — | — | — | 2 | LV2;V2 |
 | 20260918 | 601369.SH | 陕鼓动力 | validation | — | — | — | 1 | V6 |
 | 20260918 | 600261.SH | 阳光照明 | validation | — | — | — | 0 | — |
-

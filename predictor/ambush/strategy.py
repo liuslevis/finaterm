@@ -53,6 +53,21 @@ V6_SCORE_WEIGHTS = {
     "down_day_volume_ratio_20d": (5, False),
     "max_drawdown_60d_pct": (5, False),
 }
+SOL61_GROUPS = {
+    "sol61_supply_score": {
+        "gross_sell_float_ratio_pct": -1,
+        "active_sell_float_ratio_pct": -1,
+        "sell_cancel_ratio_pct": -1,
+    },
+    "sol61_flow_score": {
+        "delta_ratio_pct": -1,
+        "large_order_net_flow_pct": -1,
+    },
+    "sol61_support_score": {
+        "buy_refill_float_ratio_pct": 1,
+        "median_order_book_imbalance_pct": 1,
+    },
+}
 SKIPPED_KLINE_CODES = {
     "000004.SZ",
     "002808.SZ",
@@ -426,12 +441,23 @@ def weighted_signed_percentile_score(
             rank = frame.groupby(group_column)[feature].rank(
                 method="average", pct=True
             )
+            center = rank.groupby(frame[group_column]).transform("mean")
         else:
             rank = frame[feature].rank(method="average", pct=True)
-        raw += weight * (rank.fillna(0.5) - 0.5)
+            center = rank.mean()
+        raw += weight * (rank - center).fillna(0.0)
     if group_column:
         return raw.groupby(frame[group_column]).rank(method="average", pct=True) * 100
     return raw.rank(method="average", pct=True) * 100
+
+
+def add_sol61_features(
+    frame: pd.DataFrame, group_column: str | None = None
+) -> pd.DataFrame:
+    result = frame.copy()
+    for column, directions in SOL61_GROUPS.items():
+        result[column] = signed_percentile_score(frame, directions, group_column)
+    return result
 
 
 def load_production_lv2_model(signal_date: str) -> dict | None:
@@ -442,6 +468,7 @@ def load_production_lv2_model(signal_date: str) -> dict | None:
         "available_after",
         model.get("validated_through", model["trained_through"]),
     )
+    available_after = max(available_after, model.get("tested_through", ""))
     if signal_date <= available_after:
         return None
     return model
@@ -1460,16 +1487,32 @@ def add_forward_returns(
     row: dict,
     frame: pd.DataFrame,
     signal_date: pd.Timestamp,
+    trading_calendar: pd.DatetimeIndex | None = None,
 ) -> None:
     future = frame[frame["date"] >= signal_date].sort_values("date").reset_index(drop=True)
+    if trading_calendar is not None:
+        dates = trading_calendar[trading_calendar >= signal_date]
+        future = frame.set_index("date").reindex(dates).rename_axis("date").reset_index()
     if future.empty or future.iloc[0]["date"] != signal_date:
         for label in FORWARD_HORIZONS:
             row[f"forward_{label}_pct"] = math.nan
+            row[f"forward_{label}_end_date"] = None
+            row[f"next_open_{label}_pct"] = math.nan
         return
     base = future.iloc[0]["close"]
     for label, sessions in FORWARD_HORIZONS.items():
         row[f"forward_{label}_pct"] = (
             (future.iloc[sessions]["close"] / base - 1) * 100
+            if len(future) > sessions
+            else math.nan
+        )
+        row[f"forward_{label}_end_date"] = (
+            future.iloc[sessions]["date"].strftime("%Y%m%d")
+            if len(future) > sessions and pd.notna(future.iloc[sessions]["close"])
+            else None
+        )
+        row[f"next_open_{label}_pct"] = (
+            (future.iloc[sessions]["close"] / future.iloc[1]["open"] - 1) * 100
             if len(future) > sessions
             else math.nan
         )
@@ -1647,6 +1690,9 @@ def main() -> None:
         if member.endswith(("行情.csv", "逐笔委托.csv", "逐笔成交.csv"))
     ]
     extract_members(archive, all_members, stage)
+    trading_calendar = pd.DatetimeIndex(sorted({
+        date for frame in klines.values() for date in frame["date"]
+    }))
     analyzed = []
     try:
         for row in limit_hits.to_dict("records"):
@@ -1670,7 +1716,7 @@ def main() -> None:
                 result["gross_sell_float_ratio_pct"] + 1e-9
                 >= limits.min_control_ratio_pct
             )
-            add_forward_returns(result, klines[code], signal_date)
+            add_forward_returns(result, klines[code], signal_date, trading_calendar)
             analyzed.append(result)
     finally:
         shutil.rmtree(stage, ignore_errors=True)
@@ -1678,6 +1724,13 @@ def main() -> None:
     diagnostics = pd.DataFrame(analyzed)
     if diagnostics.empty:
         raise RuntimeError("No stock had usable Level-2 data")
+    eligible_mask = diagnostics["launch_detected"] & diagnostics["data_quality_valid"]
+    eligible_diagnostics = add_sol61_features(diagnostics.loc[eligible_mask])
+    for column in SOL61_GROUPS:
+        diagnostics[column] = eligible_diagnostics[column]
+    diagnostics["lv2_score_v7_fixed"] = weighted_signed_percentile_score(
+        eligible_diagnostics, dict.fromkeys(SOL61_GROUPS, 1 / len(SOL61_GROUPS))
+    )
     diagnostics["lv2_score"] = percentile_score(
         diagnostics,
         {
@@ -1708,6 +1761,7 @@ def main() -> None:
     )
     diagnostics["lv2_model_score"] = math.nan
     diagnostics["lv2_score_used"] = "legacy"
+    diagnostics["trade_enabled"] = False
     lv2_for_final_score = diagnostics["lv2_score"]
     production_model = load_production_lv2_model(date)
     if production_model:
@@ -1715,10 +1769,13 @@ def main() -> None:
             "production_weights", production_model["production_directions"]
         )
         diagnostics["lv2_model_score"] = weighted_signed_percentile_score(
-            diagnostics,
+            diagnostics.loc[eligible_mask],
             model_weights,
         )
         diagnostics["lv2_score_used"] = f"v{production_model['version']}"
+        diagnostics.loc[eligible_mask, "trade_enabled"] = production_model.get(
+            "trade_enabled", False
+        )
         lv2_for_final_score = diagnostics["lv2_model_score"]
     diagnostics["score"] = lv2_for_final_score
     high_confidence = (
@@ -1772,8 +1829,11 @@ def main() -> None:
         "lv2_score",
         "lv2_score_v5",
         "lv2_score_v6",
+        "lv2_score_v7_fixed",
+        *SOL61_GROUPS,
         "lv2_model_score",
         "lv2_score_used",
+        "trade_enabled",
         "signal_quality",
         "launch_type",
         "t_start",
@@ -1840,6 +1900,8 @@ def main() -> None:
         "forward_1w_pct",
         "forward_2w_pct",
         "forward_3w_pct",
+        *[f"forward_{label}_end_date" for label in FORWARD_HORIZONS],
+        *[f"next_open_{label}_pct" for label in FORWARD_HORIZONS],
     ]
     print(results[columns].to_string(index=False, float_format=lambda value: f"{value:.2f}"))
     print(f"Saved {output}")
