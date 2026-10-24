@@ -293,6 +293,27 @@ V6 的 14 个埋伏/对倒指纹因子在训练期拟合出的 Ridge 权重全�
 
 判读：原帖“盘前挂板 → 吃面”的方向在本样本中存在，但只够做弱避雷，不能把打板变成正期望。主要亏损来源是“能排到的板本来就弱”，这一点任何触板前的委托结构都无法消除。V8 只用于研究，不进入生产排序。限制：只有 59 个交易日，9 月此前已看过；ST 名单来自当前名称而非历史名称；未模拟资金容量和冲击。
 
+## V9：V8 看空因子叠加到原埋伏策略
+
+命令：`python .\predictor\ambush\enhance_v9.py`（首次自动生成全市场 3D/1W 标签；`--relabel` 可重算）。测试：`python -m pytest .\predictor\ambush\test_enhance_v9.py -q`。
+
+原策略在信号日 D 收盘后选股，D+1 开盘买入、持有 5 个交易日；V8 测的是从涨停价持有到 D+1 开盘这一段。口径不同，所以 V9 先在全市场约 5.9k 次触板上，用原策略口径（D+1 开盘买入，D+1 一字涨停不可买）重新计算 3D/1W 标签，规则只用 7 月、且 1W 标签在 7 月底前已成熟的样本冻结（`enhance_v9_model.json`）：
+
+- `v8_avoid` / `v8_combined`：直接沿用 V8 冻结标记（盘前近涨停挂单；或者再加早盘主动买入偏弱）。
+- `v9_horizon`：按 1W 口径重选看空因子，结果为 `v8_preopen_near_limit_buy_share_pct`，训练期第 67 百分位以上视为看空。
+- `v9_ridge`：8 个可选因子先转成 7 月分位数，再做 Ridge 拟合日内 1W 排名；预测值低于训练期第 33 百分位视为看空。
+
+叠加方式：`veto_*` 在原有前一半入选后剔除被标记股票，预算留现金；`rerank_*` 先剔除再在剩余股票中取前一半；`penalty_v9_ridge` 把原分数日内排名与 Ridge 分位数各占 50% 混合。基础分数包括冻结 V6（`current_model_score`）、`lv2_score_v7_fixed` 和不排序全买（`rule_only_unranked`）。
+
+### 结论：不能增强，不建议启用
+
+1. **口径错位。** 全市场 1W 口径下，盘前挂单因子的日内 Rank IC t 值为 -0.6 / -1.1 / -4.3（7/8/9 月）。7 月甚至反向：被标记组 1W 均值 -1.4%，保留组 -4.9%。V8 主要预测的是 D 收盘到 D+1 开盘这一段跳空，而原策略在 D+1 开盘才买入，正好不持有这一段。
+2. **Ridge 组合在全市场方向稳定，但信号很弱。** t 值为 2.2（样本内）/ 1.4 / 2.6，8 月剔除后的保留组只比被剔除组高 0.24 个百分点。放到沉寂候选（每日 2–8 只）上，8 月所有方法被剔除的股票都反而更好，9 月才是正确方向。
+3. **净值改善主要来自现金。** `veto_v8_combined` 把冻结 V6 的 8 月 / 9 月净收益从 -4.03% / -1.51% 改善为 -2.50% / +0.89%，V7 和全买也都有改善。但与“每日剔除数量相同、随机挑选股票”的安慰剂相比，8 月 p 值为 0.45–0.76，跟随机剔除没有区别。只有已看过的 9 月 p 值在 0.04–0.31 之间。原策略本身是负收益，所以少买就少亏。
+4. **`rerank_v8_avoid` 在 9 月最好（V6 +2.87%），但 7 月和 8 月都比基线差**，属于事后挑选。Penalty 混合与 `v9_horizon` 没有一致改善。
+
+判读：V8 的看空信息只覆盖涨停次日开盘前这一段，对 D+1 开盘之后的 5 日持有基本无效。若要利用它，需要改变策略本身，例如 D 日涨停价直接介入，或者用 D+1 开盘跳空作为确认，而不是叠加过滤。V9 只用于研究，不修改 `lv2_score_model.json`，也不开启 `trade_enabled`。
+
 ## 输出
 
 全部 CSV 写入 `predictor\ambush\data`：
@@ -308,6 +329,8 @@ V6 的 14 个埋伏/对倒指纹因子在训练期拟合出的 Ridge 权重全�
 - `ambush_sol61_{test,validation}_{score}_nav.csv`：逐策略日净值、日收益、仓位暴露；验证净值仅在显式解盲时生成。
 - `ambush_v8_board_panel.csv`：V8 全市场触板面板（触板前因子、排队成交标记、次日收益、半年躺平/沉寂池标记）。
 - `ambush_v8_fill_summary.csv`、`ambush_v8_{queue,optimistic}_{feature_ic,flag_evaluation,portfolio_evaluation,tercile_evaluation}.csv`、`ambush_v8_{fill}_nav_*.csv`：V8 两种成交口径的 IC、避雷标记、日净值与三分位评估；冻结阈值见脚本同目录 `board_v8_rules.json`。
+- `ambush_v9_universe_labels.csv`、`ambush_v9_universe_{ic,flags}.csv`：全市场触板的原策略口径 3D/1W 标签、因子 IC 与看空标记分组。
+- `ambush_v9_candidate_labels.csv`、`ambush_v9_portfolio_evaluation.csv`、`ambush_v9_placebo.csv`：沉寂候选叠加后的标签分组、日净值指标与同数量随机剔除安慰剂；冻结规则见 `enhance_v9_model.json`。
 
 逐笔数据不能识别账户身份，结果仅用于研究，不构成投资建议。
 

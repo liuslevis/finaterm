@@ -1,0 +1,53 @@
+{
+  "version": "v9",
+  "train_through": "20260731",
+  "train_universe_samples": 1983,
+  "target": "next_open_1w_pct",
+  "train_daily_rank_ic_t": {
+    "v8_parked_near_limit_buy_adv_pct": 0.10006027018090208,
+    "v8_parked_preopen_share_pct": 1.419931483383568,
+    "v8_parked_near_limit_orders": -0.3469112030307998,
+    "v8_parked_small_order_share_pct": 0.42892147058033003,
+    "v8_preopen_near_limit_buy_adv_pct": -1.1460087522565743,
+    "v8_preopen_near_limit_buy_share_pct": -1.587390808355558,
+    "v8_early_near_limit_aggr_buy_adv_pct": 2.9084009874884567,
+    "v8_touch_minutes": -0.02270535916274678
+  },
+  "horizon_bear": {
+    "feature": "v8_preopen_near_limit_buy_share_pct",
+    "direction": "high",
+    "threshold": 12.606782532469989
+  },
+  "ridge": {
+    "alpha": 0.05,
+    "weights": {
+      "v8_parked_near_limit_buy_adv_pct": 0.020115524039599538,
+      "v8_parked_preopen_share_pct": -0.01010218742901783,
+      "v8_parked_near_limit_orders": -0.02109649004849155,
+      "v8_parked_small_order_share_pct": 0.0002158410396645971,
+      "v8_preopen_near_limit_buy_adv_pct": -0.008081920935841614,
+      "v8_preopen_near_limit_buy_share_pct": -0.03150740033924297,
+      "v8_early_near_limit_aggr_buy_adv_pct": 0.06017340034555775,
+      "v8_touch_minutes": -0.02911626912986894
+    },
+    "veto_below": -0.011198663995755724
+  },
+  "v8_flags": {
+    "primary": {
+      "feature": "v8_parked_near_limit_buy_adv_pct",
+      "direction": "high",
+      "threshold": 0.4450643582043757
+    },
+    "avoid_selected": {
+      "feature": "v8_preopen_near_limit_buy_adv_pct",
+      "direction": "high",
+      "threshold": 0.20203873427609598
+    },
+    "weak_support": {
+      "feature": "v8_early_near_limit_aggr_buy_adv_pct",
+      "direction": "low",
+      "threshold": 4.611834215935288
+    }
+  },
+  "penalty_weight": 0.5
+}
