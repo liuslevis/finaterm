@@ -1,0 +1,73 @@
+{
+  "version": "v8",
+  "flag_quantile": 0.6666666666666666,
+  "train_through": "20260731",
+  "test_through": "20260831",
+  "train_samples": 2550,
+  "train_daily_rank_ic_t": {
+    "v8_parked_near_limit_buy_adv_pct": 0.8063093313839781,
+    "v8_parked_preopen_share_pct": -1.0724277817833883,
+    "v8_parked_near_limit_orders": -0.051617864757692214,
+    "v8_parked_small_order_share_pct": 0.12914531792363282,
+    "v8_preopen_near_limit_buy_adv_pct": -1.5383034799718767,
+    "v8_preopen_near_limit_buy_share_pct": -1.2115201797179833,
+    "v8_early_near_limit_aggr_buy_adv_pct": 3.259600614167195,
+    "v8_touch_minutes": -0.20986241656934312,
+    "v8_touch_queue_adv_pct": 6.524341373191482
+  },
+  "flags": {
+    "primary": {
+      "feature": "v8_parked_near_limit_buy_adv_pct",
+      "direction": "high",
+      "threshold": 0.4450643582043757
+    },
+    "avoid_selected": {
+      "feature": "v8_preopen_near_limit_buy_adv_pct",
+      "direction": "high",
+      "threshold": 0.20203873427609598
+    },
+    "weak_support": {
+      "feature": "v8_early_near_limit_aggr_buy_adv_pct",
+      "direction": "low",
+      "threshold": 4.611834215935288
+    }
+  },
+  "tercile_cuts": {
+    "v8_parked_near_limit_buy_adv_pct": [
+      0.0,
+      0.4450643582043757
+    ],
+    "v8_parked_preopen_share_pct": [
+      0.0,
+      0.0
+    ],
+    "v8_parked_near_limit_orders": [
+      0.0,
+      36.0
+    ],
+    "v8_parked_small_order_share_pct": [
+      39.68505314150873,
+      70.02336830909574
+    ],
+    "v8_preopen_near_limit_buy_adv_pct": [
+      0.018074204274503063,
+      0.20203873427609598
+    ],
+    "v8_preopen_near_limit_buy_share_pct": [
+      2.27803738317757,
+      13.368055555555555
+    ],
+    "v8_early_near_limit_aggr_buy_adv_pct": [
+      4.611834215935287,
+      10.407325353957404
+    ],
+    "v8_touch_minutes": [
+      16.825333333333294,
+      97.1421111111111
+    ],
+    "v8_touch_queue_adv_pct": [
+      11.097211310667232,
+      80.93962688233267
+    ]
+  }
+}
