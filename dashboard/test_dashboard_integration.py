@@ -93,6 +93,8 @@ def main() -> int:
         assert "QQQ_CONDITION_OUTCOMES" in page
         assert "function renderQqqRiskDashboard()" in page
         assert "renderQqqRiskDashboard();" in page
+        assert 'data-workspace-tab="qqq-dca"' in page
+        assert 'id="qqqDcaWorkspace"' in page
         assert page.count('date: "2026-09-11"') >= 10
         assert "研究基线 · 2026-09-11" in page
         assert 'id="semiMarketChart"' in page
@@ -191,6 +193,10 @@ def main() -> int:
         assert 'data-ipo-period="month" class="active"' in page
         assert "function aggregateIpoRows(rows, period)" in page
         assert "function selectIpoBucket(key, scroll = true)" in page
+        assert 'data-workspace-tab="a-supply-demand"' in page
+        assert 'id="asdWorkspace"' in page
+        assert 'data-workspace-tab="us-supply-demand"' in page
+        assert 'id="ussdWorkspace"' in page
         with CACHE_LOCK:
             CACHE["integration:test"] = (0.0, b"cached", "text/plain")
         request = urllib.request.Request(f"{base}/api/cache", method="DELETE")
@@ -251,6 +257,18 @@ def main() -> int:
         assert expected <= set(usdata.get("series", {}))
         assert all(usdata["series"][key].get("observations") for key in expected)
         print("PASS usdata MCP series")
+
+        asd = json.loads(get(f"{base}/api/a-supply-demand"))
+        keys = {column["key"] for column in asd["columns"]}
+        assert {"net_supply", "demand", "gap", "gap_z6", "csi300_ret"} <= keys
+        assert asd["rows"] and all(row["gap"] is not None for row in asd["rows"])
+        print("PASS a-supply-demand panel")
+
+        ussd = json.loads(get(f"{base}/api/us-supply-demand"))
+        keys = {column["key"] for column in ussd["columns"]}
+        assert {"net_supply", "demand", "gap", "gap_z6", "spx_ret"} <= keys
+        assert ussd["rows"] and all(row["gap"] is not None for row in ussd["rows"])
+        print("PASS us-supply-demand panel")
 
         for market, currency in (("a", "CNY"), ("hk", "HKD"), ("us", "USD")):
             ipo = json.loads(get(f"{base}/api/ipo?market={market}", timeout=180))

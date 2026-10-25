@@ -396,6 +396,26 @@ def fetch_ipo(market: str) -> dict:
     return {"market": market, "currency": currency, "unit": "亿", "source": source, "rows": rows}
 
 
+A_SUPPLY_DEMAND_PANEL = ROOT / "a-supply-demand" / "panel.json"
+
+
+def fetch_a_supply_demand() -> dict:
+    # 面板由 a-supply-demand/build_panel.py 离线生成（下载约 5 分钟），这里只读结果
+    if not A_SUPPLY_DEMAND_PANEL.exists():
+        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python a-supply-demand/build_panel.py")
+    return json.loads(A_SUPPLY_DEMAND_PANEL.read_text(encoding="utf-8"))
+
+
+US_SUPPLY_DEMAND_PANEL = ROOT / "tab" / "us-supply-demand" / "panel.json"
+
+
+def fetch_us_supply_demand() -> dict:
+    # 面板由 tab/us-supply-demand/build_panel.py 离线生成，设计与刷新见同目录 SKILL.md
+    if not US_SUPPLY_DEMAND_PANEL.exists():
+        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/us-supply-demand/build_panel.py")
+    return json.loads(US_SUPPLY_DEMAND_PANEL.read_text(encoding="utf-8"))
+
+
 class DashboardHandler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
@@ -467,6 +487,22 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
         if request.path == "/api/ipo":
             self.handle_ipo(request)
+            return
+
+        if request.path == "/api/a-supply-demand":
+            try:
+                body = json.dumps(fetch_a_supply_demand(), ensure_ascii=False).encode("utf-8")
+                self.send_body(200, body, "application/json; charset=utf-8")
+            except Exception as error:
+                self.send_json_error(502, f"A股供需面板不可用：{error}")
+            return
+
+        if request.path == "/api/us-supply-demand":
+            try:
+                body = json.dumps(fetch_us_supply_demand(), ensure_ascii=False).encode("utf-8")
+                self.send_body(200, body, "application/json; charset=utf-8")
+            except Exception as error:
+                self.send_json_error(502, f"美股供需面板不可用：{error}")
             return
 
         if request.path in ("/", "/index.html"):

@@ -92,8 +92,10 @@ node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP
 | 半导体周期 | semiconductor | Yahoo | `loadSemiDashboard` |
 | QQQ 决策 | qqq-decision | 静态研究结论 `QQQ_DECISIONS` | `renderQqqDecisions` |
 | QQQ 下跌因子 | qqq-risk | 静态 `QQQ_RISK_CONDITIONS` | `renderQqqRiskDashboard` |
+| QQQ 定投框架 | qqq-dca | 纯静态 HTML（复用 qqq-risk 样式类） | 无 |
 | IPO 日历 | ipo | `/api/ipo?market=a\|hk\|us`（6h 缓存） | `loadIpoCalendar`, `renderIpoCalendar`, `aggregateIpoRows`, `selectIpoBucket`（点柱子 `subscribeClick` → 表格滚动高亮并展开全部公司） |
-
+| A股供需 | a-supply-demand | `/api/a-supply-demand` 只读离线文件 `a-supply-demand/panel.json`（由 `build_panel.py` 生成，方法论见 `dashboard/a-supply-demand/SKILL.md`） | `loadAsd`, `renderAsd`（`data-asd-mode` 切换原口径/扣分红） |
+| 美股供需 | us-supply-demand | `/api/us-supply-demand` 只读离线文件 `tab/us-supply-demand/panel.json`（`build_panel.py` + AI 维护的 `manual.json`，见 `dashboard/tab/us-supply-demand/SKILL.md`） | `loadUssd`, `renderUssd`（`data-ussd-mode`） |
 ### IPO 日历数据源（更新时参考）
 
 | 市场 | 源 | 函数 | 要点 |

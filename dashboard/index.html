@@ -595,6 +595,8 @@
       display: flex;
       gap: 5px;
       width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
       margin-bottom: 14px;
       padding: 4px;
       border: 1px solid var(--line);
@@ -602,6 +604,7 @@
       background: rgba(8, 16, 24, .72);
     }
     .workspace-tab {
+      flex: 0 0 auto;
       border: 0;
       border-radius: 9px;
       padding: 8px 14px;
@@ -610,6 +613,7 @@
       cursor: pointer;
       font-size: 12px;
       font-weight: 650;
+      white-space: nowrap;
     }
     .workspace-tab.active {
       color: #061515;
@@ -617,6 +621,22 @@
     }
     .workspace { display: none; }
     .workspace.active { display: block; }
+    .asd-chart { height: 320px; }
+    .asd-table-wrap { overflow: auto; border-top: 1px solid var(--line); }
+    .asd-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .asd-table th, .asd-table td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    .asd-table td { font-family: "SFMono-Regular", Consolas, monospace; }
+    .asd-table th { background: #0d1924; color: var(--muted); font-weight: 650; }
+    .asd-table th small { display: block; font-weight: 400; opacity: .7; }
+    .asd-table tr.asd-groups th { color: var(--cyan); text-align: center; border-left: 1px solid var(--line); }
+    .asd-table th:first-child, .asd-table td:first-child { position: sticky; left: 0; text-align: left; background: #0d1924; z-index: 1; }
+    .asd-table td.asd-key { font-weight: 700; color: var(--text); background: rgba(56,215,197,.06); }
+    .asd-table td.pos { color: var(--green); }
+    .asd-table td.neg { color: var(--red); }
+    #asdSource ul { margin: 6px 0 0; padding-left: 18px; }
+    .ussd-commentary { padding: 10px 16px; border-top: 1px solid var(--line); color: var(--text); font-size: 12px; line-height: 1.6; }
+    .ussd-commentary b { color: var(--cyan); font-weight: 650; }
+    #ussdSource ul { margin: 6px 0 0; padding-left: 18px; }
 
     #ipoChart { height: 300px; }
     .ipo-table-wrap { position: relative; max-height: 460px; overflow: auto; border-top: 1px solid var(--line); }
@@ -1147,6 +1167,19 @@
     }
     .qqq-monitor-card h3 { margin: 0 0 9px; color: var(--cyan); font-size: 11px; }
     .qqq-monitor-card ul { margin: 0; padding-left: 17px; color: #9db0be; font-size: 10px; line-height: 1.75; }
+    #qqqDcaWorkspace .qqq-risk-score-value { font-size: 30px; }
+    #qqqDcaWorkspace .factor-table td { text-align: left; font-family: inherit; line-height: 1.5; }
+    #qqqDcaWorkspace .factor-table th { text-align: left; }
+    #qqqDcaWorkspace .factor-table td:first-child { font-weight: 700; white-space: nowrap; }
+    .dca-factor-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .dca-factor-grid .qqq-regime-date { color: var(--amber); }
+    .dca-ladder { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 14px 14px 4px; }
+    .dca-ladder-step { padding: 11px; border: 1px solid var(--line); border-radius: 11px; text-align: center; background: rgba(255,255,255,.02); }
+    .dca-ladder-step small { display: block; color: var(--muted); font-size: 9px; }
+    .dca-ladder-step strong { display: block; margin-top: 6px; color: var(--cyan); font: 750 18px/1 "SFMono-Regular", Consolas, monospace; }
+    .dca-avoid .qqq-callout-title { color: var(--red); }
+    .dca-summary { padding: 18px 22px; color: #c9d6df; font-size: 13px; line-height: 1.8; }
+    .dca-summary b { color: var(--cyan); }
 
     @media (max-width: 1180px) {
       .dashboard { grid-template-columns: 1fr; }
@@ -1154,11 +1187,12 @@
       .semi-main-grid { grid-template-columns: 1fr; }
       .qqq-block-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .qqq-risk-columns { grid-template-columns: 1fr; }
+      .dca-factor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 760px) {
       .app { padding: 12px; }
       header, .module-controls { align-items: flex-start; flex-direction: column; }
-      .header-actions { width: 100%; justify-content: space-between; }
+      .header-actions { width: 100%; justify-content: space-between; flex-wrap: wrap; }
       .ticker-grid { grid-template-columns: repeat(2, 1fr); }
       .side-column { grid-template-columns: 1fr; }
       .controls { width: 100%; justify-content: space-between; }
@@ -1181,6 +1215,7 @@
       .factor-toggle-grid { grid-template-columns: 1fr; }
       .qqq-condition-result { grid-template-columns: 1fr; }
       .qqq-regime-grid, .qqq-monitor-grid { grid-template-columns: 1fr; }
+      .dca-ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -1206,6 +1241,7 @@
           <span id="clock"></span>
         </div>
         <button type="button" id="clearCacheBtn" class="clear-cache-btn" title="清除数据缓存并重新加载">清除缓存</button>
+        <button type="button" id="refreshPageBtn" class="clear-cache-btn" title="刷新 dashboard 页面">刷新</button>
       </div>
     </header>
 
@@ -1216,7 +1252,10 @@
       <button type="button" class="workspace-tab" data-workspace-tab="semiconductor">半导体周期</button>
       <button type="button" class="workspace-tab" data-workspace-tab="qqq-decision">QQQ 决策</button>
       <button type="button" class="workspace-tab" data-workspace-tab="qqq-risk">QQQ 下跌因子</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="qqq-dca">QQQ 定投框架</button>
       <button type="button" class="workspace-tab" data-workspace-tab="ipo">IPO 日历</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="a-supply-demand">A股供需</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="us-supply-demand">美股供需</button>
     </nav>
 
     <section id="marketsWorkspace" class="workspace active" data-workspace="markets">
@@ -1719,6 +1758,114 @@
       </div>
     </section>
 
+    <section id="qqqDcaWorkspace" class="workspace" data-workspace="qqq-dca">
+      <div class="qqq-risk-dashboard">
+        <div class="qqq-risk-hero">
+          <section class="panel qqq-risk-thesis">
+            <div class="semi-kicker">QQQ DCA DECISION FRAMEWORK</div>
+            <h2>定投本身就是放弃择时，下跌因子只调节投多少，不决定投不投</h2>
+            <p>
+              最关键的一步是先判断这次下跌属于哪一类：技术性回调、估值压缩，还是盈利衰退或泡沫破裂。
+              2000年的教训是：在估值极端时开始定投，单一指数也可能很多年都不回本。
+            </p>
+          </section>
+          <section class="panel qqq-risk-score">
+            <div class="qqq-risk-score-value">调节节奏</div>
+            <div class="qqq-risk-score-label">而非停止投入</div>
+            <div class="qqq-risk-score-note">定性研究框架 · 不含实时数据 · 不构成投资建议</div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">一、先分清是哪一类下跌</div>
+              <div class="panel-note">下跌类型决定加码力度与节奏</div>
+            </div>
+          </div>
+          <div class="factor-table-wrap">
+            <table class="factor-table">
+              <thead><tr><th>类型</th><th>主要驱动</th><th>历史例子</th><th>应对</th></tr></thead>
+              <tbody>
+                <tr><td>技术性回调（−10%～−20%）</td><td>情绪、仓位拥挤</td><td>2018Q4、2024年8月</td><td>正常定投或小幅加码</td></tr>
+                <tr><td>估值压缩</td><td>实际利率上升</td><td>2022（−35%）</td><td>分批加码，节奏放慢</td></tr>
+                <tr><td>盈利衰退或泡沫破裂</td><td>EPS下滑、信用收缩</td><td>2000（−83%，约15年才回本）、2008（−54%）</td><td>拉长加码周期，预留更多现金</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">二、主要因素</div>
+              <div class="panel-note">按重要性排序</div>
+            </div>
+          </div>
+          <div class="qqq-regime-grid dca-factor-grid">
+            <article class="qqq-regime-card"><div class="qqq-regime-date">01 · 估值</div><div class="qqq-regime-title">决定长期回报的上限</div><div class="qqq-regime-copy">前瞻市盈率（Forward PE）的历史分位、股权风险溢价（ERP = 盈利收益率 − 10年期实际利率）、PEG。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">02 · 盈利</div><div class="qqq-regime-title">EPS修正与AI资本开支回报</div><div class="qqq-regime-copy">EPS上调和下调的家数对比（修正广度）、头部大型科技股的利润率。AI资本开支能否兑现回报，是当前最大的单一变量。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">03 · 利率与流动性</div><div class="qqq-regime-title">折现率与美元</div><div class="qqq-regime-copy">10年期TIPS实际利率、美联储政策路径、美元指数（DXY）、净流动性（美联储资产负债表 − TGA − RRP）。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">04 · 信用与衰退信号</div><div class="qqq-regime-title">区分前两类下跌与盈利衰退</div><div class="qqq-regime-copy">高收益债利差（HY OAS）、萨姆规则、初请失业金人数、ISM PMI。收益率曲线由倒挂转为“牛陡”时，往往离衰退更近。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">05 · 集中度与宽度</div><div class="qqq-regime-title">宽度越窄，下跌时越脆弱</div><div class="qqq-regime-copy">前10大成分股权重（约50%以上）、等权纳指QQEW与QQQ的相对强弱、站上200日均线的股票比例。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">06 · 情绪与仓位</div><div class="qqq-regime-title">反向指标，用来择机加码</div><div class="qqq-regime-copy">VIX及其期限结构是否倒挂、看跌/看涨比率（put/call）、AAII投资者情绪、保证金债务、杠杆ETF资金流。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">07 · 事件与政策</div><div class="qqq-regime-title">短期扰动来源</div><div class="qqq-regime-copy">财报季、FOMC、CPI、芯片出口管制、关税、反垄断。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">08 · 中国投资者特有</div><div class="qqq-regime-title">决定实际成本</div><div class="qqq-regime-copy">人民币兑美元汇率（USD/CNY）；纳指QDII ETF溢价率有时达5%～20%，高溢价买入等于先亏掉这部分；QDII额度、限购与换汇渠道。</div></article>
+          </div>
+        </section>
+
+        <div class="qqq-risk-columns">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">三、可执行的规则示例</div>
+                <div class="panel-note">回撤阶梯：从历史高点回撤幅度 → 投入额倍数</div>
+              </div>
+            </div>
+            <div class="dca-ladder">
+              <div class="dca-ladder-step"><small>未回撤</small><strong>1×</strong></div>
+              <div class="dca-ladder-step"><small>−10%</small><strong>1.5×</strong></div>
+              <div class="dca-ladder-step"><small>−20%</small><strong>2×</strong></div>
+              <div class="dca-ladder-step"><small>−30%</small><strong>3×</strong></div>
+              <div class="dca-ladder-step"><small>−40%</small><strong>3×</strong></div>
+            </div>
+            <div class="qqq-callout-list">
+              <div class="qqq-callout"><div class="qqq-callout-title">基础</div><div class="qqq-callout-copy">按固定日期、固定金额定投，只用5年以上不用的钱。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">估值调节</div><div class="qqq-callout-copy">前瞻市盈率分位高于80%时，投入额 ×0.7；低于30%时 ×1.3。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">衰退保险</div><div class="qqq-callout-copy">信用利差快速扩大且盈利修正转负时，放慢加码节奏，把弹药分到更长时间里投。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">资金管理</div><div class="qqq-callout-copy">预留相当于定投额12～24倍的现金作为加码弹药；整体股债比例定期再平衡。</div></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">不做</div>
+                <div class="panel-note">纪律比信号更重要</div>
+              </div>
+            </div>
+            <div class="qqq-callout-list dca-avoid">
+              <div class="qqq-callout"><div class="qqq-callout-title">不止损停投</div><div class="qqq-callout-copy">下跌恰恰是定投摊低成本的阶段。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">不用杠杆ETF定投</div><div class="qqq-callout-copy">波动损耗会在长期震荡中侵蚀本金。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">不因新闻或点位预测改规则</div><div class="qqq-callout-copy">忽略短期新闻、单日涨跌和点位预测这些噪音。</div></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">四、一句话总结</div>
+            </div>
+          </div>
+          <div class="dca-summary">
+            <b>估值</b>决定长期回报，<b>盈利和信用</b>决定跌多深、跌多久，<b>情绪和回撤幅度</b>决定加码的时机，<b>汇率和QDII溢价</b>决定实际成本。
+          </div>
+          <div class="source-note">定性研究框架，历史数据为近似值，不构成投资建议。</div>
+        </section>
+      </div>
+    </section>
+
     <section id="ipoWorkspace" class="workspace" data-workspace="ipo">
       <section class="panel">
         <div class="panel-head">
@@ -1746,6 +1893,55 @@
           </table>
         </div>
         <div id="ipoSource" class="source-note"></div>
+      </section>
+    </section>
+    <section id="asdWorkspace" class="workspace" data-workspace="a-supply-demand">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">A股供需 · 净股权供给 vs 增量资金</div>
+            <div id="asdNote" class="panel-note">正在加载...</div>
+          </div>
+          <div class="panel-actions">
+            <div class="range" aria-label="口径">
+              <button type="button" data-asd-mode="gap" class="active">原口径</button>
+              <button type="button" data-asd-mode="gap_ex_div">扣分红</button>
+            </div>
+          </div>
+        </div>
+        <div id="asdChart" class="chart asd-chart"></div>
+        <div class="asd-table-wrap">
+          <table class="asd-table">
+            <thead id="asdHead"></thead>
+            <tbody id="asdTable"></tbody>
+          </table>
+        </div>
+        <div id="asdSource" class="source-note"></div>
+      </section>
+    </section>
+    <section id="ussdWorkspace" class="workspace" data-workspace="us-supply-demand">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">美股供需 · 净股权供给 vs 增量资金</div>
+            <div id="ussdNote" class="panel-note">正在加载...</div>
+          </div>
+          <div class="panel-actions">
+            <div class="range" aria-label="口径">
+              <button type="button" data-ussd-mode="gap" class="active">原口径</button>
+              <button type="button" data-ussd-mode="gap_ex_div">扣分红</button>
+            </div>
+          </div>
+        </div>
+        <div id="ussdCommentary" class="ussd-commentary" hidden></div>
+        <div id="ussdChart" class="chart asd-chart"></div>
+        <div class="asd-table-wrap">
+          <table class="asd-table">
+            <thead id="ussdHead"></thead>
+            <tbody id="ussdTable"></tbody>
+          </table>
+        </div>
+        <div id="ussdSource" class="source-note"></div>
       </section>
     </section>
     <div class="attribution">
@@ -2781,6 +2977,222 @@
       }
     }
 
+    const asdState = { data: null, chart: null, mode: "gap", loading: false };
+    const ASD_KEY_COLUMNS = new Set(["net_supply", "demand", "gap", "gap_ex_div", "csi300_ret"]);
+    const ASD_SIGNED_COLUMNS = new Set(["gap", "gap_bp", "gap_z6", "gap_ex_div", "gap_ex_div_bp", "gap_ex_div_z6", "csi300_ret", "demand", "margin", "etf"]);
+
+    function formatAsdValue(column, value) {
+      if (value === null || value === undefined) return "--";
+      if (column.unit === "" || column.key.endsWith("_z6")) return value.toFixed(2);
+      if (column.unit === "%" || column.unit === "bp") return value.toFixed(1);
+      return Math.round(value).toLocaleString("zh-CN");
+    }
+
+    function renderAsd() {
+      const data = asdState.data;
+      if (!data) return;
+      const mode = asdState.mode;
+      const label = mode === "gap" ? "供需差" : "供需差(扣分红)";
+      const last = data.rows[data.rows.length - 1];
+      document.getElementById("asdNote").textContent =
+        `${data.display[0]} ~ ${data.display[1]} · 单位 ${data.unit} · 生成于 ${data.generated_at.replace("T", " ")}` +
+        (last ? ` · ${last.month} ${label} ${formatAsdValue({ unit: "亿", key: "" }, last[mode])} 亿，z6 ${formatAsdValue({ unit: "", key: "" }, last[`${mode}_z6`])}` : "");
+
+      if (!asdState.chart) {
+        asdState.chart = createFinancialChart(document.getElementById("asdChart"));
+        asdState.chart.api.priceScale("left").applyOptions({ visible: true });
+      }
+      const chart = asdState.chart;
+      clearChart(chart);
+      const toTime = month => Date.UTC(+month.slice(0, 4), +month.slice(5, 7) - 1, 1) / 1000;
+      const gapData = data.rows.filter(row => row[`${mode}_bp`] !== null).map(row => ({
+        time: toTime(row.month),
+        value: row[`${mode}_bp`],
+        color: row[`${mode}_bp`] >= 0 ? "rgba(50,212,154,.75)" : "rgba(255,101,119,.75)"
+      }));
+      const csiData = data.rows.filter(row => row.csi300_ret !== null).map(row => ({ time: toTime(row.month), value: row.csi300_ret }));
+      const gapSeries = chart.api.addSeries(LightweightCharts.HistogramSeries, {
+        priceFormat: { type: "price", precision: 1, minMove: .1 },
+        priceLineVisible: false
+      });
+      gapSeries.setData(gapData);
+      const csiSeries = chart.api.addSeries(LightweightCharts.LineSeries, {
+        color: "#f5bd59",
+        lineWidth: 2,
+        priceScaleId: "left",
+        pointMarkersVisible: true,
+        priceFormat: { type: "price", precision: 1, minMove: .1 },
+        priceLineVisible: false
+      });
+      csiSeries.setData(csiData);
+      chart.series = [gapSeries, csiSeries];
+      setChartLegend(chart, [
+        { label: `${label}/沪深总市值 (bp，右轴)`, color: "#32d49a", series: gapSeries, data: gapData, formatter: point => `${point.value.toFixed(1)} bp` },
+        { label: "CSI300 月涨幅 (%，左轴)", color: "#f5bd59", series: csiSeries, data: csiData, formatter: point => `${point.value.toFixed(1)}%` }
+      ]);
+      if (!gapData.length) showChartEmpty(chart, "暂无供需数据");
+      chart.api.timeScale().fitContent();
+
+      const columns = data.columns;
+      const groups = [];
+      columns.forEach(column => {
+        const prev = groups[groups.length - 1];
+        if (prev && prev.name === column.group) prev.span += 1;
+        else groups.push({ name: column.group, span: 1 });
+      });
+      document.getElementById("asdHead").innerHTML =
+        `<tr class="asd-groups"><th></th>${groups.map(group => `<th colspan="${group.span}">${escapeHtml(group.name)}</th>`).join("")}</tr>` +
+        `<tr><th>月份</th>${columns.map(column =>
+          `<th>${escapeHtml(column.label)}${column.unit ? `<small>${escapeHtml(column.unit)}</small>` : ""}</th>`).join("")}</tr>`;
+      document.getElementById("asdTable").innerHTML = data.rows.map(row => `<tr><td>${escapeHtml(row.month)}</td>${columns.map(column => {
+        const value = row[column.key];
+        const tone = ASD_SIGNED_COLUMNS.has(column.key) && value ? (value > 0 ? "pos" : "neg") : "";
+        const key = ASD_KEY_COLUMNS.has(column.key) ? "asd-key" : "";
+        return `<td class="${tone} ${key}">${formatAsdValue(column, value)}</td>`;
+      }).join("")}</tr>`).join("");
+      document.getElementById("asdSource").innerHTML =
+        `${escapeHtml(data.formula)}。数据来源：${escapeHtml(data.source)}。` +
+        `<ul>${data.caveats.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul>` +
+        `刷新：<code>cd dashboard; uv run python a-supply-demand/build_panel.py --refresh</code>（设计说明见 a-supply-demand/SKILL.md）`;
+    }
+
+    async function loadAsd() {
+      if (asdState.loading) return;
+      if (asdState.data) return renderAsd();
+      asdState.loading = true;
+      document.getElementById("asdNote").textContent = "正在加载 A股供需面板...";
+      try {
+        const response = await fetch("/api/a-supply-demand", { cache: "no-store" });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+        asdState.data = payload;
+        renderAsd();
+      } catch (error) {
+        console.error("a-supply-demand", error);
+        document.getElementById("asdNote").textContent = `A股供需数据暂不可用：${error.message}`;
+      } finally {
+        asdState.loading = false;
+      }
+    }
+
+    const ussdState = { data: null, chart: null, mode: "gap", loading: false };
+    const USSD_KEY_COLUMNS = new Set(["net_supply", "demand", "gap", "gap_ex_div", "spx_ret"]);
+    const USSD_SIGNED_COLUMNS = new Set(["net_supply", "demand", "gap", "gap_bp", "gap_z3", "gap_z6", "gap_ex_div", "gap_ex_div_bp",
+      "gap_ex_div_z6", "spx_ret", "etf_us_equity", "mf_domestic_equity", "margin", "free_credit", "first_day_median"]);
+
+    function formatUssdValue(column, value) {
+      if (value === null || value === undefined) return "--";
+      if (column.unit === "") return value.toFixed(2);
+      if (column.unit === "家") return String(Math.round(value));
+      return value.toFixed(1);
+    }
+
+    function renderUssd() {
+      const data = ussdState.data;
+      if (!data) return;
+      const mode = ussdState.mode;
+      const label = mode === "gap" ? "供需差" : "供需差(扣分红)";
+      const last = data.rows[data.rows.length - 1];
+      document.getElementById("ussdNote").textContent =
+        `${data.display[0]} ~ ${data.display[1]} · 单位 ${data.unit} · 生成于 ${data.generated_at.replace("T", " ")}` +
+        (last ? ` · ${last.month} ${label} ${formatUssdValue({ unit: "$B" }, last[mode])}，z6 ${formatUssdValue({ unit: "" }, last[`${mode}_z6`])}` : "");
+      const commentary = document.getElementById("ussdCommentary");
+      commentary.hidden = !data.commentary;
+      if (data.commentary) commentary.innerHTML = `<b>${escapeHtml(data.commentary.as_of)} 结论</b> ${escapeHtml(data.commentary.text)}`;
+
+      if (!ussdState.chart) {
+        ussdState.chart = createFinancialChart(document.getElementById("ussdChart"));
+        ussdState.chart.api.priceScale("left").applyOptions({ visible: true });
+      }
+      const chart = ussdState.chart;
+      clearChart(chart);
+      const toTime = month => Date.UTC(+month.slice(0, 4), +month.slice(5, 7) - 1, 1) / 1000;
+      const gapData = data.rows.filter(row => row[`${mode}_bp`] !== null).map(row => ({
+        time: toTime(row.month),
+        value: row[`${mode}_bp`],
+        color: row[`${mode}_bp`] >= 0 ? "rgba(50,212,154,.75)" : "rgba(255,101,119,.75)"
+      }));
+      const spxData = data.rows.filter(row => row.spx_ret !== null).map(row => ({ time: toTime(row.month), value: row.spx_ret }));
+      const gapSeries = chart.api.addSeries(LightweightCharts.HistogramSeries, {
+        priceFormat: { type: "price", precision: 1, minMove: .1 },
+        priceLineVisible: false
+      });
+      gapSeries.setData(gapData);
+      const spxSeries = chart.api.addSeries(LightweightCharts.LineSeries, {
+        color: "#f5bd59",
+        lineWidth: 2,
+        priceScaleId: "left",
+        pointMarkersVisible: true,
+        priceFormat: { type: "price", precision: 1, minMove: .1 },
+        priceLineVisible: false
+      });
+      spxSeries.setData(spxData);
+      chart.series = [gapSeries, spxSeries];
+      setChartLegend(chart, [
+        { label: `${label}/美股总市值 (bp，右轴)`, color: "#32d49a", series: gapSeries, data: gapData, formatter: point => `${point.value.toFixed(1)} bp` },
+        { label: "S&P500 月涨幅 (%，左轴)", color: "#f5bd59", series: spxSeries, data: spxData, formatter: point => `${point.value.toFixed(1)}%` }
+      ]);
+      if (!gapData.length) showChartEmpty(chart, "暂无供需数据");
+      chart.api.timeScale().fitContent();
+
+      const columns = data.columns;
+      const groups = [];
+      columns.forEach(column => {
+        const prev = groups[groups.length - 1];
+        if (prev && prev.name === column.group) prev.span += 1;
+        else groups.push({ name: column.group, span: 1 });
+      });
+      document.getElementById("ussdHead").innerHTML =
+        `<tr class="asd-groups"><th></th>${groups.map(group => `<th colspan="${group.span}">${escapeHtml(group.name)}</th>`).join("")}</tr>` +
+        `<tr><th>月份</th>${columns.map(column =>
+          `<th>${escapeHtml(column.label)}${column.unit ? `<small>${escapeHtml(column.unit)}</small>` : ""}</th>`).join("")}</tr>`;
+      document.getElementById("ussdTable").innerHTML = data.rows.map(row => `<tr><td>${escapeHtml(row.month)}</td>${columns.map(column => {
+        const value = row[column.key];
+        const tone = USSD_SIGNED_COLUMNS.has(column.key) && value ? (value > 0 ? "pos" : "neg") : "";
+        const key = USSD_KEY_COLUMNS.has(column.key) ? "asd-key" : "";
+        return `<td class="${tone} ${key}">${formatUssdValue(column, value)}</td>`;
+      }).join("")}</tr>`).join("");
+      document.getElementById("ussdSource").innerHTML =
+        `${escapeHtml(data.formula)}。数据来源：${escapeHtml(data.source)}。` +
+        `<ul>${data.caveats.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul>` +
+        `刷新：<code>cd dashboard; uv run python tab/us-supply-demand/build_panel.py --refresh</code>（设计说明见 tab/us-supply-demand/SKILL.md）`;
+    }
+
+    async function loadUssd() {
+      if (ussdState.loading) return;
+      if (ussdState.data) return renderUssd();
+      ussdState.loading = true;
+      document.getElementById("ussdNote").textContent = "正在加载美股供需面板...";
+      try {
+        const response = await fetch("/api/us-supply-demand", { cache: "no-store" });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+        ussdState.data = payload;
+        renderUssd();
+      } catch (error) {
+        console.error("us-supply-demand", error);
+        document.getElementById("ussdNote").textContent = `美股供需数据暂不可用：${error.message}`;
+      } finally {
+        ussdState.loading = false;
+      }
+    }
+
+    const DASHBOARD_ZOOM_MIN = 0.8;
+    const DASHBOARD_ZOOM_MAX = 1.4;
+    let dashboardZoom = 1;
+
+    function updateDashboardZoom() {
+      document.documentElement.style.zoom = String(dashboardZoom);
+    }
+
+    function adjustDashboardZoom(amount) {
+      dashboardZoom = Math.max(DASHBOARD_ZOOM_MIN, Math.min(
+        DASHBOARD_ZOOM_MAX,
+        Math.round((dashboardZoom + amount) * 10) / 10
+      ));
+      updateDashboardZoom();
+    }
+
     function activateWorkspace(name) {
       document.querySelectorAll("[data-workspace]").forEach(workspace => {
         workspace.classList.toggle("active", workspace.dataset.workspace === name);
@@ -2798,6 +3210,8 @@
         });
       }
       if (name === "ipo") requestAnimationFrame(loadIpoCalendar);
+      if (name === "a-supply-demand") requestAnimationFrame(loadAsd);
+      if (name === "us-supply-demand") requestAnimationFrame(loadUssd);
     }
 
     dragTrash.addEventListener("dragover", event => {
@@ -4397,6 +4811,12 @@
         const ipoLoaded = Object.keys(ipoState.data).length > 0;
         ipoState.data = {};
         if (ipoLoaded) reloads.push(loadIpoCalendar());
+        const asdLoaded = Boolean(asdState.data);
+        asdState.data = null;
+        if (asdLoaded) reloads.push(loadAsd());
+        const ussdLoaded = Boolean(ussdState.data);
+        ussdState.data = null;
+        if (ussdLoaded) reloads.push(loadUssd());
         await Promise.all(reloads);
       } catch (error) {
         console.error("clear cache", error);
@@ -4444,6 +4864,20 @@
 
     document.getElementById("refreshBtn").addEventListener("click", loadCorrelationData);
     document.getElementById("clearCacheBtn").addEventListener("click", clearDataCache);
+    document.getElementById("refreshPageBtn").addEventListener("click", () => window.location.reload());
+    document.addEventListener("keydown", event => {
+      if (!event.ctrlKey || event.altKey || event.metaKey) return;
+      const zoomIn = event.code === "NumpadAdd" || event.key === "+" || (event.code === "Equal" && event.shiftKey);
+      const zoomOut = event.code === "NumpadSubtract" || (event.key === "-" && !event.shiftKey);
+      if (zoomIn) {
+        event.preventDefault();
+        adjustDashboardZoom(0.1);
+      } else if (zoomOut) {
+        event.preventDefault();
+        adjustDashboardZoom(-0.1);
+      }
+    });
+    updateDashboardZoom();
     document.getElementById("closeMacroDialog").addEventListener("click", () => {
       document.getElementById("macroIndicatorDialog").close();
     });
@@ -4470,6 +4904,20 @@
       });
     });
     document.getElementById("refreshSemiBtn").addEventListener("click", loadSemiDashboard);
+    document.querySelectorAll("[data-asd-mode]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-asd-mode]").forEach(item => item.classList.toggle("active", item === button));
+        asdState.mode = button.dataset.asdMode;
+        renderAsd();
+      });
+    });
+    document.querySelectorAll("[data-ussd-mode]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-ussd-mode]").forEach(item => item.classList.toggle("active", item === button));
+        ussdState.mode = button.dataset.ussdMode;
+        renderUssd();
+      });
+    });
     document.querySelectorAll("[data-ipo-market], [data-ipo-period]").forEach(button => {
       button.addEventListener("click", () => {
         const attribute = button.dataset.ipoMarket ? "ipoMarket" : "ipoPeriod";

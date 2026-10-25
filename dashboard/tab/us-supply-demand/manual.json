@@ -1,0 +1,196 @@
+{
+ "updated": "2026-10-25",
+ "commentary": {
+  "as_of": "2026-09",
+  "text": "7月：供需差全年最弱（扣分红 +$26B / 3bp，z6 −1.2）。供给端有 SK hynix ADR（$26.5B）等，IPO 合计 $31.5B，6–7 月共 ~$116B；需求端融资余额 −$85B 去杠杆，券商现金 −$18B。8月：融资余额回补 +$37B，ETF +$76B，供需差回到 +$157B（z6 ≈ 0）。但内部人卖出升至 $18.9B，是年内高点。9月：ETF 流入降至 $38B（年内次低），IPO 只有 6 家，首日破发率 75%、首日中位数 −6%，一级市场明显降温；同月美联储加息 25bp，10Y 5.27%。z6 −0.4，偏弱但没有失衡。结论：美股净股权供给长期为负（回购+分红 ≈ $150B/月，大于发行），供需差的边际变化主要由 ETF 和杠杆资金驱动。三季度需求在降温，情绪指标领先走弱。留意 12 月：SpaceX（$75B，6/12 上市）锁定期到期，届时 lockup_ref 会出现尖峰。"
+ },
+ "monthly": {
+  "etf_us_equity": {
+   "2025-10": 66.6,
+   "2025-11": 75.6,
+   "2025-12": 125.9,
+   "2026-01": 45.1,
+   "2026-02": 47.2,
+   "2026-03": 30.7,
+   "2026-04": 103.9,
+   "2026-05": 97.0,
+   "2026-06": 100.9,
+   "2026-07": 82.9,
+   "2026-08": 76.0,
+   "2026-09": 38.4
+  },
+  "mf_domestic_equity": {
+   "2025-10": null,
+   "2025-11": -73.142,
+   "2025-12": -114.841,
+   "2026-01": null,
+   "2026-02": null,
+   "2026-03": null,
+   "2026-04": null,
+   "2026-05": null,
+   "2026-06": null,
+   "2026-07": -70.65,
+   "2026-08": -85.97,
+   "2026-09": null
+  }
+ },
+ "quarterly": {
+  "follow_on": {
+   "2025Q4": 40.0,
+   "2026Q1": 42.0,
+   "2026Q2": 50.0,
+   "2026Q3": 50.0
+  },
+  "convertible": {
+   "2025Q4": 35.0,
+   "2026Q1": 31.0,
+   "2026Q2": 59.0,
+   "2026Q3": 40.0
+  },
+  "buyback": {
+   "2025Q4": 283.7,
+   "2026Q1": 283.7,
+   "2026Q2": 283.7
+  },
+  "dividend": {
+   "2025Q4": 170.0,
+   "2026Q1": 170.0,
+   "2026Q2": 170.0
+  }
+ },
+ "finra": {
+  "unit": "USD millions: [margin debit, free credit cash, free credit margin]",
+  "source": "https://www.finra.org/rules-guidance/key-topics/margin-accounts/margin-statistics",
+  "values": {
+   "2025-10": [
+    1183654,
+    197923,
+    195376
+   ],
+   "2025-11": [
+    1214321,
+    202131,
+    194418
+   ],
+   "2025-12": [
+    1225597,
+    211720,
+    199762
+   ],
+   "2026-01": [
+    1279042,
+    203700,
+    196911
+   ],
+   "2026-02": [
+    1253192,
+    205060,
+    200047
+   ],
+   "2026-03": [
+    1220922,
+    221860,
+    205600
+   ],
+   "2026-04": [
+    1304281,
+    217836,
+    215445
+   ],
+   "2026-05": [
+    1415557,
+    206600,
+    217256
+   ],
+   "2026-06": [
+    1502072,
+    217441,
+    223412
+   ],
+   "2026-07": [
+    1417225,
+    205132,
+    217305
+   ],
+   "2026-08": [
+    1453832,
+    207641,
+    217499
+   ],
+   "2026-09": [
+    1480054,
+    215328,
+    218581
+   ]
+  }
+ },
+ "sources": {
+  "etf_us_equity": {
+   "2025-10": "https://www.ftportfolios.com/Commentary/Insights/2025/11/10/asset-flows-monitor-november-2025-edition",
+   "2025-11": "https://www.ftportfolios.com/Commentary/Insights/2025/12/4/asset-flows-monitor-december-2025-edition",
+   "2025-12": "https://www.ftportfolios.com/Commentary/Insights/2026/1/9/asset-flows-monitor-january-2026-edition",
+   "2026-01": "https://www.ftportfolios.com/Commentary/Insights/2026/2/6/asset-flows-monitor-february-2026-edition",
+   "2026-02": "https://www.ftportfolios.com/Commentary/Insights/2026/3/10/asset-flows-monitor-march-2026-edition",
+   "2026-03": "https://www.ftportfolios.com/Commentary/Insights/2026/4/8/asset-flows-monitor-april-2026-edition",
+   "2026-04": "https://www.ftportfolios.com/Commentary/Insights/2026/5/7/asset-flows-monitor-may-2026-edition",
+   "2026-05": "https://www.ftportfolios.com/Commentary/Insights/2026/6/10/asset-flows-monitor-june-2026-edition",
+   "2026-06": "https://www.ftportfolios.com/Commentary/Insights/2026/7/13/asset-flows-monitor-july-2026-edition",
+   "2026-07": "https://www.ftportfolios.com/Commentary/Insights/2026/8/12/asset-flows-monitor-august-2026-edition",
+   "2026-08": "https://www.ftportfolios.com/Commentary/Insights/2026/9/8/asset-flows-monitor-september-2026-edition",
+   "2026-09": "https://www.ftportfolios.com/Commentary/Insights/2026/10/8/asset-flows-monitor-october-2026-edition"
+  },
+  "etf_all_equity": {
+   "2025-10": "https://www.ftportfolios.com/Commentary/Insights/2025/11/10/asset-flows-monitor-november-2025-edition",
+   "2025-11": "https://www.ftportfolios.com/Commentary/Insights/2025/12/4/asset-flows-monitor-december-2025-edition",
+   "2025-12": "https://www.ftportfolios.com/Commentary/Insights/2026/1/9/asset-flows-monitor-january-2026-edition",
+   "2026-01": "https://www.ftportfolios.com/Commentary/Insights/2026/2/6/asset-flows-monitor-february-2026-edition",
+   "2026-02": "https://www.ftportfolios.com/Commentary/Insights/2026/3/10/asset-flows-monitor-march-2026-edition",
+   "2026-03": "https://www.ftportfolios.com/Commentary/Insights/2026/4/8/asset-flows-monitor-april-2026-edition",
+   "2026-04": "https://www.ftportfolios.com/Commentary/Insights/2026/5/7/asset-flows-monitor-may-2026-edition",
+   "2026-05": "https://www.ftportfolios.com/Commentary/Insights/2026/6/10/asset-flows-monitor-june-2026-edition",
+   "2026-06": "https://www.ftportfolios.com/Commentary/Insights/2026/7/13/asset-flows-monitor-july-2026-edition",
+   "2026-07": "https://www.ftportfolios.com/Commentary/Insights/2026/8/12/asset-flows-monitor-august-2026-edition",
+   "2026-08": "https://www.ftportfolios.com/Commentary/Insights/2026/9/8/asset-flows-monitor-september-2026-edition",
+   "2026-09": "https://www.ftportfolios.com/Commentary/Insights/2026/10/8/asset-flows-monitor-october-2026-edition"
+  },
+  "mf_domestic_equity": {
+   "2025-11": "https://www.prnewswire.com/news-releases/trends-in-mutual-fund-investing-december-2025-302674394.html",
+   "2025-12": "https://www.prnewswire.com/news-releases/trends-in-mutual-fund-investing-december-2025-302674394.html",
+   "2026-07": "https://www.ici.org/research/stats/trends_08_26",
+   "2026-08": "https://www.ici.org/research/stats/trends_08_26"
+  },
+  "follow_on": {
+   "2026Q1": "https://icrinc.com/news-resources/q1-2026-equity-capital-markets-review/",
+   "2026Q2": "https://icrinc.com/news-resources/1h-2026-equity-capital-markets-review/ minus Q1 (https://icrinc.com/news-resources/q1-2026-equity-capital-markets-review/)",
+   "2026Q3": "https://icrinc.com/news-resources/q3-2026-equity-capital-markets-review/",
+   "2025Q4": "估算：Houlihan Lokey ~$33B vs 其他 ~$47.2B 取中"
+  },
+  "convertible": {
+   "2026Q1": "https://icrinc.com/news-resources/q1-2026-equity-capital-markets-review/",
+   "2026Q2": "https://icrinc.com/news-resources/1h-2026-equity-capital-markets-review/ minus Q1 (https://icrinc.com/news-resources/q1-2026-equity-capital-markets-review/)",
+   "2026Q3": "https://icrinc.com/news-resources/q3-2026-equity-capital-markets-review/",
+   "2025Q4": "估算：Matthews South ~$33.6B / Numerix ~$36B"
+  },
+  "buyback": {
+   "*": "估算：Neuberger Berman 2026-09 引 S&P 500 截至 2026-06 TTM 回购 ≈ $1.10T，减 Q3'25 $249.0B（S&P DJI）后均分三个季度"
+  },
+  "dividend": {
+   "*": "估算：S&P DJI Q3'25 分红 $168.1B，按 ~$170B/季 持平"
+  }
+ },
+ "caveats": [
+  "回购/分红 2025Q4–2026Q2 为估算（S&P DJI 2026 年季度报告尚未可得），刷新时优先替换为官方值",
+  "共同基金（ICI）仅 2025-11/12、2026-07/08 有数，暂不计入增量资金；美股主动权益基金长期净流出（每月约 −$70~−115B），会抵消大部分 ETF 流入"
+ ],
+ "notes": [
+  "ETF values (FactSet via First Trust ETF Data Watch: Asset Flows Monitor) parsed directly from each monthly PDF; each edition reports the prior month. etf_all_equity = 'Equity ETFs had net inflows totaling ...' bullet.",
+  "mf_domestic_equity 2025-11 (-73.142) and 2025-12 (-114.841) verified from the ICI 'Trends in Mutual Fund Investing: December 2025' release on PR Newswire (net new cash flow table, millions). FY2025 domestic equity MF NNCF = -1,052.3B.",
+  "mf_domestic_equity 2026-07 (-70.65) and 2026-08 (-85.97) come only from web_search summaries quoting ICI trends_08_26 (ici.org 403, NOT directly verified; same summary claimed Jan-Aug 2026 YTD -539.96B). A later search result reused these exact numbers for Jan/Feb 2026, so treat with caution.",
+  "Other mf_domestic_equity months not found: ICI posted only the Dec-2025 Trends release to PR Newswire; ici.org/iciglobal.org blocked; search results for other months were hallucinated/Indian AMFI data. ICI Sep-2026 Trends release not yet out (normally ~end of following month). Morningstar (search summary) said US equity funds (likely MF+ETF, open-end) had ~$32B outflow in Sep 2026 - not used.",
+  "follow_on 2026Q1 = ICR follow-ons $35B + blocks $7B. follow_on 2026Q2 = ICR 1H 2026 '$92 billion raised across 163 follow-ons' minus Q1 $42B (assumes 1H figure includes blocks; if it excludes blocks, Q2 follow-ons ex-blocks would be ~$57B). Q2 includes Alphabet's record $44.75B follow-on. follow_on 2026Q3 = ICR 'approximately $50 billion across follow-ons and block trades'.",
+  "convertible 2026Q1 = ICR $31B; 2026Q2 derived = ICR 1H $90B minus Q1 $31B = $59B; 2026Q3 = ICR 'exceeding $40 billion' (lower bound).",
+  "2025Q4 follow_on/convertible: ICR has no Q4-2025 page (FY2025 page gives only IPOs: 73 raising ~$44B). Conflicting unverified search-summary candidates: follow-ons ~$33B across 111 deals (Houlihan Lokey FY2025 ECM update / CMG) vs ~$47.2B; US converts ~$33.6B (Matthews South 2025 year-end review) vs North America ~$36B (Numerix). FY2025 US converts ~$123-124B. ICR Q3 2025 converts $34B. Left null.",
+  "IPOs for context (ICR): Q1 2026 21 IPOs ~$10B; 1H 2026 69 IPOs ~$132B (incl. SpaceX $86B) => Q2 ~44 IPOs ~$122B; Q3 2026 20 IPOs ~$33B.",
+  "buyback/dividend: S&P DJI has not posted 2026 S&P 500 buyback releases on press.spglobal.com (latest is Q3 2025: buybacks $249.0B, dividends $168.1B; 12M to Sep-2025 buybacks $1.020T, dividends $664.9B). Q4 2025-Q3 2026 quarterly totals not found. Neuberger Berman (Sep 2026) cites S&P 500 buybacks of ~$1.10T for 12 months to June 2026 (not quarterly). S&P DJI Jan-2026 dividend release gives only per-share/indicated changes (US common indicated dividend increase +$13.1B in Q4 2025)."
+ ]
+}

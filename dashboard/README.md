@@ -45,6 +45,27 @@ The `IPO 日历` tab shows the last 5 years of IPO proceeds for A-shares
 and the US (Nasdaq IPO calendar API), aggregated by day or month in local
 currency (亿). `/api/ipo?market=a|hk|us` caches each market for 6 hours.
 
+## A股供需
+
+The `A股供需` tab compares monthly net equity supply (IPO + placements + rights +
+convertibles + insider selling − buybacks − dividends − insider buying) against
+incremental funds (new equity funds + margin financing change + SSE equity ETF net
+creations), with the gap scaled by market cap, a 6-month z-score and the CSI300
+monthly return. `/api/a-supply-demand` only reads the offline file
+`a-supply-demand/panel.json`; refresh it with
+`uv run python a-supply-demand/build_panel.py --refresh` (≈5 min). Methodology and
+refresh notes are in `a-supply-demand/SKILL.md`.
+
+## 美股供需
+
+The `美股供需` tab applies the same framework to US equities: IPO + follow-ons +
+converts + insider selling − buybacks − dividends − insider buying versus US
+equity ETF flows + margin debt change, scaled by Wilshire 5000 market cap, with
+z-scores, the S&P 500 monthly return and IPO sentiment. Auto sources (Nasdaq,
+openinsider, Yahoo, FINRA) are combined with AI-maintained `manual.json`.
+Refresh with `uv run python tab/us-supply-demand/build_panel.py --refresh`; see
+`tab/us-supply-demand/SKILL.md`.
+
 ## Market time axis
 
 Market and multi-asset comparison charts use an equally spaced UTC calendar-day
