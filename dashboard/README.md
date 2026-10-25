@@ -38,6 +38,13 @@ uv run python dashboard/dashboard_server.py
 
 The dashboard opens automatically at `http://localhost:8765`.
 
+## IPO calendar
+
+The `IPO 日历` tab shows the last 5 years of IPO proceeds for A-shares
+(AKShare `stock_xgsglb_em`), Hong Kong (Eastmoney `hk.eastmoney.com/ipolist`)
+and the US (Nasdaq IPO calendar API), aggregated by day or month in local
+currency (亿). `/api/ipo?market=a|hk|us` caches each market for 6 hours.
+
 ## Market time axis
 
 Market and multi-asset comparison charts use an equally spaced UTC calendar-day

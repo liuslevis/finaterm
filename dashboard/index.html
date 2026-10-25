@@ -618,6 +618,22 @@
     .workspace { display: none; }
     .workspace.active { display: block; }
 
+    #ipoChart { height: 300px; }
+    .ipo-table-wrap { position: relative; max-height: 460px; overflow: auto; border-top: 1px solid var(--line); }
+    .ipo-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .ipo-table th, .ipo-table td { padding: 8px 14px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    .ipo-table th { position: sticky; top: 0; background: #0d1924; color: var(--muted); font-weight: 650; }
+    .ipo-table th:first-child, .ipo-table td:first-child { text-align: left; font-family: "SFMono-Regular", Consolas, monospace; }
+    .ipo-table td:nth-child(2), .ipo-table td:nth-child(3) { font-family: "SFMono-Regular", Consolas, monospace; }
+    .ipo-table th:last-child, .ipo-table td:last-child { text-align: left; white-space: normal; color: var(--muted); }
+    .ipo-table tr.upcoming td:first-child { color: var(--amber); }
+    #ipoChart canvas { cursor: pointer; }
+    .ipo-table tbody tr { cursor: pointer; }
+    .ipo-table tr.selected td { background: rgba(56,215,197,.10); color: var(--text); }
+    .ipo-detail { display: none; flex-wrap: wrap; gap: 4px 14px; }
+    .ipo-table tr.selected .ipo-names { display: none; }
+    .ipo-table tr.selected .ipo-detail { display: flex; }
+
     .semi-dashboard { display: grid; gap: 14px; }
     .semi-hero {
       display: grid;
@@ -1200,6 +1216,7 @@
       <button type="button" class="workspace-tab" data-workspace-tab="semiconductor">半导体周期</button>
       <button type="button" class="workspace-tab" data-workspace-tab="qqq-decision">QQQ 决策</button>
       <button type="button" class="workspace-tab" data-workspace-tab="qqq-risk">QQQ 下跌因子</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="ipo">IPO 日历</button>
     </nav>
 
     <section id="marketsWorkspace" class="workspace active" data-workspace="markets">
@@ -1700,6 +1717,36 @@
           </div>
         </section>
       </div>
+    </section>
+
+    <section id="ipoWorkspace" class="workspace" data-workspace="ipo">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">IPO 日历</div>
+            <div id="ipoNote" class="panel-note">近 5 年 · 募资额</div>
+          </div>
+          <div class="panel-actions">
+            <div class="range" aria-label="市场">
+              <button type="button" data-ipo-market="a" class="active">A股</button>
+              <button type="button" data-ipo-market="hk">港股</button>
+              <button type="button" data-ipo-market="us">美股</button>
+            </div>
+            <div class="range" aria-label="聚合">
+              <button type="button" data-ipo-period="day">日</button>
+              <button type="button" data-ipo-period="month" class="active">月</button>
+            </div>
+          </div>
+        </div>
+        <div id="ipoChart" class="chart ipo-chart"></div>
+        <div class="ipo-table-wrap">
+          <table class="ipo-table">
+            <thead><tr><th>日期</th><th>家数</th><th>募资</th><th>公司</th></tr></thead>
+            <tbody id="ipoTable"></tbody>
+          </table>
+        </div>
+        <div id="ipoSource" class="source-note"></div>
+      </section>
     </section>
     <div class="attribution">
       Charts powered by
@@ -2623,6 +2670,117 @@
       }
     }
 
+    const IPO_MARKETS = {
+      a: { label: "A股", dateNote: "上市日（未上市取申购日）" },
+      hk: { label: "港股", dateNote: "上市日" },
+      us: { label: "美股", dateNote: "定价日" }
+    };
+    const ipoState = { market: "a", period: "month", data: {}, chart: null, selected: null };
+
+    function aggregateIpoRows(rows, period) {
+      const buckets = new Map();
+      rows.forEach(row => {
+        const key = period === "month" ? row.date.slice(0, 7) : row.date;
+        const bucket = buckets.get(key) || { key, count: 0, amount: 0, upcoming: false, rows: [] };
+        bucket.count += 1;
+        bucket.amount += row.amount || 0;
+        bucket.upcoming ||= row.upcoming;
+        bucket.rows.push(row);
+        buckets.set(key, bucket);
+      });
+      return [...buckets.values()].sort((a, b) => a.key.localeCompare(b.key));
+    }
+
+    function renderIpoCalendar() {
+      const payload = ipoState.data[ipoState.market];
+      if (!payload) return;
+      const market = IPO_MARKETS[ipoState.market];
+      const unit = `亿${payload.currency}`;
+      const buckets = aggregateIpoRows(payload.rows, ipoState.period);
+      const total = buckets.reduce((sum, bucket) => sum + bucket.amount, 0);
+      document.getElementById("ipoNote").textContent =
+        `近 5 年 · ${payload.rows.length} 家 · ${total.toFixed(0)} ${unit} · 日期=${market.dateNote}`;
+      document.getElementById("ipoSource").textContent =
+        `数据来源：${payload.source}。募资额单位 ${unit}；黄色为未上市/待定价，缺失发行价的计入家数不计金额。`;
+
+      if (!ipoState.chart) {
+        ipoState.chart = createFinancialChart(document.getElementById("ipoChart"));
+        ipoState.chart.api.subscribeClick(param => {
+          if (typeof param.time !== "number") return;
+          const iso = new Date(param.time * 1000).toISOString();
+          selectIpoBucket(ipoState.period === "month" ? iso.slice(0, 7) : iso.slice(0, 10));
+        });
+      }
+      const chart = ipoState.chart;
+      clearChart(chart);
+      const data = buckets.map(bucket => ({
+        time: Date.UTC(+bucket.key.slice(0, 4), +bucket.key.slice(5, 7) - 1, +(bucket.key.slice(8, 10) || 1)) / 1000,
+        value: bucket.amount,
+        color: bucket.upcoming ? "#f5bd59" : "#38d7c5"
+      }));
+      const series = chart.api.addSeries(LightweightCharts.HistogramSeries, {
+        priceFormat: { type: "price", precision: 1, minMove: .1 },
+        priceLineVisible: false
+      });
+      series.setData(data);
+      chart.series = [series];
+      setChartLegend(chart, [{
+        label: `${market.label} IPO 募资`,
+        color: "#38d7c5",
+        series,
+        data,
+        formatter: point => `${point.value.toFixed(2)} ${unit}`
+      }]);
+      if (!data.length) showChartEmpty(chart, "暂无 IPO 数据");
+      chart.api.timeScale().fitContent();
+
+      document.getElementById("ipoTable").innerHTML = buckets.slice().reverse().map(bucket => {
+        const top = bucket.rows.slice().sort((a, b) => (b.amount || 0) - (a.amount || 0));
+        const label = row => `${row.name}${row.amount ? ` ${row.amount.toFixed(1)}` : ""}`;
+        const names = top.slice(0, 4).map(label).join("、") + (top.length > 4 ? ` 等${top.length}家` : "");
+        const detail = top.map(row =>
+          `<span>${escapeHtml(row.code)} ${escapeHtml(label(row))}${row.upcoming ? " · 待上市" : ""}${ipoState.period === "month" ? ` · ${row.date.slice(5)}` : ""}</span>`
+        ).join("");
+        return `<tr class="${bucket.upcoming ? "upcoming" : ""}" data-ipo-key="${bucket.key}">
+          <td>${bucket.key}</td><td>${bucket.count}</td><td>${bucket.amount.toFixed(2)}</td>
+          <td><div class="ipo-names">${escapeHtml(names)}</div><div class="ipo-detail">${detail}</div></td>
+        </tr>`;
+      }).join("");
+      if (ipoState.selected) selectIpoBucket(ipoState.selected, false);
+    }
+
+    function selectIpoBucket(key, scroll = true) {
+      ipoState.selected = key;
+      let target = null;
+      document.querySelectorAll("#ipoTable tr").forEach(row => {
+        const match = row.dataset.ipoKey === key;
+        row.classList.toggle("selected", match);
+        if (match) target = row;
+      });
+      if (target && scroll) {
+        const wrap = target.closest(".ipo-table-wrap");
+        wrap.scrollTo({ top: target.offsetTop - wrap.clientHeight / 3, behavior: "smooth" });
+      }
+    }
+
+    async function loadIpoCalendar() {
+      const market = ipoState.market;
+      if (ipoState.data[market]) return renderIpoCalendar();
+      document.getElementById("ipoNote").textContent = `正在加载${IPO_MARKETS[market].label} IPO 数据...`;
+      try {
+        const response = await fetch(`/api/ipo?market=${market}`, { cache: "no-store" });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+        ipoState.data[market] = payload;
+        if (ipoState.market === market) renderIpoCalendar();
+      } catch (error) {
+        console.error("ipo calendar", error);
+        if (ipoState.market === market) {
+          document.getElementById("ipoNote").textContent = `IPO 数据暂不可用：${error.message}`;
+        }
+      }
+    }
+
     function activateWorkspace(name) {
       document.querySelectorAll("[data-workspace]").forEach(workspace => {
         workspace.classList.toggle("active", workspace.dataset.workspace === name);
@@ -2639,6 +2797,7 @@
           if (!semiState.loaded) loadSemiDashboard();
         });
       }
+      if (name === "ipo") requestAnimationFrame(loadIpoCalendar);
     }
 
     dragTrash.addEventListener("dragover", event => {
@@ -4235,6 +4394,9 @@
         void preloadAllMarketDataPoints([...state.tickers, ...state.selected]);
         const reloads = [loadCorrelationData(), loadMacroCalendar(), loadMacroHistory()];
         if (semiState.loaded) reloads.push(loadSemiDashboard());
+        const ipoLoaded = Object.keys(ipoState.data).length > 0;
+        ipoState.data = {};
+        if (ipoLoaded) reloads.push(loadIpoCalendar());
         await Promise.all(reloads);
       } catch (error) {
         console.error("clear cache", error);
@@ -4308,6 +4470,21 @@
       });
     });
     document.getElementById("refreshSemiBtn").addEventListener("click", loadSemiDashboard);
+    document.querySelectorAll("[data-ipo-market], [data-ipo-period]").forEach(button => {
+      button.addEventListener("click", () => {
+        const attribute = button.dataset.ipoMarket ? "ipoMarket" : "ipoPeriod";
+        document.querySelectorAll(attribute === "ipoMarket" ? "[data-ipo-market]" : "[data-ipo-period]")
+          .forEach(item => item.classList.toggle("active", item === button));
+        if (attribute === "ipoMarket") ipoState.market = button.dataset.ipoMarket;
+        else ipoState.period = button.dataset.ipoPeriod;
+        ipoState.selected = null;
+        loadIpoCalendar();
+      });
+    });
+    document.getElementById("ipoTable").addEventListener("click", event => {
+      const row = event.target.closest("tr[data-ipo-key]");
+      if (row) selectIpoBucket(row.dataset.ipoKey, false);
+    });
     document.getElementById("saveOpinionBtn").addEventListener("click", saveCurrentOpinion);
 
     function setupMovablePanels() {

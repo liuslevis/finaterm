@@ -186,6 +186,11 @@ def main() -> int:
         assert "/无权限|权限不足|行情权限/.test(message)" in page
         assert "Futu OpenD 已连接，但账号没有" in page
         assert 'row.value === null || row.value === undefined || row.value === ""' in page
+        assert 'data-workspace-tab="ipo"' in page
+        assert 'id="ipoWorkspace"' in page
+        assert 'data-ipo-period="month" class="active"' in page
+        assert "function aggregateIpoRows(rows, period)" in page
+        assert "function selectIpoBucket(key, scroll = true)" in page
         with CACHE_LOCK:
             CACHE["integration:test"] = (0.0, b"cached", "text/plain")
         request = urllib.request.Request(f"{base}/api/cache", method="DELETE")
@@ -246,6 +251,15 @@ def main() -> int:
         assert expected <= set(usdata.get("series", {}))
         assert all(usdata["series"][key].get("observations") for key in expected)
         print("PASS usdata MCP series")
+
+        for market, currency in (("a", "CNY"), ("hk", "HKD"), ("us", "USD")):
+            ipo = json.loads(get(f"{base}/api/ipo?market={market}", timeout=180))
+            rows = ipo.get("rows") or []
+            assert ipo.get("currency") == currency
+            assert len(rows) > 100, f"{market}: too few IPO rows"
+            assert rows == sorted(rows, key=lambda row: row["date"])
+            assert sum(row["amount"] or 0 for row in rows) > 0
+            print(f"PASS IPO calendar {market}")
 
         now = datetime.now(timezone.utc)
         query = urllib.parse.urlencode(

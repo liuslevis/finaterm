@@ -1,9 +1,13 @@
 import argparse
-from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor
+from datetime import date, datetime, timedelta
 import hmac
+import html
 import json
+import math
 import mimetypes
 import os
+import re
 import socket
 import subprocess
 import threading
@@ -245,6 +249,153 @@ def fetch_akshare_index(symbol: str, range_key: str) -> dict:
     return {"provider": "akshare", "symbol": symbol, "rows": rows}
 
 
+IPO_YEARS = 5
+IPO_TTL = 6 * 3600
+HK_IPO_ROW = re.compile(
+    r'hk/(\d{5})\.html">\1</a>.*?hk/\1\.html">([^<]*)</a>.*?'
+    r"<span>([^<]*)</span>.*?<span>([^<]*)</span>.*?<span>([^<]*)</span>.*?"
+    r"<span>([^<]*)</span>.*?<span>(\d{4}-\d{2}-\d{2})</span>",
+    re.S,
+)
+
+
+def ipo_cutoff() -> date:
+    return date.today() - timedelta(days=365 * IPO_YEARS + 2)
+
+
+def ipo_row(day: date, code: str, name: str, amount: float | None) -> dict:
+    return {
+        "date": day.isoformat(),
+        "code": code,
+        "name": name,
+        "amount": None if amount is None or math.isnan(amount) else round(amount, 4),
+        "upcoming": day > date.today(),
+    }
+
+
+def parse_cn_amount(text: str) -> float | None:
+    """'30.59亿' / '8664.83万' -> 亿."""
+    match = re.fullmatch(r"\s*([\d.]+)\s*(亿|万)?\s*", text or "")
+    if not match:
+        return None
+    value = float(match.group(1))
+    return value if match.group(2) == "亿" else value / 1e4 if match.group(2) == "万" else value / 1e8
+
+
+def fetch_ipo_a() -> list[dict]:
+    import pandas as pd
+
+    frame = ak.stock_xgsglb_em(symbol="全部股票")
+    listed = pd.to_datetime(frame["上市日期"], errors="coerce")
+    applied = pd.to_datetime(frame["申购日期"], errors="coerce")
+    days = listed.fillna(applied)
+    amounts = pd.to_numeric(frame["发行总数"], errors="coerce") * pd.to_numeric(
+        frame["发行价格"], errors="coerce"
+    ) / 1e4
+    rows = []
+    for day, code, name, amount, is_listed in zip(
+        days, frame["股票代码"], frame["股票简称"], amounts, listed.notna()
+    ):
+        if pd.isna(day) or day.date() < ipo_cutoff():
+            continue
+        row = ipo_row(day.date(), str(code), str(name), float(amount))
+        row["upcoming"] = row["upcoming"] or not is_listed
+        rows.append(row)
+    return rows
+
+
+def fetch_ipo_hk() -> list[dict]:
+    rows = []
+    cutoff = ipo_cutoff()
+    for page in range(1, 80):
+        suffix = "" if page == 1 else f"_{page}"
+        request = urllib.request.Request(
+            f"https://hk.eastmoney.com/ipolist{suffix}.html", headers=DEFAULT_HEADERS
+        )
+        with urllib.request.urlopen(request, timeout=30) as response:
+            text = response.read().decode("utf-8", errors="replace")
+        matches = HK_IPO_ROW.findall(text)
+        if not matches:
+            break
+        for code, name, _price, _shares, funds, _offer, listed in matches:
+            day = date.fromisoformat(listed)
+            if day >= cutoff:
+                rows.append(ipo_row(day, code, html.unescape(name), parse_cn_amount(funds)))
+        if date.fromisoformat(matches[-1][-1]) < cutoff:
+            break
+    if not rows:
+        raise RuntimeError("Eastmoney HK IPO list returned no rows")
+    return rows
+
+
+def fetch_nasdaq_ipo_month(month: str) -> dict:
+    request = urllib.request.Request(
+        f"https://api.nasdaq.com/api/ipo/calendar?date={month}",
+        headers={**DEFAULT_HEADERS, "Accept": "application/json"},
+    )
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return json.loads(response.read()).get("data") or {}
+        except (urllib.error.URLError, TimeoutError, socket.timeout):
+            if attempt == 2:
+                raise
+            time.sleep(1 + attempt)
+    return {}
+
+
+def fetch_ipo_us() -> list[dict]:
+    cutoff = ipo_cutoff()
+    today = date.today()
+    months = []
+    year, month = cutoff.year, cutoff.month
+    end = (today.year + 1, 1) if today.month == 12 else (today.year, today.month + 1)
+    while (year, month) <= end:
+        months.append(f"{year}-{month:02d}")
+        year, month = (year + 1, 1) if month == 12 else (year, month + 1)
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        payloads = list(pool.map(fetch_nasdaq_ipo_month, months))
+
+    deals: dict[str, dict] = {}
+    for data in payloads:
+        tables = [
+            (data.get("priced") or {}).get("rows"),
+            ((data.get("upcoming") or {}).get("upcomingTable") or {}).get("rows"),
+        ]
+        for row in (item for table in tables for item in table or []):
+            raw_day = row.get("pricedDate") or row.get("expectedPriceDate")
+            try:
+                day = datetime.strptime(raw_day or "", "%m/%d/%Y").date()
+            except ValueError:
+                continue
+            if day < cutoff:
+                continue
+            dollars = re.sub(r"[^\d.]", "", row.get("dollarValueOfSharesOffered") or "")
+            key = row.get("dealID") or f"{row.get('companyName')}:{raw_day}"
+            deals[key] = ipo_row(
+                day,
+                row.get("proposedTickerSymbol") or "",
+                row.get("companyName") or "",
+                float(dollars) / 1e8 if dollars else None,
+            )
+    return list(deals.values())
+
+
+IPO_MARKETS = {
+    "a": ("CNY", "akshare / 东方财富", fetch_ipo_a),
+    "hk": ("HKD", "东方财富港股", fetch_ipo_hk),
+    "us": ("USD", "Nasdaq", fetch_ipo_us),
+}
+
+
+def fetch_ipo(market: str) -> dict:
+    if market not in IPO_MARKETS:
+        raise ValueError("Unsupported IPO market")
+    currency, source, loader = IPO_MARKETS[market]
+    rows = sorted(loader(), key=lambda row: row["date"])
+    return {"market": market, "currency": currency, "unit": "亿", "source": source, "rows": rows}
+
+
 class DashboardHandler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
@@ -312,6 +463,10 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
         if request.path == "/api/usdata":
             self.handle_usdata()
+            return
+
+        if request.path == "/api/ipo":
+            self.handle_ipo(request)
             return
 
         if request.path in ("/", "/index.html"):
@@ -394,6 +549,18 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_json_error(504, "usdata MCP request timed out")
         except Exception as error:
             self.send_json_error(502, f"usdata MCP unavailable: {error}")
+
+    def handle_ipo(self, request: urllib.parse.ParseResult) -> None:
+        market = (urllib.parse.parse_qs(request.query).get("market") or [""])[0]
+        try:
+            body = cached_json(f"ipo:{market}", IPO_TTL, lambda: fetch_ipo(market))
+            self.send_body(200, body, "application/json; charset=utf-8")
+        except ValueError as error:
+            self.send_json_error(400, str(error))
+        except (urllib.error.URLError, TimeoutError, socket.timeout):
+            self.send_json_error(504, "IPO data source timed out")
+        except Exception as error:
+            self.send_json_error(502, f"IPO data unavailable: {error}")
 
     def send_json_error(self, status: int, message: str) -> None:
         body = json.dumps({"error": message}, ensure_ascii=False).encode("utf-8")
