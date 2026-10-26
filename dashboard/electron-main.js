@@ -7,6 +7,7 @@ const path = require("node:path");
 const DASHBOARD_URL_PATTERN = /^Finance dashboard: (http:\/\/127\.0\.0\.1:\d+\/)$/;
 const HEALTH_PATH = "__finance_dashboard_health";
 const HEALTH_ID = "finance-dashboard-uv-v2";
+const DASHBOARD_PORT = "8765";
 const smokeTest = process.argv.includes("--smoke-test");
 
 let mainWindow;
@@ -63,7 +64,7 @@ function startDashboard() {
         "-u",
         path.join(dashboardRoot, "dashboard_server.py"),
         "--port",
-        "0",
+        DASHBOARD_PORT,
         "--no-browser",
       ],
       {
