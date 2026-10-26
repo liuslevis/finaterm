@@ -4867,7 +4867,7 @@
     document.getElementById("refreshPageBtn").addEventListener("click", () => window.location.reload());
     document.addEventListener("keydown", event => {
       if (!event.ctrlKey || event.altKey || event.metaKey) return;
-      const zoomIn = event.code === "NumpadAdd" || event.key === "+" || (event.code === "Equal" && event.shiftKey);
+      const zoomIn = event.code === "NumpadAdd" || event.code === "Equal" || event.key === "=";
       const zoomOut = event.code === "NumpadSubtract" || (event.key === "-" && !event.shiftKey);
       if (zoomIn) {
         event.preventDefault();
