@@ -107,3 +107,82 @@ node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP
 | 港/美待上市（备选） | `FutuOpenD/skills/futuapi/scripts/quote/get_ipo_list.py HK --json` | — | 只有当前管道，无募资额、无历史 |
 
 窗口长度改 `IPO_YEARS`，缓存改 `IPO_TTL`。
+
+### 国家队ETF：刷新与历史重建
+
+详细数据口径见 `dashboard/tab/a-etf-share/SKILL.md`。后端只读
+`tab/a-etf-share/panel.json`，清缓存不会下载新数据，必须先离线重建。
+
+**普通窗口刷新**（以下命令在 `dashboard/` 运行，不要在仓库根运行 akshare）：
+
+```bash
+uv run python tab/a-etf-share/build_panel.py --refresh --start 2025-10-27
+```
+
+`--end YYYY-MM-DD` 指定结束日，默认昨天；省略 `--refresh` 复用原始缓存。
+上交所份额按交易日逐日请求，十年历史可能耗时一小时以上；不要用 `| tail`
+遮住进度，也不要因为暂时没有输出反复重启下载。
+
+**2016 起的长历史**：2026-10-27 实测嘉实 159919 份额最早返回
+2016-10-28，故四只 ETF 的共同窗口从该日开始，不代表 2016 年初已有完整数据。
+脚本会额外取起始日前 45 天作预热，而 `compute()` 要求输入首日四只份额齐全；
+直接 `--start 2016-10-28` 仍可能报「窗口起始日缺少 ETF 份额数据」。
+不能把缺失份额填零或向过去回填，也不要删除已经下载的缓存重来。
+
+以下用临时计算输入裁掉共同窗口之前的指数日期，保留完整原始缓存，调用原有
+`compute/monthly/to_json` 生成面板，无需修改计算口径：
+
+```bash
+uv run python - <<'PY'
+import importlib.util
+import json
+from datetime import datetime, timedelta
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+import pandas as pd
+
+spec = importlib.util.spec_from_file_location("etf_panel", "tab/a-etf-share/build_panel.py")
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+start = "2016-10-28"
+end = pd.Timestamp((datetime.now() - timedelta(days=1)).date())
+refresh = False  # 更新到最新交易日时改为 True；已有完整下载时保持 False
+m.ensure_raw(pd.Timestamp(start), end, refresh)
+raw = m.RAW
+csi = m.load("csi300")
+end = min(end, csi.date.max()).strftime("%Y-%m-%d")
+with TemporaryDirectory(prefix="etf-rebuild-") as tmp:
+    m.RAW = Path(tmp)
+    for path in raw.iterdir():
+        if path.is_file() and path.name != "csi300.csv":
+            (m.RAW / path.name).symlink_to(path)
+    csi.loc[csi.date.between(start, end)].to_csv(m.RAW / "csi300.csv", index=False)
+    panel, anchor = m.compute()
+    payload = m.to_json(panel, m.monthly(panel), anchor, start, end)
+    assert payload["daily"][0]["d"] == start
+    assert payload["daily"][-1]["d"] == end
+    assert panel.aum.gt(0).all()
+    assert panel[[f"shares_{code}" for code in m.CODES]].gt(0).all().all()
+    encoded = json.dumps(payload, ensure_ascii=False, indent=1, allow_nan=False)
+    panel.round(4).to_csv(m.HERE / "panel.csv", encoding="utf-8-sig")
+    (m.HERE / "panel.json").write_text(encoded, encoding="utf-8")
+    print(payload["display"], len(payload["daily"]), "个交易日")
+    print("沿用前值的交易日：", int(panel.coverage.lt(4).sum()))
+PY
+```
+
+若刷新后数据源不再提供指定起始日的四只份额，应停止并确认可用区间，不要自动缩短历史。
+共同窗口首日没有前一天嘉实份额，首日净申赎按现有逻辑为零，不代表实际没有申赎。
+区间内缺失份额按现有逻辑前向填充，检查 `panel.csv` 的 `coverage`（完整为 4）；
+流通市值是当前快照按指数等比回溯，十年历史的绝对占比不能视为精确值，
+不能套用短窗口文档中的「1%～2%」误差说明。
+
+**验证与提交**：
+
+- 运行 `uv run python -c "import dashboard_server as s; d=s.fetch_a_etf_share(); print(d['display'], len(d['daily']))"`，
+  确认起止日期与行数；按上文截图步骤检查 `a-etf-share`，就绪表达式为 `aesState.data`。
+- 重新进入 tab 或点「清除缓存」重新请求面板，不用重启服务。
+- 提交 `panel.csv`、`panel.json`，以及需要归档的 `raw/csi300.csv`、
+  `raw/prices.csv`、`raw/sse_shares.csv`、`raw/szse_shares.csv`、`raw/float_mcap.json`。
+  原始缓存若被忽略，仅对这些明确的数据文件使用 `git add -f`，不要强制加入整个目录。
