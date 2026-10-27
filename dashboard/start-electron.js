@@ -7,21 +7,30 @@ const appRoot = __dirname;
 const electronPackage = require("electron/package.json");
 const sourceExecutable = require("electron");
 const sourceRoot = path.dirname(sourceExecutable);
-const localAppData =
-  process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local");
-const runtimeRoot = path.join(
-  localAppData,
-  "FinanceDashboard",
-  "electron-runtime",
-  electronPackage.version,
-);
-const runtimeExecutable = path.join(runtimeRoot, "electron.exe");
-const runtimeMarker = path.join(runtimeRoot, ".complete");
 
-if (!fs.existsSync(runtimeMarker)) {
-  fs.mkdirSync(runtimeRoot, { recursive: true });
-  fs.cpSync(sourceRoot, runtimeRoot, { recursive: true, force: true });
-  fs.writeFileSync(runtimeMarker, electronPackage.version, "utf8");
+let runtimeExecutable;
+
+if (process.platform === "win32") {
+  // Windows：复制一份运行时到 LOCALAPPDATA，避开 node_modules 路径问题。
+  const localAppData =
+    process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local");
+  const runtimeRoot = path.join(
+    localAppData,
+    "FinanceDashboard",
+    "electron-runtime",
+    electronPackage.version,
+  );
+  runtimeExecutable = path.join(runtimeRoot, "electron.exe");
+  const runtimeMarker = path.join(runtimeRoot, ".complete");
+
+  if (!fs.existsSync(runtimeMarker)) {
+    fs.mkdirSync(runtimeRoot, { recursive: true });
+    fs.cpSync(sourceRoot, runtimeRoot, { recursive: true, force: true });
+    fs.writeFileSync(runtimeMarker, electronPackage.version, "utf8");
+  }
+} else {
+  // macOS / Linux：直接使用 node_modules 里的 Electron 可执行文件。
+  runtimeExecutable = sourceExecutable;
 }
 
 const launcherArguments = process.argv.slice(2);
