@@ -197,6 +197,12 @@ def main() -> int:
         assert 'id="asdWorkspace"' in page
         assert 'data-workspace-tab="us-supply-demand"' in page
         assert 'id="ussdWorkspace"' in page
+        assert 'data-workspace-tab="a-etf-share"' in page
+        assert 'id="aesWorkspace"' in page
+        assert 'data-aes-metric="ratio" class="active"' in page
+        assert 'data-aes-flow="w" class="active"' in page
+        assert "function renderAesFlow()" in page
+        assert 'if (name === "a-etf-share") requestAnimationFrame(loadAes);' in page
         with CACHE_LOCK:
             CACHE["integration:test"] = (0.0, b"cached", "text/plain")
         request = urllib.request.Request(f"{base}/api/cache", method="DELETE")
@@ -269,6 +275,16 @@ def main() -> int:
         assert {"net_supply", "demand", "gap", "gap_z6", "spx_ret"} <= keys
         assert ussd["rows"] and all(row["gap"] is not None for row in ussd["rows"])
         print("PASS us-supply-demand panel")
+
+        aes = json.loads(get(f"{base}/api/a-etf-share"))
+        assert {"ratio", "aum", "shares", "flow"} <= {column["key"] for column in aes["columns"]}
+        assert {etf["code"] for etf in aes["etfs"]} == {"510300", "510330", "159919", "510310"}
+        assert len(aes["daily"]) > 200
+        assert all(row["ratio"] is not None for row in aes["daily"])
+        assert all(row["s_510300"] and row["s_159919"] for row in aes["daily"])
+        assert aes["monthly"] and all(row["ratio"] is not None for row in aes["monthly"])
+        assert 0 < aes["kpi"]["ratio"] < aes["kpi"]["peak"]
+        print("PASS a-etf-share panel")
 
         for market, currency in (("a", "CNY"), ("hk", "HKD"), ("us", "USD")):
             ipo = json.loads(get(f"{base}/api/ipo?market={market}", timeout=180))

@@ -416,6 +416,16 @@ def fetch_us_supply_demand() -> dict:
     return json.loads(US_SUPPLY_DEMAND_PANEL.read_text(encoding="utf-8"))
 
 
+A_ETF_SHARE_PANEL = ROOT / "tab" / "a-etf-share" / "panel.json"
+
+
+def fetch_a_etf_share() -> dict:
+    # 面板由 tab/a-etf-share/build_panel.py 离线生成，设计与刷新见同目录 SKILL.md
+    if not A_ETF_SHARE_PANEL.exists():
+        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/a-etf-share/build_panel.py")
+    return json.loads(A_ETF_SHARE_PANEL.read_text(encoding="utf-8"))
+
+
 class DashboardHandler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
@@ -503,6 +513,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self.send_body(200, body, "application/json; charset=utf-8")
             except Exception as error:
                 self.send_json_error(502, f"美股供需面板不可用：{error}")
+            return
+
+        if request.path == "/api/a-etf-share":
+            try:
+                body = json.dumps(fetch_a_etf_share(), ensure_ascii=False).encode("utf-8")
+                self.send_body(200, body, "application/json; charset=utf-8")
+            except Exception as error:
+                self.send_json_error(502, f"国家队ETF占比面板不可用：{error}")
             return
 
         if request.path in ("/", "/index.html"):

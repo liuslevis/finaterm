@@ -96,6 +96,7 @@ node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP
 | IPO 日历 | ipo | `/api/ipo?market=a\|hk\|us`（6h 缓存） | `loadIpoCalendar`, `renderIpoCalendar`, `aggregateIpoRows`, `selectIpoBucket`（点柱子 `subscribeClick` → 表格滚动高亮并展开全部公司） |
 | A股供需 | a-supply-demand | `/api/a-supply-demand` 只读离线文件 `a-supply-demand/panel.json`（由 `build_panel.py` 生成，方法论见 `dashboard/a-supply-demand/SKILL.md`） | `loadAsd`, `renderAsd`（`data-asd-mode` 切换原口径/扣分红） |
 | 美股供需 | us-supply-demand | `/api/us-supply-demand` 只读离线文件 `tab/us-supply-demand/panel.json`（`build_panel.py` + AI 维护的 `manual.json`，见 `dashboard/tab/us-supply-demand/SKILL.md`） | `loadUssd`, `renderUssd`（`data-ussd-mode`） |
+| 国家队ETF | a-etf-share | `/api/a-etf-share` 只读离线文件 `tab/a-etf-share/panel.json`（四只头部沪深300ETF 市值/沪深300流通市值，见 `dashboard/tab/a-etf-share/SKILL.md`） | `loadAes`, `renderAes`（`data-aes-metric` 切占比/市值，`data-aes-flow` 切日/周/月） |
 ### IPO 日历数据源（更新时参考）
 
 | 市场 | 源 | 函数 | 要点 |

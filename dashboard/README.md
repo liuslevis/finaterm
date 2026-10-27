@@ -66,6 +66,20 @@ openinsider, Yahoo, FINRA) are combined with AI-maintained `manual.json`.
 Refresh with `uv run python tab/us-supply-demand/build_panel.py --refresh`; see
 `tab/us-supply-demand/SKILL.md`.
 
+## 国家队ETF
+
+The `国家队ETF` tab tracks the "national team" (Central Huijin and friends) by the
+share-count route: the combined market value of the four largest CSI 300 ETFs
+(510300 华泰柏瑞, 510330 华夏, 159919 嘉实, 510310 易方达) divided by the CSI 300
+free-float market cap, plus each ETF's shares outstanding and an estimated net
+creation/redemption series (Δ shares × close). A rising ratio means the head ETFs
+are being bought, a falling one means net redemptions. The sample covers only four
+ETFs, so the level sits below the all-fund total — read the trend, not the level.
+`/api/a-etf-share` only reads the offline file `tab/a-etf-share/panel.json`;
+refresh it with `uv run python tab/a-etf-share/build_panel.py --refresh` (≈2 min,
+one SSE request per trading day). Methodology and caveats are in
+`tab/a-etf-share/SKILL.md`.
+
 ## Market time axis
 
 Market and multi-asset comparison charts use an equally spaced UTC calendar-day
