@@ -15,6 +15,7 @@ import csv
 import io
 import json
 import os
+import shutil
 import struct
 import threading
 from collections import OrderedDict
@@ -22,6 +23,7 @@ from functools import lru_cache
 
 import py7zr
 
+from .archive_layout import code_of, extract as archive_layout_extract, find_stock_dir, seven_zip
 from .parquet_store import Store as ParquetStore
 from .paths import archive_dir, parquet_candidates
 
@@ -146,9 +148,9 @@ def _build_index(date: str) -> dict:
             for f in a.list():
                 if f.is_directory:
                     continue
-                parts = f.filename.split("/")
-                if len(parts) >= 3 and parts[1]:
-                    index.setdefault(parts[1], []).append(f.filename)
+                code = code_of(f.filename)
+                if code:
+                    index.setdefault(code, []).append(f.filename)
     date_dir = os.path.join(CACHE_DIR, date)
     os.makedirs(date_dir, exist_ok=True)
     ipath = os.path.join(date_dir, "_index.json")
@@ -228,25 +230,34 @@ def ensure_extracted(code: str, date: str) -> str:
     os.makedirs(dest, exist_ok=True)
     stage_root = os.path.join(CACHE_DIR, date, "_stage")
     with _archive_lock:
-        last = None
-        for attempt in range(3):
-            try:
-                with py7zr.SevenZipFile(_archive_path(date), "r") as a:
-                    a.extract(path=stage_root, targets=members)
-                last = None
-                break
-            except Exception as e:  # noqa: BLE001  py7zr 偶发 Bad7zFile，清临时目录重试
-                last = e
-                import shutil as _sh
-                _sh.rmtree(stage_root, ignore_errors=True)
-        if last is not None:
-            raise last
-    # 归档内路径为 <date>/<code>/<name>，移动到 cache/<date>/<code>/<name>
-    staged = os.path.join(stage_root, date, code)
-    for n in needed:
-        src = os.path.join(staged, n)
-        if os.path.exists(src):
-            os.replace(src, os.path.join(dest, n))
+        if seven_zip() is not None:
+            # 优先 7z 命令行：流式、内存有界，且能正确处理平铺/嵌套两种布局
+            shutil.rmtree(stage_root, ignore_errors=True)
+            archive_layout_extract(_archive_path(date), stage_root, members)
+        else:
+            last = None
+            for _attempt in range(3):
+                try:
+                    with py7zr.SevenZipFile(_archive_path(date), "r") as a:
+                        a.extract(path=stage_root, targets=members)
+                    last = None
+                    break
+                except Exception as e:  # noqa: BLE001  py7zr 偶发 Bad7zFile
+                    last = e
+                    shutil.rmtree(stage_root, ignore_errors=True)
+            if last is not None:
+                raise last
+        # 归档内路径要么 <date>/<code>/<name>（旧），要么 <code>/<name>
+        # （2026-01~06 重导版本）。不假定层级，按目录名找代码目录。
+        staged = find_stock_dir(stage_root, code)
+        if staged is None:
+            raise FileNotFoundError(f"抽取后未找到 {code} 的 CSV 目录: {stage_root}")
+        for n in needed:
+            src = os.path.join(staged, n)
+            if os.path.exists(src):
+                os.replace(src, os.path.join(dest, n))
+        # 抽完即清，否则每只股票都会在缓存里留一份几 MB 的 CSV 副本
+        shutil.rmtree(stage_root, ignore_errors=True)
     return dest
 
 

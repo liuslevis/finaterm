@@ -21,6 +21,7 @@ import argparse
 import json
 import os
 import shutil
+import subprocess
 import sys
 import time
 
@@ -36,6 +37,7 @@ import pyarrow.csv as pacsv  # noqa: E402
 import pyarrow.parquet as pq  # noqa: E402
 import py7zr  # noqa: E402
 
+from app.archive_layout import code_of  # noqa: E402
 from app.parquet_store import (  # noqa: E402
     CATALOG_SCHEMA, DEFAULT_ROOT, ORDERS_SCHEMA, PRICE_SCALE, QUOTES_SCHEMA,
     SCHEMA_VERSION, TRADES_SCHEMA, WRITE_OPTS, Store, _DICT_COLS,
@@ -87,9 +89,10 @@ def scan_codes(date: str) -> list[str]:
         for f in a.list():
             if f.is_directory:
                 continue
-            parts = f.filename.replace("\\", "/").split("/")
-            if len(parts) >= 3 and parts[1]:
-                codes.add(parts[1])
+            # 兼容 <date>/<code>/<file>（旧）与 <code>/<file>（2026-01~06 重导）
+            code = code_of(f.filename)
+            if code:
+                codes.add(code)
     return sorted(codes)
 
 
@@ -118,6 +121,19 @@ def _body(path: str) -> bytes:
     return raw[i + 1:] if i >= 0 else b""
 
 
+def _width_of(body: bytes, fallback: int) -> int:
+    """从数据段首行探测字段数。
+
+    2026-01~06 重导归档比旧归档少一个**尾部空列**（委托 10 vs 11、
+    成交 12 vs 13、行情 66 vs 67），若按固定列宽喂 pyarrow 会因
+    "expected N columns" 整体回退到 pandas，慢 16 倍。这里按实际宽度读，
+    我们需要的列下标（委托 ≤9、成交 ≤11、行情 ≤60）两种布局都覆盖。
+    """
+    first = body.split(b"\n", 1)[0]
+    n = first.count(b",") + 1
+    return n if n >= 1 else fallback
+
+
 def _read_table(path: str, width: int, int_cols: set[int],
                 include: list[int] | None = None) -> tuple[pa.Table, str]:
     """读 GBK CSV 为 arrow 表。
@@ -130,13 +146,17 @@ def _read_table(path: str, width: int, int_cols: set[int],
     （如委托价格 ``2^64 - 10000``，实为 -1.00 元的市价委托哨兵）。
     uint64 全部装得下，再由 :func:`_i64` 按二补码还原成 int64。
     """
-    names = [f"c{i}" for i in range(width)]
-    use = include if include is not None else list(range(width))
-    types = {f"c{i}": (pa.uint64() if i in int_cols else pa.string()) for i in use}
     body = _body(path)
     if not body.strip():
         # 只有表头的空 CSV：直接返回空表，不必走回退路径
-        return pa.table({f"c{i}": pa.array([], type=types[f"c{i}"]) for i in use}), "arrow"
+        m = _width_of(b"c0", width)
+        use0 = include if include is not None else list(range(width))
+        types0 = {f"c{i}": (pa.uint64() if i in int_cols else pa.string()) for i in use0}
+        return pa.table({f"c{i}": pa.array([], type=types0[f"c{i}"]) for i in use0}), "arrow"
+    ncol = _width_of(body, width)
+    names = [f"c{i}" for i in range(ncol)]
+    use = include if include is not None else list(range(ncol))
+    types = {f"c{i}": (pa.uint64() if i in int_cols else pa.string()) for i in use}
     try:
         t = pacsv.read_csv(
             pa.BufferReader(body),
@@ -149,7 +169,7 @@ def _read_table(path: str, width: int, int_cols: set[int],
         return t, "arrow"
     except Exception as e:  # noqa: BLE001
         log(f"    回退 pandas 解析（{path}: {type(e).__name__}: {e}）")
-        return _read_table_pandas(path, width, int_cols, use), "pandas"
+        return _read_table_pandas(path, ncol, int_cols, use), "pandas"
 
 
 def _read_table_pandas(path: str, width: int, int_cols: set[int],
@@ -381,37 +401,90 @@ def catalog_row(date_str: str, code: str, q: dict, n_events: int) -> dict:
 # --------------------------------------------------------------------------- #
 # 单日转换
 # --------------------------------------------------------------------------- #
-LOCK_NAME = ".build.lock"
+LOCK_NAME = ".build.lock"          # 单进程模式的锁（兼容旧调用）
+MANIFEST_LOCK = ".manifest.lock"   # manifest 合并的短临界区锁
 LOCK_STALE = 1800  # 秒；单日转换约 10 分钟，超过 30 分钟视为残留
 
 
-def acquire_lock(store: Store) -> str:
-    """同一 root 只允许一个转换进程，避免并发写坏 manifest 与分片。"""
+def acquire_lock(store: Store, slots: int = 1) -> str:
+    """占一个转换槽位；同一 root 同时最多 ``slots`` 个进程。
+
+    ``slots=1`` 时退化为原来的单进程锁 ``.build.lock``。并行构建由外部
+    调度器把交易日切成互不相交的分组（见 scripts/build_parallel.py），
+    这里只负责防止同一槽位被重复占用（比如误手工再起一个）。
+    """
     os.makedirs(store.meta_dir, exist_ok=True)
-    path = os.path.join(store.meta_dir, LOCK_NAME)
-    for _ in range(2):
+    cands = ([os.path.join(store.meta_dir, LOCK_NAME)] if slots <= 1 else
+             [os.path.join(store.meta_dir, f".build-{k}.lock") for k in range(slots)])
+    deadline = time.time() + 300
+    while True:
+        for path in cands:
+            try:
+                fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                os.write(fd, f"pid={os.getpid()} at={int(time.time())}\n".encode())
+                os.close(fd)
+                return path
+            except FileExistsError:
+                try:
+                    age = time.time() - os.path.getmtime(path)
+                except OSError:
+                    age = LOCK_STALE + 1
+                if age > LOCK_STALE:
+                    log(f"发现过期构建锁（{age/60:.0f} 分钟），接管: {path}")
+                    try:
+                        os.remove(path)
+                    except OSError:
+                        pass
+                    continue
+        if time.time() > deadline:
+            busy = "\n".join(f"  {p}" for p in cands)
+            raise SystemExit(
+                f"{slots} 个转换槽位都被占用，{store.root}\n{busy}\n"
+                f"  若确认没有进程在跑，删除这些锁文件后重试。")
+        time.sleep(2)
+
+
+def merge_manifest(store: Store, date_str: str, info: dict) -> None:
+    """把单个交易日的转换结果并入 manifest（并行安全）。
+
+    并行构建时多个进程各自只写自己那天的分片目录，唯一共享状态就是
+    manifest。这里用短临界区：占锁 -> 重读磁盘上的最新版本 -> 合并 ->
+    原子替换，避免后写者整份覆盖掉别人刚写入的交易日。
+    """
+    lockp = os.path.join(store.meta_dir, MANIFEST_LOCK)
+    got = False
+    deadline = time.time() + 120
+    while not got:
         try:
-            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-            os.write(fd, f"pid={os.getpid()} at={int(time.time())}\n".encode())
+            fd = os.open(lockp, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(fd, f"pid={os.getpid()}\n".encode())
             os.close(fd)
-            return path
+            got = True
         except FileExistsError:
             try:
-                age = time.time() - os.path.getmtime(path)
+                age = time.time() - os.path.getmtime(lockp)
             except OSError:
-                age = LOCK_STALE + 1
-            if age > LOCK_STALE:
-                log(f"发现过期构建锁（{age/60:.0f} 分钟），接管")
+                age = 0.0
+            if age > 120:
+                log(f"发现过期 manifest 锁（{age:.0f}s），接管")
                 try:
-                    os.remove(path)
+                    os.remove(lockp)
                 except OSError:
                     pass
                 continue
-            raise SystemExit(
-                f"另一个转换进程正在写 {store.root}\n"
-                f"  锁文件 {path} 距今 {age/60:.1f} 分钟\n"
-                f"  若确认没有进程在跑，删除该锁文件后重试。")
-    raise SystemExit(f"无法获取构建锁: {path}")
+            if time.time() > deadline:
+                raise SystemExit(f"无法获取 manifest 锁: {lockp}")
+            time.sleep(0.05)
+    try:
+        m = store.manifest()          # 重读，拿别人已写入的交易日
+        m["dates"][date_str] = info
+        store.save_manifest(m)        # tmp + os.replace，原子
+        store._m = m
+    finally:
+        try:
+            os.remove(lockp)
+        except OSError:
+            pass
 
 
 def release_lock(path: str) -> None:
@@ -421,24 +494,76 @@ def release_lock(path: str) -> None:
         pass
 
 
-def _extract(store: Store, src: str, temp: str, targets: list[str] | None,
-             date_str: str) -> None:
-    """解压归档到 temp；py7zr 偶发路径校验失败时清理重试，再失败则全量解压。"""
+_7Z_CANDIDATES = [
+    os.environ.get("HFQ_7Z", ""),
+    r"C:\ProgramData\chocolatey\tools\7z.exe",
+    r"C:\Program Files\7-Zip\7z.exe",
+    r"C:\Program Files (x86)\7-Zip\7z.exe",
+]
+
+
+def seven_zip() -> str | None:
+    """找 7z 命令行；找不到返回 None（回退 py7zr）。"""
+    for c in _7Z_CANDIDATES:
+        if c and os.path.exists(c):
+            return c
+    for name in ("7z", "7za", "7zr"):
+        p = shutil.which(name)
+        if p:
+            return p
+    return None
+
+
+def _extract_cli(exe: str, src: str, temp: str, patterns: list[str] | None,
+                 date_str: str) -> None:
+    """用 7z 命令行全量/按模式解压。
+
+    为什么不用 py7zr：py7zr 1.1.3 在这些 30k 成员的单块归档上 ``extractall``
+    会把解压结果整体堆在内存里（实测虚拟内存冲到 110+ GB，把整机打到提交
+    上限、桌面进程崩掉重启）。7z 命令行流式写盘，解 45 GB 提交内存只涨
+    几百 MB，而且快一倍。
+    """
     temp = os.path.abspath(temp)
-    attempts = [targets, targets, None]
+    os.makedirs(temp, exist_ok=True)
+    cmd = [exe, "x", "-y", f"-o{temp}", src, "-bso0", "-bsp0"]
+    if patterns:
+        cmd.extend(patterns)
+    t0 = time.perf_counter()
+    proc = subprocess.run(cmd, capture_output=True)
+    if proc.returncode != 0:
+        tail = proc.stdout.decode("utf-8", "replace")[-400:] or \
+            proc.stderr.decode("utf-8", "replace")[-400:]
+        if proc.returncode == 1:  # 1 = 有警告但成功
+            log(f"[{date_str}] 7z 警告: {tail.strip()[:200]}")
+        else:
+            raise RuntimeError(f"7z rc={proc.returncode}: {tail}")
+    log(f"[{date_str}] 7z 解压完成 {time.perf_counter() - t0:.0f}s")
+
+
+def _extract(store: Store, src: str, temp: str, targets: list[str] | None,
+             date_str: str, patterns: list[str] | None = None) -> None:
+    """解压归档到 temp。
+
+    优先用 7z 命令行（流式、内存有界）；没有就把 targets 交给 py7zr 做
+    定向抽取（py7zr 的定向抽取是流式的，只有 ``extractall`` 会爆内存）。
+    """
+    exe = seven_zip()
+    if exe:
+        _extract_cli(exe, src, temp, patterns, date_str)
+        return
     last: Exception | None = None
-    for i, tg in enumerate(attempts):
+    for i in range(3):
         try:
             if i:
                 shutil.rmtree(temp, ignore_errors=True)
                 os.makedirs(temp, exist_ok=True)
-                log(f"[{date_str}] 解压重试 #{i} "
-                    f"({'targets' if tg else 'extractall'})")
+                log(f"[{date_str}] 解压重试 #{i}")
             with py7zr.SevenZipFile(src, "r") as a:
-                if tg is None:
+                if targets is None:
+                    # 无 7z 命令行时才走这里；poly 归档建议先装 7-Zip
                     a.extractall(path=temp)
                 else:
-                    a.extract(path=temp, targets=tg)
+                    a.extract(path=temp, targets=targets)
             return
         except Exception as e:  # noqa: BLE001
             last = e
@@ -469,13 +594,17 @@ def convert_date(store: Store, date_str: str, temp_root: str,
         log(f"[{date_str}] 解压 {os.path.getsize(src)/1024**3:.2f} GB -> {temp}")
         t0 = time.perf_counter()
         if only_codes:
-            # 只取指定标的，避免整档解压（solid 归档仍会解压途经块，但快于全量）
+            # 只取指定标的。7z 命令行用通配模式，天然兼容平铺/嵌套两种布局；
+            # 没有 7z 时退回 py7zr 的定向抽取（流式，内存有界）。
             wanted = set(only_codes)
-            with py7zr.SevenZipFile(src, "r") as a:
-                targets = [f.filename for f in a.list()
-                           if not f.is_directory
-                           and f.filename.replace("\\", "/").split("/")[1] in wanted]
-            _extract(store, src, temp, targets, date_str)
+            if seven_zip():
+                _extract(store, src, temp, None, date_str,
+                         patterns=[f"*{c}*" for c in sorted(wanted)])
+            else:
+                with py7zr.SevenZipFile(src, "r") as a:
+                    targets = [f.filename for f in a.list()
+                               if not f.is_directory and code_of(f.filename) in wanted]
+                _extract(store, src, temp, targets, date_str)
         else:
             _extract(store, src, temp, None, date_str)
         t_extract = time.perf_counter() - t0
@@ -616,6 +745,10 @@ def main():
     ap.add_argument("--keep-temp", action="store_true")
     ap.add_argument("--reuse-temp", action="store_true",
                     help="临时目录已有解压结果时跳过解压（断点续跑）")
+    ap.add_argument("--slots", type=int, default=1,
+                    help="允许同时写同一 root 的进程数（并行构建时由调度器设定）")
+    ap.add_argument("--summary", action="store_true",
+                    help="结束时打印数据集概览（会遍历整个 root，并行时别开）")
     args = ap.parse_args()
 
     all_dates = list_archives()
@@ -660,7 +793,7 @@ def main():
     os.makedirs(args.temp, exist_ok=True)
     todo = [d for d in targets if args.force or d not in store._m["dates"]]
     log(f"待处理 {len(todo)}/{len(targets)} 个交易日")
-    lock = acquire_lock(store)
+    lock = acquire_lock(store, args.slots)
     try:
         t_all = time.perf_counter()
         for i, d in enumerate(todo, 1):
@@ -668,12 +801,13 @@ def main():
             info = convert_date(store, d, args.temp, args.codes,
                                 args.keep_temp, args.reuse_temp)
             info["codes_list"] = len(store.list_codes(d))
-            store._m["dates"][d] = info
-            store.save_manifest(store._m)
+            # 并行构建时不能整份覆盖 manifest：走短临界区重读+合并
+            merge_manifest(store, d, info)
 
         if len(todo) > 1:
             log(f"\n合计耗时 {(time.perf_counter()-t_all)/60:.1f} 分钟")
-        _print_summary(store)
+        if args.summary:
+            _print_summary(store)
     finally:
         release_lock(lock)
 

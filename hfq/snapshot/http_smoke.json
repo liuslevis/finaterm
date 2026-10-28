@@ -2,133 +2,133 @@
   {
     "label": "health",
     "ok": true,
-    "note": "dates=59",
-    "ms": 12.74
+    "note": "dates=175",
+    "ms": 13.63
   },
   {
     "label": "dates",
     "ok": true,
-    "note": "59 天",
-    "ms": 1.79
+    "note": "175 天",
+    "ms": 15.06
   },
   {
     "label": "stocks(20260901)",
     "ok": true,
     "note": "7895 只",
-    "ms": 396.78
+    "ms": 319.23
   },
   {
     "label": "basic 20260901/000001.SZ",
     "ok": true,
     "note": "last=11.92 涨幅=1.71%",
-    "ms": 1088.86
+    "ms": 879.82
   },
   {
     "label": "events 20260901/000001.SZ",
     "ok": true,
     "note": "total=292200",
-    "ms": 56.7
+    "ms": 49.82
   },
   {
     "label": "ordermap 20260901/000001.SZ",
     "ok": true,
     "note": "买77943 卖73392",
-    "ms": 328.6
+    "ms": 248.37
   },
   {
     "label": "books 20260901/000001.SZ",
     "ok": true,
     "note": "4824 帧",
-    "ms": 53.25
+    "ms": 59.95
   },
   {
     "label": "intraday 20260901/000001.SZ",
     "ok": true,
     "note": "4763 点",
-    "ms": 32.26
+    "ms": 34.51
   },
   {
     "label": "orders 20260901/000001.SZ",
     "ok": true,
     "note": "total=152352",
-    "ms": 218.54
+    "ms": 164.67
   },
   {
     "label": "basic 20260630/000001.SZ",
     "ok": true,
     "note": "last=10.05 涨幅=-1.86%",
-    "ms": 1143.27
+    "ms": 2676.72
   },
   {
     "label": "events 20260630/000001.SZ",
     "ok": true,
     "note": "total=268901",
-    "ms": 56.09
+    "ms": 48.1
   },
   {
     "label": "ordermap 20260630/000001.SZ",
     "ok": true,
     "note": "买75442 卖64065",
-    "ms": 304.69
+    "ms": 232.78
   },
   {
     "label": "books 20260630/000001.SZ",
     "ok": true,
     "note": "4828 帧",
-    "ms": 71.68
+    "ms": 38.08
   },
   {
     "label": "intraday 20260630/000001.SZ",
     "ok": true,
     "note": "4763 点",
-    "ms": 37.2
+    "ms": 27.34
   },
   {
     "label": "orders 20260630/000001.SZ",
     "ok": true,
     "note": "total=140627",
-    "ms": 212.26
+    "ms": 136.53
   },
   {
     "label": "events 20260918",
     "ok": true,
     "note": "total=200627",
-    "ms": 860.71
+    "ms": 1966.68
   },
   {
     "label": "basic 20260918",
     "ok": true,
     "note": "last=11.7",
-    "ms": 17.44
+    "ms": 16.54
   },
   {
     "label": "basic 20260731/001267.SZ(哨兵)",
     "ok": true,
     "note": "last=29.82",
-    "ms": 727.97
+    "ms": 1869.58
   },
   {
     "label": "events 20260731/001267.SZ(哨兵)",
     "ok": true,
     "note": "total=165358",
-    "ms": 21.39
+    "ms": 29.97
   },
   {
     "label": "daily 000001.SZ",
     "ok": true,
-    "note": "59 天",
-    "ms": 133.29
+    "note": "175 天",
+    "ms": 285.05
   },
   {
     "label": "region 20260901/000001.SZ",
     "ok": true,
     "note": "count=111092",
-    "ms": 71.48
+    "ms": 78.23
   },
   {
     "label": "track 20260901/000001.SZ",
     "ok": true,
     "note": "found=False",
-    "ms": 12.2
+    "ms": 16.33
   }
 ]
