@@ -11,11 +11,19 @@ from strategy import CACHE_DIR, limit_up_rate, rounded_limit_price
 
 
 def load_prices(codes, directory: Path = CACHE_DIR / "kline") -> dict[str, pd.DataFrame]:
+    """读回测用的日线缓存；**缺缓存的代码跳过**而不是报错。
+
+    2026-01~06 的样本里有约 150 只已退市标的，AkShare 拿不到它们的历史行情
+    （策略侧已记进 kline_failed.json）。没有价格就无法回测，只能把它们排除，
+    调用方需要把 panel 也过滤到 ``prices`` 的代码集合。
+    """
     prices = {}
+    missing = []
     for code in sorted(set(codes)):
         path = directory / f"{code.replace('.', '_')}.csv"
         if not path.exists():
-            raise RuntimeError(f"Missing backtest price cache: {path}")
+            missing.append(code)
+            continue
         frame = pd.read_csv(path, parse_dates=["date"]).sort_values("date")
         if frame["date"].duplicated().any():
             raise ValueError(f"Duplicate price dates: {path}")
@@ -29,6 +37,8 @@ def load_prices(codes, directory: Path = CACHE_DIR / "kline") -> dict[str, pd.Da
         prices[code] = frame.set_index(
             frame["date"].dt.strftime("%Y%m%d")
         ).rename_axis("trading_date")
+    if missing:
+        print(f"skip {len(missing)} codes without price cache: {missing[:5]}...")
     return prices
 
 

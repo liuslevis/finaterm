@@ -75,6 +75,10 @@ TARGET_WEIGHTS = {"3d": 0.4, "1w": 0.6}
 EVALUATION_HORIZONS = ("3d", "1w", "3w")
 MIN_ABS_CORRELATION = 0.10
 MIN_DAILY_CROSS_SECTION = 3
+# 走查前推的每一折至少要这么多天的训练样本。窗口起点附近只有 1~2 天时，
+# 相关性完全由噪声决定，train_direction_model 会因为「没有任何因子过门槛」
+# 直接抛错 —— 那不是信号消失，是样本太少。给个下限，把这种退化折跳过。
+MIN_FOLD_TRAIN_DATES = 5
 RIDGE_ALPHAS = (0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0)
 BASELINE_DIRECTIONS = {
     "gross_sell_float_ratio_pct": -1,
@@ -279,7 +283,7 @@ def walk_forward_folds(panel: pd.DataFrame, features: tuple[str, ...]):
         test = panel[panel["signal_date"] == signal_date]
         if (
             len(test) >= MIN_DAILY_CROSS_SECTION
-            and train["signal_date"].nunique() >= 2
+            and train["signal_date"].nunique() >= max(2, MIN_FOLD_TRAIN_DATES)
             and features_are_trainable(train, features)
             and has_cross_sectional_variation(train, features)
         ):
@@ -741,6 +745,14 @@ def main() -> None:
         selectable_models,
     )
     prices = load_prices(eligible["code"])
+    # 没有价格缓存的标的（退市股）必须从回测 panel 里剔除，否则 backtest_score
+    # 取 prices[code] 会 KeyError。训练/评估用的是标签，不受影响。
+    priced = set(prices)
+    dropped = eligible.loc[~eligible["code"].isin(priced), "code"].nunique()
+    if dropped:
+        print(f"backtest panel drops {dropped} codes without price cache")
+        test = test[test["code"].isin(priced)].copy()
+        validation = validation[validation["code"].isin(priced)].copy()
     calendar = sorted(set().union(*(set(frame.index) for frame in prices.values())))
     test_start = (
         pd.Timestamp(args.train_through) + pd.Timedelta(days=1)

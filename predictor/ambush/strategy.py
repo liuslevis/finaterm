@@ -9,6 +9,7 @@ import json
 import math
 import os
 import shutil
+import socket
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -22,8 +23,21 @@ from py7zr.io import Py7zIO, WriterFactory
 
 ROOT = Path(__file__).resolve().parents[2]
 HFQ_DIR = ROOT / "hfq"
-DATA_DIR = HFQ_DIR / "data-lv2"
 CACHE_DIR = HFQ_DIR / "cache" / "ambush"
+
+
+def _resolve_data_dir() -> Path:
+    """7z 归档目录：环境变量 > 仓库内 > D:\\data-lv2（和 hfq/app/paths.py 同序）。"""
+    env = os.environ.get("HFQ_ARCHIVE_DIR", "").strip()
+    if env and Path(env).is_dir():
+        return Path(env)
+    for cand in (HFQ_DIR / "data-lv2", Path(r"D:\data-lv2")):
+        if cand.is_dir():
+            return cand
+    return HFQ_DIR / "data-lv2"
+
+
+DATA_DIR = _resolve_data_dir()
 OUTPUT_DIR = Path(__file__).with_name("data")
 DEFAULT_SIGNAL_DATE = "20260901"
 PRICE_SCALE = 10_000
@@ -97,15 +111,31 @@ def is_a_share(code: str) -> bool:
     )
 
 
+L2_SUFFIXES = (".SZ", ".SH", ".BJ")
+
+
+def _code_of(member: str) -> str | None:
+    """从归档成员名取股票代码。
+
+    兼容两种布局：``<date>/<code>/<file>``（旧）与 ``<code>/<file>``
+    （2026-01~06 重导版本少了日期层）。按 ``parts[1]`` 硬取会让平铺归档
+    解析出 0 只标的，而且是静默的。
+    """
+    for part in member.replace("\\", "/").split("/"):
+        if len(part) == 9 and part[6:] in L2_SUFFIXES and part[:6].isdigit():
+            return part
+    return None
+
+
 def build_archive_index(archive: Path) -> dict[str, list[str]]:
     index: dict[str, list[str]] = {}
     with py7zr.SevenZipFile(archive, "r") as handle:
         for item in handle.list():
             if item.is_directory:
                 continue
-            parts = item.filename.replace("\\", "/").split("/")
-            if len(parts) >= 3:
-                index.setdefault(parts[1], []).append(item.filename)
+            code = _code_of(item.filename)
+            if code:
+                index.setdefault(code, []).append(item.filename)
     return index
 
 
@@ -145,7 +175,7 @@ def extract_members(archive: Path, members: list[str], destination: Path) -> Non
                 for expected in ("行情.csv", "逐笔委托.csv", "逐笔成交.csv")
                 if filename.endswith(expected)
             )
-            return FileWriter(destination / parts[0] / parts[1] / basename)
+            return FileWriter(destination / (_code_of(filename) or parts[0]) / basename)
 
     with py7zr.SevenZipFile(archive, "r") as handle:
         handle.extract(targets=members, factory=CanonicalCsvFactory())
@@ -201,6 +231,9 @@ def _init_akshare_worker(source_root: str) -> None:
     os.chdir(source_root)
     import akshare as ak
 
+    # AkShare 的请求没设超时，退市股会挂在 TCP 上几分钟；给个默认 socket 超时
+    # 让失败快速返回，配合 kline_failed.json 缓存避免每次重试。
+    socket.setdefaulttimeout(KLINE_SOCKET_TIMEOUT)
     _WORKER_AK = ak
 
 
@@ -236,18 +269,62 @@ def _kline_cache_covers(path: Path, start_date: str, end_date: str) -> bool:
     )
 
 
+def _kline_failed_path() -> Path:
+    return CACHE_DIR / "kline_failed.json"
+
+
+KLINE_FAILED_TTL_DAYS = 7
+KLINE_SOCKET_TIMEOUT = 10.0  # 秒；AkShare 默认无超时，退市股会挂几分钟
+
+
+def _load_kline_failed() -> dict[str, float]:
+    """已确认抓不到 K 线的代码 -> 最后尝试的时间戳。
+
+    退市股在 AkShare 上没有历史行情，每次跑都要重试 3 次、每次退避 1~3 秒；
+    121 个交易日 × 上百只退市股会把流水线拖成几十小时。失败结果按 TTL
+    缓存，过期后自动重试，避免把临时网络故障永久钉死。
+    """
+    path = _kline_failed_path()
+    if not path.exists():
+        return {}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        return {str(k): float(v) for k, v in raw.items()}
+    except (json.JSONDecodeError, OSError, TypeError, ValueError):
+        return {}
+
+
+def _save_kline_failed(failed: dict[str, float]) -> None:
+    try:
+        _kline_failed_path().parent.mkdir(parents=True, exist_ok=True)
+        _kline_failed_path().write_text(
+            json.dumps(failed, ensure_ascii=False, sort_keys=True), encoding="utf-8"
+        )
+    except OSError:
+        pass
+
+
 def fetch_candidate_klines(
     event: pd.DataFrame,
     start_date: str,
     end_date: str,
     workers: int,
+    offline: bool = False,
 ) -> dict[str, pd.DataFrame]:
     cache = CACHE_DIR / "kline"
     cache.mkdir(parents=True, exist_ok=True)
     result: dict[str, pd.DataFrame] = {}
     missing: list[str] = []
+    failed = _load_kline_failed()
+    now = time.time()
+    still_failed = {
+        code for code, ts in failed.items()
+        if now - ts < KLINE_FAILED_TTL_DAYS * 86400
+    }
     for code in event["code"]:
         if code in SKIPPED_KLINE_CODES:
+            continue
+        if code in still_failed:
             continue
         path = cache / f"{code.replace('.', '_')}.csv"
         coverage_path = path.with_suffix(".coverage.json")
@@ -274,6 +351,18 @@ def fetch_candidate_klines(
                 continue
         missing.append(code)
 
+    if offline and missing:
+        # 离线模式：只用已缓存的 K 线。缺的多是退市股（AkShare 无历史数据），
+        # 也可能是因为当前网络抓不通。记入失败缓存，TTL 到期后可重试。
+        for code in missing:
+            failed[code] = now
+        _save_kline_failed(
+            {k: v for k, v in failed.items()
+             if now - v < KLINE_FAILED_TTL_DAYS * 86400}
+        )
+        print(f"K-lines offline: {len(missing)} 只无缓存，跳过（缓存命中 {len(result)}）")
+        return result
+
     with ProcessPoolExecutor(
         max_workers=workers,
         initializer=_init_akshare_worker,
@@ -293,6 +382,7 @@ def fetch_candidate_klines(
             completed += 1
             if error:
                 print(error, file=sys.stderr)
+                failed[loaded_code] = now
                 continue
             assert frame is not None
             path = cache / f"{loaded_code.replace('.', '_')}.csv"
@@ -337,6 +427,11 @@ def fetch_candidate_klines(
             result[loaded_code] = frame
             if completed % 100 == 0 or completed == len(missing):
                 print(f"K-lines fetched: {completed}/{len(missing)}")
+    if missing:
+        _save_kline_failed(
+            {k: v for k, v in failed.items()
+             if now - v < KLINE_FAILED_TTL_DAYS * 86400}
+        )
     return result
 
 
@@ -1559,6 +1654,11 @@ def parse_args() -> argparse.Namespace:
         help="Limit final LV2 rows; 0 keeps every dormant non-ST limit-up hit",
     )
     parser.add_argument("--refresh", action="store_true")
+    parser.add_argument(
+        "--offline-klines",
+        action="store_true",
+        help="只用已缓存的 K 线，缺的不去 AkShare 抓（退市股/断网时用）",
+    )
     return parser.parse_args()
 
 
@@ -1605,6 +1705,7 @@ def main() -> None:
         start_date=kline_start_date,
         end_date=end_date,
         workers=args.workers,
+        offline=args.offline_klines,
     )
     if args.cache_k_after:
         print(
@@ -1697,7 +1798,7 @@ def main() -> None:
     try:
         for row in limit_hits.to_dict("records"):
             code = row["code"]
-            stock_dir = stage / date / code
+            stock_dir = stage / code
             lv2 = analyze_lv2(
                 stock_dir / "逐笔委托.csv",
                 stock_dir / "逐笔成交.csv",
