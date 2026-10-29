@@ -106,6 +106,19 @@ async def fetch_series(server_root: str) -> dict:
     return {"provider": "usdata-mcp", "series": output}
 
 
+def describe_error(error: BaseException) -> str:
+    """Readable message for an error that anyio/MCP may wrap in ExceptionGroups."""
+    if isinstance(error, BaseExceptionGroup):
+        messages = []
+        for sub in error.exceptions:
+            message = describe_error(sub)
+            if message and message not in messages:
+                messages.append(message)
+        if messages:
+            return "; ".join(messages)
+    return str(error) or error.__class__.__name__
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Read dashboard series from usdata MCP")
     parser.add_argument("--server-root", required=True)
@@ -114,7 +127,7 @@ def main() -> int:
         print(json.dumps(asyncio.run(fetch_series(args.server_root)), ensure_ascii=False))
         return 0
     except Exception as error:
-        print(json.dumps({"error": str(error)}, ensure_ascii=False))
+        print(json.dumps({"error": describe_error(error)}, ensure_ascii=False))
         return 1
 
 

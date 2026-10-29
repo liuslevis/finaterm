@@ -30,10 +30,20 @@ INDEX = ROOT / "index.html"
 FINANCE_ROOT = Path(os.getenv("FINANCE_DATA_ROOT", ROOT.parent))
 FUTU_ROOT = Path(os.getenv("FUTU_OPEND_ROOT", FINANCE_ROOT / "FutuOpenD"))
 USDATA_ROOT = Path(os.getenv("USDATA_ROOT", FINANCE_ROOT / "usdata"))
-FUTU_PYTHON = FUTU_ROOT / ".venv" / "Scripts" / "python.exe"
+IS_WINDOWS = os.name == "nt"
+
+
+def venv_python(root: Path) -> Path:
+    """Interpreter inside a uv/venv directory, for Windows and POSIX layouts."""
+    if IS_WINDOWS:
+        return root / ".venv" / "Scripts" / "python.exe"
+    return root / ".venv" / "bin" / "python"
+
+
+FUTU_PYTHON = venv_python(FUTU_ROOT)
 FUTU_KLINE = FUTU_ROOT / "skills" / "futuapi" / "scripts" / "quote" / "get_kline.py"
 FUTU_APPDATA = FUTU_ROOT / ".venv" / ".futu-appdata"
-USDATA_PYTHON = USDATA_ROOT / ".venv" / "Scripts" / "python.exe"
+USDATA_PYTHON = venv_python(USDATA_ROOT)
 USDATA_BRIDGE = ROOT / "usdata_mcp_bridge.py"
 SERVER_ID = "finance-dashboard-uv-v2"
 SHUTDOWN_TOKEN = os.getenv("FINANCE_DASHBOARD_SHUTDOWN_TOKEN", "")
