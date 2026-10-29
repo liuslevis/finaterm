@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, shell } = require("electron");
+const { app, BrowserWindow, Menu, dialog, shell } = require("electron");
 const { spawn } = require("node:child_process");
 const { randomBytes } = require("node:crypto");
 const http = require("node:http");
@@ -166,6 +166,25 @@ function stopDashboard() {
   });
 }
 
+function buildAppMenu() {
+  return Menu.buildFromTemplate([
+    {
+      label: "文件",
+      submenu: [{ role: "quit", label: "退出" }],
+    },
+    {
+      label: "视图",
+      submenu: [
+        { role: "reload", label: "重新加载" },
+        { role: "forceReload", label: "强制重新加载" },
+        { role: "toggleDevTools", label: "开发者工具" },
+        { type: "separator" },
+        { role: "togglefullscreen", label: "全屏" },
+      ],
+    },
+  ]);
+}
+
 function createWindow(url) {
   mainWindow = new BrowserWindow({
     title: "全球金融数据终端",
@@ -183,6 +202,37 @@ function createWindow(url) {
   });
 
   mainWindow.removeMenu();
+  const appMenu = buildAppMenu();
+  mainWindow.webContents.on("before-input-event", (event, input) => {
+    if (input.type !== "keyDown") return;
+
+    if (input.key === "F12") {
+      event.preventDefault();
+      appMenu.popup({ window: mainWindow });
+      return;
+    }
+
+    if (input.key === "F11" && !input.control && !input.meta && !input.alt) {
+      event.preventDefault();
+      mainWindow.setFullScreen(!mainWindow.isFullScreen());
+      return;
+    }
+
+    // Ctrl+= / Ctrl+- 留给页面自己的缩放逻辑，这里不拦截。
+    const ctrlOrCmd = input.control || (process.platform === "darwin" && input.meta);
+    if (!ctrlOrCmd || input.alt) return;
+    const key = input.key.toLowerCase();
+    if (key === "r" && input.shift) {
+      event.preventDefault();
+      mainWindow.webContents.reloadIgnoringCache();
+    } else if (key === "r") {
+      event.preventDefault();
+      mainWindow.webContents.reload();
+    } else if (key === "i" && input.shift) {
+      event.preventDefault();
+      mainWindow.webContents.toggleDevTools();
+    }
+  });
   if (smokeTest) {
     mainWindow.webContents.once("did-finish-load", () => app.quit());
   } else {
@@ -201,6 +251,7 @@ function createWindow(url) {
 }
 
 app.whenReady().then(async () => {
+  Menu.setApplicationMenu(null);
   try {
     dashboardUrl = await startDashboard();
     createWindow(dashboardUrl);
