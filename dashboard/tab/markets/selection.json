@@ -14,7 +14,9 @@
     "usCpi",
     "usPpi",
     "cnCpi",
-    "cnPpi"
+    "cnPpi",
+    "brent",
+    "vix"
   ],
   "macroIndicators": [
     "US:Nonfarm Payrolls Private",

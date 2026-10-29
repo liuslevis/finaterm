@@ -78,6 +78,11 @@ def main() -> int:
         assert 'id="marketCompareChart"' in page
         assert 'id="compareAssetSelector"' in page
         assert "setupMovablePanels" in page
+        assert 'id="ratesTermTitle"' in page
+        assert 'id="ratesTermState"' in page
+        assert "const RATES_TERM_REGIMES" in page
+        assert "function updateRatesTerm()" in page
+        assert page.index('id="ratesTermTitle"') < page.index('id="semiconductorWorkspace"')
         assert 'data-workspace-tab="semiconductor"' in page
         assert 'id="semiconductorWorkspace"' in page
         assert 'data-workspace-tab="qqq-decision"' in page

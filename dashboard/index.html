@@ -572,6 +572,109 @@
     .attribution a { color: #9db0be; text-decoration: none; }
     .attribution a:hover { color: var(--cyan); }
 
+    /* 全球市场 · 术语解释（10Y-2Y 曲线交易） */
+    .rates-term { margin-top: 14px; }
+    .rates-term-title { font-size: 14px; font-weight: 650; }
+    .rates-term-legend { display: flex; gap: 12px; font-size: 10px; color: var(--muted); }
+    .rates-term-legend .bull { color: var(--green); }
+    .rates-term-legend .bear { color: var(--red); }
+    .rates-term-live {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 26px;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .rates-term-kpi { display: flex; flex-direction: column; gap: 4px; min-width: 92px; }
+    .rates-term-kpi span { color: var(--muted); font-size: 10px; }
+    .rates-term-kpi strong { font: 650 16px/1.1 "SFMono-Regular", Consolas, monospace; }
+    .rates-term-kpi strong.inverted { color: var(--amber); }
+    .rates-term-state {
+      margin-left: auto;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,.025);
+    }
+    .rates-term-state-label { color: var(--muted); font-size: 10px; }
+    .rates-term-state strong { font-size: 14px; }
+    .rates-term-state em { color: var(--muted); font-size: 11px; font-style: normal; }
+    .rates-term-state.bear { border-color: rgba(255,101,119,.4); background: rgba(255,101,119,.07); }
+    .rates-term-state.bear strong { color: var(--red); }
+    .rates-term-state.bull { border-color: rgba(50,212,154,.4); background: rgba(50,212,154,.07); }
+    .rates-term-state.bull strong { color: var(--green); }
+    .rates-term-state.range strong { color: var(--amber); }
+    .rates-term-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 14px 16px;
+    }
+    .rates-term-card {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding: 13px 14px 14px;
+      border: 1px solid var(--line);
+      border-top-width: 2px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.018);
+    }
+    .rates-term-card.bear { border-top-color: rgba(255,101,119,.75); }
+    .rates-term-card.bull { border-top-color: rgba(50,212,154,.75); }
+    .rates-term-card-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px; }
+    .rates-term-card-head h3 { margin: 0; font-size: 15px; font-weight: 700; }
+    .rates-term-card.bear h3 { color: #ffb3bc; }
+    .rates-term-card.bull h3 { color: #9ff0d3; }
+    .rates-term-en { color: var(--muted); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; }
+    .rates-term-tag {
+      margin-left: auto;
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 9px;
+      white-space: nowrap;
+    }
+    .rates-term-move { display: flex; flex-wrap: wrap; gap: 5px; font: 600 10px/1.4 "SFMono-Regular", Consolas, monospace; }
+    .rates-term-move span { padding: 3px 6px; border-radius: 6px; background: rgba(255,255,255,.04); color: #cfdde6; }
+    .rates-term-move span.up { color: var(--red); }
+    .rates-term-move span.down { color: var(--green); }
+    .rates-term-card p { margin: 0; color: #b9c9d4; font-size: 11px; line-height: 1.62; }
+    .rates-term-card p b { margin-right: 4px; color: var(--text); font-weight: 650; }
+    .rates-term-card p.rates-term-takeaway { color: var(--muted); }
+    .rates-term-channels {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 16px 14px;
+    }
+    .rates-term-channel {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-left: 2px solid rgba(84,164,255,.55);
+      border-radius: 10px;
+      background: rgba(84,164,255,.035);
+    }
+    .rates-term-channel h4 { margin: 0 0 5px; color: #a9c9e8; font-size: 11px; font-weight: 650; }
+    .rates-term-channel p { margin: 0; color: #a9bcc8; font-size: 11px; line-height: 1.6; }
+    .rates-term-note {
+      margin: 0 16px 14px;
+      padding: 11px 13px;
+      border: 1px solid rgba(245,189,89,.24);
+      border-radius: 10px;
+      background: rgba(245,189,89,.055);
+      color: #d8cba9;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .rates-term-note b { color: var(--amber); }
+
     .error-banner {
       display: none;
       margin-bottom: 14px;
@@ -1205,6 +1308,8 @@
       .qqq-block-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .qqq-risk-columns { grid-template-columns: 1fr; }
       .dca-factor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .rates-term-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .rates-term-channels { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
       .app { padding: 12px; }
@@ -1233,6 +1338,9 @@
       .qqq-condition-result { grid-template-columns: 1fr; }
       .qqq-regime-grid, .qqq-monitor-grid { grid-template-columns: 1fr; }
       .dca-ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .rates-term-grid { grid-template-columns: 1fr; }
+      .rates-term-state { margin-left: 0; width: 100%; }
+      .rates-term-legend { display: none; }
     }
   </style>
 </head>
@@ -1369,6 +1477,101 @@
         </section>
       </aside>
     </div>
+
+      <section class="panel rates-term" aria-labelledby="ratesTermTitle">
+        <div class="panel-head">
+          <div>
+            <div id="ratesTermTitle" class="rates-term-title">术语解释 · 10Y-2Y 曲线交易</div>
+            <div class="panel-note">熊 / 牛 看收益率方向，陡 / 平 看利差方向；同样是「陡」，牛陡与熊陡对美股的含义相反</div>
+          </div>
+          <div class="panel-actions">
+            <div class="rates-term-legend">
+              <span class="bull">牛 = 收益率下行</span>
+              <span class="bear">熊 = 收益率上行</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rates-term-live">
+          <div class="rates-term-kpi"><span>US 10Y</span><strong id="ratesTerm10y">—</strong></div>
+          <div class="rates-term-kpi"><span>US 2Y</span><strong id="ratesTerm2y">—</strong></div>
+          <div class="rates-term-kpi"><span>10Y-2Y 利差</span><strong id="ratesTermSpread">—</strong></div>
+          <div class="rates-term-kpi"><span id="ratesTermDeltaLabel">近 20 个交易日变化</span><strong id="ratesTermDelta">—</strong></div>
+          <div id="ratesTermState" class="rates-term-state">
+            <span class="rates-term-state-label">当前组合</span>
+            <strong id="ratesTermStateName">等待数据</strong>
+            <em id="ratesTermStateNote">10Y / 2Y / 利差取自上方市场卡片</em>
+          </div>
+        </div>
+
+        <div class="rates-term-grid">
+          <article class="rates-term-card bear">
+            <div class="rates-term-card-head">
+              <h3>熊陡</h3><span class="rates-term-en">Bear Steepener</span><span class="rates-term-tag">利差走阔</span>
+            </div>
+            <div class="rates-term-move"><span class="up">10Y ↑↑</span><span class="up">2Y ↑</span></div>
+            <p><b>驱动</b>财政供给、通胀预期或期限溢价抬升，而美联储并未转鸽。</p>
+            <p><b>美股</b>纯分母冲击：10Y 上行压缩长久期资产估值，QQQ、软件、生物科技最敏感；若增长同步走强，资金转向周期与价值。</p>
+            <p class="rates-term-takeaway">最像「股债双杀」，2023 年下半年长端供给冲击是样本。</p>
+          </article>
+
+          <article class="rates-term-card bear">
+            <div class="rates-term-card-head">
+              <h3>熊平</h3><span class="rates-term-en">Bear Flattener</span><span class="rates-term-tag">利差收窄</span>
+            </div>
+            <div class="rates-term-move"><span class="up">10Y ↑</span><span class="up">2Y ↑↑</span></div>
+            <p><b>驱动</b>加息或鹰派预期升温，短端紧跟政策利率，多出现在紧缩周期中后段。</p>
+            <p><b>美股</b>先杀估值、后杀盈利：盈利未下修时指数多为高位震荡，紧缩过度则切换成衰退交易。</p>
+            <p class="rates-term-takeaway">2022 年加息周期是典型样本。</p>
+          </article>
+
+          <article class="rates-term-card bull">
+            <div class="rates-term-card-head">
+              <h3>牛陡</h3><span class="rates-term-en">Bull Steepener</span><span class="rates-term-tag">利差走阔</span>
+            </div>
+            <div class="rates-term-move"><span class="down">10Y ↓</span><span class="down">2Y ↓↓</span></div>
+            <p><b>驱动</b>降息预期与流动性转松，也可能是衰退恐慌下的快速降息。</p>
+            <p><b>美股</b>分母改善叠加流动性宽松，通常最友好，小盘（IWM）与高 beta 成长弹性最大；但衰退式牛陡要先熬过盈利下修。</p>
+            <p class="rates-term-takeaway">2019 年预防式降息是温和版本。</p>
+          </article>
+
+          <article class="rates-term-card bull">
+            <div class="rates-term-card-head">
+              <h3>牛平</h3><span class="rates-term-en">Bull Flattener</span><span class="rates-term-tag">利差收窄</span>
+            </div>
+            <div class="rates-term-move"><span class="down">10Y ↓↓</span><span class="down">2Y ↓</span></div>
+            <p><b>驱动</b>增长与通胀预期转弱，避险资金涌入长债，长端下行更快。</p>
+            <p><b>美股</b>分子转弱的信号：必需消费、公用事业、质量因子占优，周期与高杠杆板块承压。</p>
+            <p class="rates-term-takeaway">QE / 扭转操作式买长端时常见，属后周期防御组合。</p>
+          </article>
+        </div>
+
+        <div class="rates-term-channels">
+          <div class="rates-term-channel">
+            <h4>① 贴现率 · 分母</h4>
+            <p>10Y 是无风险利率锚。长端每上行 50bp，现金流越靠后的资产估值压缩越大，久期长的成长股对 10Y 最敏感。</p>
+          </div>
+          <div class="rates-term-channel">
+            <h4>② 盈利预期 · 分子</h4>
+            <p>同样是变陡，需求驱动的牛陡带来分子改善；供给 / 财政驱动的熊陡只有分母恶化。熊平则是紧缩开始侵蚀未来盈利。</p>
+          </div>
+          <div class="rates-term-channel">
+            <h4>③ 风险偏好与信用</h4>
+            <p>深度倒挂压缩银行净息差、收紧信贷；信用利差走阔时，小盘股与高收益债往往先于大盘下跌。</p>
+          </div>
+        </div>
+
+        <p class="rates-term-note">
+          <b>一句话顺序：</b>熊陡杀估值 → 熊平杀盈利 → 牛陡救估值 → 牛平杀盈利（防御切换）。
+          倒挂本身不是卖点：10Y-2Y 转负到衰退通常有 6–24 个月时滞，更可靠的确认是倒挂后重新转正，
+          尤其是短端下行驱动的牛陡——那意味着降息已经开始、衰退正在落地。
+        </p>
+
+        <div class="source-note">
+          数据：USData 美债收益率（10Y / 2Y / 10Y-2Y），变化按最近 20 个交易日计算；「当前组合」由短端方向（熊 / 牛）×
+          利差方向（陡 / 平）机械判定，仅作术语对照，不构成投资建议。
+        </div>
+      </section>
     </section>
 
     <section id="semiconductorWorkspace" class="workspace" data-workspace="semiconductor">
@@ -5216,11 +5419,80 @@
       }
     }
 
+    const RATES_TERM_LOOKBACK = 20;
+    const RATES_TERM_REGIMES = {
+      "bear-steep": { name: "熊陡", tone: "bear", curve: "利差走阔", equity: "杀估值 · 成长股最不利", detail: "长端主导上行，贴现率抬升" },
+      "bear-flat": { name: "熊平", tone: "bear", curve: "利差收窄", equity: "紧缩压制 · 高位震荡", detail: "短端主导上行，政策利率牵引" },
+      "bull-steep": { name: "牛陡", tone: "bull", curve: "利差走阔", equity: "流动性友好 · 小盘成长弹性", detail: "短端主导下行，降息预期升温" },
+      "bull-flat": { name: "牛平", tone: "bull", curve: "利差收窄", equity: "盈利转弱 · 防御占优", detail: "长端主导下行，增长与避险驱动" },
+      range: { name: "震荡", tone: "range", curve: "方向不明", equity: "信号不足，按区间对待", detail: "短端与利差的变动均小于 5bp" }
+    };
+
+    function ratesTermPoint(key) {
+      const rows = (state.series[key] || []).filter(row => Number.isFinite(row.close));
+      if (!rows.length) return null;
+      const last = rows.at(-1);
+      const lookback = Math.min(RATES_TERM_LOOKBACK, rows.length - 1);
+      const base = rows[rows.length - 1 - lookback] || last;
+      return { value: last.close, delta: (last.close - base.close) * (key === "spread" ? 1 : 100), lookback };
+    }
+
+    function ratesTermSnapshot() {
+      const ten = ratesTermPoint("treasury10y");
+      const two = ratesTermPoint("treasury2y");
+      const spread = ratesTermPoint("spread");
+      const curve = spread ? spread.delta : (ten && two ? ten.delta - two.delta : null);
+      let regime = null;
+      if (two && Number.isFinite(curve)) {
+        const quiet = Math.abs(two.delta) < 5 && Math.abs(curve) < 5;
+        const key = quiet
+          ? "range"
+          : two.delta >= 0
+            ? (curve >= 0 ? "bear-steep" : "bear-flat")
+            : (curve >= 0 ? "bull-steep" : "bull-flat");
+        regime = RATES_TERM_REGIMES[key];
+      }
+      return { ten, two, spread, regime };
+    }
+
+    function updateRatesTerm() {
+      const tenHost = document.getElementById("ratesTerm10y");
+      if (!tenHost) return;
+      const snapshot = ratesTermSnapshot();
+      const rateText = point => point ? `${point.value.toFixed(2)}%` : "—";
+      const bpText = value => Number.isFinite(value) ? `${value > 0 ? "+" : ""}${value.toFixed(0)}bp` : "—";
+      tenHost.textContent = rateText(snapshot.ten);
+      document.getElementById("ratesTerm2y").textContent = rateText(snapshot.two);
+      const spreadHost = document.getElementById("ratesTermSpread");
+      spreadHost.textContent = snapshot.spread ? bpText(snapshot.spread.value) : "—";
+      spreadHost.classList.toggle("inverted", Boolean(snapshot.spread) && snapshot.spread.value < 0);
+
+      const lookbacks = [snapshot.ten, snapshot.two].filter(Boolean).map(point => point.lookback);
+      const lookback = lookbacks.length ? Math.min(...lookbacks) : RATES_TERM_LOOKBACK;
+      document.getElementById("ratesTermDeltaLabel").textContent = `近 ${lookback} 个交易日变化`;
+      document.getElementById("ratesTermDelta").textContent = snapshot.ten && snapshot.two
+        ? `10Y ${bpText(snapshot.ten.delta)} · 2Y ${bpText(snapshot.two.delta)}`
+        : "—";
+
+      const stateHost = document.getElementById("ratesTermState");
+      stateHost.classList.remove("bear", "bull", "range");
+      if (!snapshot.regime) {
+        document.getElementById("ratesTermStateName").textContent = "等待数据";
+        document.getElementById("ratesTermStateNote").textContent = "需要 10Y / 2Y / 利差三张市场卡片";
+        return;
+      }
+      stateHost.classList.add(snapshot.regime.tone);
+      document.getElementById("ratesTermStateName").textContent = snapshot.regime.name;
+      document.getElementById("ratesTermStateNote").textContent =
+        `${snapshot.regime.detail} · ${snapshot.regime.equity}`;
+    }
+
     function renderAll() {
       renderTickers();
       renderCompareSelectors();
       renderMarketCharts();
       renderCorrelation();
+      updateRatesTerm();
     }
 
     document.querySelectorAll("[data-range]").forEach(button => {

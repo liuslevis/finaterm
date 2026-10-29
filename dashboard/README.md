@@ -44,6 +44,16 @@ The 全球市场 asset cards and 宏观指标 list (add / remove / drag order) a
 to `tab/markets/selection.json` via `GET/PUT /api/markets-selection`. Commit this file to share
 the same lists across machines; on load it overrides the browser's localStorage copy.
 
+## 全球市场 术语解释
+
+The bottom of the 全球市场 tab explains the four 10Y-2Y curve trades (熊陡 / 熊平 / 牛陡 / 牛平,
+i.e. bear or bull × steepener or flattener), what typically drives each, and what it means for
+US equities (discount rate, earnings, risk appetite / credit). The header strip reads live
+10Y, 2Y, the 10Y-2Y spread and their 20-trading-day changes from the USData series already used
+by the market cards, then labels the current combination mechanically as short-end direction
+(熊 / 牛) × curve direction (陡 / 平); fewer than 5bp of movement is shown as 震荡. The label is
+a terminology reference, not a signal.
+
 ## IPO calendar
 
 The `IPO 日历` tab shows the last 5 years of IPO proceeds for A-shares

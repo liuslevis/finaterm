@@ -90,7 +90,7 @@ node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP
 
 | tab | data-workspace | 数据 | 关键 JS |
 |---|---|---|---|
-| 全球市场 | markets | Yahoo proxy / Futu / AKShare / usdata / TradingView 日历 | `loadMarkets`, `loadCorrelationData` |
+| 全球市场 | markets | Yahoo proxy / Futu / AKShare / usdata / TradingView 日历 | `loadMarkets`, `loadCorrelationData`, `updateRatesTerm`（底部「术语解释 · 10Y-2Y 曲线交易」，静态文案 + 用 usdata 的 10Y/2Y/利差判定熊牛平陡） |
 | 半导体周期 | semiconductor | Yahoo | `loadSemiDashboard` |
 | QQQ 决策 | qqq-decision | 静态研究结论 `QQQ_DECISIONS` | `renderQqqDecisions` |
 | QQQ 下跌因子 | qqq-risk | 静态 `QQQ_RISK_CONDITIONS` | `renderQqqRiskDashboard` |
