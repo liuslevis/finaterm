@@ -2208,6 +2208,48 @@
       } catch (error) {
         console.warn("ticker selection save", error);
       }
+      persistMarketsSelection({ tickers: state.tickers });
+    }
+
+    // Shared selection lives in dashboard/tab/markets/selection.json (git-tracked) so it survives git pull.
+    const MARKETS_SELECTION_URL = "/api/markets-selection";
+
+    function persistMarketsSelection(patch) {
+      fetch(MARKETS_SELECTION_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch)
+      }).catch(error => console.warn("markets selection persist", error));
+    }
+
+    async function applySharedMarketsSelection() {
+      let shared;
+      try {
+        const response = await fetch(MARKETS_SELECTION_URL, { cache: "no-store" });
+        if (!response.ok) return;
+        shared = await response.json();
+      } catch (error) {
+        console.warn("markets selection load", error);
+        return;
+      }
+      const seed = {};
+      const tickers = Array.isArray(shared.tickers) ? shared.tickers.filter(key => ASSETS[key]) : [];
+      if (tickers.length) {
+        state.tickers = tickers;
+        if (!tickers.includes(state.active)) state.active = tickers.includes("qqq") ? "qqq" : tickers[0];
+        try { localStorage.setItem(TICKER_SELECTION_KEY, JSON.stringify(tickers)); } catch {}
+      } else {
+        seed.tickers = state.tickers;
+      }
+      if (Array.isArray(shared.macroIndicators) && shared.macroIndicators.every(key => typeof key === "string")) {
+        macroCalendarState.selected = [...shared.macroIndicators];
+        try { localStorage.setItem(MACRO_SELECTION_KEY, JSON.stringify(macroCalendarState.selected)); } catch {}
+      } else {
+        seed.macroIndicators = macroCalendarState.selected;
+      }
+      if (Object.keys(seed).length) persistMarketsSelection(seed);
+      renderSelectors();
+      renderTickers();
     }
 
     const initialTickerSelection = loadTickerSelection();
@@ -3140,7 +3182,7 @@
       document.getElementById("asdSource").innerHTML =
         `${escapeHtml(data.formula)}。数据来源：${escapeHtml(data.source)}。` +
         `<ul>${data.caveats.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul>` +
-        `刷新：<code>cd dashboard; uv run python a-supply-demand/build_panel.py --refresh</code>（设计说明见 a-supply-demand/SKILL.md）`;
+        `刷新：<code>cd dashboard; uv run python tab/a-supply-demand/build_panel.py --refresh</code>（设计说明见 tab/a-supply-demand/SKILL.md）`;
     }
 
     async function loadAsd() {
@@ -4905,6 +4947,7 @@
       } catch (error) {
         console.warn("macro indicator selection save", error);
       }
+      persistMarketsSelection({ macroIndicators: macroCalendarState.selected });
     }
 
     function macroIndicatorKey(country, title) {
@@ -5348,6 +5391,7 @@
     renderCompareSelectors();
     renderTickers();
     (async function initialize() {
+      await applySharedMarketsSelection();
       await loadMarkets();
       void preloadAllMarketDataPoints([...state.tickers, ...state.selected]);
       correlationState.series = Object.fromEntries(

@@ -38,6 +38,12 @@ uv run python dashboard/dashboard_server.py
 
 The dashboard opens automatically at `http://localhost:8765`.
 
+## 全球市场 selection
+
+The 全球市场 asset cards and 宏观指标 list (add / remove / drag order) are saved by the server
+to `tab/markets/selection.json` via `GET/PUT /api/markets-selection`. Commit this file to share
+the same lists across machines; on load it overrides the browser's localStorage copy.
+
 ## IPO calendar
 
 The `IPO 日历` tab shows the last 5 years of IPO proceeds for A-shares
@@ -52,9 +58,9 @@ convertibles + insider selling − buybacks − dividends − insider buying) ag
 incremental funds (new equity funds + margin financing change + SSE equity ETF net
 creations), with the gap scaled by market cap, a 6-month z-score and the CSI300
 monthly return. `/api/a-supply-demand` only reads the offline file
-`a-supply-demand/panel.json`; refresh it with
-`uv run python a-supply-demand/build_panel.py --refresh` (≈5 min). Methodology and
-refresh notes are in `a-supply-demand/SKILL.md`.
+`tab/a-supply-demand/panel.json`; refresh it with
+`uv run python tab/a-supply-demand/build_panel.py --refresh` (≈5 min). Methodology and
+refresh notes are in `tab/a-supply-demand/SKILL.md`.
 
 ## 美股供需
 

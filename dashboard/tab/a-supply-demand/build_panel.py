@@ -1,8 +1,8 @@
 """A股供需月度面板：净股权供给 vs 增量资金。
 
 用法（在 dashboard/ 目录下）：
-    uv run python a-supply-demand/build_panel.py            # 复用 raw/ 缓存，只重算
-    uv run python a-supply-demand/build_panel.py --refresh  # 重新下载全部原始数据（约 5 分钟）
+    uv run python tab/a-supply-demand/build_panel.py            # 复用 raw/ 缓存，只重算
+    uv run python tab/a-supply-demand/build_panel.py --refresh  # 重新下载全部原始数据（约 5 分钟）
 
 输出：raw/*.pkl（原始数据）、panel.csv（全部月份 × 全部指标）、panel.json（供 /api/a-supply-demand）。
 设计说明见同目录 SKILL.md。
