@@ -14,6 +14,8 @@ let mainWindow;
 let dashboardProcess;
 let dashboardUrl;
 let quitting = false;
+let applicationMenu;
+let menuBarVisible = true;
 const shutdownToken = randomBytes(24).toString("hex");
 
 function waitForDashboard(url, attempts = 60) {
@@ -185,6 +187,31 @@ function buildAppMenu() {
   ]);
 }
 
+function toggleMenuBar(window) {
+  if (process.platform === "darwin") {
+    // macOS 的菜单栏始终显示，改为切换应用菜单。
+    applicationMenu ??= Menu.getApplicationMenu();
+    menuBarVisible = !menuBarVisible;
+    Menu.setApplicationMenu(menuBarVisible ? applicationMenu : Menu.buildFromTemplate([]));
+    return;
+  }
+
+  window.setMenuBarVisibility(!window.isMenuBarVisible());
+}
+
+function registerMenuBarShortcut(window) {
+  window.webContents.on("before-input-event", (event, input) => {
+    if (input.type !== "keyDown" || input.key !== "F12") {
+      return;
+    }
+    event.preventDefault();
+    if (input.isAutoRepeat || input.control || input.alt || input.meta || input.shift) {
+      return;
+    }
+    toggleMenuBar(window);
+  });
+}
+
 function createWindow(url) {
   mainWindow = new BrowserWindow({
     title: "全球金融数据终端",
@@ -201,16 +228,14 @@ function createWindow(url) {
     },
   });
 
-  mainWindow.removeMenu();
-  const appMenu = buildAppMenu();
+  // 每个新窗口默认重新显示菜单栏。
+  menuBarVisible = true;
+  if (process.platform === "darwin" && applicationMenu) {
+    Menu.setApplicationMenu(applicationMenu);
+  }
+  registerMenuBarShortcut(mainWindow);
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (input.type !== "keyDown") return;
-
-    if (input.key === "F12") {
-      event.preventDefault();
-      appMenu.popup({ window: mainWindow });
-      return;
-    }
 
     if (input.key === "F11" && !input.control && !input.meta && !input.alt) {
       event.preventDefault();
@@ -251,7 +276,7 @@ function createWindow(url) {
 }
 
 app.whenReady().then(async () => {
-  Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(buildAppMenu());
   try {
     dashboardUrl = await startDashboard();
     createWindow(dashboardUrl);
