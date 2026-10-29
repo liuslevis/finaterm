@@ -18,10 +18,14 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HFQ = os.path.dirname(HERE)
+sys.path.insert(0, HFQ)
+
+from app.paths import parquet_default  # noqa: E402
+
 PY = sys.executable
 SNAP = os.path.join(HFQ, "snapshot")
 PARITY_DS = os.path.join(HFQ, "cache", "_parity_ds")
-MAIN_DS = os.environ.get("HFQ_MAIN_DS") or os.path.join(HFQ, "data-parquet")
+MAIN_DS = os.environ.get("HFQ_MAIN_DS") or parquet_default()
 BASELINE = os.path.join(SNAP, "baseline-v1")
 
 ENV = dict(os.environ, PYTHONIOENCODING="utf-8")

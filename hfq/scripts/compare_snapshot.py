@@ -1,10 +1,10 @@
-"""修改后对比快照：用 Parquet 路径重跑同一批行为探针，逐字段比对指纹。
+r"""修改后对比快照：用 Parquet 路径重跑同一批行为探针，逐字段比对指纹。
 
 基线来自 ``hfq/scripts/snapshot.py`` 生成的 ``snapshot/<tag>/behavior/*.json``；
 探针函数直接复用 snapshot.py 里的 ``probe_behavior``，因此计算口径完全一致。
 
 用法：
-    python hfq/scripts/compare_snapshot.py --root hfq/data-parquet \
+    python hfq/scripts/compare_snapshot.py --root D:\data-parquet \
         --snapshot hfq/snapshot/baseline-v1
 """
 from __future__ import annotations

@@ -20,6 +20,7 @@ sys.path.insert(0, HFQ)
 sys.path.insert(0, HERE)
 
 from verify_daily_kline import load_old_module  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
 SENTINEL = 2**64 - 10000          # 源文件里的字面量
 OLD_PRICE = SENTINEL / 10000.0    # 原实现算出的价格
@@ -29,7 +30,7 @@ NEW_PRICE = -1.0                  # 二补码还原后的价格
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default="20260731")
-    ap.add_argument("--root", default=os.path.join(HFQ, "data-parquet"))
+    ap.add_argument("--root", default=parquet_default())
     ap.add_argument("--snapshot", default=os.path.join(HFQ, "snapshot", "baseline-v1"))
     ap.add_argument("--max", type=int, default=40)
     args = ap.parse_args()

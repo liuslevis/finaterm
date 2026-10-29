@@ -13,8 +13,9 @@ sys.path.insert(0, HFQ)
 import pyarrow.parquet as pq  # noqa: E402
 
 from app.parquet_store import Store, WRITE_OPTS, _DICT_COLS  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
-ROOT = os.path.join(HFQ, "data-parquet")
+ROOT = parquet_default()
 DATE = "20260901"
 TMP = os.path.join(HFQ, "cache", "_rgtest")
 os.makedirs(TMP, exist_ok=True)

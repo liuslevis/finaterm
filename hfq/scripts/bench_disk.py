@@ -16,10 +16,12 @@ sys.path.insert(0, HFQ)
 import pyarrow.parquet as pq  # noqa: E402
 
 from app.parquet_store import Store  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
+# 2026-10-29：仓库内 C: 副本已删除，此前"C: vs D:"的迁移期对比不再可复现。
+# 只保留当前数据集（HFQ_PARQUET_DIR → D:\data-parquet）作为基线测量。
 ROOTS = {
-    "C: (SSD?)": os.path.join(HFQ, "data-parquet"),
-    "D: (目标)": r"D:\data-lv2",
+    "Parquet": parquet_default(),
 }
 DATE = "20260901"
 CODES = ["000001.SZ", "600525.SH", "159119.SZ", "300965.SZ", "900948.SH"]

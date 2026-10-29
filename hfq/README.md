@@ -30,8 +30,12 @@
 数据集位置按顺序自动探测，用第一个能打开的：
 
 1. 环境变量 `HFQ_PARQUET_DIR`
-2. **`D:\data-parquet`（当前实际位置，840.48 GB / 22,605 个文件）**
-3. 仓库内 `hfq/data-parquet/`
+2. **`D:\data-parquet`（唯一位置，840.5 GB / 22,607 个文件）**
+
+> 2026-10-29：仓库内 `hfq/data-parquet/`（迁移前 C: 上的旧集，只有 2026-06~09 共 57 天、
+> 278.1 GB）已删除，回收 C: 278.1 GB。它一度是候选列表的第 3 项，留着会让 `Store()`
+> 和一批脚本在 D: 不可用时静默读到过期子集，所以从 `paths.PARQUET_CANDIDATES` 里也一并摘掉了。
+> 要恢复那份数据只能从 7z 归档重建，别指望找到备份。
 
 7z 归档目录同理：`HFQ_ARCHIVE_DIR` → 仓库内 `hfq/data-lv2/` → **`D:\data-lv2`（当前实际位置，874.3 GB）**。
 两者可以分开放在不同盘；本机 2026-10-28 起两份都在 D:（C: 放转换临时目录）。
@@ -49,6 +53,9 @@
 | 构建 | 4 进程并行 7.6 小时（19 天/小时），单日 263~280 s 解压 + 222~228 s 解析 |
 | 跨日日 K | 175 天 `daily_kline` 285 ms（HTTP，缓存后） |
 | 单只冷加载 | D: 上 1.0~2.3 s（机械盘，见文档 5.3 的取舍） |
+
+> 「一致性」那行的旧数据集对照基准已于 2026-10-29 删除，现在只能靠 7z 原始解析复跑，
+> 数字保留为当时的重建记录。
 
 > 转换用 `scripts/build_parallel.py`（多进程 + manifest 短临界区 + 内存看门狗）；
 > 单日重试用 `scripts/convert_all.py`。临时解压必须放快盘（C:），只把最终 Parquet 写 D:。
@@ -141,7 +148,7 @@ hfq/
 ├── docs/parquet-migration.md
 ├── static/                # index.html / app.js / styles.css / vendor/echarts.min.js
 ├── cache/<交易日>/         # 7z 回退路径的按需抽取 CSV + 二进制缓存（自动生成）
-├── data-parquet/          # 仓库内旧数据集（2026-10-28 起实际用 D:\data-parquet）
+├── data-parquet/          # 已删除（2026-10-29）；数据集现在只在 D:\data-parquet
 ├── snapshot/              # 迁移前快照与对比结果
 └── data-lv2/*.7z          # 原始 7z 归档（已挪到 D:\data-lv2，仓库内为旧位置）
 ```

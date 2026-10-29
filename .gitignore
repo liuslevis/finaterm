@@ -15,8 +15,11 @@ secrets.json
 # ---------------------------------------------------------------------------
 # 大文件 / 本地数据（不进仓库）
 #
-# 数据目录：LV2 原始 7z 归档 318 GB、Parquet 列存 278 GB、按需抽取缓存
-#   位置见 hfq/app/paths.py（可用 HFQ_ARCHIVE_DIR / HFQ_PARQUET_DIR 覆盖）
+# 数据目录：LV2 原始 7z 归档 874 GB（D:\data-lv2）、Parquet 列存 840 GB
+# （D:\data-parquet）、按需抽取缓存。位置见 hfq/app/paths.py（可用
+# HFQ_ARCHIVE_DIR / HFQ_PARQUET_DIR 覆盖）。
+# hfq/data-parquet（迁移前 C: 上的 278 GB 旧集）已于 2026-10-29 删除，
+# 这两条忽略规则保留着，防止误把重建出来的副本再提交进仓库。
 # ---------------------------------------------------------------------------
 hfq/cache
 hfq/data-lv2
@@ -25,6 +28,11 @@ hfq/data-parquet-*
 
 # 归档格式（仓库里没有任何被跟踪的 .7z；.zip/.parquet 有小的测试数据，不要一刀切）
 *.7z
+
+# a-supply-demand 的下载缓存在 dashboard/tab/a-supply-demand/raw/（由该目录的 .gitignore
+# 忽略）。这里是兜底：2026-10-29 曾把 63 MB 的 pkl 误暂存在错位的
+# dashboard/a-supply-demand/raw/ 并试图提交，实际没有任何代码读那个路径。
+dashboard/a-supply-demand/
 
 # 超过 10MB 的文件由 .githooks/pre-commit 拦截（gitignore 无法按大小过滤）
 # 启用：git config core.hooksPath .githooks

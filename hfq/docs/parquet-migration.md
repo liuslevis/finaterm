@@ -18,6 +18,11 @@
 | 存放位置 | **Parquet 在 C: 的 `hfq/data-parquet`**（快盘，冷加载 0.235 s）；**7z 归档在 `D:\data-lv2`**。两者位置都可用环境变量覆盖 |
 | 总成本 | 约 **9.5 小时**（单日中位 9.7 分钟）；归档按你的要求全部保留 |
 
+> **2026-10-29 布局变更，本文 0~7 节的路径描述已是历史。** 数据集在 2026-10-28 迁到
+> `D:\data-parquet` 并扩到 175 天（840.5 GB）；C: 上那份 57 天、278.1 GB 的旧集已删除，
+> `hfq/data-parquet/` 不再存在，`paths.PARQUET_CANDIDATES` 里也只剩 `D:\data-parquet`。
+> 文中凡是「C: / 59 天 / 278 GB / 9143 只 / 36 分片」的数字，说的都是迁移前那一版。
+
 ---
 
 ## 0. 数据集实测口径（自动生成）
@@ -560,7 +565,10 @@ python hfq/scripts/build_parquet.py --all --reuse-temp
 无需改调用方 —— `data.py` 按顺序自动探测数据集位置，用第一个能打开的：
 
 1. 环境变量 `HFQ_PARQUET_DIR`（显式指定优先）
-2. 仓库内 `hfq/data-parquet/` —— **当前实际位置（C: 快盘）**
+2. `D:\data-parquet` —— **当前唯一位置**
+
+> 迁移期的第 3 项「仓库内 `hfq/data-parquet/`（C: 快盘）」已于 2026-10-29 随数据删除，
+> 候选列表同步收窄为只剩 `D:\data-parquet`。
 
 7z 归档目录同理：`HFQ_ARCHIVE_DIR` → 仓库内 `hfq/data-lv2/` → `D:\data-lv2`（**当前实际位置**）。
 两者可以分开放在不同盘上。
@@ -749,6 +757,9 @@ python hfq/scripts/verify_rebuild.py --root D:\data-parquet \
 === 结果：57/57 通过 ===
 ```
 
+> `--old-root` 指向的旧数据集已于 2026-10-29 删除，这条命令现在只能跑「vs 7z 原始 CSV」
+> 那一半；`--old-root` 已改为可选，不给就跳过旧数据集对比。下面是当时的完整结果。
+
 * **48 个股票日 vs 旧数据集**：2026-07~09 的 8 天 × 6 只，事件流（aseq/t/type/side/
   price/qty/amount/id/seq）与快照逐字段完全相同 —— 证明换 universe 没有改动数据本身。
 * **9 个股票日 vs 7z 原始 CSV**：2026-01/03/04 的平铺归档走 `data.get_stock` 解析，
@@ -790,6 +801,11 @@ A 股数量一致，但**同一只 A 股的行情内容不一样**：原档把�
 2. 用重导档替换 `D:\data-lv2\20260707.7z`；
 3. 从 manifest 摘掉 20260707（备份 `manifest.json.bak-0707`）、删该日分片/清单/日线，
    再用 `build_parquet.py --dates 20260707` 重建（439 s，7,474 只，5.85 亿行）。
+
+> 2026-10-29：留证档 `_extra\20260707.partial.7z`（4.11 GB）已删除，`_extra` 目录一并移除。
+> 退路仍然在：`D:\nas-backup-sync\Documents\量化\data-lv2\202607\20260707.7z`
+> 就是原始 4.11 GB 档，重导档 `20260707(1).7z`（5.3 GB）也在同目录。
+> 当前 `D:\data-lv2\20260707.7z` 是 5.3 GB 的重导档，即本文推荐的版本。
 
 重建后逐字段复核：`000001.SZ`/`001267.SZ` 与原档完全一致，`600519.SH`/`300750.SZ`
 只在 `cum_amt` 上不同（原档 INT32_MIN → 新档真实值），事件流一致。

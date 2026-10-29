@@ -13,8 +13,11 @@ r"""重建后的一致性复核：新数据集 vs 旧数据集 vs 7z 原始 CSV�
 
 用法
 ----
-    python hfq/scripts/verify_rebuild.py --root D:\data-parquet \
-        --old-root hfq/data-parquet --overlap-days 8 --per-day 6 --csv-days 3
+    python hfq/scripts/verify_rebuild.py --root D:\data-parquet --overlap-days 8 \
+        --per-day 6 --csv-days 3
+
+``--old-root`` 指向的迁移前旧数据集已于 2026-10-29 删除，该参数现在是可选的：
+不给就只跑「新数据集 vs 7z 原始 CSV」这一半（上面那条命令即可）。
 """
 
 from __future__ import annotations
@@ -29,6 +32,7 @@ HFQ = os.path.dirname(HERE)
 sys.path.insert(0, HFQ)
 
 from app.parquet_store import Store  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
 KEY_EVENT = ("aseq", "t", "type", "side", "price", "qty", "amount",
              "buy_id", "sell_id", "order_id", "seq")
@@ -64,7 +68,9 @@ def cmp_stock(new_store: Store, code: str, date: str, old_obj: dict) -> list[str
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=r"D:\data-parquet")
-    ap.add_argument("--old-root", default=os.path.join(HFQ, "data-parquet"))
+    ap.add_argument("--old-root", default=None,
+                    help="旧数据集根目录；迁移前的 C: 副本已于 2026-10-29 删除，"
+                         "不给则跳过「与旧数据集逐字段对比」这一节")
     ap.add_argument("--overlap-days", type=int, default=8)
     ap.add_argument("--per-day", type=int, default=6)
     ap.add_argument("--csv-days", type=int, default=3)

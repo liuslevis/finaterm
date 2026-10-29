@@ -19,12 +19,13 @@ sys.path.insert(0, HFQ)
 sys.path.insert(0, HERE)
 
 from verify_daily_kline import load_old_module  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default="20260901")
-    ap.add_argument("--root", default=os.path.join(HFQ, "data-parquet"))
+    ap.add_argument("--root", default=parquet_default())
     ap.add_argument("--snapshot", default=os.path.join(HFQ, "snapshot", "baseline-v1"))
     ap.add_argument("--csv-src", default=os.path.join(HFQ, "cache", "_scan"),
                     help="已解压的 CSV 目录（<date>/<code>/*.csv），用于免抽取")

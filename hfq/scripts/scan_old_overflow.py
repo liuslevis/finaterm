@@ -17,6 +17,7 @@ import pyarrow.compute as pc  # noqa: E402
 import pyarrow.parquet as pq  # noqa: E402
 
 from app.parquet_store import Store  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
 I32_MAX = 2**31 - 1
 I32_MIN = -(2**31)
@@ -32,7 +33,7 @@ COLS = {
 
 
 def main():
-    root = os.path.join(HFQ, "data-parquet")
+    root = parquet_default()
     st = Store(root).open()
     dates = st.dates
     print(f"数据集 {root}  交易日 {len(dates)} 个: {dates}")

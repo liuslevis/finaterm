@@ -16,8 +16,9 @@ import pyarrow.parquet as pq  # noqa: E402
 from app.parquet_store import (  # noqa: E402
     ORDERS_SCHEMA, QUOTES_SCHEMA, TRADES_SCHEMA, WRITE_OPTS, _DICT_COLS, Store,
 )
+from app.paths import parquet_default  # noqa: E402
 
-ROOT = os.path.join(HFQ, "data-parquet")
+ROOT = parquet_default()
 DATE = "20260630"
 TMP = os.path.join(HFQ, "cache", "_i64test")
 os.makedirs(TMP, exist_ok=True)

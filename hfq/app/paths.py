@@ -19,7 +19,10 @@ NVMe 比机械盘快一个数量级）。
     Parquet：HFQ_PARQUET_DIR
        1. 环境变量
        2. D:\data-parquet
-       3. <repo>/hfq/data-parquet
+
+仓库内的 ``hfq/data-parquet/`` 已于 2026-10-29 删除（那是迁移前 C: 上的旧数据集，
+只有 2026-06~09 共 57 天，已被 D: 上 175 天的全集取代）。别再把它加回候选列表：
+留着会让 ``Store()`` 和一批脚本在 D: 不可用时静默读到一份过期子集。
 """
 
 from __future__ import annotations
@@ -37,7 +40,6 @@ ARCHIVE_CANDIDATES: list[str] = [
 ]
 PARQUET_CANDIDATES: list[str] = [
     r"D:\data-parquet",
-    os.path.join(HFQ, "data-parquet"),
 ]
 
 

@@ -34,7 +34,7 @@ ROOT = os.path.dirname(HERE)
 DATA_DIR = archive_dir()
 CACHE_DIR = os.path.join(ROOT, "cache")
 
-# Parquet 数据集位置（HFQ_PARQUET_DIR 可覆盖；本机在仓库内 C: 盘）
+# Parquet 数据集位置（HFQ_PARQUET_DIR 可覆盖；本机在 D: 上 175 天全集）
 PQ_CANDIDATES = parquet_candidates()
 
 PRICE_SCALE = 10000.0  # 原始价格为 元 * 10000

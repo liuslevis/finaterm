@@ -29,10 +29,13 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+from .paths import parquet_default
+
 PRICE_SCALE = 10000.0
 SCHEMA_VERSION = 4
-DEFAULT_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                            "data-parquet")
+# 默认根目录与其余调用方共用同一套解析（HFQ_PARQUET_DIR → D:\data-parquet）。
+# 不要在这里再拼仓库内路径：那是已删除的迁移前旧数据集。
+DEFAULT_ROOT = parquet_default()
 FREQS = ("month", "week")
 TABLES = ("orders", "trades", "quotes")
 CATALOG_TABLE = "catalog"

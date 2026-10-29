@@ -21,6 +21,7 @@ import pyarrow.compute as pc  # noqa: E402
 import pyarrow.parquet as pq  # noqa: E402
 
 from app.parquet_store import Store  # noqa: E402
+from app.paths import parquet_default  # noqa: E402
 
 I64_MAX = 2**63 - 1
 # 本数据集源文件里的价格本身就有极端值（均为厂商写入，parquet 忠实保留）：
@@ -57,7 +58,7 @@ def checks_for(table: str) -> list[tuple[str, int, int]]:
 def main():
     import argparse
     ap = argparse.ArgumentParser(description="扫描 Parquet 数据集中的不可能数值")
-    ap.add_argument("--root", default=os.path.join(HFQ, "data-parquet"))
+    ap.add_argument("--root", default=parquet_default())
     ap.add_argument("--dates", nargs="*", default=None,
                     help="只扫描指定交易日（默认全部）")
     ap.add_argument("--json-out", default=os.path.join(HFQ, "snapshot", "anomalies.json"))

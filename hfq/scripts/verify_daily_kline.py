@@ -17,6 +17,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 HFQ = os.path.dirname(HERE)
 sys.path.insert(0, HFQ)
 
+from app.paths import parquet_default  # noqa: E402
+
 OLDAPP = os.path.join(HFQ, "cache", "_oldapp")
 
 
@@ -67,7 +69,7 @@ def load_old_module(snapshot: str):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--snapshot", default=os.path.join(HFQ, "snapshot", "baseline-v1"))
-    ap.add_argument("--root", default=os.path.join(HFQ, "data-parquet"))
+    ap.add_argument("--root", default=parquet_default())
     ap.add_argument("--codes", nargs="*",
                     default=["000001.SZ", "001301.SZ", "600000.SH", "300750.SZ"])
     args = ap.parse_args()
