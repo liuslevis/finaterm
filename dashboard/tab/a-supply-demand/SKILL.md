@@ -35,7 +35,7 @@ description: 刷新或修改 dashboard「A股供需」tab（净股权供给 vs �
 ```powershell
 cd dashboard
 $env:PYTHONIOENCODING="utf-8"
-uv run python a-supply-demand/build_panel.py --refresh   # 约 5 分钟，ETF 价格要逐只请求约 900 次
+uv run python tab/a-supply-demand/build_panel.py --refresh   # 约 5 分钟，ETF 价格要逐只请求约 900 次
 ```
 
 注意事项：

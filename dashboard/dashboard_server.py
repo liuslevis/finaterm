@@ -30,10 +30,20 @@ INDEX = ROOT / "index.html"
 FINANCE_ROOT = Path(os.getenv("FINANCE_DATA_ROOT", ROOT.parent))
 FUTU_ROOT = Path(os.getenv("FUTU_OPEND_ROOT", FINANCE_ROOT / "FutuOpenD"))
 USDATA_ROOT = Path(os.getenv("USDATA_ROOT", FINANCE_ROOT / "usdata"))
-FUTU_PYTHON = FUTU_ROOT / ".venv" / "Scripts" / "python.exe"
+IS_WINDOWS = os.name == "nt"
+
+
+def venv_python(root: Path) -> Path:
+    """Interpreter inside a uv/venv directory, for Windows and POSIX layouts."""
+    if IS_WINDOWS:
+        return root / ".venv" / "Scripts" / "python.exe"
+    return root / ".venv" / "bin" / "python"
+
+
+FUTU_PYTHON = venv_python(FUTU_ROOT)
 FUTU_KLINE = FUTU_ROOT / "skills" / "futuapi" / "scripts" / "quote" / "get_kline.py"
 FUTU_APPDATA = FUTU_ROOT / ".venv" / ".futu-appdata"
-USDATA_PYTHON = USDATA_ROOT / ".venv" / "Scripts" / "python.exe"
+USDATA_PYTHON = venv_python(USDATA_ROOT)
 USDATA_BRIDGE = ROOT / "usdata_mcp_bridge.py"
 SERVER_ID = "finance-dashboard-uv-v2"
 SHUTDOWN_TOKEN = os.getenv("FINANCE_DASHBOARD_SHUTDOWN_TOKEN", "")
@@ -396,13 +406,13 @@ def fetch_ipo(market: str) -> dict:
     return {"market": market, "currency": currency, "unit": "亿", "source": source, "rows": rows}
 
 
-A_SUPPLY_DEMAND_PANEL = ROOT / "a-supply-demand" / "panel.json"
+A_SUPPLY_DEMAND_PANEL = ROOT / "tab" / "a-supply-demand" / "panel.json"
 
 
 def fetch_a_supply_demand() -> dict:
-    # 面板由 a-supply-demand/build_panel.py 离线生成（下载约 5 分钟），这里只读结果
+    # 面板由 tab/a-supply-demand/build_panel.py 离线生成（下载约 5 分钟），这里只读结果
     if not A_SUPPLY_DEMAND_PANEL.exists():
-        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python a-supply-demand/build_panel.py")
+        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/a-supply-demand/build_panel.py")
     return json.loads(A_SUPPLY_DEMAND_PANEL.read_text(encoding="utf-8"))
 
 
@@ -424,6 +434,43 @@ def fetch_a_etf_share() -> dict:
     if not A_ETF_SHARE_PANEL.exists():
         raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/a-etf-share/build_panel.py")
     return json.loads(A_ETF_SHARE_PANEL.read_text(encoding="utf-8"))
+
+
+MARKETS_SELECTION_FILE = ROOT / "tab" / "markets" / "selection.json"
+MARKETS_SELECTION_FIELDS = ("tickers", "macroIndicators")
+MARKETS_SELECTION_LOCK = threading.Lock()
+
+
+def read_markets_selection() -> dict:
+    try:
+        data = json.loads(MARKETS_SELECTION_FILE.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def update_markets_selection(patch: object) -> dict:
+    if not isinstance(patch, dict) or not patch:
+        raise ValueError("selection must be a non-empty object")
+    clean = {}
+    for field, value in patch.items():
+        if field not in MARKETS_SELECTION_FIELDS:
+            raise ValueError(f"unknown field: {field}")
+        if (
+            not isinstance(value, list)
+            or len(value) > 200
+            or not all(isinstance(item, str) and 0 < len(item) <= 200 for item in value)
+        ):
+            raise ValueError(f"{field} must be a list of strings")
+        clean[field] = list(dict.fromkeys(value))
+    with MARKETS_SELECTION_LOCK:
+        data = {**read_markets_selection(), **clean}
+        data = {field: data[field] for field in MARKETS_SELECTION_FIELDS if field in data}
+        MARKETS_SELECTION_FILE.parent.mkdir(parents=True, exist_ok=True)
+        tmp = MARKETS_SELECTION_FILE.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        tmp.replace(MARKETS_SELECTION_FILE)
+    return data
 
 
 class DashboardHandler(BaseHTTPRequestHandler):
@@ -459,6 +506,22 @@ class DashboardHandler(BaseHTTPRequestHandler):
             return
         cleared = clear_cache()
         body = json.dumps({"cleared": cleared}, ensure_ascii=False).encode("utf-8")
+        self.send_body(200, body, "application/json; charset=utf-8")
+
+    def do_PUT(self) -> None:
+        request = urllib.parse.urlparse(self.path)
+        if request.path != "/api/markets-selection":
+            self.send_json_error(404, "Not Found")
+            return
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+            if length <= 0 or length > 64_000:
+                raise ValueError("invalid body size")
+            data = update_markets_selection(json.loads(self.rfile.read(length)))
+        except ValueError as error:
+            self.send_json_error(400, str(error))
+            return
+        body = json.dumps(data, ensure_ascii=False).encode("utf-8")
         self.send_body(200, body, "application/json; charset=utf-8")
 
     def do_POST(self) -> None:
@@ -497,6 +560,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
         if request.path == "/api/ipo":
             self.handle_ipo(request)
+            return
+
+        if request.path == "/api/markets-selection":
+            body = json.dumps(read_markets_selection(), ensure_ascii=False).encode("utf-8")
+            self.send_body(200, body, "application/json; charset=utf-8")
             return
 
         if request.path == "/api/a-supply-demand":
