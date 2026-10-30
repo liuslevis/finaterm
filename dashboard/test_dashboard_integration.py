@@ -1,4 +1,5 @@
 import json
+import re
 import threading
 import urllib.parse
 import urllib.request
@@ -28,6 +29,9 @@ def main() -> int:
     try:
         assert get(f"{base}/__finance_dashboard_health").decode() == SERVER_ID
         page = get(f"{base}/").decode("utf-8")
+        assets = re.findall(r'<(?:link rel="stylesheet" href|script src)="((?:css|js)/[^"]+)"', page)
+        assert assets, "index.html should reference css/ and js/ assets"
+        page += "\n".join(get(f"{base}/{asset}").decode("utf-8") for asset in assets)
         assert "全球金融数据终端" in page
         assert "vendor/lightweight-charts.js" in page
         assert "echarts" not in page.lower()

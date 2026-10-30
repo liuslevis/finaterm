@@ -72,7 +72,7 @@ uv run python tab/a-etf-share/build_panel.py --start 2025-10-27 --end 2026-10-23
 - **深交所接口稳定性**：`fund_jjgm` 是网页报表接口，跨度超限或参数变化会静默返回空表；脚本对空结果会继续按段抓，
   但没有数据时会报「窗口起始日缺少 ETF 份额数据」，据此排查即可。
 
-## 前端（index.html）
+## 前端（index.html 工作区 + `js/a-etf-share.js` + `css/a-etf-share.css`）
 
 - tab：`data-workspace-tab="a-etf-share"`，工作区 `#aesWorkspace`，CSS 前缀 `.aes-`。
 - JS：`aesState`、`loadAes()`（只请求一次，「清除缓存」会重新加载）、`renderAes()`（分发到

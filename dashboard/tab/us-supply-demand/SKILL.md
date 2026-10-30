@@ -75,7 +75,7 @@ IPO 单独看解释力很弱。要把全部股权供给加总，再和增量资�
 - 回购和分红是季度均摊，最新季度要滞后约 3 个月才有官方值。
 - 历史从 2025-10 开始（FINRA 网页只列 12 个月），z6 前期不稳定。延长历史需要补 `manual.json.finra` 和 ETF 月度数据。
 
-## 前端（index.html）
+## 前端（index.html 工作区 + `js/us-supply-demand.js` + `css/us-supply-demand.css`）
 
 - tab `data-workspace-tab="us-supply-demand"`，工作区 `#ussdWorkspace`，复用 `.asd-chart/.asd-table*` 样式。
 - JS：`ussdState`、`loadUssd()`、`renderUssd()`；`data-ussd-mode="gap|gap_ex_div"` 切换口径。

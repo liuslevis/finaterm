@@ -14,12 +14,16 @@ test("calendar dates and viewport stay fixed across assets and history updates",
     await page.setRequestInterception(true);
     page.on("request", request => request.abort());
     const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
-    const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
-    const script = scripts.find(match => match[1].includes("const ASSETS ="))[1];
-    await page.setContent(html.replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g, ""));
-    await page.addScriptTag({ path: path.join(__dirname, "vendor", "lightweight-charts.js") });
-    // Run the real UI and chart code, but not the network-dependent startup.
-    await page.addScriptTag({ content: script.slice(0, script.lastIndexOf("\n    updateClock();")) });
+    const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(match => match[1]);
+    const inlined = html
+      .replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g, "")
+      .replace(/<link rel="stylesheet" href="([^"]+)">/g, (_, href) =>
+        `<style>${fs.readFileSync(path.join(__dirname, href), "utf8")}</style>`);
+    await page.setContent(inlined);
+    // Run the real UI and chart code, but not the network-dependent startup in js/main.js.
+    for (const src of scripts.filter(src => src !== "js/main.js")) {
+      await page.addScriptTag({ path: path.join(__dirname, src) });
+    }
     await page.evaluate(() => {
       preloadMarketHistory = async () => {};
       const day = 86400000;

@@ -1,0 +1,41 @@
+@media (max-width: 1180px) {
+  .dashboard { grid-template-columns: 1fr; }
+  .side-column { grid-template-columns: 1fr 1fr; }
+  .semi-main-grid { grid-template-columns: 1fr; }
+  .qqq-block-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .qqq-risk-columns { grid-template-columns: 1fr; }
+  .dca-factor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rates-term-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rates-term-channels { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .app { padding: 12px; }
+  header, .module-controls { align-items: flex-start; flex-direction: column; }
+  .header-actions { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+  .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+  .side-column { grid-template-columns: 1fr; }
+  .controls { width: 100%; justify-content: space-between; }
+  .chart { height: 380px; }
+  .semi-hero, .semi-lower-grid { grid-template-columns: 1fr; }
+  .semi-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .signal-row { grid-template-columns: minmax(120px, 1fr) 96px 70px; }
+  .capex-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .capex-layout { grid-template-columns: 1fr; }
+  .capex-chart-wrap { border-right: 0; border-bottom: 1px solid var(--line); }
+  .opinion-editor { grid-template-columns: 1fr 1fr; }
+  .opinion-editor textarea { grid-column: 1 / -1; }
+  .opinion-save { min-height: 40px; }
+  .opinion-entry { grid-template-columns: 95px minmax(0, 1fr); }
+  .opinion-actions { grid-column: 2; }
+  .decision-hero { flex-direction: column; }
+  .decision-grid { grid-template-columns: 1fr; }
+  .qqq-risk-hero { grid-template-columns: 1fr; }
+  .qqq-block-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .factor-toggle-grid { grid-template-columns: 1fr; }
+  .qqq-condition-result { grid-template-columns: 1fr; }
+  .qqq-regime-grid, .qqq-monitor-grid { grid-template-columns: 1fr; }
+  .dca-ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rates-term-grid { grid-template-columns: 1fr; }
+  .rates-term-state { margin-left: 0; width: 100%; }
+  .rates-term-legend { display: none; }
+}

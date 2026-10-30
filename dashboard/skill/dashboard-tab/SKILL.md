@@ -5,7 +5,7 @@ description: 在 dashboard（全球金融数据终端）中新增或修改工作
 
 # Dashboard tab 新增 / 更新手册
 
-单页应用：`dashboard/index.html`（HTML + CSS + JS 全在一个 ~200KB 文件，用 grep 定位，view_range 读）
+单页应用：`dashboard/index.html`（只含 HTML 骨架与各 tab 的工作区标记）+ `css/`（样式）+ `js/`（脚本）
 + 本地 Python 服务 `dashboard/dashboard_server.py`（`http.server`，无框架）。图表库 TradingView
 Lightweight Charts v5（`vendor/lightweight-charts.js`，全局 `LightweightCharts`）。
 
@@ -28,19 +28,37 @@ Lightweight Charts v5（`vendor/lightweight-charts.js`，全局 `LightweightChar
 7. tab 专属的离线脚本、数据和说明统一放在 `dashboard/tab/<data-workspace>/`（`build_panel.py`、
    `panel.json`、`SKILL.md`、`raw/`），后端用 `ROOT / "tab" / "<name>" / ...` 读取，不要放在 dashboard 根目录。
 
-## 2. 前端：新增 tab（index.html）
+## 2. 前端：新增 tab（index.html + css/ + js/）
 
-按顺序修改以下锚点（grep 搜索引号内文本）：
+### 文件布局
 
-| 位置 | 锚点 | 改动 |
+所有脚本都是普通 `<script src>`（非 ES module），共享全局作用域，按 `index.html` 中的顺序加载：
+
+| 文件 | 内容 |
+|---|---|
+| `css/base.css` | 变量、布局、面板、按钮/分段、图表 legend、拖拽回收站、workspace tab |
+| `css/<tab>.css` | 各 tab 专属样式（`markets`、`semiconductor`、`qqq`、`ipo`、`a-supply-demand` …） |
+| `css/responsive.css` | 全部 `@media` 断点，必须最后加载（覆盖前面同优先级规则） |
+| `js/core.js` | 共享工具：`fmt`、`escapeHtml`、`formatDisplayDate`、`createFinancialChart`、`clearChart`、`showChartEmpty`、`setChartLegend`、`chartTime`、`priceFormat`、`setStatus`、`showError`、拖拽回收站 |
+| `js/markets/*.js` | 全球市场：`state.js`（ASSETS/state/缓存）、`charts.js`、`tickers.js`、`data.js`、`correlation.js`、`macro.js`、`rates-term.js`、`index.js`（`renderAll` + 事件） |
+| `js/<tab>.js` | 各 tab 的 state、load/render 与本 tab 事件绑定 |
+| `js/app.js` | `activateWorkspace`、`clearDataCache`、缩放、全局事件、可拖动面板、时钟 |
+| `js/main.js` | 启动流程（必须最后加载；`test_market_time_axis.cjs` 会加载除它以外的全部脚本） |
+
+加载顺序规则：顶层**立即执行**的代码（如 `const xxxState = { a: loadXxx() }`、`createFinancialChart(...)`）
+只能依赖本文件或更早加载的文件；只在事件/调用时才用到的函数可以跨文件引用。新 tab 的
+`<script src="js/xxx.js">` 放在 `js/app.js` 之前，`<link href="css/xxx.css">` 放在 `css/responsive.css` 之前。
+
+### 新增 tab 步骤
+
+| 位置 | 文件 / 锚点 | 改动 |
 |---|---|---|
-| tab 按钮 | `data-workspace-tab="qqq-risk"` | 其后追加 `<button type="button" class="workspace-tab" data-workspace-tab="xxx">名称</button>` |
-| 工作区 | `<div class="attribution">` | 其前插入 `<section id="xxxWorkspace" class="workspace" data-workspace="xxx">…</section>` |
-| CSS | `.workspace.active { display: block; }` | 其后追加本 tab 样式（用 `#id` / `.xxx-` 前缀避免冲突） |
-| JS 逻辑 | `function activateWorkspace(name) {` | 其前插入 state + `loadXxx()` + `renderXxx()` |
-| 懒加载 | `activateWorkspace` 末尾 | `if (name === "xxx") requestAnimationFrame(loadXxx);`（隐藏容器里建图会 0 尺寸，必须激活后再建图） |
-| 事件 | `getElementById("refreshSemiBtn").addEventListener` | 其后绑定本 tab 按钮 |
-| 清缓存 | `clearDataCache` 中 `if (semiState.loaded) reloads.push(` | 其后清空本 tab state，已加载过则重新 load |
+| tab 按钮 | `index.html`：`data-workspace-tab="a-etf-share"` | 其后追加 `<button type="button" class="workspace-tab" data-workspace-tab="xxx">名称</button>` |
+| 工作区 | `index.html`：`<div class="attribution">` | 其前插入 `<section id="xxxWorkspace" class="workspace" data-workspace="xxx">…</section>` |
+| CSS | 新建 `css/xxx.css`，在 `index.html` 中 `css/responsive.css` 前引入 | 本 tab 样式（用 `#id` / `.xxx-` 前缀避免冲突）；窄屏规则加到 `css/responsive.css` |
+| JS 逻辑 | 新建 `js/xxx.js`，在 `index.html` 中 `js/app.js` 前引入 | state + `loadXxx()` + `renderXxx()`，文件末尾绑定本 tab 按钮事件 |
+| 懒加载 | `js/app.js`：`activateWorkspace` 末尾 | `if (name === "xxx") requestAnimationFrame(loadXxx);`（隐藏容器里建图会 0 尺寸，必须激活后再建图） |
+| 清缓存 | `js/app.js`：`clearDataCache` 中 `if (aesLoaded) reloads.push(` | 其后清空本 tab state，已加载过则重新 load |
 
 ### 可复用 UI 组件（极简风格优先复用）
 
@@ -58,7 +76,7 @@ Lightweight Charts v5（`vendor/lightweight-charts.js`，全局 `LightweightChar
 
 ## 3. 测试
 
-- `dashboard/test_dashboard_integration.py`（联网集成测试）：在 `row.value === null ...` 断言后加页面字符串断言；
+- `dashboard/test_dashboard_integration.py`（联网集成测试）：在 `row.value === null ...` 断言后加页面字符串断言（`page` 已拼接 index.html 引用的全部 css/js）；
   在 `PASS usdata MCP series` 后加 `/api/xxx` 校验。
   运行：`cd dashboard; uv run python test_dashboard_integration.py`
   - 注意：截至 2026-10 该测试会先在 `"fred.stlouisfed.org" not in page` 处失败（QQQ 下跌因子 tab 的既有链接），

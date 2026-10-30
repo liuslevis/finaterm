@@ -39,6 +39,14 @@ uv run python dashboard/dashboard_server.py
 
 The dashboard opens automatically at `http://localhost:8765`.
 
+## Code layout
+
+`index.html` holds only the page skeleton and each tab's workspace markup. Styles live in
+`css/` (`base.css`, one file per tab, `responsive.css` last) and scripts in `js/`
+(`core.js` shared helpers, `markets/` for 全球市场, one file per other tab, `app.js`
+shell, `main.js` startup). Scripts are classic `<script src>` tags sharing global scope,
+loaded in the order listed in `index.html`. See `skill/dashboard-tab/SKILL.md` for details.
+
 ## 全球市场 selection
 
 The 全球市场 asset cards and 宏观指标 list (add / remove / drag order) are saved by the server

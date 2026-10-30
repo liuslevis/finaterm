@@ -1,0 +1,15 @@
+#ipoChart { height: 300px; }
+.ipo-table-wrap { position: relative; max-height: 460px; overflow: auto; border-top: 1px solid var(--line); }
+.ipo-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.ipo-table th, .ipo-table td { padding: 8px 14px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.ipo-table th { position: sticky; top: 0; background: #0d1924; color: var(--muted); font-weight: 650; }
+.ipo-table th:first-child, .ipo-table td:first-child { text-align: left; font-family: "SFMono-Regular", Consolas, monospace; }
+.ipo-table td:nth-child(2), .ipo-table td:nth-child(3) { font-family: "SFMono-Regular", Consolas, monospace; }
+.ipo-table th:last-child, .ipo-table td:last-child { text-align: left; white-space: normal; color: var(--muted); }
+.ipo-table tr.upcoming td:first-child { color: var(--amber); }
+#ipoChart canvas { cursor: pointer; }
+.ipo-table tbody tr { cursor: pointer; }
+.ipo-table tr.selected td { background: rgba(56,215,197,.10); color: var(--text); }
+.ipo-detail { display: none; flex-wrap: wrap; gap: 4px 14px; }
+.ipo-table tr.selected .ipo-names { display: none; }
+.ipo-table tr.selected .ipo-detail { display: flex; }

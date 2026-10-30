@@ -1,0 +1,13 @@
+.asd-chart { height: 320px; }
+.asd-table-wrap { overflow: auto; border-top: 1px solid var(--line); }
+.asd-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.asd-table th, .asd-table td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.asd-table td { font-family: "SFMono-Regular", Consolas, monospace; }
+.asd-table th { background: #0d1924; color: var(--muted); font-weight: 650; }
+.asd-table th small { display: block; font-weight: 400; opacity: .7; }
+.asd-table tr.asd-groups th { color: var(--cyan); text-align: center; border-left: 1px solid var(--line); }
+.asd-table th:first-child, .asd-table td:first-child { position: sticky; left: 0; text-align: left; background: #0d1924; z-index: 1; }
+.asd-table td.asd-key { font-weight: 700; color: var(--text); background: rgba(56,215,197,.06); }
+.asd-table td.pos { color: var(--green); }
+.asd-table td.neg { color: var(--red); }
+#asdSource ul { margin: 6px 0 0; padding-left: 18px; }

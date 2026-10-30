@@ -70,7 +70,7 @@ uv run python tab/a-supply-demand/build_panel.py --refresh   # 约 5 分钟，ET
 - **分母**：用总市值，不是自由流通市值。z-score 对比例缩放不敏感，但 bp 的绝对水平偏小。
 - **z-score 回看**：只有 2025-01 起的历史，6 个月窗口的结果不太稳定。需要更长历史时调整 `HISTORY_START`，但 `stock_ggcg_em` / `stock_repurchase_em` 是全量快照，历史越早，估算误差越大。
 
-## 前端（index.html）
+## 前端（index.html 工作区 + `js/a-supply-demand.js` + `css/a-supply-demand.css`）
 
 - tab：`data-workspace-tab="a-supply-demand"`，工作区 `#asdWorkspace`，CSS 前缀 `.asd-`。
 - JS：`asdState`、`loadAsd()`（只请求一次，「清除缓存」会重新加载）、`renderAsd()`。
