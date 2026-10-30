@@ -215,8 +215,16 @@ def compute() -> tuple[pd.DataFrame, dict]:
     shares = pd.concat([sse, szse], axis=1).reindex(index=index.index, columns=CODES)
     coverage = shares.notna().sum(axis=1)  # 当日有原始披露的 ETF 只数
     shares = shares.ffill()                # 份额只在申赎时变化，未披露日沿用前值
-    if shares.iloc[0].isna().any():
+    # 指数缓存可能早于份额数据（如深交所只从 2016-10-28 起），裁掉四只凑不齐的暖机日
+    first_full = shares.dropna().index.min() if shares.notna().any().any() else pd.NaT
+    if pd.isna(first_full):
         raise RuntimeError("窗口起始日缺少 ETF 份额数据，请把 --start 往后挪或先 --refresh")
+    if first_full > index.index[0]:
+        print(f"四只 ETF 份额最早同时覆盖 {first_full.date()}，面板从该日开始", flush=True)
+        index = index.loc[first_full:]
+        prices = prices.loc[first_full:]
+        shares = shares.loc[first_full:]
+        coverage = coverage.loc[first_full:]
     if shares.isna().any().any():
         raise RuntimeError("ETF 份额序列存在无法前向填充的空洞")
 
