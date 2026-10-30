@@ -29,7 +29,7 @@ Electron process starts the local Python API on an available random port and
 stops it when the desktop app exits. The launcher keeps a runtime copy under
 `%LOCALAPPDATA%\FinanceDashboard` so the Windows Electron sandbox can access
 its binaries even when the repository has restricted development-folder ACLs.
-Press `F12` to show or hide the application menu bar.
+The application menu bar is hidden by default; press `F12` to show or hide it.
 
 ### Browser
 

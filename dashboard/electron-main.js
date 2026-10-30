@@ -15,7 +15,8 @@ let dashboardProcess;
 let dashboardUrl;
 let quitting = false;
 let applicationMenu;
-let menuBarVisible = true;
+// 菜单栏默认隐藏，按 F12 显示或隐藏。
+let menuBarVisible = false;
 const shutdownToken = randomBytes(24).toString("hex");
 
 function waitForDashboard(url, attempts = 60) {
@@ -187,16 +188,19 @@ function buildAppMenu() {
   ]);
 }
 
-function toggleMenuBar(window) {
+function setMenuBarVisible(window, visible) {
+  menuBarVisible = visible;
   if (process.platform === "darwin") {
     // macOS 的菜单栏始终显示，改为切换应用菜单。
-    applicationMenu ??= Menu.getApplicationMenu();
-    menuBarVisible = !menuBarVisible;
-    Menu.setApplicationMenu(menuBarVisible ? applicationMenu : Menu.buildFromTemplate([]));
+    Menu.setApplicationMenu(visible ? applicationMenu : Menu.buildFromTemplate([]));
     return;
   }
 
-  window.setMenuBarVisibility(!window.isMenuBarVisible());
+  window.setMenuBarVisibility(visible);
+}
+
+function toggleMenuBar(window) {
+  setMenuBarVisible(window, !menuBarVisible);
 }
 
 function registerMenuBarShortcut(window) {
@@ -228,11 +232,8 @@ function createWindow(url) {
     },
   });
 
-  // 每个新窗口默认重新显示菜单栏。
-  menuBarVisible = true;
-  if (process.platform === "darwin" && applicationMenu) {
-    Menu.setApplicationMenu(applicationMenu);
-  }
+  // 每个新窗口默认隐藏菜单栏，按 F12 显示或隐藏。
+  setMenuBarVisible(mainWindow, false);
   registerMenuBarShortcut(mainWindow);
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (input.type !== "keyDown") return;
@@ -276,7 +277,11 @@ function createWindow(url) {
 }
 
 app.whenReady().then(async () => {
-  Menu.setApplicationMenu(buildAppMenu());
+  applicationMenu = buildAppMenu();
+  // 菜单栏默认隐藏：macOS 直接清空应用菜单，其他平台在窗口创建后隐藏。
+  Menu.setApplicationMenu(
+    process.platform === "darwin" ? Menu.buildFromTemplate([]) : applicationMenu,
+  );
   try {
     dashboardUrl = await startDashboard();
     createWindow(dashboardUrl);
