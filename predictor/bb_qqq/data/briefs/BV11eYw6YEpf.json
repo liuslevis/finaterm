@@ -1,0 +1,127 @@
+{
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Two-year fell 3-4bp after softer core PCE."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "30-year at 5.56%, highest since 2002; eased slightly after PCE."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Front end fell more than long end after PCE."
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Best month since June; stronger dollar weighs on gold."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent ~$103, up 0.6%; diesel at record, flows costly."
+      },
+      "gold": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Down 5-6% on month, worst since June; still above $4,000."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "HY spreads wider six sessions, +40-50bp; widest since March."
+      },
+      "equity_futures": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "S&P futures little changed; Nasdaq slightly lower."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "October hike odds near 50%; December hike still priced, one more late-year hike.",
+      "notable_speakers": [
+        "John Williams",
+        "Neel Kashkari",
+        "Barkin",
+        "Cook",
+        "Goodspeed"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI capex/OpenAI funding strong; IPO delays and regulatory pushback temper."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Middle East war, Hormuz blockade, Russia diesel ban; broader conflict concerns."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Confidence weak, housing frozen; spending and ADP jobs still okay."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "September payrolls Friday",
+      "CPI October 15",
+      "Fed meeting October 28",
+      "Midterm elections November 4"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Energy/diesel supply shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed hike pricing",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equities were little changed, with S&P futures slightly higher and Nasdaq softer. Long-end Treasury yields remain near multi-decade highs, though soft core PCE pulled front-end yields down 3-4bp and steepened the curve slightly. The dollar had its best month since June, oil stayed elevated near $103 Brent, gold fell 5-6% on the month, and high-yield spreads widened for six sessions. The Fed remains hawkish, with Williams signaling one more hike late this year and October odds near 50%. The dominant narrative is an energy-driven inflation shock plus heavy Treasury supply, offset by resilient AI-led earnings; tone is cautious and mildly risk-off.",
+    "notable_quotes": [
+      "We are in a high-yield bond world, and no one wants anything to do with it.",
+      "There's no need for urgency."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33761,
+    "completion_tokens": 6456,
+    "total_tokens": 40217,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5716
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33761
+  }
+}

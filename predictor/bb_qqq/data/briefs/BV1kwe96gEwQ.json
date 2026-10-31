@@ -1,0 +1,120 @@
+{
+  "bvid": "BV1kwe96gEwQ",
+  "show_date": "2026-09-19",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Two-year rose ~5 bp; cannot escape 4.70%."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "10-year added ~3 bp to around 4.95%."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "slight",
+        "note": "Front end underperformed long end; slight flattening."
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Dollar strength reasserting; USD/JPY seen toward 160."
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent down >2% on pipeline-restart and diplomacy hopes."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Mentioned as hedge only; no direction given."
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Spreads described as quite tight; credit supportive."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P futures +0.1%, Nasdaq +0.4%; second gain sought."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "BofA expects two more hikes this year; dot plot implies another.",
+      "notable_speakers": [
+        "Fed Chair Kevin Warsh",
+        "Governor Bowman",
+        "NY Fed President John Williams"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Earnings and AI capex strong; semis/memory favored despite AI risk debate."
+    },
+    "geopolitics": {
+      "escalation": "stable",
+      "note": "Middle East conflict ongoing; UN talks and China role offer resolution hope."
+    },
+    "consumer": {
+      "tone": "strong",
+      "note": "Resilient spending and low unemployment; rate-sensitive cohorts feel pressure."
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "Fed speakers: Bowman today, Williams Tuesday",
+      "US-China trade talks next week; tariff delay",
+      "UN General Assembly/Middle East diplomacy next week",
+      "Saudi East-West pipeline restart in coming days"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Earnings and AI capex",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Hawkish global rate hikes",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/Middle East supply risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "US-China trade diplomacy",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "summary": "Equities are modestly higher, with S&P futures up 0.1% and Nasdaq up 0.4%, while front-end Treasury yields rose about 5 bp and the 10-year added 3 bp, flattening the curve. The dollar is firm on reduced fiscal-risk premium and expectations of Fed hawkishness. Brent fell more than 2% on pipeline-restart hopes, credit spreads remain tight, and gold was cited only as a hedge. The Fed hiked 25 bp earlier in the week and is seen delivering more hikes; the BOJ and ECB also tightened, reinforcing a global hiking cycle. The dominant narrative is resilient earnings/AI capex offsetting higher rates and Middle East oil risk. Tone is cautiously risk-on.",
+    "notable_quotes": [
+      "The market is shaking off the macro adversity that we see.",
+      "The more that people worry about the end of the world, the more the maxes buy stocks."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 17638,
+    "completion_tokens": 4459,
+    "total_tokens": 22097,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3712
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 17638
+  }
+}

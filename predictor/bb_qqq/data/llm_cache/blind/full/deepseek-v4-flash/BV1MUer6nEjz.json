@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1MUer6nEjz",
+  "show_date": "2026-09-18",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.57,
+    "p_up_3d": 0.55,
+    "p_up_7d": 0.53,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Tech/AI preopen rally",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed hike priced; relief in yields",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil retreat on Saudi pipeline restart",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Hawkish Fed/global tightening cycle",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Earnings slowdown and pullback/seasonal risk",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Hawkish Fed was priced, oil fell, and Nasdaq futures/tech led a relief rally; but officials signaled more hikes, guests flagged seasonal/earnings pullback risk, so near-term up odds are only modestly above neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.57,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.53,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Tech/AI preopen rally",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed hike priced; relief in yields",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil retreat on Saudi pipeline restart",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Hawkish Fed/global tightening cycle",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Earnings slowdown and pullback/seasonal risk",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Hawkish Fed was priced, oil fell, and Nasdaq futures/tech led a relief rally; but officials signaled more hikes, guests flagged seasonal/earnings pullback risk, so near-term up odds are only modestly above neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 16946,
+    "completion_tokens": 2209,
+    "total_tokens": 19155,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2008
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 16562
+  },
+  "prompt_sha": "446d3c4552ed1b7d"
+}

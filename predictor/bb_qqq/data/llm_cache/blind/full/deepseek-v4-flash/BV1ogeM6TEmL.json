@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1ogeM6TEmL",
+  "show_date": "2026-09-17",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.47,
+    "p_up_7d": 0.5,
+    "sentiment": -1,
+    "confidence": 68,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Real yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/inflation",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Strong data",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Equity selloff",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Fed delivered a unanimous 25bp hike with a hawkish dot plot and press conference; front-end yields jumped and equities sold off, pressuring QQQ. Strong growth and AI capex cushion longer-term, but higher-for-longer rates and oil-driven inflation keep near-term risk skewed down."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.5,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Real yields",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/inflation",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Strong data",
+          "direction": "neutral",
+          "weight": 10
+        },
+        {
+          "theme": "AI capex",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Equity selloff",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Fed delivered a unanimous 25bp hike with a hawkish dot plot and press conference; front-end yields jumped and equities sold off, pressuring QQQ. Strong growth and AI capex cushion longer-term, but higher-for-longer rates and oil-driven inflation keep near-term risk skewed down."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 29739,
+    "completion_tokens": 5456,
+    "total_tokens": 35195,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5251
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 29355
+  },
+  "prompt_sha": "a3db229deca8b36b"
+}

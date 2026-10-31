@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "parsed": {
+    "p_up_1d": 0.63,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Positive futures/risk-on tone",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed hike/hold uncertainty",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mixed consumer signals",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Data-center political pushback",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are modestly higher on AI earnings beats and a risk-on tone, supporting near-term upside. But a hawkish Fed hold with residual hike risk, $111 oil/geopolitics, mixed consumer data, and Meta/Tesla event risk cap conviction, fading edge over 3-7 days."
+  },
+  "raw": "{\"p_up_1d\":0.63,\"p_up_3d\":0.57,\"p_up_7d\":0.56,\"sentiment\":1,\"confidence\":62,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI earnings strength\",\"direction\":\"bullish\",\"weight\":35},{\"theme\":\"Positive futures/risk-on tone\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Fed hike/hold uncertainty\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Oil and geopolitical risk\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Mixed consumer signals\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Data-center political pushback\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Futures are modestly higher on AI earnings beats and a risk-on tone, supporting near-term upside. But a hawkish Fed hold with residual hike risk, $111 oil/geopolitics, mixed consumer data, and Meta/Tesla event risk cap conviction, fading edge over 3-7 days.\"}",
+  "usage": {
+    "prompt_tokens": 1213,
+    "completion_tokens": 1705,
+    "total_tokens": 2918,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1488
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 829
+  },
+  "prompt_sha": "b96b52d1cb531787"
+}

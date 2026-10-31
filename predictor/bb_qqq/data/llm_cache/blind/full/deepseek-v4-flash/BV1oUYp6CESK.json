@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1oUYp6CESK",
+  "show_date": "2026-09-09",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.5,
+    "p_up_7d": 0.53,
+    "sentiment": 0,
+    "confidence": 58,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Oil near $100 / Middle East supply risk",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "High long yields / Fed hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "CPI/PPI event uncertainty",
+        "direction": "neutral",
+        "weight": 20
+      },
+      {
+        "theme": "Strong earnings and AI capex resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Constructive year-end equity commentary",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Canada tariffs / policy noise",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Oil near $100 and elevated yields keep near-term risk tilted slightly down, with CPI/Fed uncertainty capping conviction. Strong earnings, AI capex and constructive equity views support drift over 3-7 days, so longer horizons return near neutral to modestly positive."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.5,
+      "p_up_7d": 0.53,
+      "sentiment": 0,
+      "confidence": 58,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Oil near $100 / Middle East supply risk",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "High long yields / Fed hike risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "CPI/PPI event uncertainty",
+          "direction": "neutral",
+          "weight": 20
+        },
+        {
+          "theme": "Strong earnings and AI capex resilience",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Constructive year-end equity commentary",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Canada tariffs / policy noise",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Oil near $100 and elevated yields keep near-term risk tilted slightly down, with CPI/Fed uncertainty capping conviction. Strong earnings, AI capex and constructive equity views support drift over 3-7 days, so longer horizons return near neutral to modestly positive."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33323,
+    "completion_tokens": 2505,
+    "total_tokens": 35828,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2284
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 32939
+  },
+  "prompt_sha": "943dac11e27ecc75"
+}

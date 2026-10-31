@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1HBbE6cEkp",
+  "show_date": "2026-09-05",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.415,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 70.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Iran conflict oil spike",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hike expectations",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Energy squeeze on consumers",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Oil above $90 and record diesel/gasoline are squeezing consumers, while strong payrolls keep ~50-50 Fed hike odds alive and front-end yields rising; equities/futures are risk-off. AI/earnings strength is a partial offset, but the net tape favors lower QQQ, with modest mean-reversion by day 7."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Iran conflict oil spike",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hike expectations",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy squeeze on consumers",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Oil above $90 and record diesel/gasoline are squeezing consumers, while strong payrolls keep ~50-50 Fed hike odds alive and front-end yields rising; equities/futures are risk-off. AI/earnings strength is a partial offset, but the net tape favors lower QQQ, with modest mean-reversion by day 7."
+    },
+    {
+      "p_up_1d": 0.41,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Iran conflict and oil spike",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hike expectations",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy squeeze on consumers",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Oil above $90 and geopolitical escalation dominate, while hawkish Fed hike odds and consumer strain weigh on risk appetite. Positive AI/earnings tone cushions but does not offset the bearish macro backdrop, leaving QQQ below-neutral probability."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1144,
+    "completion_tokens": 1908,
+    "total_tokens": 3052,
+    "prompt_tokens_details": {
+      "cached_tokens": 896
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1739
+    },
+    "prompt_cache_hit_tokens": 896,
+    "prompt_cache_miss_tokens": 248
+  },
+  "prompt_sha": "5ad9e1000f3eb5c5"
+}

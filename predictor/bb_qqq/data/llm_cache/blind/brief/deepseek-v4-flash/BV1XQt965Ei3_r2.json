@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1XQt965Ei3",
+  "show_date": "2026-09-03",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.435,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.45,
+    "sentiment": -1,
+    "confidence": 62.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed rate-hike odds",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil/Iran supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI/earnings strength",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Dip-buying resilience",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Risk-off tape with modest early futures weakness; hawkish Fed pricing, high long yields and oil/Iran supply shock outweigh positive AI earnings and dip-buying. QQQ odds sit below neutral, with only mild seven-day cushioning from earnings support."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.41,
+      "p_up_7d": 0.43,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed rate-hike odds",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil/Iran supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI/earnings strength",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Dip-buying resilience",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with modest early futures weakness; hawkish Fed pricing, high long yields and oil/Iran supply shock outweigh positive AI earnings and dip-buying. QQQ odds sit below neutral, with only mild seven-day cushioning from earnings support."
+    },
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed rate hikes",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil/Iran supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI/earnings strength",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Equity dip-buying resilience",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape: hawkish Fed hike pricing, elevated oil/Iran risk and long-end yields pressure multiples, partly offset by AI earnings strength and dip-buying. Futures pared losses, so near-term odds are modestly below neutral but not deeply bearish."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1252,
+    "completion_tokens": 699,
+    "total_tokens": 1951,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 502
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 228
+  },
+  "prompt_sha": "7839c1608f3fc19b"
+}

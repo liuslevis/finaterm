@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV113hC6kELT",
+  "show_date": "2026-09-22",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Oil's fourth straight decline / Iran diplomacy hopes",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed resuming hikes; 'reduce demand', not painless",
+        "direction": "bearish",
+        "weight": 26
+      },
+      {
+        "theme": "Broadening earnings revisions, AI capex durability",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Record diesel/gasoline, sticky inflation, strained low-end consumer",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "US-China AI dialogue, summit week optimism",
+        "direction": "bullish",
+        "weight": 12
+      },
+      {
+        "theme": "Diesel export ban risk (35%) and midterm politics",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures up ~1% on a fourth oil slide and diplomacy hopes, with bond yields easing, buy the relief rally. But the Fed is openly hiking into a supply shock and calling for demand destruction, capping upside. Modest positive drift, heavy event risk into the Trump-Xi summit."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil's fourth straight decline / Iran diplomacy hopes",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed resuming hikes; 'reduce demand', not painless",
+          "direction": "bearish",
+          "weight": 26
+        },
+        {
+          "theme": "Broadening earnings revisions, AI capex durability",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Record diesel/gasoline, sticky inflation, strained low-end consumer",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "US-China AI dialogue, summit week optimism",
+          "direction": "bullish",
+          "weight": 12
+        },
+        {
+          "theme": "Diesel export ban risk (35%) and midterm politics",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures up ~1% on a fourth oil slide and diplomacy hopes, with bond yields easing, buy the relief rally. But the Fed is openly hiking into a supply shock and calling for demand destruction, capping upside. Modest positive drift, heavy event risk into the Trump-Xi summit."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 16908,
+    "completion_tokens": 1931,
+    "total_tokens": 18839,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1625
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 16908
+  },
+  "prompt_sha": "e1cb5fbfe65a1310"
+}

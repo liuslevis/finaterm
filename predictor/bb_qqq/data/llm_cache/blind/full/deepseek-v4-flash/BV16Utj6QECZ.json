@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV16Utj6QECZ",
+  "show_date": "2026-09-02",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.37,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 68,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Global bond yields at multi-decade highs / Fed hike risk",
+        "direction": "bearish",
+        "weight": 90
+      },
+      {
+        "theme": "Oil spike on Strait of Hormuz tanker attacks",
+        "direction": "bearish",
+        "weight": 75
+      },
+      {
+        "theme": "Nasdaq/tech and AI financing rate sensitivity",
+        "direction": "bearish",
+        "weight": 80
+      },
+      {
+        "theme": "Strong earnings backdrop and buy-the-dip views",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "Weak September seasonality and positioning",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "AI demand and new infrastructure deals",
+        "direction": "bullish",
+        "weight": 35
+      }
+    ],
+    "rationale": "Pre-open is risk-off: Nasdaq futures down about 1% as global yields hit multi-decade highs, oil rises on Hormuz attacks, and hawkish Fed/AI financing concerns hit tech. Strong earnings and buy-the-dip views cushion, but near-term probabilities stay below normal."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.37,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Global bond yields at multi-decade highs / Fed hike risk",
+          "direction": "bearish",
+          "weight": 90
+        },
+        {
+          "theme": "Oil spike on Strait of Hormuz tanker attacks",
+          "direction": "bearish",
+          "weight": 75
+        },
+        {
+          "theme": "Nasdaq/tech and AI financing rate sensitivity",
+          "direction": "bearish",
+          "weight": 80
+        },
+        {
+          "theme": "Strong earnings backdrop and buy-the-dip views",
+          "direction": "bullish",
+          "weight": 55
+        },
+        {
+          "theme": "Weak September seasonality and positioning",
+          "direction": "bearish",
+          "weight": 45
+        },
+        {
+          "theme": "AI demand and new infrastructure deals",
+          "direction": "bullish",
+          "weight": 35
+        }
+      ],
+      "rationale": "Pre-open is risk-off: Nasdaq futures down about 1% as global yields hit multi-decade highs, oil rises on Hormuz attacks, and hawkish Fed/AI financing concerns hit tech. Strong earnings and buy-the-dip views cushion, but near-term probabilities stay below normal."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33490,
+    "completion_tokens": 1633,
+    "total_tokens": 35123,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1394
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 33106
+  },
+  "prompt_sha": "6e89af578d920e5b"
+}

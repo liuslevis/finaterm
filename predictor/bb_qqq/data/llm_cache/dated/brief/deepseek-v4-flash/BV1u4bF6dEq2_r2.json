@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1u4bF6dEq2",
+  "show_date": "2026-09-04",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.495,
+    "p_up_3d": 0.475,
+    "p_up_7d": 0.475,
+    "sentiment": 0,
+    "confidence": 55.0,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Fed hike/CPI risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil/Iran conflict",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI earnings/capex",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Front-end yields/dollar softer",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Modest futures bounce and lower front-end yields/softer dollar offset a hawkish Fed with >60% September-hike odds, oil near $97 on Iran risk, and soft Nasdaq. Event risk from payrolls/CPI keeps 3-7d probabilities slightly below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.52,
+      "p_up_3d": 0.49,
+      "p_up_7d": 0.47,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Fed hike/CPI risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil/Iran conflict",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI earnings/capex",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Front-end yields/dollar softer",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Modest futures bounce and lower front-end yields/softer dollar offset a hawkish Fed with >60% September-hike odds, oil near $97 on Iran risk, and soft Nasdaq. Event risk from payrolls/CPI keeps 3-7d probabilities slightly below neutral."
+    },
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 55,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Fed hike/CPI risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil/Iran/Hormuz",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI earnings/capex",
+          "direction": "neutral",
+          "weight": 20
+        },
+        {
+          "theme": "Front-end yields/dollar relief",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Nasdaq relative softness",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Hawkish Fed with >60% September hike odds and Brent near $97 on Iran risk weigh on QQQ; lower front-end yields and a softer dollar offset somewhat, but mixed AI earnings and Nasdaq softness keep risk appetite muted. Payrolls/CPI event risk caps upside."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1200,
+    "completion_tokens": 3830,
+    "total_tokens": 5030,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3629
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 176
+  },
+  "prompt_sha": "078afb86d1960310"
+}

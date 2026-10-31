@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1KNso6YETX",
+  "show_date": "2026-10-29",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.53,
+    "p_up_3d": 0.525,
+    "p_up_7d": 0.535,
+    "sentiment": 0,
+    "confidence": 60.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex/earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hawkish hold/Dec hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI/data-center credit stress",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran strike risk/oil",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Tech-led futures and strong AI capex support a modest upward drift, but a hawkish Fed hold, widening AI credit spreads and Iran/oil risk cap conviction. Fed and mega-cap earnings after today's close make the 1-day distribution wide."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.53,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.55,
+      "sentiment": 0,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex/earnings strength",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish hold/Dec hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/data-center credit stress",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran strike risk/oil",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Tech-led futures and strong AI capex support a modest upward drift, but a hawkish Fed hold, widening AI credit spreads and Iran/oil risk cap conviction. Fed and mega-cap earnings after today's close make the 1-day distribution wide."
+    },
+    {
+      "p_up_1d": 0.53,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.52,
+      "sentiment": 0,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex boom/earnings",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish hold uncertainty",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/data-center credit stress",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran strike risk/oil",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Futures are slightly higher on AI capex and earnings, but hawkish Fed risk, widening AI credit spreads and Iran/oil concerns cap upside. With Fed at 2pm and mega-cap earnings after the close, near-term odds are close to neutral with only modest positive drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1166,
+    "completion_tokens": 1093,
+    "total_tokens": 2259,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 909
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 142
+  },
+  "prompt_sha": "727c9d2cd37d93e6"
+}

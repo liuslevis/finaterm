@@ -1,0 +1,121 @@
+{
+  "bvid": "BV18weT69Eny",
+  "show_date": "2026-09-17",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Two-year near 4.65%, up 30-40bp since late July Fed meeting"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Ten-year near 5%; thirty-year up only 17bp since July 29"
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "moderate",
+        "note": "Front end rising far faster than long end; two-ten now half February level"
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Only cited as hypothetical relief valve if Fed did not hike"
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Crude down about 1% today after big supply-driven run"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold commentary on the program"
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Spreads stayed super tight despite heavy supply; all-in yields highest since 2023"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P futures up roughly 0.2-0.4% into the Fed decision"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Near-100% odds of 25bp hike today; three to four hikes priced over next year",
+      "notable_speakers": [
+        "Fed Chair Kevin Warsh",
+        "Joe Shankowski, MUFG",
+        "Steve Major, Tradition",
+        "Jim Zelter, Apollo Global"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "AI capex drove 20% of S&P with 70% YoY earnings growth; Dell, Intel, JPMorgan strong"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran war disrupting Saudi output; Yemen interference, East pipeline delays threaten crude exports"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Spending robust per BofA survey, but zero real income growth outside top 20%; housing weak"
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "Fed decision today, 2:00pm ET",
+      "Dot plot, dissents, Warsh press conference",
+      "Bank of England decision Thursday",
+      "Bessent meets Chinese counterpart this weekend"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Hawkish Fed hike, credibility test",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex driving earnings",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Rising long-end yields, term premium",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Energy supply shocks",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "summary": "Equities stabilized into the Fed decision, S&P futures up modestly while credit spreads stayed super tight despite heavy supply. Front-end yields have repriced roughly 30-40bp since late July, two-year near 4.65%, while the ten-year flirts with 5% and the thirty-year rose only about 17bp, flattening the curve. Markets price near-certain odds of a 25bp hike, the first since 2023, with three to four hikes implied over the next year and a hawkish dot plot expected. Guests warn of a policy error and a credibility premium around Chair Warsh, with the long end the key test. Crude fell about 1% on supply-disruption headlines; gold and the dollar were not discussed directionally. Tone is cautious, not risk-on.",
+    "notable_quotes": [
+      "It'd be quite a surprise if they did not hike.",
+      "You can't pretend rate hikes are great for risk assets. They just aren't."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 15920,
+    "completion_tokens": 2775,
+    "total_tokens": 18695,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1874
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 15920
+  }
+}

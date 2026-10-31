@@ -1,0 +1,54 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1Z5aC6eEmS",
+  "show_date": "2026-10-02",
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 60,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI/tech earnings strength",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed/hike pricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "HY credit spread widening",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures are modestly higher on tech earnings, but the dominant signal is a sharp global bond selloff, hawkish Fed hike pricing, and fast HY spread widening. With payrolls tomorrow, risk is skewed down; QQQ drift only partly offsets, so probabilities sit modestly below neutral."
+  },
+  "raw": "{\"p_up_1d\":0.47,\"p_up_3d\":0.46,\"p_up_7d\":0.47,\"sentiment\":-1,\"confidence\":60,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"Global bond selloff\",\"direction\":\"bearish\",\"weight\":35},{\"theme\":\"AI/tech earnings strength\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"Hawkish Fed/hike pricing\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"HY credit spread widening\",\"direction\":\"bearish\",\"weight\":15}],\"rationale\":\"Futures are modestly higher on tech earnings, but the dominant signal is a sharp global bond selloff, hawkish Fed hike pricing, and fast HY spread widening. With payrolls tomorrow, risk is skewed down; QQQ drift only partly offsets, so probabilities sit modestly below neutral.\"}",
+  "usage": {
+    "prompt_tokens": 1264,
+    "completion_tokens": 2490,
+    "total_tokens": 3754,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2305
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1264
+  },
+  "prompt_sha": "7c8cce65a67a1028"
+}

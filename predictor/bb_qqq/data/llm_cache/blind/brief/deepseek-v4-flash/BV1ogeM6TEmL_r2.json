@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1ogeM6TEmL",
+  "show_date": "2026-09-17",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.39,
+    "p_up_3d": 0.415,
+    "p_up_7d": 0.455,
+    "sentiment": -1,
+    "confidence": 73.5,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed tightening",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Oil/geopolitical supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong growth and earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capital investment boom",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Hawkish Fed, higher front-end yields, a sharp dollar move and oil shock point to near-term risk-off for QQQ; strong earnings and AI capex are only partial offsets. I shade probabilities below neutral, with slight recovery over 7 days from resilient growth."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.4,
+      "p_up_3d": 0.41,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 75,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed tightening",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil/geopolitical supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong growth and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capital investment boom",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Hawkish Fed, higher front-end yields, a sharp dollar move and oil shock point to near-term risk-off for QQQ; strong earnings and AI capex are only partial offsets. I shade probabilities below neutral, with slight recovery over 7 days from resilient growth."
+    },
+    {
+      "p_up_1d": 0.38,
+      "p_up_3d": 0.42,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed tightening",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil/geopolitical supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Resilient growth and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capital investment boom",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "A hawkish Fed, higher front-end yields, sharp dollar strength and oil shock weigh on QQQ near term. Strong growth, earnings and AI capex cushion the downside, but the morning tape is risk-off."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1163,
+    "completion_tokens": 706,
+    "total_tokens": 1869,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 536
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 139
+  },
+  "prompt_sha": "36ca63e7be083afc"
+}

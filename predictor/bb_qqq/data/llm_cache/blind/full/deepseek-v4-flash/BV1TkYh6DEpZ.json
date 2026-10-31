@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1TkYh6DEpZ",
+  "show_date": "2026-09-10",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.48,
+    "p_up_7d": 0.53,
+    "sentiment": -1,
+    "confidence": 60,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Oil above $100 / Iran risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Rising yields and Fed hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Treasury buyback uncertainty",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Strong earnings and AI capex",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Strategist bullish targets / broadening",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Near-term risk-off tape is driven by crude above $100, rising front-end yields and Fed-hike chatter; buyback uncertainty adds caution. Strong earnings, AI demand and bullish medium-term strategist views support the 7-day horizon, but event risk keeps conviction moderate."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.48,
+      "p_up_7d": 0.53,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil above $100 / Iran risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Rising yields and Fed hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Treasury buyback uncertainty",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Strong earnings and AI capex",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Strategist bullish targets / broadening",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Near-term risk-off tape is driven by crude above $100, rising front-end yields and Fed-hike chatter; buyback uncertainty adds caution. Strong earnings, AI demand and bullish medium-term strategist views support the 7-day horizon, but event risk keeps conviction moderate."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 35527,
+    "completion_tokens": 1892,
+    "total_tokens": 37419,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1689
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 35143
+  },
+  "prompt_sha": "be47ec0d7d2e0622"
+}

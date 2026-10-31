@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1VvHb6tEYh",
+  "show_date": "2026-10-03",
+  "parsed": {
+    "p_up_1d": 0.6,
+    "p_up_3d": 0.58,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "soft payrolls, lower hike odds",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed patience, front-end rally",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "high-yield spread widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Middle East escalation",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex financing",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Dovish payroll miss and front-end rally support risk, with futures up pre-open; but persistent HY widening, French fiscal stress, and Middle East escalation cap upside. Mild risk-on, so modestly above-neutral probabilities fade with horizon."
+  },
+  "raw": "{\"p_up_1d\":0.60,\"p_up_3d\":0.58,\"p_up_7d\":0.56,\"sentiment\":1,\"confidence\":62,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"soft payrolls, lower hike odds\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"Fed patience, front-end rally\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"high-yield spread widening\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"France fiscal stress\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Middle East escalation\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"AI capex financing\",\"direction\":\"bullish\",\"weight\":10}],\"rationale\":\"Dovish payroll miss and front-end rally support risk, with futures up pre-open; but persistent HY widening, French fiscal stress, and Middle East escalation cap upside. Mild risk-on, so modestly above-neutral probabilities fade with horizon.\"}",
+  "usage": {
+    "prompt_tokens": 1211,
+    "completion_tokens": 2116,
+    "total_tokens": 3327,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1912
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1211
+  },
+  "prompt_sha": "e6620b2eccd7b646"
+}

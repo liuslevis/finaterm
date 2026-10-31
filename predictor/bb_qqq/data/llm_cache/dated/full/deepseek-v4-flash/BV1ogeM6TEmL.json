@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1ogeM6TEmL",
+  "show_date": "2026-09-17",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.39,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 74,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed hike and higher dot path",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Front-end/real yield spike and tighter financial conditions",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Persistent inflation and oil/geopolitical supply shocks",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Strong growth, earnings and AI capex",
+        "direction": "bullish",
+        "weight": 12
+      },
+      {
+        "theme": "Long-end value buying and expected softer inflation prints",
+        "direction": "bullish",
+        "weight": 8
+      }
+    ],
+    "rationale": "The Fed delivered a hawkish 25bp hike with dots implying more tightening and a higher neutral rate. Front-end real yields jumped, equities sold off and the curve flattened, signaling tighter financial conditions. Strong growth/AI capex and long-end value buyers cushion, but near-term risk is skewed lower."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.39,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 74,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed hike and higher dot path",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Front-end/real yield spike and tighter financial conditions",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Persistent inflation and oil/geopolitical supply shocks",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Strong growth, earnings and AI capex",
+          "direction": "bullish",
+          "weight": 12
+        },
+        {
+          "theme": "Long-end value buying and expected softer inflation prints",
+          "direction": "bullish",
+          "weight": 8
+        }
+      ],
+      "rationale": "The Fed delivered a hawkish 25bp hike with dots implying more tightening and a higher neutral rate. Front-end real yields jumped, equities sold off and the curve flattened, signaling tighter financial conditions. Strong growth/AI capex and long-end value buyers cushion, but near-term risk is skewed lower."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 29610,
+    "completion_tokens": 2785,
+    "total_tokens": 32395,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2555
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 29226
+  },
+  "prompt_sha": "6b1dbfdeeaea2107"
+}

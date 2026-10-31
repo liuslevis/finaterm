@@ -1,0 +1,126 @@
+{
+  "bvid": "BV18He76DETT",
+  "show_date": "2026-09-15",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Two-year up ~25bp in four sessions; highest since 2004."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10-year near 5%, 30-year ~5.35%; highest since 2003/2007."
+      },
+      "yield_curve": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Front- and long-end levels discussed; curve shape not explicitly called."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No clear dollar trend discussed."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent up ~4% near $110; up ~20% this month."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Gold not discussed."
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "Spreads near 77-80, bounced; Friday contraction, issuance digestion."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "S&P futures -0.6% to -0.8%; Nasdaq -1.5% to -1.8%."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "90% odds of 25bp hike Wednesday; two-three hikes over 12 months.",
+      "notable_speakers": [
+        "Waller",
+        "Bowman",
+        "Warsh",
+        "Hassett"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI safety push pressured chips; software rose; capex/earnings strong but jitters."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Saudi East-West pipeline shut after drone attack; Hormuz talks postponed; Russia/Ukraine refinery strikes."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Lower-income wage growth solid; buffers intact, but fuel costs and millennials pressured."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Wednesday Fed decision; 90% hike priced",
+      "Thursday BoE and Friday BOJ",
+      "Saudi pipeline repair 3-5 weeks",
+      "Weekend AI safety calls"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI slowdown fears",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Resilient consumer/earnings",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Software rotation",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equity futures fell, led by Nasdaq, as AI safety calls stoked slowdown fears. Front-end and long-end yields rose, with 10-year near 5% and 2-year at multi-year highs; markets price a 90% chance of a Fed hike Wednesday. Oil surged as Saudi's East-West pipeline shut and geopolitics escalated. Credit spreads were little changed; the dollar was not clearly discussed. Consumer data remained mixed-to-resilient, but tech and AI capex uncertainty dominated. Overall tone was risk-off.",
+    "notable_quotes": [
+      "Traders are pricing in a ninety percent chance of rate hike.",
+      "If oil goes to rise like this ... that will start to challenge the bull market."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 32536,
+    "completion_tokens": 4662,
+    "total_tokens": 37198,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3930
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 32536
+  }
+}

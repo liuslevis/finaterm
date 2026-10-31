@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1vTHU6EEGU",
+  "show_date": "2026-10-08",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.425,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 70.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Competition for capital",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Long-end bond selloff",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex optimism",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal/political stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil supply disruption",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are lower into a hawkish Fed, multi-decade long-end yields, widening credit, oil above $100, and French fiscal stress; AI capex optimism is the main offset. I shade below neutral, with drift only slightly lifting the 7-day odds."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.42,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Competition for capital",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Long-end bond selloff",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex optimism",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "France fiscal/political stress",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil supply disruption",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are lower into a hawkish Fed, multi-decade long-end yields, widening credit, oil above $100, and French fiscal stress; AI capex optimism is the main offset. I shade below neutral, with drift only slightly lifting the 7-day odds."
+    },
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Competition for capital",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Long-end bond selloff",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex optimism",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "France fiscal/political stress",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil supply disruption",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape: long-end yields at multi-decade highs, hawkish Fed, widening credit, oil above $100 and France stress outweigh AI capex optimism. Futures are slightly lower into the 10-year auction and Fed minutes, limiting near-term upside; 7-day odds are closer to neutral on drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1207,
+    "completion_tokens": 791,
+    "total_tokens": 1998,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 590
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 183
+  },
+  "prompt_sha": "a0431627a8328e47"
+}

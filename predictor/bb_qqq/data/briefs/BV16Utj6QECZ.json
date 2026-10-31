@@ -1,0 +1,120 @@
+{
+  "bvid": "BV16Utj6QECZ",
+  "show_date": "2026-09-02",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Two-year up single basis point; front end modestly higher."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "30-year up 3-4 bp near 5.30; multi-decade highs."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Long end rises more than front end; bear steepener."
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Dollar-yen back to 160; yen weakness returns."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent near $92, WTI ~$88 on Hormuz tanker attacks."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No bullion discussion; 'gold' reference was GoPro."
+      },
+      "credit_spreads": {
+        "trend": "tightening",
+        "magnitude": "slight",
+        "note": "IG unchanged in August; high-yield spreads tighter despite record supply."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "S&P futures -0.6%, Nasdaq -1%; September opens lower."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Roughly 50-67% odds of a September hike; some guests still expect a hold.",
+      "notable_speakers": [
+        "Kevin Washington",
+        "Michael Barr",
+        "Waller"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI demand strong, but financing complexity and rate sensitivity raise concerns."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran conflict resumes; tankers hit in Strait of Hormuz; diplomacy stalled."
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Lower-end consumer stressed; Walmart miss, negative real disposable income, $4 gas."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Friday payrolls report",
+      "Next week CPI",
+      "September Fed decision",
+      "BOJ decision Sept 18"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran/Hormuz oil risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Strong earnings/AI demand",
+        "direction": "bullish",
+        "weight": 25
+      }
+    ],
+    "summary": "Equity futures are lower, led by Nasdaq, while Treasury yields rose across the curve and long-end yields approached multi-decade highs. The move is global, with UK, German and Japanese yields also higher. Oil gained on renewed Iran/Hormuz tanker attacks, and credit spreads remain tight despite record supply. The Fed is described as hawkish after Jackson Hole, with markets pricing a possible September hike even as some guests expect a hold. The dominant narrative is a global bond selloff driven by deficits, issuance, energy and central-bank tightening, with AI capex increasingly rate-sensitive. Tone is risk-off but orderly, with strong earnings and buy-the-dip views limiting pessimism.",
+    "notable_quotes": [
+      "Rotation is the new momentum trade.",
+      "The AI trade has a ton of bearish pushback to it."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33594,
+    "completion_tokens": 6650,
+    "total_tokens": 40244,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5940
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33594
+  }
+}

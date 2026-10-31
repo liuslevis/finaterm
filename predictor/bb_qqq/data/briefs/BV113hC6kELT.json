@@ -1,0 +1,120 @@
+{
+  "bvid": "BV113hC6kELT",
+  "show_date": "2026-09-22",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Front-end yields down ~3bp; still elevated near 4.71%."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Ten-year yield down ~5bp to 4.95%, long end stabilizing."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "moderate",
+        "note": "2s10s low 20s, flattest since March 2025; flattening resumes."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No clear dollar index discussion."
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent down fourth session; WTI near $97, Brent near $101."
+      },
+      "gold": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Gold fell for fourth day; first such streak since June."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "Triple-C spreads blowing out; stress contained to bottom rung."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "S&P futures +0.7%, Nasdaq +1%; risk-on mood."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Market pricing more hikes; BNP expects at least two more.",
+      "notable_speakers": [
+        "Austin Goolsbee",
+        "Kevin Warsh",
+        "John Williams"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Broadening earnings and positive revisions; AI capex remains key driver."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran/Ukraine refinery strikes persist; UNGA diplomacy offers possible easing."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "High-end resilient; lower-end pressured by fuel, rates, volume."
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "Trump-Xi summit Thursday; trade, AI, LNG",
+      "UN General Assembly; possible Trump-Iran meeting this week",
+      "Fed speak: Williams tomorrow, Warsh later",
+      "Diesel export ban debate before midterms"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Oil retreat easing inflation",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hiking cycle",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Geopolitical energy supply risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Broadening earnings and AI capex",
+        "direction": "bullish",
+        "weight": 20
+      }
+    ],
+    "summary": "Equity futures rose, with S&P futures +0.7% and Nasdaq +1%, while oil fell for a fourth session as Brent and WTI retreated. Treasury yields moved lower across the curve and 2s10s flattened to the low 20s, the flattest since March 2025. The Fed backdrop is hawkish: Goolsbee said restoring price stability won't be painless, and BNP expects at least two more hikes, while market pricing leans toward more tightening. The dominant narrative is energy and geopolitics—record diesel, a possible export ban, and diplomacy around UNGA and the Trump-Xi summit. Earnings/AI commentary was positive on broadening growth, but the consumer tone was mixed and risks remain. Overall tone: cautiously risk-on.",
+    "notable_quotes": [
+      "We've reached the point of maximum pain. The dominoes are starting to fall.",
+      "Restoring price stability won't be painless; the only way to restore balance is to reduce demand."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 17162,
+    "completion_tokens": 6558,
+    "total_tokens": 23720,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5565
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 17162
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "bvid": "BV1scec6cEvJ",
+  "show_date": "2026-09-16",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Two-year at 4.65%, ~102bp over policy rate; hike repricing."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10-year tops 5%, highest since 2007; 30-year elevated."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "slight",
+        "note": "2s10s at 35bp and flattening; front end reprices hike."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No clear dollar direction discussed."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent near $110-117, up ~20% this month; pipeline offline."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold direction discussed."
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "Spreads described tight; limited widening expected."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P futures ~0.1% lower; Nasdaq ~0.15% down."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": ">90% odds of 25bp hike tomorrow; December hike possible",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "Amanda F. Chen"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Strong tech earnings offset by AI safety, regulation and capex concerns."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Hormuz disruption, East-West pipeline offline, Iran tensions, Ukraine refinery attack."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Resilient but bifurcated; oil/gas and rates pose marginal risk."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Fed rate decision tomorrow, Sept 17",
+      "Retail sales tomorrow morning",
+      "Treasury Secretary Bessent testimony today",
+      "BOJ decision Friday"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Oil supply shock",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hiking cycle",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Rising long yields",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "summary": "Equity futures are slightly lower, with the S&P down about 0.1% and Nasdaq 0.15%, showing resilience despite the macro backdrop. Long-end yields are up, with the 10-year topping 5% for the first time since 2007, while the 2s10s curve is flattening and the two-year sits near 4.65%. Oil is sharply higher near $110-117 Brent, up roughly 20% this month, as the East-West pipeline remains offline and Hormuz risks persist. The Fed is expected to hike 25bp tomorrow, with market pricing above 90%; the show frames this as hawkish but potentially a policy mistake. AI/earnings tone is mixed, credit spreads are tight, and geopolitics are escalating. The overall tone is cautious risk-off, though equities remain notably resilient.",
+    "notable_quotes": [
+      "Triple digits on crude, five percent bond yields in America. It's a real threat to the equity market this morning.",
+      "Yields are rising for the wrong reasons, in direct correlation with oil prices."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 36609,
+    "completion_tokens": 4584,
+    "total_tokens": 41193,
+    "prompt_tokens_details": {
+      "cached_tokens": 36475
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3828
+    },
+    "prompt_cache_hit_tokens": 36475,
+    "prompt_cache_miss_tokens": 134
+  }
+}

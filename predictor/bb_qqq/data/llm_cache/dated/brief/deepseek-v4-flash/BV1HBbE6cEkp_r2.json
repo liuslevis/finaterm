@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1HBbE6cEkp",
+  "show_date": "2026-09-05",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.4,
+    "p_up_3d": 0.41,
+    "p_up_7d": 0.44,
+    "sentiment": -1,
+    "confidence": 67.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Iran conflict / oil spike above $90",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Hawkish Fed, ~50-50 hike odds priced",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Energy squeeze on consumer",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capex and earnings strength",
+        "direction": "bullish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Oil above $90 with record diesel, hawkish Fed hike risk and rising front-end yields outweigh strong AI earnings. The tape already closed lower, so odds of a bounce stay below the drift baseline while the energy and rates shocks digest."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.37,
+      "p_up_3d": 0.41,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Iran conflict / oil spike above $90",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Hawkish Fed, ~50-50 hike odds priced",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy squeeze on consumer",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capex and earnings strength",
+          "direction": "bullish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Oil above $90 with record diesel, hawkish Fed hike risk and rising front-end yields outweigh strong AI earnings. The tape already closed lower, so odds of a bounce stay below the drift baseline while the energy and rates shocks digest."
+    },
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.41,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Iran conflict oil spike",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hike expectations",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy squeeze on consumers",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Oil above $90, record diesel, rising Iran risk and ~50-50 Fed hike odds keep the tape risk-off. Positive AI/earnings tone is a partial offset but unlikely to dominate near-term; probabilities stay below neutral, with modest drift support over 7 days."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1160,
+    "completion_tokens": 733,
+    "total_tokens": 1893,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 556
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 136
+  },
+  "prompt_sha": "f30579e34a9446bc"
+}

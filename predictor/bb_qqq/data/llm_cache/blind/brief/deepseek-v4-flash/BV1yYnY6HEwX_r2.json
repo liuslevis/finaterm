@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1yYnY6HEwX",
+  "show_date": "2026-10-24",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.44,
+    "p_up_7d": 0.465,
+    "sentiment": -1,
+    "confidence": 67.5,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI credit/financing stress",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Oil and Iran/Hormuz risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed hawkish hold",
+        "direction": "neutral",
+        "weight": 20
+      },
+      {
+        "theme": "Midterm election uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Risk-off tape with tech-led selling, widening AI/HY credit spreads and oil/geopolitical risk outweigh a neutral Fed hold; futures point lower. Over 7 days some upward drift and oversold bounce temper bearishness, but catalysts keep risk skewed down."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 67,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI credit/financing stress",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil and Iran/Hormuz risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed hawkish hold",
+          "direction": "neutral",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Risk-off tape with tech-led selling, widening AI/HY credit spreads and oil/geopolitical risk outweigh a neutral Fed hold; futures point lower. Over 7 days some upward drift and oversold bounce temper bearishness, but catalysts keep risk skewed down."
+    },
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI credit/financing stress",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil and Iran geopolitical risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Tech-led selloff / negative momentum",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed hawkish hold",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Long-end yields down / flight to quality",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with a tech-led selloff, widening AI/HY credit spreads, and oil/Iran risk outweigh a flight-to-quality bid in long Treasuries. Fed hold is neutral but hawkish; mega-cap earnings and midterms add event risk. Modest downside bias near term, fading toward neutral over a week as oversold bounce risk rises."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1181,
+    "completion_tokens": 1438,
+    "total_tokens": 2619,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1221
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 157
+  },
+  "prompt_sha": "fa2f5b6ddc8bede5"
+}

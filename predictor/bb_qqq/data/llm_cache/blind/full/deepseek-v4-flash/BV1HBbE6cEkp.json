@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1HBbE6cEkp",
+  "show_date": "2026-09-05",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.41,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.5,
+    "sentiment": -1,
+    "confidence": 64,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Iran/oil escalation and diesel spike",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed rate-hike expectations after strong payrolls",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong earnings and AI/product catalysts",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Russia-Ukraine ceasefire talks",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Long-end yield and capital-raising concerns",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Weekend Iran escalation and record diesel/oil prices point to a risk-off open, reinforced by Fed hike expectations after strong payrolls. Robust earnings and AI/Apple catalysts cushion but likely do not offset near-term pressure; seven-day drift roughly neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.41,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.5,
+      "sentiment": -1,
+      "confidence": 64,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Iran/oil escalation and diesel spike",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed rate-hike expectations after strong payrolls",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong earnings and AI/product catalysts",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Russia-Ukraine ceasefire talks",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Long-end yield and capital-raising concerns",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Weekend Iran escalation and record diesel/oil prices point to a risk-off open, reinforced by Fed hike expectations after strong payrolls. Robust earnings and AI/Apple catalysts cushion but likely do not offset near-term pressure; seven-day drift roughly neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 32366,
+    "completion_tokens": 1651,
+    "total_tokens": 34017,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1449
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 31982
+  },
+  "prompt_sha": "90d49d6fd60acc2e"
+}

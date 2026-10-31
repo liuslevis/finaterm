@@ -1,0 +1,128 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1yYnY6HEwX",
+  "show_date": "2026-10-24",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.44,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 65.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI credit/financing stress",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Oil and Iran risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed hawkish hold",
+        "direction": "neutral",
+        "weight": 20
+      },
+      {
+        "theme": "Midterm election uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Mega-cap earnings event risk",
+        "direction": "bearish",
+        "weight": 12
+      }
+    ],
+    "rationale": "Tech-led risk-off, widening AI/high-yield credit spreads and elevated oil/geopolitics keep near-term odds below neutral. A Fed hold is priced; mega-cap earnings are event risk. Long-end flight-to-quality helps bonds, not QQQ. Slight futures weakness supports a cautious 1-3 day view, with modest bounce odds by day 7."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI credit/financing stress",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil and Iran risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed hawkish hold",
+          "direction": "neutral",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Mega-cap earnings event risk",
+          "direction": "bearish",
+          "weight": 12
+        }
+      ],
+      "rationale": "Tech-led risk-off, widening AI/high-yield credit spreads and elevated oil/geopolitics keep near-term odds below neutral. A Fed hold is priced; mega-cap earnings are event risk. Long-end flight-to-quality helps bonds, not QQQ. Slight futures weakness supports a cautious 1-3 day view, with modest bounce odds by day 7."
+    },
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI credit/financing stress",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil and Iran risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Hawkish Fed / hold expectations",
+          "direction": "neutral",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Tech-led selloff and widening AI/high-yield credit spreads dominate; oil and Iran risk add pressure, while a hawkish Fed hold offers little support. Slight futures weakness keeps near-term odds below neutral, with drift only partly offsetting risk-off by seven days."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1194,
+    "completion_tokens": 2456,
+    "total_tokens": 3650,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2276
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 170
+  },
+  "prompt_sha": "615a0435f254b698"
+}

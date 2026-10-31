@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1ogeM6TEmL",
+  "show_date": "2026-09-17",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.395,
+    "p_up_3d": 0.435,
+    "p_up_7d": 0.48,
+    "sentiment": -1,
+    "confidence": 71.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed tightening",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Oil/geopolitical supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong growth and earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capital investment boom",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Hawkish Fed hike and Warsh tone, sharp dollar strength and oil shock weigh on risk appetite; resilient growth and AI capex cushion but do not offset near-term tightening. Probabilities stay below neutral, rising modestly with horizon."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.38,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed tightening",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil/geopolitical supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong growth and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capital investment boom",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Hawkish Fed hike and Warsh tone, sharp dollar strength and oil shock weigh on risk appetite; resilient growth and AI capex cushion but do not offset near-term tightening. Probabilities stay below neutral, rising modestly with horizon."
+    },
+    {
+      "p_up_1d": 0.41,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 70,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed tightening",
+          "direction": "bearish",
+          "weight": 40
+        },
+        {
+          "theme": "Oil/geopolitical supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong growth and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capex boom",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Hawkish Fed, higher front-end yields, a sharply stronger dollar and oil supply shock outweigh resilient growth, earnings and AI capex. Odds stay below neutral, though long-end yields and tight credit spreads cushion the downside."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1178,
+    "completion_tokens": 1246,
+    "total_tokens": 2424,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1075
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 154
+  },
+  "prompt_sha": "1cb33be3b84f2393"
+}

@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1FaYD6FEBq",
+  "show_date": "2026-09-12",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.51,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.45,
+    "sentiment": -1,
+    "confidence": 69.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Oil shock and inflation",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex/earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Rising long-end yields",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Preopen bounce after four-day slide",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are up after a four-day slide, but hot CPI, ~88% hike odds, $104 Brent and 5% 10-year yields keep the macro backdrop bearish. I expect a weak bounce, with downside risk into the Fed."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.48,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil shock and inflation",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex/earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Rising long-end yields",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Preopen bounce after four-day slide",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are up after a four-day slide, but hot CPI, ~88% hike odds, $104 Brent and 5% 10-year yields keep the macro backdrop bearish. I expect a weak bounce, with downside risk into the Fed."
+    },
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 70,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil shock and inflation",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Rising long-end yields",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Consumer squeeze and geopolitics",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures bounce and crude retreat support the near-term tape, but hot CPI, high Fed hike odds, elevated long yields, and oil-driven inflation risk keep the 3- and 7-day skew below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1260,
+    "completion_tokens": 1700,
+    "total_tokens": 2960,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1516
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 236
+  },
+  "prompt_sha": "e1fb8d45c99b6022"
+}

@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1N3YG6FErJ",
+  "show_date": "2026-09-11",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.41,
+    "p_up_3d": 0.44,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Oil/energy shock",
+        "direction": "bearish",
+        "weight": 85
+      },
+      {
+        "theme": "Rising yields/rate-hike repricing",
+        "direction": "bearish",
+        "weight": 85
+      },
+      {
+        "theme": "Hot PPI and inflation risk",
+        "direction": "bearish",
+        "weight": 70
+      },
+      {
+        "theme": "AI/earnings resilience",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "Iran war escalation",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "Apple/Meta product optimism",
+        "direction": "bullish",
+        "weight": 25
+      }
+    ],
+    "rationale": "QQQ is pressured near term by an oil spike, higher yields, hot PPI and rising Fed hike odds, with futures already lower. Exceptional earnings and AI capex support provide an offset, but macro risk dominates the 1-7 day horizon."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.41,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil/energy shock",
+          "direction": "bearish",
+          "weight": 85
+        },
+        {
+          "theme": "Rising yields/rate-hike repricing",
+          "direction": "bearish",
+          "weight": 85
+        },
+        {
+          "theme": "Hot PPI and inflation risk",
+          "direction": "bearish",
+          "weight": 70
+        },
+        {
+          "theme": "AI/earnings resilience",
+          "direction": "bullish",
+          "weight": 55
+        },
+        {
+          "theme": "Iran war escalation",
+          "direction": "bearish",
+          "weight": 45
+        },
+        {
+          "theme": "Apple/Meta product optimism",
+          "direction": "bullish",
+          "weight": 25
+        }
+      ],
+      "rationale": "QQQ is pressured near term by an oil spike, higher yields, hot PPI and rising Fed hike odds, with futures already lower. Exceptional earnings and AI capex support provide an offset, but macro risk dominates the 1-7 day horizon."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 31056,
+    "completion_tokens": 1478,
+    "total_tokens": 32534,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1265
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 30672
+  },
+  "prompt_sha": "81f4ba6c4b4adc48"
+}

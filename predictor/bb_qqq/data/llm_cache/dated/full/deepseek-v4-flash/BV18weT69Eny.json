@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV18weT69Eny",
+  "show_date": "2026-09-17",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.55,
+    "p_up_3d": 0.53,
+    "p_up_7d": 0.54,
+    "sentiment": 0,
+    "confidence": 60,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Fed hike priced, dot-plot/messaging risk",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Strong earnings and AI capex support",
+        "direction": "bullish",
+        "weight": 28
+      },
+      {
+        "theme": "Long-end yields and credibility premium",
+        "direction": "bearish",
+        "weight": 22
+      },
+      {
+        "theme": "Equity resilience / buy-the-dip, no recession",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Energy supply shock and inflation persistence",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "A quarter-point hike is near fully priced, so the Fed is more a messaging risk than a level shock. Positive futures and strong AI/earnings support offset hawkish dot-plot and long-end yield risk, leaving QQQ odds modestly above neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.55,
+      "p_up_3d": 0.53,
+      "p_up_7d": 0.54,
+      "sentiment": 0,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Fed hike priced, dot-plot/messaging risk",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Strong earnings and AI capex support",
+          "direction": "bullish",
+          "weight": 28
+        },
+        {
+          "theme": "Long-end yields and credibility premium",
+          "direction": "bearish",
+          "weight": 22
+        },
+        {
+          "theme": "Equity resilience / buy-the-dip, no recession",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy supply shock and inflation persistence",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "A quarter-point hike is near fully priced, so the Fed is more a messaging risk than a level shock. Positive futures and strong AI/earnings support offset hawkish dot-plot and long-end yield risk, leaving QQQ odds modestly above neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15666,
+    "completion_tokens": 1583,
+    "total_tokens": 17249,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1374
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 15666
+  },
+  "prompt_sha": "466eb0fab04a6360"
+}

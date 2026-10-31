@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.545,
+    "p_up_3d": 0.555,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 57.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hawkish/hike uncertainty",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mixed consumer signals",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Tesla/Meta event risk",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Pre-open is modestly risk-on on AI earnings beats, but Fed hawkishness, $111 Brent and mixed consumer data temper upside. Tesla/Meta after the close add near-term binary risk; the 7-day window also spans Fed and PCE. I keep probabilities only mildly above base drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI earnings strength",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish/hike uncertainty",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil and geopolitical risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mixed consumer signals",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Tesla/Meta event risk",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Pre-open is modestly risk-on on AI earnings beats, but Fed hawkishness, $111 Brent and mixed consumer data temper upside. Tesla/Meta after the close add near-term binary risk; the 7-day window also spans Fed and PCE. I keep probabilities only mildly above base drift."
+    },
+    {
+      "p_up_1d": 0.55,
+      "p_up_3d": 0.56,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI earnings strength",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hike/hold uncertainty",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil and geopolitical risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mixed consumer signals",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Tesla/Meta earnings event risk",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "AI-linked beats and risk-on futures give a modest upward tilt, but Tesla/Meta event risk, hawkish Fed uncertainty, elevated oil and mixed consumer data temper conviction. Probabilities stay close to neutral with a slight positive drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1226,
+    "completion_tokens": 3028,
+    "total_tokens": 4254,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2845
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 202
+  },
+  "prompt_sha": "af88b836e0c74725"
+}

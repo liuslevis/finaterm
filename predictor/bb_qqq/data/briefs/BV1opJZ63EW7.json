@@ -1,0 +1,121 @@
+{
+  "bvid": "BV1opJZ63EW7",
+  "show_date": "2026-10-20",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "two-year near 4.70%; tightening cycle seen lifting rates"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "ten-year around 5.1%; rose from 4.50% to 5.30% recently"
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "moderate",
+        "note": "tightening cycle typically flattens curve; 2s10s around 37bp"
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "euro weaker; EUR/USD around 1.12, Morgan Stanley negative euro"
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent 109, WTI above 100; oil seen going higher"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not_discussed"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "sharp",
+        "note": "CCC spreads near 1100bp, close to 2022 highs; high yield widening"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "S&P futures +0.5%, Nasdaq +1.2%; chips rebound"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "unclear",
+      "market_pricing": "not_discussed",
+      "notable_speakers": []
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI infrastructure favored, but IPO valuations and Neo Cloud financing draw pushback"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "France riots; Ukraine refinery strikes and Putin summit proposal elevate tensions"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "US consumer okay but fear and cost-of-living pressures weigh; discretionary weak"
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "Meta earnings Wednesday; Microsoft/Amazon next week",
+      "French yellow-vest protest planned Saturday",
+      "US midterms in 15 days",
+      "Putin-Trump summit proposal"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI/tech earnings rebound",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "France political turmoil",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed tightening/rates higher",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Elevated oil prices",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equity futures point higher, led by a tech and chip rebound after a brutal stretch, with S&P futures up 0.5% and Nasdaq up 1.2%. Rates remain high—2-year near 4.70% and 10-year around 5.1%—while the show describes a tightening cycle that typically flattens the curve. The dominant narrative is mixed: AI capex and tech earnings remain a bullish anchor, but France's riots, wider credit spreads, and elevated oil keep risk appetite constrained. The Fed discussion is hawkish on inflation but the immediate path is unclear. Overall tone is neutral, with guests favoring risk-on tech but wary of Europe and financing stress.",
+    "notable_quotes": [
+      "I want to stay risk on.",
+      "There is no case to be made for complacency anymore."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 15250,
+    "completion_tokens": 5078,
+    "total_tokens": 20328,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4372
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 15250
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1vTHU6EEGU",
+  "show_date": "2026-10-08",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.435,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 65.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "competition for capital / heavy issuance",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "long-end bond selloff / steepening",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex optimism",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal/political stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "oil / Hormuz supply disruption",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are lower with long-end yields at multi-decade highs, widening credit, a hawkish Fed and oil above $100; AI optimism is only a partial offset. Auctions and minutes add event risk, so I shade below neutral, with a slight drift-up cushion over 7 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.45,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "competition for capital / heavy issuance",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "long-end bond selloff / steepening",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex optimism",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "France fiscal/political stress",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "oil / Hormuz supply disruption",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are lower with long-end yields at multi-decade highs, widening credit, a hawkish Fed and oil above $100; AI optimism is only a partial offset. Auctions and minutes add event risk, so I shade below neutral, with a slight drift-up cushion over 7 days."
+    },
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Competition for capital / heavy issuance",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Long-end bond selloff and steepening curve",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex optimism / Nvidia",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "France fiscal and sovereign bond stress",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Hawkish Fed hike pricing",
+          "direction": "bearish",
+          "weight": 12
+        },
+        {
+          "theme": "Oil above $100 on Hormuz attacks",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are lower as long-end yields, hawkish Fed pricing, widening credit spreads and oil above $100 outweigh AI optimism. Auctions and Fed minutes add near-term downside risk, though QQQ's drift and record-high resilience limit bearishness."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1216,
+    "completion_tokens": 1172,
+    "total_tokens": 2388,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 899
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 192
+  },
+  "prompt_sha": "bedabe243f841b62"
+}

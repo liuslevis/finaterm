@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV16Utj6QECZ",
+  "show_date": "2026-09-02",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.435,
+    "p_up_3d": 0.445,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 65.5,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran/Hormuz oil risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI demand/earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Orderly risk-off/buy-the-dip",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures -1%, long-end yields near multi-decade highs and hawkish Fed hike pricing weigh on duration-sensitive Nasdaq; oil/Hormuz adds risk-off. Strong AI earnings and buy-the-dip views cushion, but payrolls/CPI event risk keeps near-term odds below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 66,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Global bond selloff",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran/Hormuz oil risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI demand/earnings resilience",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Orderly risk-off/buy-the-dip",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures -1%, long-end yields near multi-decade highs and hawkish Fed hike pricing weigh on duration-sensitive Nasdaq; oil/Hormuz adds risk-off. Strong AI earnings and buy-the-dip views cushion, but payrolls/CPI event risk keeps near-term odds below neutral."
+    },
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 65,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Global bond selloff / long yields near highs",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike repricing after Jackson Hole",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran/Hormuz oil risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Strong AI demand and earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Orderly risk-off and buy-the-dip support",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures down about 1% with global yields, oil and hawkish Fed repricing pressuring rate-sensitive tech. Strong AI earnings and buy-the-dip tone limit downside, but near-term risk is skewed lower; 7-day odds recover modestly toward neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1191,
+    "completion_tokens": 2101,
+    "total_tokens": 3292,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1892
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 167
+  },
+  "prompt_sha": "4b2354664ab37e25"
+}

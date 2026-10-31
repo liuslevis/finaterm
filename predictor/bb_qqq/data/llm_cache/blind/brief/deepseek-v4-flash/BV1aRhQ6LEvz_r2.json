@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1aRhQ6LEvz",
+  "show_date": "2026-09-26",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.535,
+    "p_up_3d": 0.51,
+    "p_up_7d": 0.48,
+    "sentiment": 0,
+    "confidence": 57.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Higher-for-longer rates",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Bond selloff, term premium",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran talks, oil pullback",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex resilience",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are slightly higher after a three-day run, but the dominant signal is hawkish Fed repricing and a sharp long-end selloff pressuring Nasdaq valuations. Oil retreat and AI capex offer offsets, leaving a neutral-to-soft edge, weakest over 7 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.48,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Higher-for-longer rates",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Bond selloff, term premium",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran talks, oil pullback",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "AI capex resilience",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are slightly higher after a three-day run, but the dominant signal is hawkish Fed repricing and a sharp long-end selloff pressuring Nasdaq valuations. Oil retreat and AI capex offer offsets, leaving a neutral-to-soft edge, weakest over 7 days."
+    },
+    {
+      "p_up_1d": 0.53,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Higher-for-longer rates",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Bond selloff, term premium",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran talks, oil pullback",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "AI capex resilience",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Front-end stabilization, softer oil and slightly higher futures support the very near term, but multi-decade high long yields and hawkish Fed repricing remain a valuation headwind for QQQ, especially over a week."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1198,
+    "completion_tokens": 2155,
+    "total_tokens": 3353,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1969
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 174
+  },
+  "prompt_sha": "744c21065d2bcef4"
+}

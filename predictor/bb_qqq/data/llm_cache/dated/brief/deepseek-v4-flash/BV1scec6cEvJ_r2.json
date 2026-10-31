@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1scec6cEvJ",
+  "show_date": "2026-09-16",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.45,
+    "p_up_3d": 0.435,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 62.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Oil supply shock",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed hike",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI/earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Rising long yields",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Oil near $110-117 and 10y above 5% keep risk-off pressure on QQQ into a >90% priced Fed hike; resilient tech earnings and tight credit limit downside. Near-term odds sit modestly below neutral, rising toward neutral over a week as drift reasserts."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.45,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil supply shock",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed hike",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/earnings resilience",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Rising long yields",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Oil near $110-117 and 10y above 5% keep risk-off pressure on QQQ into a >90% priced Fed hike; resilient tech earnings and tight credit limit downside. Near-term odds sit modestly below neutral, rising toward neutral over a week as drift reasserts."
+    },
+    {
+      "p_up_1d": 0.45,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil supply shock",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hike",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/earnings resilience",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Long yields above 5%",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Geopolitical escalation",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Oil near $110-117 and 10y above 5% are material headwinds, with a >90% priced hawkish Fed hike tomorrow adding event risk. Equity resilience and strong AI earnings limit downside, but risk-off tone keeps odds below neutral across horizons."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1236,
+    "completion_tokens": 1328,
+    "total_tokens": 2564,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1134
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 212
+  },
+  "prompt_sha": "c7831cc740039b47"
+}

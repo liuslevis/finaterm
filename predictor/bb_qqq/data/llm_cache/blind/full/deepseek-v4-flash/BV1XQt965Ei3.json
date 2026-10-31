@@ -1,0 +1,117 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1XQt965Ei3",
+  "show_date": "2026-09-03",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.5,
+    "p_up_7d": 0.54,
+    "sentiment": 0,
+    "confidence": 63,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Bond yields and Fed hike odds",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and earnings strength",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/Iran supply shock",
+        "direction": "bearish",
+        "weight": 18
+      },
+      {
+        "theme": "Tech valuation, concentration, credit",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "Crude pullback relief",
+        "direction": "bullish",
+        "weight": 12
+      },
+      {
+        "theme": "Weak seasonality and losing streak",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Labor data uncertainty",
+        "direction": "neutral",
+        "weight": 8
+      }
+    ],
+    "rationale": "Morning is mixed: high yields, hawkish Fed hike odds, oil/Iran and weak seasonality pressure QQQ, but crude is easing intraday, AI capex and earnings remain strong, and strategists lean constructive. Near-term slightly below neutral; 7-day drifts modestly higher."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.5,
+      "p_up_7d": 0.54,
+      "sentiment": 0,
+      "confidence": 63,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Bond yields and Fed hike odds",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and earnings strength",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/Iran supply shock",
+          "direction": "bearish",
+          "weight": 18
+        },
+        {
+          "theme": "Tech valuation, concentration, credit",
+          "direction": "bearish",
+          "weight": 12
+        },
+        {
+          "theme": "Crude pullback relief",
+          "direction": "bullish",
+          "weight": 12
+        },
+        {
+          "theme": "Weak seasonality and losing streak",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Labor data uncertainty",
+          "direction": "neutral",
+          "weight": 8
+        }
+      ],
+      "rationale": "Morning is mixed: high yields, hawkish Fed hike odds, oil/Iran and weak seasonality pressure QQQ, but crude is easing intraday, AI capex and earnings remain strong, and strategists lean constructive. Near-term slightly below neutral; 7-day drifts modestly higher."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33121,
+    "completion_tokens": 2734,
+    "total_tokens": 35855,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2497
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 32737
+  },
+  "prompt_sha": "38db41a73e295b62"
+}

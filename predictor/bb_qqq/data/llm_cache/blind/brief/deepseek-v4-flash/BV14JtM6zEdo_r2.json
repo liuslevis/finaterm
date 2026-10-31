@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.445,
+    "p_up_7d": 0.465,
+    "sentiment": -1,
+    "confidence": 57.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Warsh and hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil spike and Middle East escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex and Nvidia earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed credibility and heavy issuance",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Consumer fatigue risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Risk-off tape with hawkish front-end repricing and an oil/geopolitical shock offsets Nvidia-led AI support; QQQ likely lacks near-term upside, with modest upward drift only partially restoring odds over a week."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 58,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Warsh and hike risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil spike and Middle East escalation",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex and Nvidia earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed credibility and heavy issuance",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Consumer fatigue risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with hawkish front-end repricing and an oil/geopolitical shock offsets Nvidia-led AI support; QQQ likely lacks near-term upside, with modest upward drift only partially restoring odds over a week."
+    },
+    {
+      "p_up_1d": 0.4,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 56,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Warsh, near-term hike risk (~60%)",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil spike / US-Iran escalation, Hormuz",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex, Nvidia outlook and MediaTek stake",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed credibility, heavy issuance, steeper long end",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Consumer fatigue, weak PCE/retail",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Net bearish: hawkish hike repricing, Brent above $91 and rising geopolitical risk outweigh Nvidia-led AI support, with futures already soft. Payrolls and Waller loom, capping upside; drift only partly offsets, so probabilities stay below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1319,
+    "completion_tokens": 497,
+    "total_tokens": 1816,
+    "prompt_tokens_details": {
+      "cached_tokens": 1152
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 231
+    },
+    "prompt_cache_hit_tokens": 1152,
+    "prompt_cache_miss_tokens": 167
+  },
+  "prompt_sha": "f11cd3e00184a618"
+}

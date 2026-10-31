@@ -1,0 +1,121 @@
+{
+  "bvid": "BV1oUYp6CESK",
+  "show_date": "2026-09-09",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Two-year around 4.40%; front end higher for three weeks."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Ten-year near 4.80%, 30-year near 5.26%; long end edged up."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Long end led rise; steepness cited as dominant bond driver."
+      },
+      "dollar": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Yen rallied to 152.89/$; dollar softer vs yen."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent near $99, WTI mid-$90s on Saudi attacks."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not discussed"
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "No blow-out; credit open, some late-cycle behavior."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P futures down ~0.2-0.3%; Nasdaq roughly flat."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Markets price a 25bp hike next week; CPI decides one or more.",
+      "notable_speakers": [
+        "Kevin Walsh",
+        "Waller",
+        "Williams",
+        "Logan"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Strong earnings and AI capex offset by bubble, data-center and safety worries."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Saudi energy sites attacked; Hormuz disrupted; Canada-US tariffs escalate."
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Gas above $4, diesel high, mortgage rates squeeze consumers; energy bill up $100bn."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "PPI Thursday; CPI Friday",
+      "Fed decision next Wednesday",
+      "Saudi energy attacks, Hormuz talks",
+      "Canada retaliatory tariffs take effect"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Oil near $100",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong earnings/AI",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Middle East escalation",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "summary": "Equity futures were slightly lower, the S&P down about 0.2-0.3%, while Treasury yields edged up with the 10-year near 4.80% and 30-year near 5.26%. Oil was the dominant macro force, with Brent near $99 and WTI in the mid-$90s as Middle East attacks and Hormuz disruption lifted crude. The dollar softened versus the yen, which rallied to 152.89. The Fed is seen likely to hike next week, but Friday's CPI is treated as the deciding decimal point; officials remain hawkish and markets price a 25bp move. Earnings and AI capex remain supportive, though data-center, bubble and safety concerns temper the tone; consumers are pressured by fuel and mortgage costs. Overall tone is cautious and neutral-to-risk-off.",
+    "notable_quotes": [
+      "Fed between a rock and a hard place; they can't control the outcome of geopolitical events.",
+      "It comes down to CPI on the next decimal place."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33483,
+    "completion_tokens": 6607,
+    "total_tokens": 40090,
+    "prompt_tokens_details": {
+      "cached_tokens": 33280
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5862
+    },
+    "prompt_cache_hit_tokens": 33280,
+    "prompt_cache_miss_tokens": 203
+  }
+}

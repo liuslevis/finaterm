@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1opJZ63EW7",
+  "show_date": "2026-10-20",
+  "parsed": {
+    "p_up_1d": 0.63,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Tech/semiconductor rebound after long losing streak",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex/IPO valuation and credit-financing stress",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Guest dip-buying and stress-already-priced views",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "France riots and European political/fiscal risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Upcoming mega-cap earnings and capex uncertainty",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures are up about 1% as chips rebound after an eight-day slide, and several guests advocate buying the tech dip. Offset by AI capex/IPO valuation and credit stress, French riots, and earnings uncertainty, so modest upside odds fade over the week."
+  },
+  "raw": "{\"p_up_1d\":0.63,\"p_up_3d\":0.57,\"p_up_7d\":0.55,\"sentiment\":1,\"confidence\":58,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"Tech/semiconductor rebound after long losing streak\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"AI capex/IPO valuation and credit-financing stress\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Guest dip-buying and stress-already-priced views\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"France riots and European political/fiscal risk\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Upcoming mega-cap earnings and capex uncertainty\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Nasdaq futures are up about 1% as chips rebound after an eight-day slide, and several guests advocate buying the tech dip. Offset by AI capex/IPO valuation and credit stress, French riots, and earnings uncertainty, so modest upside odds fade over the week.\"}",
+  "usage": {
+    "prompt_tokens": 15018,
+    "completion_tokens": 941,
+    "total_tokens": 15959,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 722
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 14634
+  },
+  "prompt_sha": "766c3a58cdff77dd"
+}

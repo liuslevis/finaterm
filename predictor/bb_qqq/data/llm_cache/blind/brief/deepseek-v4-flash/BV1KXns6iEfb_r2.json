@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1KXns6iEfb",
+  "show_date": "2026-10-23",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.26,
+    "p_up_3d": 0.395,
+    "p_up_7d": 0.46,
+    "sentiment": -2,
+    "confidence": 69.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Middle East oil escalation",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI/tech earnings and capex concerns",
+        "direction": "bearish",
+        "weight": 28
+      },
+      {
+        "theme": "Nasdaq futures selloff",
+        "direction": "bearish",
+        "weight": 18
+      },
+      {
+        "theme": "French fiscal stress",
+        "direction": "bearish",
+        "weight": 14
+      },
+      {
+        "theme": "Fed expected hold",
+        "direction": "neutral",
+        "weight": 8
+      }
+    ],
+    "rationale": "Nasdaq futures are down 1.6-2% on an oil shock and disappointing mega-cap tech earnings, with French fiscal stress adding risk-off pressure. Fed hold offers little offset; near-term skew is down, with only modest mean-reversion odds over 3-7 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.3,
+      "p_up_3d": 0.41,
+      "p_up_7d": 0.47,
+      "sentiment": -2,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Middle East oil escalation",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI/tech earnings and capex concerns",
+          "direction": "bearish",
+          "weight": 28
+        },
+        {
+          "theme": "Nasdaq futures selloff",
+          "direction": "bearish",
+          "weight": 18
+        },
+        {
+          "theme": "French fiscal stress",
+          "direction": "bearish",
+          "weight": 14
+        },
+        {
+          "theme": "Fed expected hold",
+          "direction": "neutral",
+          "weight": 8
+        }
+      ],
+      "rationale": "Nasdaq futures are down 1.6-2% on an oil shock and disappointing mega-cap tech earnings, with French fiscal stress adding risk-off pressure. Fed hold offers little offset; near-term skew is down, with only modest mean-reversion odds over 3-7 days."
+    },
+    {
+      "p_up_1d": 0.22,
+      "p_up_3d": 0.38,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 70,
+      "preopen_move": "sharply_down",
+      "drivers": [
+        {
+          "theme": "Middle East oil escalation",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI/tech earnings slowdown",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "French fiscal/political risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Fed on hold / resilient earnings",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Pre-open risk-off tape",
+          "direction": "bearish",
+          "weight": 25
+        }
+      ],
+      "rationale": "Pre-open Nasdaq futures down 1.6-2% with oil spiking on Middle East escalation and weak mega-cap tech earnings; risk-off regime and French fiscal stress keep near-term odds below neutral, though QQQ's upward drift and possible oversold bounce lift 7-day odds toward 0.45."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1251,
+    "completion_tokens": 3302,
+    "total_tokens": 4553,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3095
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 227
+  },
+  "prompt_sha": "a68755c2d63e8798"
+}

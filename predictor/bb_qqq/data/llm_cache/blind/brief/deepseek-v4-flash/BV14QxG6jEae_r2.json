@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV14QxG6jEae",
+  "show_date": "2026-10-28",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.565,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.525,
+    "sentiment": 1,
+    "confidence": 58.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex financing boom",
+        "direction": "bullish",
+        "weight": 40
+      },
+      {
+        "theme": "Fed hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran conflict and oil",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Midterm election uncertainty",
+        "direction": "neutral",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures point up and AI financing optimism supports megacaps, but hawkish Fed hike risk, elevated oil on Iran, widening credit and weak consumer temper upside. Event risk from the Fed, mega-cap earnings and midterms keeps longer horizons close to neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.57,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.53,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex financing boom",
+          "direction": "bullish",
+          "weight": 40
+        },
+        {
+          "theme": "Fed hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran conflict and oil",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "neutral",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures point up and AI financing optimism supports megacaps, but hawkish Fed hike risk, elevated oil on Iran, widening credit and weak consumer temper upside. Event risk from the Fed, mega-cap earnings and midterms keeps longer horizons close to neutral."
+    },
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.53,
+      "p_up_7d": 0.52,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex financing boom",
+          "direction": "bullish",
+          "weight": 40
+        },
+        {
+          "theme": "Fed hawkish hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran conflict and oil",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "neutral",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures are modestly higher and AI financing headlines keep a risk-on tilt, but a hawkish Fed, rising oil/Iran risk, and mixed AI leverage concerns cap upside; event risk around the Fed and mega-cap earnings leaves probabilities only mildly above neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1183,
+    "completion_tokens": 1383,
+    "total_tokens": 2566,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1171
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 159
+  },
+  "prompt_sha": "4edf15a476cbd074"
+}

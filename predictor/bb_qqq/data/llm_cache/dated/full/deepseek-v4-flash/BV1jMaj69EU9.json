@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1jMaj69EU9",
+  "show_date": "2026-09-29",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 72,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Rising yields and hawkish Fed",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil spike and Iran escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI/chip leadership under pressure",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "No-recession bond-buying view limits downside",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Morning tape is risk-off: yields and crude are up on hawkish Fed rhetoric and Iran escalation, pressuring high-multiple tech and widening credit spreads. JPM's no-recession/bond-buying view limits downside, but near-term catalysts skew negative, with modest improvement by day 7."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Rising yields and hawkish Fed",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil spike and Iran escalation",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/chip leadership under pressure",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "No-recession bond-buying view limits downside",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Morning tape is risk-off: yields and crude are up on hawkish Fed rhetoric and Iran escalation, pressuring high-multiple tech and widening credit spreads. JPM's no-recession/bond-buying view limits downside, but near-term catalysts skew negative, with modest improvement by day 7."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15453,
+    "completion_tokens": 2985,
+    "total_tokens": 18438,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2776
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 15453
+  },
+  "prompt_sha": "48efcf9f9d13e814"
+}

@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1vsHf62EUe",
+  "show_date": "2026-10-06",
+  "parsed": {
+    "p_up_1d": 0.55,
+    "p_up_3d": 0.56,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "AI/earnings bull thesis",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Record-high equity momentum",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Rising global bond yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/geopolitical risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Eurozone debt stress",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Weak ex-tech breadth",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Record highs and a bullish AI/earnings thesis support QQQ, but rising global yields, high oil, Middle East risk and eurozone debt stress cap conviction. Tape is flat, so probabilities stay modestly above neutral."
+  },
+  "raw": "{\"p_up_1d\":0.55,\"p_up_3d\":0.56,\"p_up_7d\":0.57,\"sentiment\":1,\"confidence\":58,\"preopen_move\":\"flat\",\"drivers\":[{\"theme\":\"AI/earnings bull thesis\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"Record-high equity momentum\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Rising global bond yields\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Oil/geopolitical risk\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Eurozone debt stress\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"Weak ex-tech breadth\",\"direction\":\"bearish\",\"weight\":5}],\"rationale\":\"Record highs and a bullish AI/earnings thesis support QQQ, but rising global yields, high oil, Middle East risk and eurozone debt stress cap conviction. Tape is flat, so probabilities stay modestly above neutral.\"}",
+  "usage": {
+    "prompt_tokens": 10429,
+    "completion_tokens": 3167,
+    "total_tokens": 13596,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2965
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 10429
+  },
+  "prompt_sha": "d0637884d37d2c2b"
+}

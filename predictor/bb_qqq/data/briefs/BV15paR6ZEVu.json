@@ -1,0 +1,121 @@
+{
+  "bvid": "BV15paR6ZEVu",
+  "show_date": "2026-09-30",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Two-year near 4.94%; up over 50 bps this month"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "10-year near 5.22%, 30-year near 5.54%; multi-decade highs"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Curve steepened; 30-year yields above 10-year and front end"
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No dollar direction discussed"
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent and WTI lower on supply relief and no deal"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold direction discussed"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "Spreads modestly wider recently; credit markets still stable"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P and Nasdaq futures slightly higher near record highs"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "More than 70% odds of an October hike; two more hikes expected",
+      "notable_speakers": [
+        "John Williams",
+        "Chris Waller",
+        "Governor Barr",
+        "Governor Bowman"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI capex strong, but Oracle IPO delayed and semis weak on risk scrutiny"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "No Iran deal before midterms; strike threats and Hormuz blockade persist"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Carmax beat relied on price cuts; high rates and fuel weigh on affordability"
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "PCE inflation Wednesday",
+      "Payrolls Friday",
+      "Six Fed speakers today",
+      "AI CEO White House lunch today"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Bond vigilante selloff",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex boom",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed tightening cycle",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran war/oil risk",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "summary": "Equities are slightly firmer near records, but the dominant cross-asset move is higher Treasury yields: two-year, 10-year and 30-year yields are at multi-decade highs and the curve has steepened. Oil is lower on supply relief, credit spreads are slightly wider, and the dollar and gold were not discussed. The Fed is hawkish; markets price a high probability of an October hike and further tightening. The show’s narrative is a bond-vigilante selloff driven by war, deficits, data and Fed hikes, with worry about negative feedback loops. Tone is cautious and net risk-off despite resilient equity futures.",
+    "notable_quotes": [
+      "This might be the revenge of the bond vigilantes.",
+      "It seems like one of them has to give in order to durably materially reduce yields."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 37189,
+    "completion_tokens": 4979,
+    "total_tokens": 42168,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4295
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 37189
+  }
+}

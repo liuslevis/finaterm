@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1SEpe6qE16",
+  "show_date": "2026-10-10",
+  "parsed": {
+    "p_up_1d": 0.63,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "OpenAI revenue clarification and tech rebound",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Pre-open risk-on bounce after AI-led selloff",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Elevated Treasury yields and Fed hawkish bias",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI valuation and profitability doubts",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil/Iran geopolitical premium easing but fragile",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "Resilient consumer offset by fuel-cost margin pressure",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures rebounded after an AI-led selloff as OpenAI revenue reporting eased some fears, but elevated yields, Fed hawkishness and AI profitability doubts cap conviction. Oil risk softened but remains fragile; consumer resilience is offset by fuel-cost pressure."
+  },
+  "raw": "{\"p_up_1d\": 0.63, \"p_up_3d\": 0.57, \"p_up_7d\": 0.55, \"sentiment\": 1, \"confidence\": 62, \"preopen_move\": \"up\", \"drivers\": [{\"theme\": \"OpenAI revenue clarification and tech rebound\", \"direction\": \"bullish\", \"weight\": 30}, {\"theme\": \"Pre-open risk-on bounce after AI-led selloff\", \"direction\": \"bullish\", \"weight\": 25}, {\"theme\": \"Elevated Treasury yields and Fed hawkish bias\", \"direction\": \"bearish\", \"weight\": 20}, {\"theme\": \"AI valuation and profitability doubts\", \"direction\": \"bearish\", \"weight\": 15}, {\"theme\": \"Oil/Iran geopolitical premium easing but fragile\", \"direction\": \"neutral\", \"weight\": 10}, {\"theme\": \"Resilient consumer offset by fuel-cost margin pressure\", \"direction\": \"neutral\", \"weight\": 10}], \"rationale\": \"Nasdaq futures rebounded after an AI-led selloff as OpenAI revenue reporting eased some fears, but elevated yields, Fed hawkishness and AI profitability doubts cap conviction. Oil risk softened but remains fragile; consumer resilience is offset by fuel-cost pressure.\"}",
+  "usage": {
+    "prompt_tokens": 31463,
+    "completion_tokens": 1289,
+    "total_tokens": 32752,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1014
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 31463
+  },
+  "prompt_sha": "8965e5da4fd27667"
+}

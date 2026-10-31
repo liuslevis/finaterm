@@ -1,0 +1,121 @@
+{
+  "bvid": "BV1KNso6YETX",
+  "show_date": "2026-10-29",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Two-year near 4.74%, unchanged since last Fed meeting"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Ten-year around 5%, up slightly this morning"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Long end creeps higher while front end unchanged"
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No direct dollar trend discussed"
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent higher; diesel elevated, futures higher for longer"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold market discussion"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "AI/data-center credit spreads widening; CDS spreads blowing out"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P and Nasdaq futures higher ahead of Fed and earnings"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hold",
+      "market_pricing": "Less than 10% odds of hike today; December 25bp hike expected",
+      "notable_speakers": [
+        "Kevin Walsh",
+        "John Williams",
+        "Phil Jefferson",
+        "Neel Kashkari"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "SK Hynix profit surged; Big Tech capex strong despite financing worries"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Reports of US/Gulf strikes on Iran after midterms; Israel coalition unclear"
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Housing and sentiment weak; voters discontent with cost of living"
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "Fed decision today at 2 p.m.",
+      "Microsoft, Alphabet earnings after close today",
+      "US midterm elections next week",
+      "Potential Iran strikes early November"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI capex boom",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hawkish hold uncertainty",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI debt financing stress",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran strike risk/oil",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "summary": "Equity futures pointed higher, led by tech, while front-end yields held near 4.74% and long-end yields crept up, leaving the curve slightly steeper. Credit spreads in AI/data-center debt widened and oil stayed elevated. The Fed was widely expected to hold today, with a hawkish tone and a December hike still priced; less than 10% odds of a hike today. The dominant narrative was an AI capex boom colliding with financing competition and ROI doubts, alongside rising Iran strike risk. Tone was cautiously positive on earnings but neutral overall, with investors wary of Fed communication and credit stress.",
+    "notable_quotes": [
+      "Are we in the bubble? My answer is always, of course we are, and the question is just how close are we to it popping?",
+      "There is a strong economic argument for raising rates today by a quarter point."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 39629,
+    "completion_tokens": 4456,
+    "total_tokens": 44085,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3776
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 39629
+  }
+}

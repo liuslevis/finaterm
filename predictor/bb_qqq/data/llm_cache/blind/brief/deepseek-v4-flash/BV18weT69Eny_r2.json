@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV18weT69Eny",
+  "show_date": "2026-09-17",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.47,
+    "p_up_7d": 0.495,
+    "sentiment": -1,
+    "confidence": 62.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed hike and credibility test",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex earnings",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Rising long-end yields and term premium",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Energy supply shocks",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Hawkish Fed hike and dot plot are largely priced but still cap risk appetite; long-end yields near 5% and policy-error worries weigh on duration-sensitive QQQ. AI capex earnings and tight credit support, but cautious tone and energy supply risk leave a modestly below-neutral skew, with base drift limiting one-week downside."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.46,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.49,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed hike and credibility test",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Rising long-end yields and term premium",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy supply shocks",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Hawkish Fed hike and dot plot are largely priced but still cap risk appetite; long-end yields near 5% and policy-error worries weigh on duration-sensitive QQQ. AI capex earnings and tight credit support, but cautious tone and energy supply risk leave a modestly below-neutral skew, with base drift limiting one-week downside."
+    },
+    {
+      "p_up_1d": 0.48,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.5,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed hike and credibility test",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex and earnings strength",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end yields and term premium",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy supply shocks",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Futures are modestly higher and credit is tight, but a near-certain hawkish hike, 5% long yields and energy shocks skew risk modestly lower; event risk around dots and the presser keeps conviction moderate."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1274,
+    "completion_tokens": 1292,
+    "total_tokens": 2566,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1112
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 250
+  },
+  "prompt_sha": "66a18afd410e37bf"
+}

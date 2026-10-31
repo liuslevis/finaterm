@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1opJZ63EW7",
+  "show_date": "2026-10-20",
+  "parsed": {
+    "p_up_1d": 0.6,
+    "p_up_3d": 0.56,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Tech/semiconductor rebound after oversold selloff; Nasdaq futures up",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex/financing and neocloud/IPO valuation pushback; credit stress",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "France riots, wider French spreads, European risk-off",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "High oil and higher yields/tightening concerns",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Upcoming mega-cap tech earnings and dip-buying guest stance",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Tech is bouncing after an oversold chip selloff and Nasdaq futures are up, with several guests willing to buy the dip; but France unrest, high oil, tighter credit and AI financing/valuation worries cap upside. Net mild risk-on, modestly above-neutral probabilities, decaying with horizon."
+  },
+  "raw": "{\"p_up_1d\":0.60,\"p_up_3d\":0.56,\"p_up_7d\":0.55,\"sentiment\":1,\"confidence\":58,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"Tech/semiconductor rebound after oversold selloff; Nasdaq futures up\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"AI capex/financing and neocloud/IPO valuation pushback; credit stress\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"France riots, wider French spreads, European risk-off\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"High oil and higher yields/tightening concerns\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Upcoming mega-cap tech earnings and dip-buying guest stance\",\"direction\":\"bullish\",\"weight\":15}],\"rationale\":\"Tech is bouncing after an oversold chip selloff and Nasdaq futures are up, with several guests willing to buy the dip; but France unrest, high oil, tighter credit and AI financing/valuation worries cap upside. Net mild risk-on, modestly above-neutral probabilities, decaying with horizon.\"}",
+  "usage": {
+    "prompt_tokens": 14996,
+    "completion_tokens": 2057,
+    "total_tokens": 17053,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1819
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 14996
+  },
+  "prompt_sha": "ac64264a570def13"
+}

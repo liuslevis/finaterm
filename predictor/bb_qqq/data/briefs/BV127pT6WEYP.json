@@ -1,0 +1,120 @@
+{
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Policy rates rising globally; slight morning relief across the curve"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10s ~5.27, 30s ~5.64, near 2002 highs; small intraday pullback"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "moderate",
+        "note": "Bias to steepen regardless of data; long-end supply, fewer buyers"
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Euro weak trajectory, selling rallies, likely break 1.10"
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Brent ~$97, down 2.5%, under $100 on Yemen progress"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not_discussed"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "CCC/high-yield widening; IG and aggregate spreads contained/tight"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "S&P near record, Nasdaq record; up ~0.4-0.6%"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hold",
+      "market_pricing": "market pricing three rate hikes; Fed seen skipping October, one more hike possible",
+      "notable_speakers": [
+        "Scott Bessent",
+        "John Williams",
+        "Jefferson"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Record earnings growth, AI capex boom; OpenAI $30B, DeepSeek $12B, Moonshot $50B"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "France unrest, Middle East Houthis/Iran blockade; some Red Sea progress"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Resilient via savings drawdown; bifurcated, lower-end weakening under energy costs"
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "October 14 CPI print",
+      "This week: 10s/30s Treasury auctions",
+      "Midterm elections, one month away",
+      "Q3 earnings season, late October"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Rising yields, competition for capital",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and strong earnings",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "France fiscal/political risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed, hikes priced",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "summary": "Equities push toward records with the Nasdaq at all-time highs while Treasury yields sit near multi-decade highs, with 10s around 5.27 and 30s near 5.64 after a modest morning pullback. The curve retains a steepening bias on long-end supply and a mismatch of buyers and sellers. The dollar is favored as the euro weakens on European fiscal and political stress, while oil slips under $100 on Red Sea progress. The Fed is framed as still tightening, with markets pricing three hikes though officials flag no urgency and a possible October skip. The dominant narrative is a powerful AI-driven capex and earnings boom colliding with a bond-market repricing that has not yet broken risk assets; tone is cautiously risk-on.",
+    "notable_quotes": [
+      "At some point, the solution to higher rates is higher rates.",
+      "If you want to see a re-engagement of that broadening trade, then yes, it would be nice to see oil and yields come down."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 37895,
+    "completion_tokens": 3212,
+    "total_tokens": 41107,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2337
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 37895
+  }
+}

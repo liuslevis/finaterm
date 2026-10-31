@@ -1,0 +1,54 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.47,
+    "p_up_7d": 0.51,
+    "sentiment": -1,
+    "confidence": 60,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed/rate-hike repricing",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil/geopolitical inflation shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI/tech earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Valuation/concentration and soft consumer",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Futures are modestly lower as higher oil and a hawkish Fed repricing lift yields and inflation risk; AI/tech strength cushions QQQ. Near-term odds stay below neutral, with only modest recovery by day seven."
+  },
+  "raw": "{\"p_up_1d\":0.44,\"p_up_3d\":0.47,\"p_up_7d\":0.51,\"sentiment\":-1,\"confidence\":60,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Hawkish Fed/rate-hike repricing\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Oil/geopolitical inflation shock\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"AI/tech earnings resilience\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"Valuation/concentration and soft consumer\",\"direction\":\"bearish\",\"weight\":20}],\"rationale\":\"Futures are modestly lower as higher oil and a hawkish Fed repricing lift yields and inflation risk; AI/tech strength cushions QQQ. Near-term odds stay below neutral, with only modest recovery by day seven.\"}",
+  "usage": {
+    "prompt_tokens": 35104,
+    "completion_tokens": 1750,
+    "total_tokens": 36854,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1569
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 35104
+  },
+  "prompt_sha": "df4cf5d07ff93fa8"
+}

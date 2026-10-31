@@ -1,0 +1,120 @@
+{
+  "bvid": "BV1u4bF6dEq2",
+  "show_date": "2026-09-04",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "2s fell 6-7bp after Waller; around 4.30-4.33."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "10-year down ~2bp near 4.76; 30-year ~5.25."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Front end fell more than long end after Waller."
+      },
+      "dollar": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Dollar softer; dollar-yen fell from 160 to 156 on intervention talk."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent near $97, up ~9% in four sessions on Iran."
+      },
+      "gold": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Mentioned ticking up; no size given."
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Overall spreads very tight; tech spreads up but credit firm."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P futures modestly higher after three-day slide; Nasdaq soft."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "More than 60% odds of September hike; CPI next week decisive.",
+      "notable_speakers": [
+        "Chris Waller",
+        "John Williams",
+        "Michael Barr"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Broadcom AI guide strong but shares fell; software rallied; capex sustainability questioned."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "US-Iran strikes continue; Hormuz threat supports oil risk premium."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Spending resilient but price-sensitive; higher-income stronger, lower-income stretched."
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "Payrolls tomorrow",
+      "CPI next Friday",
+      "Fed decision Sep 16",
+      "BoJ meeting Sep 18"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Fed hike/CPI risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil and Iran conflict",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI earnings/capex",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Yen/BoJ intervention",
+        "direction": "neutral",
+        "weight": 20
+      }
+    ],
+    "summary": "Equities were modestly higher after a three-day slide, while front-end yields fell 6-7bp after Waller and the curve steepened; long-end yields edged lower. The dollar weakened and dollar-yen slid toward 156 on yen intervention and BoJ hike speculation. Oil rose sharply, with Brent near $97 after four sessions of gains on Iran/Hormuz risk; credit spreads stayed tight and gold was described as ticking up. The Fed remains hawkish, with markets pricing more than 60% odds of a September hike and Waller saying CPI will decide. The dominant narrative is a rates-versus-earnings debate, with AI earnings mixed and geopolitics escalating. Overall tone is neutral.",
+    "notable_quotes": [
+      "If inflation comes in hot, I would consider a rate hike.",
+      "We are calling for a rate in September... just for credibility's sake."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33633,
+    "completion_tokens": 5113,
+    "total_tokens": 38746,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4398
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33633
+  }
+}

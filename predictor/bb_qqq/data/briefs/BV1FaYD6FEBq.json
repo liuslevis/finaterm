@@ -1,0 +1,125 @@
+{
+  "bvid": "BV1FaYD6FEBq",
+  "show_date": "2026-09-12",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "2y ~4.60%, ~80-100bp above Fed funds; biggest one-day jump since Apr 2025"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10y near 5%, 30y ~5.35%, highest since 2007; secular uptrend"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "moderate",
+        "note": "Long-end at multi-decade highs; term premium rebuild, not flattening"
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No USD index level discussed"
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent ~$104, up ~20% since August; crude above $100, retreating today"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold discussion"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "HY spreads cited ~300bp; some price-sensitive credit widening"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "S&P futures +0.6-0.9%; Nasdaq +0.6-0.8% after four-day slide"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "~70% before CPI, ~88-89% after; about three hikes priced",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "Christopher Waller",
+        "Christine Lagarde"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Oracle AI cloud strong; Adobe and OpenAI concerns offset"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran/Red Sea, Russia-Ukraine refinery strikes; Gulf-Iran talks no breakthrough"
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Fuel costs and weak wages squeeze paycheck-to-paycheck households; top-end resilient"
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "CPI at 8:30 ET today",
+      "Fed decision next Wednesday",
+      "Gulf-Iran meeting Monday",
+      "Oracle AI cloud earnings"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Oil shock and inflation",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Rising long-end yields",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Fiscal stimulus checks",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equity futures are higher, with S&P and Nasdaq up about 0.6-0.9% after a four-day slide, while Treasury yields remain elevated: 2-year near 4.60%, 10-year near 5%, 30-year around 5.35%. Oil is the dominant macro driver, with Brent around $104 after a roughly 20% August-to-date surge, although crude is retreating today. The Fed is expected to hike next Wednesday; market pricing moved to roughly 70-90% after core CPI came in hot at 0.3% m/m. The show's tone is cautious and inflation-focused, with bond-market credibility and rising term premium debated. Dollar and gold were not discussed.",
+    "notable_quotes": [
+      "The bond bull market is dead. Yields are no longer in a downtrend. They are in clear distinct uptrends.",
+      "Wake up, folks! This is really serious. You have a food crisis. You have an energy crisis."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 36787,
+    "completion_tokens": 7013,
+    "total_tokens": 43800,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 6235
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36787
+  }
+}

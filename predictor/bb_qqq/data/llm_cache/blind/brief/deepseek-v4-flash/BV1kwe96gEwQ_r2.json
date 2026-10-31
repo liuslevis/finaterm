@@ -1,0 +1,128 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1kwe96gEwQ",
+  "show_date": "2026-09-19",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.595,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 62.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Earnings and AI capex",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Hawkish global rate hikes",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/Middle East supply risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "US-China trade diplomacy",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Pre-open Nasdaq strength",
+        "direction": "bullish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Nasdaq futures +0.4% and strong earnings/AI support a modestly above-neutral 1-day view, but hawkish Fed/global hikes, firm dollar and Middle East risk cap upside; trade diplomacy and pipeline restart help 3-7 day odds only marginally."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.59,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 65,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Earnings and AI capex",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Hawkish global rate hikes",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/Middle East supply risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "US-China trade diplomacy",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Pre-open Nasdaq strength",
+          "direction": "bullish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Nasdaq futures +0.4% and strong earnings/AI support a modestly above-neutral 1-day view, but hawkish Fed/global hikes, firm dollar and Middle East risk cap upside; trade diplomacy and pipeline restart help 3-7 day odds only marginally."
+    },
+    {
+      "p_up_1d": 0.6,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI and earnings resilience",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Hawkish global rate hikes",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/Middle East supply risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "US-China trade diplomacy",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Nasdaq futures +0.4% and a risk-on tone give a modest edge, with strong earnings/AI capex offsetting hawkish Fed and higher yields; oil supply risk and trade diplomacy are secondary. The edge fades over a week as rate headwinds persist."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1204,
+    "completion_tokens": 1495,
+    "total_tokens": 2699,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1313
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 180
+  },
+  "prompt_sha": "3bed8bf0d61b3fc4"
+}

@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV18He76DETT",
+  "show_date": "2026-09-15",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.32,
+    "p_up_3d": 0.42,
+    "p_up_7d": 0.48,
+    "sentiment": -1,
+    "confidence": 63,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI slowdown / regulatory fear hits megacap tech",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hike expectations and high long yields",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil supply shock from Saudi pipeline / Hormuz risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Resilient economy and earnings cushion, no broad panic",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Software rotation and selective tech strength",
+        "direction": "neutral",
+        "weight": 5
+      }
+    ],
+    "rationale": "QQQ is pressured by the weekend AI-slowdown push, higher rate-hike odds, and an oil supply shock. The tape is risk-off but not panicked, with resilient macro and some software rotation limiting downside; short-term odds stay below neutral, recovering only modestly over a week."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.32,
+      "p_up_3d": 0.42,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 63,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI slowdown / regulatory fear hits megacap tech",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hike expectations and high long yields",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil supply shock from Saudi pipeline / Hormuz risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Resilient economy and earnings cushion, no broad panic",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Software rotation and selective tech strength",
+          "direction": "neutral",
+          "weight": 5
+        }
+      ],
+      "rationale": "QQQ is pressured by the weekend AI-slowdown push, higher rate-hike odds, and an oil supply shock. The tape is risk-off but not panicked, with resilient macro and some software rotation limiting downside; short-term odds stay below neutral, recovering only modestly over a week."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 32339,
+    "completion_tokens": 2281,
+    "total_tokens": 34620,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2061
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 31955
+  },
+  "prompt_sha": "d8a3d646817df9f8"
+}

@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1aRhQ6LEvz",
+  "show_date": "2026-09-26",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.53,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.55,
+    "sentiment": 0,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Bond yields at multi-decade highs / hawkish Fed",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Bond market stabilizing today",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Crude retreat on Iran deal hopes",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Equity resilience despite yield rise",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Structurally higher oil/energy floor and geopolitical stalemate",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Morning tape is calmer: yields stabilising and crude lower support equities, but multi-decade-high yields, hawkish Fed pricing and a structurally high oil floor cap QQQ upside. Net signal is mixed, so probabilities stay near neutral with only a slight drift-up tilt."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.53,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.55,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Bond yields at multi-decade highs / hawkish Fed",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Bond market stabilizing today",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Crude retreat on Iran deal hopes",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Equity resilience despite yield rise",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Structurally higher oil/energy floor and geopolitical stalemate",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Morning tape is calmer: yields stabilising and crude lower support equities, but multi-decade-high yields, hawkish Fed pricing and a structurally high oil floor cap QQQ upside. Net signal is mixed, so probabilities stay near neutral with only a slight drift-up tilt."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10361,
+    "completion_tokens": 3988,
+    "total_tokens": 14349,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3775
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 9977
+  },
+  "prompt_sha": "996eb67f5250ea35"
+}

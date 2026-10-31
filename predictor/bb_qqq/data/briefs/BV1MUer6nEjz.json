@@ -1,0 +1,126 @@
+{
+  "bvid": "BV1MUer6nEjz",
+  "show_date": "2026-09-18",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Two-year near 4.71%, down about 2bp after seven straight up days"
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Relief rally in long end; 30-year down 3-6bp near 5.33%"
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "slight",
+        "note": "Long end falls more than front end on hawkish-hike relief buying"
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Dollar strength persists; dollar-yen in mid-150s ahead of BOJ"
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent down ~2% toward $100-103 as Saudi pipeline partly restarts"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not_discussed"
+      },
+      "credit_spreads": {
+        "trend": "tightening",
+        "magnitude": "slight",
+        "note": "Credit markets called placid, liquid; only minor issuance volatility"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "S&P futures +0.9%, Nasdaq +1%; tech and hyperscalers lead"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "53% odds of an October hike; roughly three-in-four chance of a December hike",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "President Donald Trump",
+        "Tom Simmons (Jefferies)",
+        "Julian Emanuel (Evercore)"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Tech and hyperscalers rally, chips weak; banks flag soft FICC trading; AI capex, regulation eyed"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "No diplomatic progress on Iran; Saudi pipeline partly back; Trump threatens EU tariffs over Canada"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Spending and retail sales strong but sentiment poor; housing weak on 7% mortgage rates"
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "BOJ decision Friday, hike expected",
+      "Oct 14 CPI print watched",
+      "Oct 28 FOMC meeting",
+      "Midterms 47 days away"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Hawkish Fed hike cycle",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Long-end bond relief rally",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil retreat on pipeline restart",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capex and tech strength",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Middle East supply risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Stocks bounced (S&P futures +0.9%, Nasdaq +1%) after the Fed's first hike in three years; the long end led a relief rally, the 30-year down about 3bp near 5.33% and the 2-year off 2bp to 4.71%, flattening the curve. Brent fell roughly 2% toward $100 on a partial Saudi pipeline restart, while the dollar firmed toward 155 yen. Warsh was hawkish and orthodox—removing accommodation, inflation too high, economy strengthening—with 16 of 18 dots seeing more hikes; markets price 53% odds of an October hike and roughly 75% for December. Credit stayed placid and tech led gains, though banks flagged soft trading. Geopolitics and pullback risk temper the tone; net mildly risk-on.",
+    "notable_quotes": [
+      "This is the beginning of a rate hike cycle.",
+      "I would be hard pressed to describe broad financial conditions as restrictive."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 17170,
+    "completion_tokens": 3457,
+    "total_tokens": 20627,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2546
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 17170
+  }
+}

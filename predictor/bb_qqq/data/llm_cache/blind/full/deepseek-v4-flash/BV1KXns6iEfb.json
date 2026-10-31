@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1KXns6iEfb",
+  "show_date": "2026-10-23",
+  "parsed": {
+    "p_up_1d": 0.34,
+    "p_up_3d": 0.42,
+    "p_up_7d": 0.47,
+    "sentiment": -2,
+    "confidence": 80,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Tech/AI capex and semiconductor guidance",
+        "direction": "bearish",
+        "weight": 90
+      },
+      {
+        "theme": "Oil shock and Middle East escalation risk",
+        "direction": "bearish",
+        "weight": 85
+      },
+      {
+        "theme": "French sovereign spread stress and global risk-off",
+        "direction": "bearish",
+        "weight": 65
+      },
+      {
+        "theme": "Defensive rotation and flight-to-quality lower yields",
+        "direction": "neutral",
+        "weight": 45
+      },
+      {
+        "theme": "Resilient AI demand and Fed-on-hold hopes",
+        "direction": "bullish",
+        "weight": 30
+      }
+    ],
+    "rationale": "Risk aversion is broad: QQQ futures are down ~2% on AI/semis capex disappointment, oil/geopolitical escalation, and French spread stress; defensive rotation and lower yields reflect flight to quality. Strong AI demand and Fed-on-hold hopes only cushion. I expect below-neutral odds, improving modestly over 7 days as oversold conditions ease."
+  },
+  "raw": "{\"p_up_1d\":0.34,\"p_up_3d\":0.42,\"p_up_7d\":0.47,\"sentiment\":-2,\"confidence\":80,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Tech/AI capex and semiconductor guidance\",\"direction\":\"bearish\",\"weight\":90},{\"theme\":\"Oil shock and Middle East escalation risk\",\"direction\":\"bearish\",\"weight\":85},{\"theme\":\"French sovereign spread stress and global risk-off\",\"direction\":\"bearish\",\"weight\":65},{\"theme\":\"Defensive rotation and flight-to-quality lower yields\",\"direction\":\"neutral\",\"weight\":45},{\"theme\":\"Resilient AI demand and Fed-on-hold hopes\",\"direction\":\"bullish\",\"weight\":30}],\"rationale\":\"Risk aversion is broad: QQQ futures are down ~2% on AI/semis capex disappointment, oil/geopolitical escalation, and French spread stress; defensive rotation and lower yields reflect flight to quality. Strong AI demand and Fed-on-hold hopes only cushion. I expect below-neutral odds, improving modestly over 7 days as oversold conditions ease.\"}",
+  "usage": {
+    "prompt_tokens": 17192,
+    "completion_tokens": 3708,
+    "total_tokens": 20900,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3475
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 16808
+  },
+  "prompt_sha": "735aa1a7be1d0ea2"
+}

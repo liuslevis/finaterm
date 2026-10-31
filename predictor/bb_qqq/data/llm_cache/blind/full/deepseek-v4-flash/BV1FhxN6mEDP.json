@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1FhxN6mEDP",
+  "show_date": "2026-10-30",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.37,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.51,
+    "sentiment": -1,
+    "confidence": 66,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Alphabet earnings and AI monetization miss",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex/ROI and free-cash-flow skepticism",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong GDP/consumer data supports earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed pause but high inflation and unclear reaction function",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Microsoft/cloud strength partial offset",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Iran/oil and ECB/French political risk",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Pre-open is tech-led lower: Alphabet's miss and AI capex/ROI worries hit Nasdaq, while Microsoft is only a partial offset. Strong GDP and a Fed pause support dips, but inflation, ECB/French political risk and Iran/oil keep risk capped near term."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.37,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.51,
+      "sentiment": -1,
+      "confidence": 66,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Alphabet earnings and AI monetization miss",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex/ROI and free-cash-flow skepticism",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong GDP/consumer data supports earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed pause but high inflation and unclear reaction function",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Microsoft/cloud strength partial offset",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Iran/oil and ECB/French political risk",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Pre-open is tech-led lower: Alphabet's miss and AI capex/ROI worries hit Nasdaq, while Microsoft is only a partial offset. Strong GDP and a Fed pause support dips, but inflation, ECB/French political risk and Iran/oil keep risk capped near term."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33738,
+    "completion_tokens": 2066,
+    "total_tokens": 35804,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1830
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 33354
+  },
+  "prompt_sha": "9be8cb7ed5c72a96"
+}

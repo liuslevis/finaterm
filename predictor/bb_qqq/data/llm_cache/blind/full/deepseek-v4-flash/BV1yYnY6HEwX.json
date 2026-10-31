@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1yYnY6HEwX",
+  "show_date": "2026-10-24",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "AI credit spreads widening / cost of capital repricing",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Momentum breakdown after worst Nasdaq day in months, no bounce",
+        "direction": "bearish",
+        "weight": 22
+      },
+      {
+        "theme": "Oil spike (Brent ~114) and Iran strike risk post-midterms",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Hyperscaler capex earnings + Fed binary risk next week",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Rotation into defensives/equal-weight, treasury safe-haven bid",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "Quality-over-leverage argument: big-cap cash flow winners, near-term buy-the-dip case",
+        "direction": "bullish",
+        "weight": 8
+      }
+    ],
+    "rationale": "Credit-driven AI financing scare, no reflexive bounce, oil near $115 and midterm/Iran overhang keep risk skewed down; rotation rather than capitulation and safe-haven Treasury bid limit the damage. Hyperscaler capex and Fed next week are the swing factors."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "AI credit spreads widening / cost of capital repricing",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Momentum breakdown after worst Nasdaq day in months, no bounce",
+          "direction": "bearish",
+          "weight": 22
+        },
+        {
+          "theme": "Oil spike (Brent ~114) and Iran strike risk post-midterms",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Hyperscaler capex earnings + Fed binary risk next week",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Rotation into defensives/equal-weight, treasury safe-haven bid",
+          "direction": "neutral",
+          "weight": 10
+        },
+        {
+          "theme": "Quality-over-leverage argument: big-cap cash flow winners, near-term buy-the-dip case",
+          "direction": "bullish",
+          "weight": 8
+        }
+      ],
+      "rationale": "Credit-driven AI financing scare, no reflexive bounce, oil near $115 and midterm/Iran overhang keep risk skewed down; rotation rather than capitulation and safe-haven Treasury bid limit the damage. Hyperscaler capex and Fed next week are the swing factors."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 39126,
+    "completion_tokens": 1094,
+    "total_tokens": 40220,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 778
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 38742
+  },
+  "prompt_sha": "0571cd495bdcd2c3"
+}

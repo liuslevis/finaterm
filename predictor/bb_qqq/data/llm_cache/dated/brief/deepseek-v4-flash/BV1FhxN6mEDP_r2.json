@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1FhxN6mEDP",
+  "show_date": "2026-10-30",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.435,
+    "p_up_3d": 0.455,
+    "p_up_7d": 0.485,
+    "sentiment": -1,
+    "confidence": 66.5,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI capex payback fears / Alphabet",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish hold and rising yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong GDP and consumer",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran and French political risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Amazon/ECB event risk",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures down about 1% on Alphabet's AI monetization and capex concerns, while a hawkish Fed and higher long yields weigh on duration. Strong GDP/consumer partly offsets, but event risk from Amazon and the ECB keeps conviction moderate, leaving near-term odds below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.49,
+      "sentiment": -1,
+      "confidence": 65,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI capex payback fears / Alphabet",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold and rising yields",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong GDP and consumer",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran and French political risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Amazon/ECB event risk",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures down about 1% on Alphabet's AI monetization and capex concerns, while a hawkish Fed and higher long yields weigh on duration. Strong GDP/consumer partly offsets, but event risk from Amazon and the ECB keeps conviction moderate, leaving near-term odds below neutral."
+    },
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI capex payback fears / Alphabet selloff",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold and yields near 5%",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong GDP and consumer",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Credit spread widening / HY stress",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Amazon, ECB and midterm event risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Microsoft cloud strength",
+          "direction": "bullish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Alphabet's ~10% drop on AI monetization fears and a hawkish Fed with 10-year yields near 5% skew risk lower, though strong consumer data and Microsoft cloud limit the downside. Modest below-coin-flip odds, improving slightly with horizon on normal QQQ drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1214,
+    "completion_tokens": 2216,
+    "total_tokens": 3430,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1986
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 190
+  },
+  "prompt_sha": "3d8a845526fe0981"
+}

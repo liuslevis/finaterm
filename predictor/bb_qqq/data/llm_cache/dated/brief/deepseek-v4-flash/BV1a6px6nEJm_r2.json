@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1a6px6nEJm",
+  "show_date": "2026-10-09",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.425,
+    "p_up_3d": 0.415,
+    "p_up_7d": 0.45,
+    "sentiment": -1,
+    "confidence": 71.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end Treasury yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil and geopolitical escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex debt supply / credit widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed and hike uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Resilient AI earnings and labor data",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Risk-off tape with Nasdaq futures down ~0.7%, long-end yields at multi-decade highs, Brent +5% on Iran/Houthi risk, widening credit and hawkish Fed debate. The 30-year auction and Oct 14 CPI keep event risk elevated; AI/labor resilience only partly offsets, so near-term odds stay below 50%."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.4,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end Treasury yield surge",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil and geopolitical escalation",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex debt supply / credit widening",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed and hike uncertainty",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Resilient AI earnings and labor data",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with Nasdaq futures down ~0.7%, long-end yields at multi-decade highs, Brent +5% on Iran/Houthi risk, widening credit and hawkish Fed debate. The 30-year auction and Oct 14 CPI keep event risk elevated; AI/labor resilience only partly offsets, so near-term odds stay below 50%."
+    },
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 74,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end Treasury yield surge / 30-year auction",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil spike and Iran/Houthi escalation",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex debt supply and widening credit",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed hawkish uncertainty / hike debate",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Resilient labor and AI earnings",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with Nasdaq futures -0.7%, long-end yields at multi-decade highs, oil spiking, widening credit, and hawkish Fed. The 30-year auction and CPI add event risk; normal QQQ drift only partly offsets."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1241,
+    "completion_tokens": 1499,
+    "total_tokens": 2740,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1292
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 217
+  },
+  "prompt_sha": "5ff4439339b969c6"
+}

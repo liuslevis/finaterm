@@ -1,0 +1,54 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1gNni6MEia",
+  "show_date": "2026-10-21",
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.49,
+    "sentiment": -1,
+    "confidence": 66,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI capex/valuation and credit stress",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Oil supply/geopolitical risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed tightening path",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Resilient corporate earnings",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Pre-open is risk-off: Nasdaq futures down 0.6-0.7%, AI valuation and credit stress, Brent above $110 and a hawkish December-hike path outweigh resilient earnings. I shade below neutral, with QQQ drift limiting the 7-day drag; Tesla/SpaceX earnings add event risk."
+  },
+  "raw": "{\"p_up_1d\": 0.43, \"p_up_3d\": 0.46, \"p_up_7d\": 0.49, \"sentiment\": -1, \"confidence\": 66, \"preopen_move\": \"down\", \"drivers\": [{\"theme\": \"AI capex/valuation and credit stress\", \"direction\": \"bearish\", \"weight\": 40}, {\"theme\": \"Oil supply/geopolitical risk\", \"direction\": \"bearish\", \"weight\": 25}, {\"theme\": \"Hawkish Fed tightening path\", \"direction\": \"bearish\", \"weight\": 20}, {\"theme\": \"Resilient corporate earnings\", \"direction\": \"bullish\", \"weight\": 15}], \"rationale\": \"Pre-open is risk-off: Nasdaq futures down 0.6-0.7%, AI valuation and credit stress, Brent above $110 and a hawkish December-hike path outweigh resilient earnings. I shade below neutral, with QQQ drift limiting the 7-day drag; Tesla/SpaceX earnings add event risk.\"}",
+  "usage": {
+    "prompt_tokens": 1204,
+    "completion_tokens": 1374,
+    "total_tokens": 2578,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1141
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1204
+  },
+  "prompt_sha": "33630300b4bd6958"
+}

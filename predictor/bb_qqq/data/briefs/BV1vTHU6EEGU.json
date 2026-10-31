@@ -1,0 +1,126 @@
+{
+  "bvid": "BV1vTHU6EEGU",
+  "show_date": "2026-10-08",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Two-year edged higher; markets price more Fed hikes."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "10s and 30s at multi-decade highs; 30-year near 6%."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "sharp",
+        "note": "Long end leads; curve steepening on heavy supply."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Only euro-dollar levels mentioned; no broad dollar call."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent above $100 on Iran/Hormuz tanker attacks."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No clear gold direction discussed."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "High-yield/CCC spreads wider; default stress rising."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P/Nasdaq futures lower after record high."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "~20% October hike; one more hike this year expected; markets price more than Fed.",
+      "notable_speakers": [
+        "John Williams",
+        "Philip Jefferson",
+        "Kevin Warsh",
+        "Neel Kashkari"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI capex boom and Nvidia bullish, but bubble and monetization concerns."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran attacks on Hormuz shipping intensify; Black Sea tanker skirmishes; Ukraine war ongoing."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Aggregate resilient, but lower-income strained; mortgage 7.49% and liquor spending cut."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "10-year Treasury auction today at 1pm ET",
+      "30-year Treasury auction tomorrow",
+      "Fed September minutes today at 2pm ET",
+      "CPI print next week"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Competition for capital",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Long-end bond selloff",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex optimism",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal/political stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil supply disruption",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equities are pulling back from record highs, with S&P and Nasdaq futures lower. Yields are higher across the curve, led by the long end at multi-decade highs, steepening the curve; high-yield spreads are widening and oil is up above $100 on Hormuz attacks. The Fed is seen hawkish: last meeting hiked, ~20% odds of an October hike, and one more hike this year is expected. The dominant narrative is competition for capital—heavy Treasury and AI-related corporate issuance—plus France's fiscal crisis and no ECB backstop. Tone is cautious despite AI optimism and equities near records.",
+    "notable_quotes": [
+      "I don't see a way for higher interest rates to lower inflation without... the solution to higher rates is higher rates.",
+      "There is a sovereign bond crisis happening, and it's emanating from France."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 34610,
+    "completion_tokens": 5184,
+    "total_tokens": 39794,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4449
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 34610
+  }
+}

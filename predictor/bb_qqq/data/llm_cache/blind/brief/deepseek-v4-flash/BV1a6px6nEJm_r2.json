@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1a6px6nEJm",
+  "show_date": "2026-10-09",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.355,
+    "p_up_3d": 0.4,
+    "p_up_7d": 0.445,
+    "sentiment": -1,
+    "confidence": 70.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end Treasury yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil and geopolitical escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex debt supply and credit widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed hike uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Resilient AI earnings and labor data",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Risk-off tape: Nasdaq futures -0.7%, long yields at multi-decade highs, oil up 5% on Iran/Houthi escalation, credit spreads widening and hawkish Fed hike debate. Resilient AI earnings and labor only partly offset; 30-year auction adds duration risk. Near-term skew lower, with modest drift-up only by 7 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.37,
+      "p_up_3d": 0.42,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end Treasury yield surge",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil and geopolitical escalation",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex debt supply and credit widening",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed hike uncertainty",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Resilient AI earnings and labor data",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape: Nasdaq futures -0.7%, long yields at multi-decade highs, oil up 5% on Iran/Houthi escalation, credit spreads widening and hawkish Fed hike debate. Resilient AI earnings and labor only partly offset; 30-year auction adds duration risk. Near-term skew lower, with modest drift-up only by 7 days."
+    },
+    {
+      "p_up_1d": 0.34,
+      "p_up_3d": 0.38,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end Treasury yields at multi-decade highs (10y ~5.33%, 30y ~5.71%)",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil +5% on Iran/Houthi escalation, strike risk before midterms",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/hyperscaler debt supply plus heavy Treasury issuance squeezing capital markets",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed, debate over further hikes, no dovish anchor",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Resilient AI earnings (TSMC/Samsung) and labor data",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "30-year auction at 1pm as intraday event risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Yield surge, oil spike and widening credit spreads dominate; Nasdaq futures -0.7% and a hawkish Fed leave little cushion into a 30-year auction. Long-horizon odds recover slightly on oversold bounce potential and resilient AI earnings, but the drift is down."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1230,
+    "completion_tokens": 604,
+    "total_tokens": 1834,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 274
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 206
+  },
+  "prompt_sha": "6b1d835472ca5a01"
+}

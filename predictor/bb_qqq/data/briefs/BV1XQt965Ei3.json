@@ -1,0 +1,125 @@
+{
+  "bvid": "BV1XQt965Ei3",
+  "show_date": "2026-09-03",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "2-year around 4.40%; fresh highs, up single bp."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10-year ~4.81%, 30-year ~5.29%; highest since Oct 2023."
+      },
+      "yield_curve": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Front and long ends both rose; shape not explicitly characterized."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No explicit dollar index direction discussed."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent ~$95, elevated on Iran/Hormuz; later pared to ~$94."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Mentioned as bond substitute/portfolio hedge; no price trend."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "Tech/AI issuance spreads widen; overall IG/HY still tight."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Early S&P/Nasdaq futures lower; pared losses to near flat."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "About 70% odds of a September hike; roughly two and a half hikes priced over 12 months.",
+      "notable_speakers": [
+        "Kevin Walsh",
+        "Michael Barr",
+        "Susan Collins"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Strong earnings, AI capex; concerns on concentration and debt financing."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "US-Iran strikes escalate; Hormuz vessel threats; Trump downplays deal."
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Gas up 40%, food costs, value shoppers; signs of demand destruction."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "September Fed meeting; ~70% hike odds",
+      "Friday payrolls; CPI next week",
+      "US-Iran strikes; Hormuz threats",
+      "Bessent long-end yield response"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Hawkish Fed rate hikes",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil/Iran supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI/earnings strength",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Equity dip-buying resilience",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "summary": "Stocks were lower early, with S&P and Nasdaq futures down modestly and a fourth straight decline in play, though futures pared losses as crude pulled back. Front-end and long-end Treasury yields rose to fresh highs, with 10-year near 4.81% and 30-year around 5.29%, while oil stayed elevated near $95 Brent on US-Iran escalation. The Fed narrative turned more hawkish: about 70% odds of a September hike are priced, and officials including Barr sounded open to raising rates. Credit spreads were mostly tight but tech/AI issuance showed some widening. The dominant narrative is a supply-shock, hawkish-Fed, fiscal-risk backdrop; tone is risk-off, though AI earnings strength keeps dip-buying alive.",
+    "notable_quotes": [
+      "If inflation appears not to be moderating sufficiently, then I think we should act decisively to raise rates.",
+      "The economy is annoying; it's getting in the way of otherwise good business."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33316,
+    "completion_tokens": 5133,
+    "total_tokens": 38449,
+    "prompt_tokens_details": {
+      "cached_tokens": 33152
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4349
+    },
+    "prompt_cache_hit_tokens": 33152,
+    "prompt_cache_miss_tokens": 164
+  }
+}

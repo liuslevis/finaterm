@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1FaYD6FEBq",
+  "show_date": "2026-09-12",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.58,
+    "p_up_3d": 0.51,
+    "p_up_7d": 0.53,
+    "sentiment": 1,
+    "confidence": 65,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Hot core CPI / Fed hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oracle/AI earnings strength",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "High bond yields / term premium",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil retreat intraday but elevated",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Equity futures resilience / risk appetite",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Hot core CPI (+0.3 vs +0.2) hardens Fed-hike odds and high yields, a valuation headwind for QQQ, but pre-open futures are firmer on Oracle/AI earnings and oil's intraday retreat. Net mild risk-on today, fading over the Fed meeting."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.53,
+      "sentiment": 1,
+      "confidence": 65,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hot core CPI / Fed hike risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oracle/AI earnings strength",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "High bond yields / term premium",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil retreat intraday but elevated",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Equity futures resilience / risk appetite",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Hot core CPI (+0.3 vs +0.2) hardens Fed-hike odds and high yields, a valuation headwind for QQQ, but pre-open futures are firmer on Oracle/AI earnings and oil's intraday retreat. Net mild risk-on today, fading over the Fed meeting."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36609,
+    "completion_tokens": 2240,
+    "total_tokens": 38849,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2027
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 36225
+  },
+  "prompt_sha": "cd05cf78129be2eb"
+}

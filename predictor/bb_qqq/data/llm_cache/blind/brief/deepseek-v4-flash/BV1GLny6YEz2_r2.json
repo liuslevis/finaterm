@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.62,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 61.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed hike/hold uncertainty",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mixed consumer signals",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Tesla/Meta event risk",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Premarket Nasdaq is up 0.5-0.8% on AI earnings beats, supporting modestly above-base 1-day odds. But hawkish Fed hold risk, $111 oil/geopolitics and mixed consumer cap 3- and 7-day upside; Tesla/Meta after the close add event risk."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.62,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI earnings strength",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Oil and geopolitical risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed hike/hold uncertainty",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mixed consumer signals",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Tesla/Meta event risk",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Premarket Nasdaq is up 0.5-0.8% on AI earnings beats, supporting modestly above-base 1-day odds. But hawkish Fed hold risk, $111 oil/geopolitics and mixed consumer cap 3- and 7-day upside; Tesla/Meta after the close add event risk."
+    },
+    {
+      "p_up_1d": 0.62,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI earnings strength",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish/hike uncertainty",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil and geopolitical risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mixed consumer signals",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Meta/Tesla event risk",
+          "direction": "neutral",
+          "weight": 10
+        }
+      ],
+      "rationale": "Premarket risk-on is supported by AI-linked earnings beats, but hawkish Fed pricing, elevated oil, and mixed consumer signals temper persistence. Meta/Tesla after the close add near-term event risk, so upside odds fade over 3-7 days."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1213,
+    "completion_tokens": 1343,
+    "total_tokens": 2556,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1154
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 189
+  },
+  "prompt_sha": "b96b52d1cb531787"
+}

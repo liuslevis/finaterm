@@ -1,0 +1,117 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1scec6cEvJ",
+  "show_date": "2026-09-16",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 55,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Oil shock: East-West pipeline offline, Hormuz constrained, Brent triple digits",
+        "direction": "bearish",
+        "weight": 26
+      },
+      {
+        "theme": "10y yield above 5% on term premium/supply, not growth",
+        "direction": "bearish",
+        "weight": 22
+      },
+      {
+        "theme": "Fed 25bp hike ~90% priced for tomorrow",
+        "direction": "bearish",
+        "weight": 14
+      },
+      {
+        "theme": "Earnings resilience and AI capex support",
+        "direction": "bullish",
+        "weight": 14
+      },
+      {
+        "theme": "AI safety/regulatory rhetoric and Washington noise",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Strategists trimming equity risk, 5-10% correction calls",
+        "direction": "bearish",
+        "weight": 9
+      },
+      {
+        "theme": "Equities absorbing it all, futures only marginally lower",
+        "direction": "bullish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Futures soft as oil near $110 and 10y above 5% squeeze multiples for the wrong reasons, with a Fed hike tomorrow and guests cutting equity risk. Earnings strength and resilient tape cushion but do not offset the oil-yield shock, so modest below-even odds that fade with horizon."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 55,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil shock: East-West pipeline offline, Hormuz constrained, Brent triple digits",
+          "direction": "bearish",
+          "weight": 26
+        },
+        {
+          "theme": "10y yield above 5% on term premium/supply, not growth",
+          "direction": "bearish",
+          "weight": 22
+        },
+        {
+          "theme": "Fed 25bp hike ~90% priced for tomorrow",
+          "direction": "bearish",
+          "weight": 14
+        },
+        {
+          "theme": "Earnings resilience and AI capex support",
+          "direction": "bullish",
+          "weight": 14
+        },
+        {
+          "theme": "AI safety/regulatory rhetoric and Washington noise",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Strategists trimming equity risk, 5-10% correction calls",
+          "direction": "bearish",
+          "weight": 9
+        },
+        {
+          "theme": "Equities absorbing it all, futures only marginally lower",
+          "direction": "bullish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Futures soft as oil near $110 and 10y above 5% squeeze multiples for the wrong reasons, with a Fed hike tomorrow and guests cutting equity risk. Earnings strength and resilient tape cushion but do not offset the oil-yield shock, so modest below-even odds that fade with horizon."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36491,
+    "completion_tokens": 981,
+    "total_tokens": 37472,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 642
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 36107
+  },
+  "prompt_sha": "9477725ed0c22605"
+}

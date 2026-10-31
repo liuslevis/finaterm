@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1a6px6nEJm",
+  "show_date": "2026-10-09",
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 70,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end Treasury yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil and geopolitical escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex debt and credit widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed hike uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Resilient labor and AI earnings",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Long-end yields at multi-decade highs, sharply higher oil on Iran/Houthi risk, widening credit spreads and hawkish Fed debate weigh on Nasdaq. Futures are already lower and the 30-year auction plus CPI add event risk, though AI earnings resilience limits the downside."
+  },
+  "raw": "{\"p_up_1d\":0.42,\"p_up_3d\":0.45,\"p_up_7d\":0.47,\"sentiment\":-1,\"confidence\":70,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Long-end Treasury yield surge\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Oil and geopolitical escalation\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"AI capex debt and credit widening\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Fed hike uncertainty\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Resilient labor and AI earnings\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Long-end yields at multi-decade highs, sharply higher oil on Iran/Houthi risk, widening credit spreads and hawkish Fed debate weigh on Nasdaq. Futures are already lower and the 30-year auction plus CPI add event risk, though AI earnings resilience limits the downside.\"}",
+  "usage": {
+    "prompt_tokens": 1241,
+    "completion_tokens": 1418,
+    "total_tokens": 2659,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1221
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1241
+  },
+  "prompt_sha": "5ff4439339b969c6"
+}

@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1opJZ63EW7",
+  "show_date": "2026-10-20",
+  "parsed": {
+    "p_up_1d": 0.63,
+    "p_up_3d": 0.55,
+    "p_up_7d": 0.52,
+    "sentiment": 0,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/tech earnings rebound",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "France political turmoil",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed tightening/high rates",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Elevated oil",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures +1.2% and a chip rebound support the near term, but high long yields, sharply wider CCC spreads, French turmoil and elevated oil cap risk appetite. Tech earnings are the main bullish anchor; beyond one day the setup is closer to neutral."
+  },
+  "raw": "{\"p_up_1d\":0.63,\"p_up_3d\":0.55,\"p_up_7d\":0.52,\"sentiment\":0,\"confidence\":58,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI/tech earnings rebound\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"France political turmoil\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Credit spread widening\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Fed tightening/high rates\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Elevated oil\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Nasdaq futures +1.2% and a chip rebound support the near term, but high long yields, sharply wider CCC spreads, French turmoil and elevated oil cap risk appetite. Tech earnings are the main bullish anchor; beyond one day the setup is closer to neutral.\"}",
+  "usage": {
+    "prompt_tokens": 1166,
+    "completion_tokens": 1496,
+    "total_tokens": 2662,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1307
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 782
+  },
+  "prompt_sha": "61dd908b26831bed"
+}

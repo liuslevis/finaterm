@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV18uhs6wEVf",
+  "show_date": "2026-09-23",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.59,
+    "p_up_7d": 0.61,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "AI hardware/product momentum",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Oil retreat and lower yields",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed/higher-for-longer rates",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "High growth expectations/near record highs",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "UN diplomacy and diesel headlines",
+        "direction": "neutral",
+        "weight": 8
+      }
+    ],
+    "rationale": "Meta’s AI-agent excitement revived chip leadership and oil’s slide lowered yields, supporting QQQ. But the Fed remains hawkish, growth expectations are high, and energy diplomacy is uncertain, so upside is moderate rather than decisive."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.59,
+      "p_up_7d": 0.61,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "AI hardware/product momentum",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Oil retreat and lower yields",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Hawkish Fed/higher-for-longer rates",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "High growth expectations/near record highs",
+          "direction": "bearish",
+          "weight": 12
+        },
+        {
+          "theme": "UN diplomacy and diesel headlines",
+          "direction": "neutral",
+          "weight": 8
+        }
+      ],
+      "rationale": "Meta’s AI-agent excitement revived chip leadership and oil’s slide lowered yields, supporting QQQ. But the Fed remains hawkish, growth expectations are high, and energy diplomacy is uncertain, so upside is moderate rather than decisive."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36234,
+    "completion_tokens": 1791,
+    "total_tokens": 38025,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1597
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36234
+  },
+  "prompt_sha": "8b1dc2db74743ba8"
+}

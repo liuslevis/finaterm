@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.6,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.555,
+    "sentiment": 1,
+    "confidence": 60.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and record earnings",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Rising long-end yields and term premium",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed / hikes priced",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "France political/fiscal and geopolitical risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil below $100 on Red Sea progress",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures point to a modestly higher open and AI earnings momentum supports QQQ, but yields near multi-decade highs, hawkish Fed pricing and heavy Treasury supply cap upside. One-day odds favor momentum; three- and seven-day odds are only mildly above neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.62,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and record earnings",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Rising long-end yields and term premium",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed / hikes priced",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "France political/fiscal and geopolitical risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil below $100 on Red Sea progress",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures point to a modestly higher open and AI earnings momentum supports QQQ, but yields near multi-decade highs, hawkish Fed pricing and heavy Treasury supply cap upside. One-day odds favor momentum; three- and seven-day odds are only mildly above neutral."
+    },
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and record earnings / Nasdaq momentum",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Risk-on tape, futures up toward records",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Long-end yields near multi-decade highs, steepening",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed, three hikes priced",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "France fiscal/political and geopolitical risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Cautiously risk-on tape and AI earnings support near-term upside, but yields near 5.27%/5.64%, hawkish Fed pricing and supply auctions cap conviction. Probabilities fade toward base rate over 7 days as CPI and Q3 earnings approach."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1253,
+    "completion_tokens": 1891,
+    "total_tokens": 3144,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1678
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 229
+  },
+  "prompt_sha": "225ae8d46d21e9f2"
+}

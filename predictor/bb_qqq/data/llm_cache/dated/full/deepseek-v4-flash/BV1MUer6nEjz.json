@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1MUer6nEjz",
+  "show_date": "2026-09-18",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.59,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Tech-led preopen rally and lower long yields",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed and global tightening cycle",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil retreat and easing pipeline-supply fear",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "AI capex optimism vs regulatory/safety risk",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Soft bank/FICC commentary and pullback seasonality",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Preopen is risk-on with Nasdaq futures up about 1%, tech leadership, lower long yields and oil after a hawkish Fed hike was treated as credibility relief. But global tightening, soft bank commentary, AI regulatory risk and seasonal pullback talk cap conviction beyond one day."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.59,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Tech-led preopen rally and lower long yields",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed and global tightening cycle",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil retreat and easing pipeline-supply fear",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "AI capex optimism vs regulatory/safety risk",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Soft bank/FICC commentary and pullback seasonality",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Preopen is risk-on with Nasdaq futures up about 1%, tech leadership, lower long yields and oil after a hawkish Fed hike was treated as credibility relief. But global tightening, soft bank commentary, AI regulatory risk and seasonal pullback talk cap conviction beyond one day."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 16916,
+    "completion_tokens": 1966,
+    "total_tokens": 18882,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1752
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 16916
+  },
+  "prompt_sha": "5a4eb5c8fcc91a66"
+}

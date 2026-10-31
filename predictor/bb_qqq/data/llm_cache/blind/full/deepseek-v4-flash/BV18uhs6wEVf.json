@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV18uhs6wEVf",
+  "show_date": "2026-09-23",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.58,
+    "p_up_3d": 0.56,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Oil collapse / Hormuz diplomacy",
+        "direction": "bullish",
+        "weight": 75
+      },
+      {
+        "theme": "AI hardware trade revival (Meta, AMD, chips)",
+        "direction": "bullish",
+        "weight": 65
+      },
+      {
+        "theme": "Yields lower across curve",
+        "direction": "bullish",
+        "weight": 50
+      },
+      {
+        "theme": "Equities near record highs, momentum",
+        "direction": "bullish",
+        "weight": 40
+      },
+      {
+        "theme": "Hawkish Fed / persistent inflation",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "AI capex funding and diversification warnings",
+        "direction": "bearish",
+        "weight": 30
+      }
+    ],
+    "rationale": "Risk-on tone: crude's drop below $100 cuts inflation pressure and pulls yields lower, while Meta's AI news revives the chip trade with futures near record highs. Hawkish Fed talk and AI-capex fragility temper, but the drivers net modestly bullish."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.56,
+      "p_up_7d": 0.57,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil collapse / Hormuz diplomacy",
+          "direction": "bullish",
+          "weight": 75
+        },
+        {
+          "theme": "AI hardware trade revival (Meta, AMD, chips)",
+          "direction": "bullish",
+          "weight": 65
+        },
+        {
+          "theme": "Yields lower across curve",
+          "direction": "bullish",
+          "weight": 50
+        },
+        {
+          "theme": "Equities near record highs, momentum",
+          "direction": "bullish",
+          "weight": 40
+        },
+        {
+          "theme": "Hawkish Fed / persistent inflation",
+          "direction": "bearish",
+          "weight": 45
+        },
+        {
+          "theme": "AI capex funding and diversification warnings",
+          "direction": "bearish",
+          "weight": 30
+        }
+      ],
+      "rationale": "Risk-on tone: crude's drop below $100 cuts inflation pressure and pulls yields lower, while Meta's AI news revives the chip trade with futures near record highs. Hawkish Fed talk and AI-capex fragility temper, but the drivers net modestly bullish."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36274,
+    "completion_tokens": 1118,
+    "total_tokens": 37392,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 844
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 35890
+  },
+  "prompt_sha": "8360fc761b98745f"
+}

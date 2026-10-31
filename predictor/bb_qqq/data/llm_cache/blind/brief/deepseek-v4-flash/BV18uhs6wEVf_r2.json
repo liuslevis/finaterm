@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV18uhs6wEVf",
+  "show_date": "2026-09-23",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.58,
+    "p_up_3d": 0.58,
+    "p_up_7d": 0.58,
+    "sentiment": 1,
+    "confidence": 60.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Oil retreat on diplomacy",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and hardware rally",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed hiking path",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Diesel inflation and consumer pain",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Credit dispersion and long-end fragility",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Mild risk-on tape: oil retreat and lower yields offset hawkish Fed; AI hardware optimism supports QQQ. Futures slightly higher, but credit and diesel risks cap conviction, so modest upward odds with normal drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.57,
+      "p_up_3d": 0.58,
+      "p_up_7d": 0.59,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil retreat on diplomacy",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and hardware rally",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Hawkish Fed hiking path",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Diesel inflation and consumer pain",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Credit dispersion and long-end fragility",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Mild risk-on tape: oil retreat and lower yields offset hawkish Fed; AI hardware optimism supports QQQ. Futures slightly higher, but credit and diesel risks cap conviction, so modest upward odds with normal drift."
+    },
+    {
+      "p_up_1d": 0.59,
+      "p_up_3d": 0.58,
+      "p_up_7d": 0.57,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil retreat on Iran/Saudi supply news",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and hardware rally",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Hawkish Fed hiking path",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Diesel cost/consumer inflation pressure",
+          "direction": "bearish",
+          "weight": 12
+        },
+        {
+          "theme": "Triple-C credit dispersion widening",
+          "direction": "bearish",
+          "weight": 8
+        }
+      ],
+      "rationale": "Futures are slightly higher and risk-on tone is supported by lower oil, falling yields, and AI hardware optimism. Hawkish Fed expectations, Williams risk, and widening triple-C spreads temper upside, leaving a modestly above-neutral QQQ bias."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1155,
+    "completion_tokens": 770,
+    "total_tokens": 1925,
+    "prompt_tokens_details": {
+      "cached_tokens": 1021
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 571
+    },
+    "prompt_cache_hit_tokens": 1021,
+    "prompt_cache_miss_tokens": 134
+  },
+  "prompt_sha": "1191d90ecdfece85"
+}

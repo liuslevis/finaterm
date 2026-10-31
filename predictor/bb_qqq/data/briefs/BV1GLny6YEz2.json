@@ -1,0 +1,128 @@
+{
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Two-year anchored 4.7-4.8%, little changed."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Long end up a couple bps; lower over past week."
+      },
+      "yield_curve": {
+        "trend": "unchanged",
+        "magnitude": "slight",
+        "note": "No steepening; front anchored, long end mixed."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No direct dollar call; euro weaker vs sterling."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent around $111; jet fuel and energy costs elevated."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Gold not discussed."
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "High-yield spreads tight/flat; neo-cloud CDS under pressure."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P +0.2-0.6%, Nasdaq +0.5-0.8% premarket."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hold",
+      "market_pricing": "15% odds of October hike; consensus expects hold; quarterly hiking cadence discussed",
+      "notable_speakers": [
+        "Kevin Walsh",
+        "Williams",
+        "Jefferson",
+        "Bowman",
+        "Logan",
+        "Hamrick"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "SpaceX/Supermicro beats lift AI trade; Meta/Tesla due; neo-cloud leverage worries persist."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran ready for diplomacy but defensive; Houthi attacks on Saudi energy; Starlink Ukraine restriction."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "United sees resilient travel demand; lower-end stress, Netflix slowdown, AT&T competition."
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "Tesla and Meta earnings after close today",
+      "Fed decision next Wednesday",
+      "US midterms November 4",
+      "Core PCE day after Fed"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hike/hold uncertainty",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mixed consumer signals",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Data-center political pushback",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "summary": "US equity futures are higher, led by AI-linked names after SpaceX and Supermicro beats; S&P and Nasdaq futures gained modestly. Rates show front-end yields anchored near 4.7-4.8% and long-end yields up slightly this morning but lower over the past week, with no clear curve steepening. The Fed is widely expected to hold next week, though markets price about 15% odds of an October hike and speakers debate broadening inflation. Oil is elevated around $111 Brent, adding fuel-cost and geopolitical risk. The dominant narrative is still AI earnings durability versus financing and data-center political risks. Tone is risk-on in US tech but cautious on Europe, consumer pockets, and geopolitics.",
+    "notable_quotes": [
+      "Can you really be bearish when you have overall earnings growth that is going to be probably mid-teens?",
+      "The demand for compute is very strong and is supporting revenues."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 32696,
+    "completion_tokens": 4547,
+    "total_tokens": 37243,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3800
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 32696
+  }
+}

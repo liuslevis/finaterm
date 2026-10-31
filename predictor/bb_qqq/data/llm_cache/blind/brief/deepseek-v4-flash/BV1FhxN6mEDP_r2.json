@@ -1,0 +1,143 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1FhxN6mEDP",
+  "show_date": "2026-10-30",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.445,
+    "p_up_7d": 0.475,
+    "sentiment": -1,
+    "confidence": 66.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI capex payback / Alphabet selloff",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish hold / higher yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong GDP and consumer",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "ECB / French political risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Iran escalation risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Microsoft cloud strength",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Alphabet’s AI capex stumble and a hawkish Fed dominate, with Nasdaq futures down about 1%; strong GDP/consumer and Microsoft cloud partly offset. I expect below-average near-term upside, fading toward neutral by seven days as drift and solid fundamentals reassert."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI capex payback / Alphabet selloff",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold / higher yields",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong GDP and consumer",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "ECB / French political risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Iran escalation risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Microsoft cloud strength",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Alphabet’s AI capex stumble and a hawkish Fed dominate, with Nasdaq futures down about 1%; strong GDP/consumer and Microsoft cloud partly offset. I expect below-average near-term upside, fading toward neutral by seven days as drift and solid fundamentals reassert."
+    },
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 64,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI capex/monetization fears",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed and higher long yields",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong GDP and consumer",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "ECB/French political risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Iran escalation risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures down about 1% on Alphabet’s AI monetization and free-cash-flow warning, while hawkish Fed commentary and long yields near 5% pressure tech valuations. Strong GDP/consumer and Microsoft cloud cushion but do not offset; Amazon after the close adds event risk, so mild bearish tilt fading slightly by seven days."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1206,
+    "completion_tokens": 1898,
+    "total_tokens": 3104,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1683
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 182
+  },
+  "prompt_sha": "c61ad26070d34c92"
+}

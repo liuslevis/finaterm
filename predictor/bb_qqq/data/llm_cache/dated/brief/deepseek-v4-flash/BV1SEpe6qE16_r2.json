@@ -1,0 +1,148 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1SEpe6qE16",
+  "show_date": "2026-10-10",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.595,
+    "p_up_3d": 0.555,
+    "p_up_7d": 0.555,
+    "sentiment": 0,
+    "confidence": 55.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI profitability uncertainty",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Higher-for-longer yields / hawkish Fed",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Resilient consumer spending",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Geopolitical oil risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Strong Treasury auctions",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Nasdaq futures rebound",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures +0.8% and resilient consumer support modestly above-neutral 1-day odds, but hawkish Fed/higher yields, AI valuation doubts, oil geopolitics and a 'topping' quote cap conviction; CPI/earnings risk keeps 3-7 day probabilities near neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.62,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.56,
+      "sentiment": 0,
+      "confidence": 56,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI profitability uncertainty",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Higher-for-longer yields / hawkish Fed",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Resilient consumer spending",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Geopolitical oil risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Strong Treasury auctions",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Nasdaq futures rebound",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures +0.8% and resilient consumer support modestly above-neutral 1-day odds, but hawkish Fed/higher yields, AI valuation doubts, oil geopolitics and a 'topping' quote cap conviction; CPI/earnings risk keeps 3-7 day probabilities near neutral."
+    },
+    {
+      "p_up_1d": 0.57,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.55,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "pre-open tech rebound",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "AI profitability and valuation uncertainty",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "higher-for-longer Fed and yields",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "resilient consumer spending",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "geopolitical oil risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "strong Treasury auctions",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures point to a rebound, with resilient consumer data and strong auctions supportive. But hawkish Fed pricing, higher-for-longer yields, AI valuation concerns, oil geopolitics and upcoming CPI keep the edge modestly above coin-flip."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1217,
+    "completion_tokens": 2362,
+    "total_tokens": 3579,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2156
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 193
+  },
+  "prompt_sha": "f025c9bea98ed3bf"
+}

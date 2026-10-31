@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 60,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "long-end yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex/earnings support",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "energy/diesel supply shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "hawkish Fed hike pricing",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "credit spread widening",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Macro backdrop is mildly risk-off: long-end yields near multi-decade highs, oil shock, hawkish Fed and widening credit spreads outweigh resilient AI earnings. Flat pre-open and Friday payrolls keep near-term odds below neutral, with slight drift support over seven days."
+  },
+  "raw": "{\"p_up_1d\":0.47,\"p_up_3d\":0.45,\"p_up_7d\":0.47,\"sentiment\":-1,\"confidence\":60,\"preopen_move\":\"flat\",\"drivers\":[{\"theme\":\"long-end yield surge\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"AI capex/earnings support\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"energy/diesel supply shock\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"hawkish Fed hike pricing\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"credit spread widening\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Macro backdrop is mildly risk-off: long-end yields near multi-decade highs, oil shock, hawkish Fed and widening credit spreads outweigh resilient AI earnings. Flat pre-open and Friday payrolls keep near-term odds below neutral, with slight drift support over seven days.\"}",
+  "usage": {
+    "prompt_tokens": 1217,
+    "completion_tokens": 2453,
+    "total_tokens": 3670,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2257
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1217
+  },
+  "prompt_sha": "9cb3ee9a6271684c"
+}

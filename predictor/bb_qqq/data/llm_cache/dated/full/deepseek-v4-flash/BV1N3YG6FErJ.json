@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1N3YG6FErJ",
+  "show_date": "2026-09-11",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "10-year yield at yearly high approaching 5%",
+        "direction": "bearish",
+        "weight": 80
+      },
+      {
+        "theme": "Oil shock / Iran war, Brent >$100, Saudi output collapse",
+        "direction": "bearish",
+        "weight": 70
+      },
+      {
+        "theme": "Hot PPI + Fed hike odds ~70%, CPI tomorrow",
+        "direction": "bearish",
+        "weight": 65
+      },
+      {
+        "theme": "Exceptional earnings / AI capex supercycle",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "Barclays S&P target raise and demonstrated dip-buying resilience",
+        "direction": "bullish",
+        "weight": 45
+      }
+    ],
+    "rationale": "Yields at yearly highs near 5% and Brent above $100 on a Saudi supply shock plus hot PPI lift Fed hike odds to ~70%, pressuring QQQ multiples, with futures lower ahead of CPI. Exceptional earnings, Barclays' target raise and proven dip-buying cushion downside. Mildly bearish near term, fading over 7 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "10-year yield at yearly high approaching 5%",
+          "direction": "bearish",
+          "weight": 80
+        },
+        {
+          "theme": "Oil shock / Iran war, Brent >$100, Saudi output collapse",
+          "direction": "bearish",
+          "weight": 70
+        },
+        {
+          "theme": "Hot PPI + Fed hike odds ~70%, CPI tomorrow",
+          "direction": "bearish",
+          "weight": 65
+        },
+        {
+          "theme": "Exceptional earnings / AI capex supercycle",
+          "direction": "bullish",
+          "weight": 55
+        },
+        {
+          "theme": "Barclays S&P target raise and demonstrated dip-buying resilience",
+          "direction": "bullish",
+          "weight": 45
+        }
+      ],
+      "rationale": "Yields at yearly highs near 5% and Brent above $100 on a Saudi supply shock plus hot PPI lift Fed hike odds to ~70%, pressuring QQQ multiples, with futures lower ahead of CPI. Exceptional earnings, Barclays' target raise and proven dip-buying cushion downside. Mildly bearish near term, fading over 7 days."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 30963,
+    "completion_tokens": 2020,
+    "total_tokens": 32983,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1726
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 30963
+  },
+  "prompt_sha": "5873508468555cb3"
+}

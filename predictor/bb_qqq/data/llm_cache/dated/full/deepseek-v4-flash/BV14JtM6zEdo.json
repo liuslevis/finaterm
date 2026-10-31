@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "parsed": {
+    "p_up_1d": 0.48,
+    "p_up_3d": 0.51,
+    "p_up_7d": 0.53,
+    "sentiment": -1,
+    "confidence": 60,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Warsh speech and September hike risk; higher front-end yields",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil/geopolitical supply shock: Brent ~$91, US-Iran strikes",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI/Nvidia capex and tech earnings resilience",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Guest pushback that Fed likely holds; softer payroll/CPI could ease hike odds",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Elevated equity expectations and consumer softness",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are modestly lower as the oil spike and hawkish Warsh-driven September hike pricing weigh on risk appetite. Offsetting that, several guests expect the Fed to hold and AI/Nvidia momentum remains supportive for QQQ, so near-term odds sit just below/around coin flip with a mild upward drift by seven days."
+  },
+  "raw": "{\"p_up_1d\":0.48,\"p_up_3d\":0.51,\"p_up_7d\":0.53,\"sentiment\":-1,\"confidence\":60,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Hawkish Warsh speech and September hike risk; higher front-end yields\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Oil/geopolitical supply shock: Brent ~$91, US-Iran strikes\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"AI/Nvidia capex and tech earnings resilience\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Guest pushback that Fed likely holds; softer payroll/CPI could ease hike odds\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"Elevated equity expectations and consumer softness\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Futures are modestly lower as the oil spike and hawkish Warsh-driven September hike pricing weigh on risk appetite. Offsetting that, several guests expect the Fed to hold and AI/Nvidia momentum remains supportive for QQQ, so near-term odds sit just below/around coin flip with a mild upward drift by seven days.\"}",
+  "usage": {
+    "prompt_tokens": 34935,
+    "completion_tokens": 3546,
+    "total_tokens": 38481,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3297
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 34935
+  },
+  "prompt_sha": "6512d0fea29e4aea"
+}

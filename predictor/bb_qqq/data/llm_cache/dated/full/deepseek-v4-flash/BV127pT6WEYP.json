@@ -1,0 +1,69 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "parsed": {
+    "p_up_1d": 0.58,
+    "p_up_3d": 0.55,
+    "p_up_7d": 0.54,
+    "sentiment": 1,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Nasdaq futures at record highs, tech leadership",
+        "direction": "bullish",
+        "weight": 70
+      },
+      {
+        "theme": "Oil below $100 on Red Sea/Saudi progress",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "Yields near multi-decade highs, heavy 10s/30s supply",
+        "direction": "bearish",
+        "weight": 60
+      },
+      {
+        "theme": "AI capex funding boom (OpenAI, Constellation-Google, AMD)",
+        "direction": "bullish",
+        "weight": 60
+      },
+      {
+        "theme": "Strong earnings growth underpinning index",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "Strategist caution / rate complacency ('too cute', trimming risk)",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "Post-midterm AI-regulation and data-center moratorium risk",
+        "direction": "bearish",
+        "weight": 40
+      }
+    ],
+    "rationale": "Tape is mildly risk-on: Nasdaq futures near records, oil back under $100 and yields a touch lower. But 5.25%+ yields, heavy duration supply and strategists flagging rate complacency cap the upside; AI-regulation and midterm tail risks grow with horizon, so edge decays toward neutral."
+  },
+  "raw": "{\"type\": \"json_object\", \"p_up_1d\": 0.58, \"p_up_3d\": 0.55, \"p_up_7d\": 0.54, \"sentiment\": 1, \"confidence\": 55, \"preopen_move\": \"up\", \"drivers\": [{\"theme\": \"Nasdaq futures at record highs, tech leadership\", \"direction\": \"bullish\", \"weight\": 70}, {\"theme\": \"Oil below $100 on Red Sea/Saudi progress\", \"direction\": \"bullish\", \"weight\": 55}, {\"theme\": \"Yields near multi-decade highs, heavy 10s/30s supply\", \"direction\": \"bearish\", \"weight\": 60}, {\"theme\": \"AI capex funding boom (OpenAI, Constellation-Google, AMD)\", \"direction\": \"bullish\", \"weight\": 60}, {\"theme\": \"Strong earnings growth underpinning index\", \"direction\": \"bullish\", \"weight\": 55}, {\"theme\": \"Strategist caution / rate complacency ('too cute', trimming risk)\", \"direction\": \"bearish\", \"weight\": 45}, {\"theme\": \"Post-midterm AI-regulation and data-center moratorium risk\", \"direction\": \"bearish\", \"weight\": 40}], \"rationale\": \"Tape is mildly risk-on: Nasdaq futures near records, oil back under $100 and yields a touch lower. But 5.25%+ yields, heavy duration supply and strategists flagging rate complacency cap the upside; AI-regulation and midterm tail risks grow with horizon, so edge decays toward neutral.\"}",
+  "usage": {
+    "prompt_tokens": 37641,
+    "completion_tokens": 1117,
+    "total_tokens": 38758,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 770
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 37641
+  },
+  "prompt_sha": "99825408e0c15164"
+}

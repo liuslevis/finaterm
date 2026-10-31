@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1u4bF6dEq2",
+  "show_date": "2026-09-04",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.55,
+    "p_up_7d": 0.54,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Waller lowers near-term hike odds / yields fall",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Oil, Iran escalation and diesel inflation risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Payroll/CPI event risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "AI earnings support but mixed semis reaction",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "Yen/BoJ hike and repatriation risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Tariff risk",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Waller’s comments lowered near-term hike odds and lifted futures, but oil near triple digits, Iran escalation, tariff risk and payroll/CPI event risk cap upside; earnings remain supportive. Net slightly positive but low-conviction."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.54,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Waller lowers near-term hike odds / yields fall",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Oil, Iran escalation and diesel inflation risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Payroll/CPI event risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "AI earnings support but mixed semis reaction",
+          "direction": "neutral",
+          "weight": 10
+        },
+        {
+          "theme": "Yen/BoJ hike and repatriation risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Tariff risk",
+          "direction": "bearish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Waller’s comments lowered near-term hike odds and lifted futures, but oil near triple digits, Iran escalation, tariff risk and payroll/CPI event risk cap upside; earnings remain supportive. Net slightly positive but low-conviction."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33496,
+    "completion_tokens": 2463,
+    "total_tokens": 35959,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2244
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 33112
+  },
+  "prompt_sha": "61196747763e9c43"
+}

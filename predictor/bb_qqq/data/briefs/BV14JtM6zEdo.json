@@ -1,0 +1,124 @@
+{
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "2s at 4.32%; ~11bp Friday surge on hawkish Warsh, 2bp back Monday"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "30s 5.20-5.26%; up 5bp Monday on crude and heavy issuance"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "2s30s near 50bp, mid-range; front end down, long end up"
+      },
+      "dollar": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Dollar-yen five straight declines, briefly through 160; flows to hard assets"
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent ~$91, up 3-4% on renewed US-Iran strikes; WTI $86"
+      },
+      "gold": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Gold pushing higher; hard assets outperforming soft, up ~10%"
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "Still tight; modest widening in AI-linked CDS like Broadcom"
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P futures -0.2/-0.4%, Nasdaq -0.1%; energy bid, utilities weak"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hold",
+      "market_pricing": "~60% odds of a September hike; roughly 40bp of hikes priced through year-end",
+      "notable_speakers": [
+        "Fed Chair Kevin Warsh",
+        "Governor Christopher Waller"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Nvidia stellar, $3.5bn MediaTek investment, compute sold out; but valuation bar very high"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "US-Iran kinetic strikes resume; Hormuz mining, tanker hit; weekly secondary sanctions promised"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Weak PCE and retail sales, lower-income strained; spending and wages still holding"
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Friday payrolls, consensus 55k",
+      "CPI the following Friday",
+      "Waller speech Thursday",
+      "G20 meeting; Trump-Xi summit next month"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Hawkish Warsh, September hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil spike, Middle East escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex and Nvidia earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed credibility and heavy issuance",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Consumer fatigue risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equity futures slipped about 0.2-0.4% while the front end stayed elevated after an ~11bp Friday repricing on Chair Warsh's hawkish Jackson Hole speech; 2s sit near 4.32%, 30s around 5.20-5.26%, and the curve is modestly steeper. Markets price roughly 60% odds of a September hike and about 40bp through year-end, though most guests expect a hold. Brent jumped above $91 on renewed US-Iran strikes and Hormuz mining, feeding commodity inflation, while gold pushed higher and the dollar slid, notably against the yen. Nvidia's strong outlook and $3.5bn MediaTek investment kept the AI capex story alive, but guests flagged a high earnings bar and emerging consumer fatigue. Tone was cautiously risk-off.",
+    "notable_quotes": [
+      "Is this a Fed that's actually credible in delivering tightening, or is this, as they say out west, all hat and no cattle?",
+      "We want to make clear today that no one is above the reach of U.S. sanctions."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 35189,
+    "completion_tokens": 3212,
+    "total_tokens": 38401,
+    "prompt_tokens_details": {
+      "cached_tokens": 34944
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2259
+    },
+    "prompt_cache_hit_tokens": 34944,
+    "prompt_cache_miss_tokens": 245
+  }
+}

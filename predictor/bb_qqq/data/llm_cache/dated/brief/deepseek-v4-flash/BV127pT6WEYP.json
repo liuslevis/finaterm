@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "parsed": {
+    "p_up_1d": 0.64,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and strong earnings",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Rising long-end yields and steepening curve",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Pre-open futures at records",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Hawkish Fed and hike pricing",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "France fiscal/political stress",
+        "direction": "bearish",
+        "weight": 8
+      }
+    ],
+    "rationale": "Futures are up and AI capex/earnings momentum supports QQQ, but yields near multi-decade highs, hawkish Fed pricing and French political stress cap upside. I shade probabilities above neutral for the 1-day tape, less so over 3-7 days as auctions and CPI loom."
+  },
+  "raw": "{\"p_up_1d\":0.64,\"p_up_3d\":0.57,\"p_up_7d\":0.55,\"sentiment\":1,\"confidence\":58,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI capex and strong earnings\",\"direction\":\"bullish\",\"weight\":35},{\"theme\":\"Rising long-end yields and steepening curve\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Pre-open futures at records\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"Hawkish Fed and hike pricing\",\"direction\":\"bearish\",\"weight\":12},{\"theme\":\"France fiscal/political stress\",\"direction\":\"bearish\",\"weight\":8}],\"rationale\":\"Futures are up and AI capex/earnings momentum supports QQQ, but yields near multi-decade highs, hawkish Fed pricing and French political stress cap upside. I shade probabilities above neutral for the 1-day tape, less so over 3-7 days as auctions and CPI loom.\"}",
+  "usage": {
+    "prompt_tokens": 1253,
+    "completion_tokens": 1209,
+    "total_tokens": 2462,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 999
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1253
+  },
+  "prompt_sha": "225ae8d46d21e9f2"
+}

@@ -1,0 +1,124 @@
+{
+  "bvid": "BV18uhs6wEVf",
+  "show_date": "2026-09-23",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Front-end yields lower as bond market rallies on oil drop."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Long-end yields lower; 30-year rallies with curve."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "moderate",
+        "note": "Fed/Treasury seen wanting flatter curve; long end fragile."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No clear dollar trend discussed."
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent below $100, fifth straight drop on supply news."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Not discussed."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "Triple-C spreads widening; index spreads still tight."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P futures slightly higher, within 1% of record."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "One or two more hikes; 75 bps minimum this cycle, cuts overpriced.",
+      "notable_speakers": [
+        "John Williams",
+        "Chairman Warsh"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Meta AI agent, Alibaba chip, AMD rally refuel hardware trade; AI capex optimism."
+    },
+    "geopolitics": {
+      "escalation": "easing",
+      "note": "Diplomatic push on Iran, Gulf, Ukraine; diesel refinery strikes remain tension."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Diesel costs pressure farmers and lower-end; spending otherwise resilient."
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "Sept 23 Trump UN diplomacy marathon",
+      "Williams Fed speech later today",
+      "Saudi East-West pipeline restart this week",
+      "Iran Hormuz report; Zelensky meeting today"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Oil retreat on diplomacy",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and hardware rally",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed hiking path",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Diesel inflation export debate",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Fiscal long-end fragility",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "summary": "Stocks are near record highs with S&P futures slightly higher, while Treasury yields fall across the curve and the curve flattens. Brent drops below $100 for a fifth session on reports Iran may reopen Hormuz and Saudi's East-West pipeline restarts, easing inflation pressure. The Fed remains hawkish: last week's hike may be followed by one or two more, with Williams speaking later. AI optimism is a major equity support as Meta's agent and Alibaba's chip revive the hardware trade. Credit dispersion is widening in triple-Cs, and diesel costs remain a political and consumer pain point. The show's tone is cautiously risk-on, though Fed and energy risks temper it.",
+    "notable_quotes": [
+      "Diesel, diesel, diesel.",
+      "The only way back is the hard way."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 36488,
+    "completion_tokens": 4508,
+    "total_tokens": 40996,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3804
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36488
+  }
+}

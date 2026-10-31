@@ -1,0 +1,131 @@
+{
+  "bvid": "BV1VvHb6tEYh",
+  "show_date": "2026-10-03",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "sharp",
+        "note": "Two-year fell after 29k payrolls; biggest two-day rally since March."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Ten-year down about 5 bp; haven bid offset by fiscal concerns."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "moderate",
+        "note": "Front end rallied harder; curve steepened over past sessions."
+      },
+      "dollar": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Dollar softened after payroll miss; prior month-long strength."
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent/WTI lower; diesel reserve-release talk and supply risk."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold discussion in transcript."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "High-yield spreads widened eight sessions, over 50 bp."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "S&P +0.5%, Nasdaq +0.6-1%, small caps outperform after payroll miss."
+      }
+    },
+    "fed": {
+      "stance": "neutral",
+      "expected_path": "hike",
+      "market_pricing": "October hike largely priced out; December hike still in play after soft payrolls.",
+      "notable_speakers": [
+        "Jefferson",
+        "Williams",
+        "Warsh",
+        "Lori Locket"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI capex/financing strong but concentration concerns; Nike earnings weak."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "US sends third carrier, 10k troops; possible Iran strike after midterms."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Resilient spending but affordability, fading tax-refund support; mixed signals."
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "October 14 CPI print",
+      "Fed October and December meetings",
+      "France budget and ECB response",
+      "Iran escalation after midterms"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Soft payrolls, lower hike odds",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed patience, front-end rally",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "High-yield spread widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Middle East escalation",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex financing",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "summary": "Stocks rose and front-end yields fell sharply after September payrolls missed badly (29k vs 90k) and wage growth slowed, pushing October hike odds lower while December remains in play. The two-year led a bond rally, the curve steepened, long-end yields fell modestly, and the dollar softened; oil was lower. Credit spreads widened for an eighth session and French OAT-Bund spreads blew out, keeping risk sentiment guarded. Fed speakers Jefferson and Williams emphasized patience, though Warsh and others remained hawkish. Geopolitical escalation with Iran and Middle East troop deployments remained a background risk. Net tone was mildly risk-on.",
+    "notable_quotes": [
+      "It's a dovish report, a little softer across the board, and the market's reacting that way.",
+      "The labor market is not the primary source of inflation today."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 34246,
+    "completion_tokens": 5971,
+    "total_tokens": 40217,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5231
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 34246
+  }
+}

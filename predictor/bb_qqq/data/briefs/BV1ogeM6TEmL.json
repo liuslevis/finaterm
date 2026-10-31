@@ -1,0 +1,120 @@
+{
+  "bvid": "BV1ogeM6TEmL",
+  "show_date": "2026-09-17",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Two-year up 6bp to 4.72, highest since July 2024."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "30-year fell ~2bp; chair cited growth, capital competition, geopolitics."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "moderate",
+        "note": "Front end up, long end down; curve flattened after hawkish Fed."
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Dollar ascendant; DXY move cited at 2.8 standard deviations."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Crude up over 20% since last Fed meeting; oil driving inflation."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold discussion in transcript."
+      },
+      "credit_spreads": {
+        "trend": "tightening",
+        "magnitude": "na",
+        "note": "Credit spreads described as down despite heavy supply."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "S&P fell after hawkish Fed; banks hammered."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": ">90% odds of 25bp hike; front end priced multiple hikes.",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "Richard Clarida",
+        "Chris Waller"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Earnings strong and AI capex robust, but AI adds inflation and capital competition."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Middle East war and oil shock cited; geopolitical uncertainty increased."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Retail sales strong, but high fuel prices and price tolerance concerns."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Fed 25bp hike signals more tightening",
+      "BOJ meeting Friday",
+      "Middle East conflict and oil shock",
+      "US midterm elections weeks away"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Hawkish Fed tightening",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Oil/geopolitical supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong growth and earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capital investment boom",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "summary": "The Fed delivered a unanimous 25bp hike to 3.75-4.00% and signaled another increase this year, with a hawkish Warsh press conference. Front-end yields rose and the curve flattened, while long-end yields slipped; the dollar strengthened and oil stayed sharply higher. Equities turned lower and banks sold off as markets priced more tightening. The dominant narrative is a Fed that has lost patience with above-target inflation despite strong growth and earnings, while oil and geopolitics add supply shocks. The show's tone was risk-off and hawkish, though the US economy was repeatedly described as resilient.",
+    "notable_quotes": [
+      "Today's policy action will support a timely return to the committee's two percent goal.",
+      "I would be hard pressed to describe financial conditions as restrictive."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 29864,
+    "completion_tokens": 4711,
+    "total_tokens": 34575,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4015
+    },
+    "prompt_cache_hit_tokens": 640,
+    "prompt_cache_miss_tokens": 29224
+  }
+}

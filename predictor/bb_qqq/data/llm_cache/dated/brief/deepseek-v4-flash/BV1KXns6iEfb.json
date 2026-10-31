@@ -1,0 +1,54 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1KXns6iEfb",
+  "show_date": "2026-10-23",
+  "parsed": {
+    "p_up_1d": 0.45,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 72,
+    "preopen_move": "sharply_down",
+    "drivers": [
+      {
+        "theme": "Middle East oil escalation",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI/tech earnings and capex concerns",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "French fiscal/political risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed on hold with resilient earnings",
+        "direction": "neutral",
+        "weight": 20
+      }
+    ],
+    "rationale": "Nasdaq futures are sharply lower as an oil spike and fresh Middle East escalation hit risk appetite, compounded by weak mega-cap/AI earnings reactions and French fiscal stress. Flight-to-quality yields and Fed hold offer only partial offset, so near-term upside is below normal and 7-day odds improve modestly with drift."
+  },
+  "raw": "{\"p_up_1d\":0.45,\"p_up_3d\":0.45,\"p_up_7d\":0.47,\"sentiment\":-1,\"confidence\":72,\"preopen_move\":\"sharply_down\",\"drivers\":[{\"theme\":\"Middle East oil escalation\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"AI/tech earnings and capex concerns\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"French fiscal/political risk\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Fed on hold with resilient earnings\",\"direction\":\"neutral\",\"weight\":20}],\"rationale\":\"Nasdaq futures are sharply lower as an oil spike and fresh Middle East escalation hit risk appetite, compounded by weak mega-cap/AI earnings reactions and French fiscal stress. Flight-to-quality yields and Fed hold offer only partial offset, so near-term upside is below normal and 7-day odds improve modestly with drift.\"}",
+  "usage": {
+    "prompt_tokens": 1268,
+    "completion_tokens": 2142,
+    "total_tokens": 3410,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1949
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1268
+  },
+  "prompt_sha": "fd9fb4464b0a002c"
+}

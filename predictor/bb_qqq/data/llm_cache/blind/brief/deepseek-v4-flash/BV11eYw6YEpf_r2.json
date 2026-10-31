@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.445,
+    "p_up_3d": 0.435,
+    "p_up_7d": 0.455,
+    "sentiment": -1,
+    "confidence": 61.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Energy/diesel supply shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed hike pricing",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures are softer while long-end yields sit near multi-decade highs, HY spreads widen, the Fed stays hawkish and oil near $103. Resilient AI earnings and softer core PCE help, but the tone is mildly risk-off and below-neutral odds are warranted."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.45,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 58,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy/diesel supply shock",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed hike pricing",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures are softer while long-end yields sit near multi-decade highs, HY spreads widen, the Fed stays hawkish and oil near $103. Resilient AI earnings and softer core PCE help, but the tone is mildly risk-off and below-neutral odds are warranted."
+    },
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 64,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy/diesel supply shock",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed hike pricing",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Mildly risk-off tape: long-end yields, oil shock, hawkish Fed and widening credit spreads outweigh AI support; Nasdaq futures are softer pre-open. Neutral regime and QQQ drift limit bearishness, so probabilities sit just below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1215,
+    "completion_tokens": 1658,
+    "total_tokens": 2873,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1468
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 191
+  },
+  "prompt_sha": "430b96f141c24879"
+}

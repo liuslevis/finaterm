@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1vTHU6EEGU",
+  "show_date": "2026-10-08",
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.45,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end bond selloff",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Competition for capital / heavy issuance",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed hike pricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil above $100 / Hormuz risk",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "Credit spreads widening",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex optimism",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures are lower as sharply higher long-end yields, heavy Treasury/corporate supply, hawkish Fed pricing, widening credit and $100 oil outweigh AI optimism. Auctions and Fed minutes add event risk, keeping near-term odds below neutral despite QQQ's usual upward drift."
+  },
+  "raw": "{\"p_up_1d\": 0.42, \"p_up_3d\": 0.43, \"p_up_7d\": 0.45, \"sentiment\": -1, \"confidence\": 62, \"preopen_move\": \"down\", \"drivers\": [{\"theme\": \"Long-end bond selloff\", \"direction\": \"bearish\", \"weight\": 30}, {\"theme\": \"Competition for capital / heavy issuance\", \"direction\": \"bearish\", \"weight\": 25}, {\"theme\": \"Hawkish Fed hike pricing\", \"direction\": \"bearish\", \"weight\": 20}, {\"theme\": \"Oil above $100 / Hormuz risk\", \"direction\": \"bearish\", \"weight\": 12}, {\"theme\": \"Credit spreads widening\", \"direction\": \"bearish\", \"weight\": 10}, {\"theme\": \"AI capex optimism\", \"direction\": \"bullish\", \"weight\": 15}], \"rationale\": \"Futures are lower as sharply higher long-end yields, heavy Treasury/corporate supply, hawkish Fed pricing, widening credit and $100 oil outweigh AI optimism. Auctions and Fed minutes add event risk, keeping near-term odds below neutral despite QQQ's usual upward drift.\"}",
+  "usage": {
+    "prompt_tokens": 1216,
+    "completion_tokens": 878,
+    "total_tokens": 2094,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 610
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1216
+  },
+  "prompt_sha": "bedabe243f841b62"
+}

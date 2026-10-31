@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1kwe96gEwQ",
+  "show_date": "2026-09-19",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.575,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 57.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Earnings and AI capex",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Hawkish global rate hikes",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/Middle East supply risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "US-China trade diplomacy",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Pre-open Nasdaq futures",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Nasdaq futures +0.4% and AI/earnings strength support a modest upward drift, but hawkish Fed/global hikes and firm yields/dollar temper conviction. Oil relief and trade diplomacy help; the risk-on tone is cautious."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.59,
+      "p_up_7d": 0.6,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Earnings and AI capex",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Hawkish global rate hikes",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/Middle East supply risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "US-China trade diplomacy",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Pre-open Nasdaq futures",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures +0.4% and AI/earnings strength support a modest upward drift, but hawkish Fed/global hikes and firm yields/dollar temper conviction. Oil relief and trade diplomacy help; the risk-on tone is cautious."
+    },
+    {
+      "p_up_1d": 0.57,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.54,
+      "sentiment": 1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Earnings and AI capex",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Hawkish Fed/global rate hikes",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Middle East supply risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "US-China trade diplomacy",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil pullback/pipeline restart",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Tight credit and firm preopen futures",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures lead modestly higher as strong earnings/AI capex and tight credit offset hawkish Fed hikes, firm yields/dollar and Middle East risk. Lower oil helps, but rate pressure caps conviction; probabilities stay only modestly above neutral drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1223,
+    "completion_tokens": 2053,
+    "total_tokens": 3276,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1837
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 199
+  },
+  "prompt_sha": "f07176bc5ae7f845"
+}

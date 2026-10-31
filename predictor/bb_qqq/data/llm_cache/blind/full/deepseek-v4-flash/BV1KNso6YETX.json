@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1KNso6YETX",
+  "show_date": "2026-10-29",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.53,
+    "sentiment": 0,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Big Tech earnings / AI demand optimism",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex financing and credit-spread stress",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish-hold event risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Positive preopen momentum",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil/geopolitical inflation risk",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Preopen is higher on strong SK Hynix/AI earnings hopes, but QQQ faces a hawkish-hold Fed and capex-financing stress; Big Tech results are high-expectation binary events, so edge is small and event risk keeps probabilities near neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.53,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Big Tech earnings / AI demand optimism",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex financing and credit-spread stress",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish-hold event risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Positive preopen momentum",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil/geopolitical inflation risk",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Preopen is higher on strong SK Hynix/AI earnings hopes, but QQQ faces a hawkish-hold Fed and capex-financing stress; Big Tech results are high-expectation binary events, so edge is small and event risk keeps probabilities near neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 39433,
+    "completion_tokens": 1685,
+    "total_tokens": 41118,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1480
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 39049
+  },
+  "prompt_sha": "6431de38a34c2f0a"
+}

@@ -1,0 +1,126 @@
+{
+  "bvid": "BV1EeHc6sE8j",
+  "show_date": "2026-10-27",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "Fed hold expected; front end little changed ahead of Wednesday."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Long end up on margin; 10-year near 5%, 30-year 5.31%."
+      },
+      "yield_curve": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Not discussed as a curve call."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "General dollar not discussed; Brazilian real slumped over 8%."
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Brent ~$115, down today after 6% weekly gain; above $100."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Not discussed."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "AI/hyperscaler and weaker cloud credit widening; debt access tight."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P and Nasdaq futures modestly higher after two weekly declines."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hold",
+      "market_pricing": "About 9% odds of October hike; 80% December; 90% cumulative by December.",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "John Williams",
+        "Jefferson",
+        "Waller"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Capex scrutiny, negative free cash flow, and equity issuance pressure offset strong AI demand and earnings growth."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Trump may resume Iran strikes after midterms; Gulf states seek deal; retaliation risk elevated."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Gas sticker shock and slowing savings offset by wealth effect; approval weak."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Fed decision Wednesday; December hike pricing",
+      "Alphabet, Microsoft Wednesday; Amazon Thursday earnings",
+      "Anthropic IPO filing today at 9am",
+      "US midterms Nov 3; Iran decision after"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI capex and credit stress",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish hold",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mega-cap earnings resilience",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran and midterm risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Equity issuance supply",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equity futures were slightly higher, with S&P and Nasdaq up as markets tried to rebound from two weeks of losses. Long-end yields were up on the margin, with 10-year near 5% and 30-year around 5.31%; front-end was anchored by expectations the Fed holds Wednesday, though 80% odds of a December hike are priced. Credit spreads are widening, especially for AI/hyperscaler and weaker cloud names, while oil slipped but stayed above $100. The dominant narrative was AI capex versus free cash flow and capital access, compounded by heavy equity issuance and geopolitical risk around Iran and the midterms. Tone was cautious and skeptical despite positive futures.",
+    "notable_quotes": [
+      "Debt markets have almost entirely shut off access to money, and companies that don't have substantial revenue independent of AI data centers.",
+      "It's a great time to prune risk. Bonds are working again."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 36803,
+    "completion_tokens": 4652,
+    "total_tokens": 41455,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3886
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36803
+  }
+}

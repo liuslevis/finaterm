@@ -1,0 +1,123 @@
+{
+  "bvid": "BV1aRhQ6LEvz",
+  "show_date": "2026-09-26",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "2y +50bp on month; Friday slightly lower"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "30y ~5.50%, 10y ~5.25%; multi-decade highs"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "moderate",
+        "note": "Long-end underperformance; bear steepener discussed"
+      },
+      "dollar": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Yen intervention talk; dollar/yen lower"
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Brent ~$93, down ~2% on Iran deal hopes"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not discussed"
+      },
+      "credit_spreads": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Spreads tight; government issuance, not credit, driving yields"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P futures +0.1%; three-day winning streak"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Market prices roughly 3.5-4 hikes over next year; some see too aggressive",
+      "notable_speakers": [
+        "unnamed Fed officials"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI deals/capex positive; financing and productivity payback questioned"
+    },
+    "geopolitics": {
+      "escalation": "stable",
+      "note": "Iran talks stalled; Ukraine refinery attacks continue; no breakthrough"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Diesel near highs pressures consumers; broader pain not yet evident"
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "Iran/Strait of Hormuz talks; no breakthrough",
+      "Fed officials signal further tightening",
+      "Diesel export ban debate before midterms",
+      "Midterm elections under 40 days away"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Higher-for-longer rates",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Bond selloff, term premium",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran talks, oil pullback",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex resilience",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "summary": "Front-end and long-end yields are described as sharply higher, with the 2-year up over 50bp on the month and 30-year near 5.50%; the curve is seen steeper as term premia build. Friday brings modest stabilization, with front-end yields slightly lower and equity futures up about 0.1% after three days of gains. Oil is retreating, Brent near $93 down about 2%, on hopes for Iran/Strait talks, while the yen is firmer after intervention talk. The Fed is hawkish: officials flag further tightening and markets price roughly 3.5-4 hikes over the next year. The dominant narrative is higher-for-longer rates and a government-bond selloff, with credit spreads tight and AI capex optimism offset by financing concerns. Tone is cautious/neutral.",
+    "notable_quotes": [
+      "This is a rate move on the government bond side, not necessarily on the corporate bond side.",
+      "Markets are no longer scared that tighter policy will ultimately derail growth."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 10614,
+    "completion_tokens": 5764,
+    "total_tokens": 16378,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5029
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 10614
+  }
+}

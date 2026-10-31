@@ -1,0 +1,74 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1VvHb6tEYh",
+  "show_date": "2026-10-03",
+  "parsed": {
+    "p_up_1d": 0.62,
+    "p_up_3d": 0.59,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 64,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Soft payrolls, lower hike odds",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Pre-open futures/risk-on tone",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Fed patience, front-end rally",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "High-yield spread widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Middle East escalation",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Mixed earnings/consumer",
+        "direction": "bearish",
+        "weight": 5
+      },
+      {
+        "theme": "AI capex financing",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Dovish payroll miss and lower hike odds support equities and futures are up, but eight sessions of HY spread widening plus French fiscal and Iran risks cap conviction. Net mild risk-on; probabilities modestly above base rate and decaying with horizon."
+  },
+  "raw": "{\"p_up_1d\":0.62,\"p_up_3d\":0.59,\"p_up_7d\":0.56,\"sentiment\":1,\"confidence\":64,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"Soft payrolls, lower hike odds\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"Pre-open futures/risk-on tone\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"Fed patience, front-end rally\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"High-yield spread widening\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"France fiscal stress\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Middle East escalation\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"Mixed earnings/consumer\",\"direction\":\"bearish\",\"weight\":5},{\"theme\":\"AI capex financing\",\"direction\":\"bullish\",\"weight\":10}],\"rationale\":\"Dovish payroll miss and lower hike odds support equities and futures are up, but eight sessions of HY spread widening plus French fiscal and Iran risks cap conviction. Net mild risk-on; probabilities modestly above base rate and decaying with horizon.\"}",
+  "usage": {
+    "prompt_tokens": 1215,
+    "completion_tokens": 2123,
+    "total_tokens": 3338,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1884
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 831
+  },
+  "prompt_sha": "c392a97c67cde3c7"
+}

@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "parsed": {
+    "p_up_1d": 0.62,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.54,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and strong earnings",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Rising long-end yields compete for capital",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "France fiscal/political and geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed with hikes priced",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil below $100 on Red Sea progress",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are higher and AI earnings momentum supports Nasdaq records, but multi-decade-high yields, hawkish Fed pricing and geopolitical stress cap upside. Cautious risk-on favors a modestly above-neutral 1-day probability, fading over 3-7 days as bond and event risk dominate."
+  },
+  "raw": "{\"p_up_1d\":0.62,\"p_up_3d\":0.57,\"p_up_7d\":0.54,\"sentiment\":1,\"confidence\":62,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI capex and strong earnings\",\"direction\":\"bullish\",\"weight\":35},{\"theme\":\"Rising long-end yields compete for capital\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"France fiscal/political and geopolitical risk\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Hawkish Fed with hikes priced\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Oil below $100 on Red Sea progress\",\"direction\":\"bullish\",\"weight\":10}],\"rationale\":\"Futures are higher and AI earnings momentum supports Nasdaq records, but multi-decade-high yields, hawkish Fed pricing and geopolitical stress cap upside. Cautious risk-on favors a modestly above-neutral 1-day probability, fading over 3-7 days as bond and event risk dominate.\"}",
+  "usage": {
+    "prompt_tokens": 1245,
+    "completion_tokens": 1117,
+    "total_tokens": 2362,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 905
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 861
+  },
+  "prompt_sha": "06a2d29b65cb36d2"
+}

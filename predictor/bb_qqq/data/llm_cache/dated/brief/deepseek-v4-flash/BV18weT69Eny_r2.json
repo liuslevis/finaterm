@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV18weT69Eny",
+  "show_date": "2026-09-17",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.475,
+    "p_up_3d": 0.475,
+    "p_up_7d": 0.495,
+    "sentiment": -1,
+    "confidence": 61.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed hike / Warsh credibility test",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex / earnings strength",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Rising long-end yields / term premium",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Energy supply shocks",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Futures are slightly higher, but the dominant setup is a near-certain hawkish Fed hike and dot plot with the ten-year near 5%, plus Warsh credibility and policy-error risk. AI capex supports earnings, yet rate and energy headwinds keep event risk modestly skewed lower; probabilities sit just below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.48,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed hike / Warsh credibility test",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex / earnings strength",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Rising long-end yields / term premium",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy supply shocks",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Futures are slightly higher, but the dominant setup is a near-certain hawkish Fed hike and dot plot with the ten-year near 5%, plus Warsh credibility and policy-error risk. AI capex supports earnings, yet rate and energy headwinds keep event risk modestly skewed lower; probabilities sit just below neutral."
+    },
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.48,
+      "p_up_7d": 0.51,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed hike, credibility test",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex driving earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Rising long-end yields, term premium",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy supply shocks",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "A near-certain 25bp hike with hawkish dots and 10y near 5% is a headwind for rate-sensitive QQQ; AI capex and tight credit offset some pressure, while pre-open futures are modestly higher. Cautious tone and energy supply risk cap upside."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1282,
+    "completion_tokens": 3407,
+    "total_tokens": 4689,
+    "prompt_tokens_details": {
+      "cached_tokens": 1148
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3218
+    },
+    "prompt_cache_hit_tokens": 1148,
+    "prompt_cache_miss_tokens": 134
+  },
+  "prompt_sha": "0c837e937d879037"
+}

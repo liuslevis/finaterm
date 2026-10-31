@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1Z5aC6eEmS",
+  "show_date": "2026-10-02",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.55,
+    "p_up_3d": 0.51,
+    "p_up_7d": 0.485,
+    "sentiment": 0,
+    "confidence": 61.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI/tech earnings strength",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed tightening risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Tech-led futures and AI earnings support QQQ near term, but multi-decade high long yields, hawkish Fed repricing, and fast HY spread widening cap upside; payrolls/CPI event risk keeps 3-7 day odds near neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.55,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.49,
+      "sentiment": 0,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Global bond selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI/tech earnings strength",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed tightening risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Tech-led futures and AI earnings support QQQ near term, but multi-decade high long yields, hawkish Fed repricing, and fast HY spread widening cap upside; payrolls/CPI event risk keeps 3-7 day odds near neutral."
+    },
+    {
+      "p_up_1d": 0.55,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.48,
+      "sentiment": 0,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Global bond selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI/tech earnings strength",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed tightening risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures and AI/earnings strength support the open, but multi-decade long-end yields, hawkish Fed pricing and fast HY widening skew risk lower beyond one day; ISM and payrolls add event risk. Neutral-to-cautious."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1264,
+    "completion_tokens": 1405,
+    "total_tokens": 2669,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1235
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 240
+  },
+  "prompt_sha": "7c8cce65a67a1028"
+}

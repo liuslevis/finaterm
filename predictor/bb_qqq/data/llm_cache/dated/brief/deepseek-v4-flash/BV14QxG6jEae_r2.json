@@ -1,0 +1,128 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV14QxG6jEae",
+  "show_date": "2026-10-28",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.535,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 55.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex financing boom",
+        "direction": "bullish",
+        "weight": 40
+      },
+      {
+        "theme": "Fed hawkish hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran conflict and oil",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Midterm election uncertainty",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Mega-cap earnings catalysts",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures point up and AI financing remains the dominant bullish force, but a hawkish Fed with December hike risk, elevated oil/Iran tension and weak consumer cap upside. Neutral-to-slightly-positive drift, with Fed and mega-cap earnings event risk."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 56,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex financing boom",
+          "direction": "bullish",
+          "weight": 40
+        },
+        {
+          "theme": "Fed hawkish hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran conflict and oil",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Mega-cap earnings catalysts",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures point up and AI financing remains the dominant bullish force, but a hawkish Fed with December hike risk, elevated oil/Iran tension and weak consumer cap upside. Neutral-to-slightly-positive drift, with Fed and mega-cap earnings event risk."
+    },
+    {
+      "p_up_1d": 0.53,
+      "p_up_3d": 0.53,
+      "p_up_7d": 0.54,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex financing boom",
+          "direction": "bullish",
+          "weight": 40
+        },
+        {
+          "theme": "Fed hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran conflict and oil",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Midterm election uncertainty",
+          "direction": "neutral",
+          "weight": 15
+        }
+      ],
+      "rationale": "Modest pre-open gains and AI financing enthusiasm support a slight upward tilt, but hawkish Fed hike risk, Iran-driven oil strength and soft consumers offset it. Imminent Fed decision and mega-cap earnings keep confidence low."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1194,
+    "completion_tokens": 1596,
+    "total_tokens": 2790,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1433
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 170
+  },
+  "prompt_sha": "848157a775157915"
+}

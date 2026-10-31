@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV16Utj6QECZ",
+  "show_date": "2026-09-02",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.37,
+    "p_up_3d": 0.425,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 69.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran/Hormuz oil risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Strong earnings/AI demand",
+        "direction": "bullish",
+        "weight": 25
+      }
+    ],
+    "rationale": "Risk-off tape with Nasdaq futures down 1%, long yields near multi-decade highs, hawkish Fed hike odds, and oil risk from Hormuz. Strong AI earnings and buy-the-dip views limit pessimism, but the near-term bias is lower, especially for the 1-day close."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Global bond selloff",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran/Hormuz oil risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Strong earnings/AI demand",
+          "direction": "bullish",
+          "weight": 25
+        }
+      ],
+      "rationale": "Risk-off tape with Nasdaq futures down 1%, long yields near multi-decade highs, hawkish Fed hike odds, and oil risk from Hormuz. Strong AI earnings and buy-the-dip views limit pessimism, but the near-term bias is lower, especially for the 1-day close."
+    },
+    {
+      "p_up_1d": 0.32,
+      "p_up_3d": 0.4,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 70,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Global bond selloff / long-end yields",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran/Hormuz oil risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Strong earnings / AI demand",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Weak lower-end consumer",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures down ~1% with long yields near multi-decade highs, hawkish Fed pricing and oil risk skew near-term downside. Strong AI earnings and tight credit limit panic, leaving 3-7 day odds below neutral drift but not deeply bearish."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1187,
+    "completion_tokens": 2053,
+    "total_tokens": 3240,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1854
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 163
+  },
+  "prompt_sha": "847a7592a7c779e6"
+}

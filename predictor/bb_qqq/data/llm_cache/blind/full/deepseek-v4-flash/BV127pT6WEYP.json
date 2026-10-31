@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "parsed": {
+    "p_up_1d": 0.61,
+    "p_up_3d": 0.58,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Nasdaq record highs, back-to-back, futures +0.5-0.7%",
+        "direction": "bullish",
+        "weight": 70
+      },
+      {
+        "theme": "Earnings strength (~30% S&P growth), AI capex and financing boom unabated",
+        "direction": "bullish",
+        "weight": 65
+      },
+      {
+        "theme": "Yields down 3-5bp today but near multi-decade highs, heavy 3s/10s/30s supply",
+        "direction": "neutral",
+        "weight": 55
+      },
+      {
+        "theme": "Brent breaks below $100, down ~2.5% on Red Sea supply progress",
+        "direction": "bullish",
+        "weight": 50
+      },
+      {
+        "theme": "Strategist caution: PIMCO/DDB/Neuberger trim risk, valuations, rate complacency",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Midterm sweep risk, AI-regulation/data-center politics, French political stress",
+        "direction": "bearish",
+        "weight": 30
+      }
+    ],
+    "rationale": "Risk-on tape: Nasdaq at records with futures up, yields easing and oil below $100, while earnings and AI capex financing remain strong. But rates sit near multi-decade highs, supply is heavy, and several strategists are quietly trimming risk, capping conviction beyond a one-day drift."
+  },
+  "raw": "{\"p_up_1d\": 0.61, \"p_up_3d\": 0.58, \"p_up_7d\": 0.57, \"sentiment\": 1, \"confidence\": 55, \"preopen_move\": \"up\", \"drivers\": [{\"theme\": \"Nasdaq record highs, back-to-back, futures +0.5-0.7%\", \"direction\": \"bullish\", \"weight\": 70}, {\"theme\": \"Earnings strength (~30% S&P growth), AI capex and financing boom unabated\", \"direction\": \"bullish\", \"weight\": 65}, {\"theme\": \"Yields down 3-5bp today but near multi-decade highs, heavy 3s/10s/30s supply\", \"direction\": \"neutral\", \"weight\": 55}, {\"theme\": \"Brent breaks below $100, down ~2.5% on Red Sea supply progress\", \"direction\": \"bullish\", \"weight\": 50}, {\"theme\": \"Strategist caution: PIMCO/DDB/Neuberger trim risk, valuations, rate complacency\", \"direction\": \"bearish\", \"weight\": 35}, {\"theme\": \"Midterm sweep risk, AI-regulation/data-center politics, French political stress\", \"direction\": \"bearish\", \"weight\": 30}], \"rationale\": \"Risk-on tape: Nasdaq at records with futures up, yields easing and oil below $100, while earnings and AI capex financing remain strong. But rates sit near multi-decade highs, supply is heavy, and several strategists are quietly trimming risk, capping conviction beyond a one-day drift.\"}",
+  "usage": {
+    "prompt_tokens": 37694,
+    "completion_tokens": 1216,
+    "total_tokens": 38910,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 863
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 37310
+  },
+  "prompt_sha": "001d9b355b207e32"
+}

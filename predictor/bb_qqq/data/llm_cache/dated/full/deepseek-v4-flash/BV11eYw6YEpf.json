@@ -1,0 +1,69 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "parsed": {
+    "p_up_1d": 0.49,
+    "p_up_3d": 0.48,
+    "p_up_7d": 0.51,
+    "sentiment": -1,
+    "confidence": 66,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "long-end yields and mortgage-rate shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "soft core PCE and front-end yield relief",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "energy and diesel supply shock",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "credit spread widening and narrow breadth",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "AI capex and earnings resilience",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Fed hawkish but October urgency fading",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "Micron/semis event risk",
+        "direction": "neutral",
+        "weight": 5
+      }
+    ],
+    "rationale": "Soft core PCE and fading October-hike urgency helped front-end yields, but long-end yields at multi-decade highs, mortgage/energy stress, widening credit spreads and narrow breadth keep QQQ risk skewed slightly lower near term. AI capex and earnings momentum cushion, leaving 7-day odds near neutral."
+  },
+  "raw": "{\"type\":\"json_object\",\"p_up_1d\":0.49,\"p_up_3d\":0.48,\"p_up_7d\":0.51,\"sentiment\":-1,\"confidence\":66,\"preopen_move\":\"flat\",\"drivers\":[{\"theme\":\"long-end yields and mortgage-rate shock\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"soft core PCE and front-end yield relief\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"energy and diesel supply shock\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"credit spread widening and narrow breadth\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"AI capex and earnings resilience\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"Fed hawkish but October urgency fading\",\"direction\":\"neutral\",\"weight\":10},{\"theme\":\"Micron/semis event risk\",\"direction\":\"neutral\",\"weight\":5}],\"rationale\":\"Soft core PCE and fading October-hike urgency helped front-end yields, but long-end yields at multi-decade highs, mortgage/energy stress, widening credit spreads and narrow breadth keep QQQ risk skewed slightly lower near term. AI capex and earnings momentum cushion, leaving 7-day odds near neutral.\"}",
+  "usage": {
+    "prompt_tokens": 33507,
+    "completion_tokens": 3849,
+    "total_tokens": 37356,
+    "prompt_tokens_details": {
+      "cached_tokens": 33280
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3597
+    },
+    "prompt_cache_hit_tokens": 33280,
+    "prompt_cache_miss_tokens": 227
+  },
+  "prompt_sha": "3a6c6a2a00576820"
+}

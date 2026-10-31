@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1Z5aC6eEmS",
+  "show_date": "2026-10-02",
+  "parsed": {
+    "p_up_1d": 0.61,
+    "p_up_3d": 0.56,
+    "p_up_7d": 0.54,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Tech/AI earnings and product momentum",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Positive preopen equity futures",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Multi-decade high bond yields and Fed hawkishness",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Widening high-yield spreads and weak breadth",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Q4 buy-the-dip and valuation support",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Tech/AI news and positive preopen support QQQ near term, but multi-decade high yields, widening high-yield spreads, weak breadth and hawkish Fed comments cap upside. I expect mild upward drift, decaying over 3-7 days as rate/credit stress and data risk weigh."
+  },
+  "raw": "{\"p_up_1d\":0.61,\"p_up_3d\":0.56,\"p_up_7d\":0.54,\"sentiment\":1,\"confidence\":62,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"Tech/AI earnings and product momentum\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"Positive preopen equity futures\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"Multi-decade high bond yields and Fed hawkishness\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Widening high-yield spreads and weak breadth\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Q4 buy-the-dip and valuation support\",\"direction\":\"bullish\",\"weight\":10}],\"rationale\":\"Tech/AI news and positive preopen support QQQ near term, but multi-decade high yields, widening high-yield spreads, weak breadth and hawkish Fed comments cap upside. I expect mild upward drift, decaying over 3-7 days as rate/credit stress and data risk weigh.\"}",
+  "usage": {
+    "prompt_tokens": 33741,
+    "completion_tokens": 2075,
+    "total_tokens": 35816,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1857
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33741
+  },
+  "prompt_sha": "891d38d1b3113ed8"
+}

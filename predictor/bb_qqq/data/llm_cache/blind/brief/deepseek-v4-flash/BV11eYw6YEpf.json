@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "parsed": {
+    "p_up_1d": 0.45,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.48,
+    "sentiment": -1,
+    "confidence": 64,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Energy/diesel supply shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed hike pricing",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Mildly risk-off tape: long-end yields near highs, energy shock, hawkish Fed and widening credit outweigh AI capex; Nasdaq futures are soft. Near-term QQQ odds stay below a coin flip, but seven-day odds edge toward neutral on earnings support and upward drift."
+  },
+  "raw": "{\"p_up_1d\":0.45,\"p_up_3d\":0.46,\"p_up_7d\":0.48,\"sentiment\":-1,\"confidence\":64,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Long-end yield surge\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"AI capex and earnings\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"Energy/diesel supply shock\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Hawkish Fed hike pricing\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Credit spread widening\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Mildly risk-off tape: long-end yields near highs, energy shock, hawkish Fed and widening credit outweigh AI capex; Nasdaq futures are soft. Near-term QQQ odds stay below a coin flip, but seven-day odds edge toward neutral on earnings support and upward drift.\"}",
+  "usage": {
+    "prompt_tokens": 1215,
+    "completion_tokens": 1828,
+    "total_tokens": 3043,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1631
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 831
+  },
+  "prompt_sha": "430b96f141c24879"
+}

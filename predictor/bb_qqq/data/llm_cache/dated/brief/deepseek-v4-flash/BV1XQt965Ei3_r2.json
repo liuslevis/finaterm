@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1XQt965Ei3",
+  "show_date": "2026-09-03",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.46,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 62.0,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Hawkish Fed / September hike odds",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil/Iran supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI earnings strength",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Dip-buying resilience",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Hawkish Fed pricing, elevated oil and long yields tilt near-term odds below neutral, but futures pared losses, credit remains tight, and AI earnings/dip-buying cushion. Payrolls and CPI add event risk, so probabilities stay near 0.45-0.48."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.45,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.48,
+      "sentiment": -1,
+      "confidence": 64,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed / September hike odds",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil/Iran supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI earnings strength",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Dip-buying resilience",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Hawkish Fed pricing, elevated oil and long yields tilt near-term odds below neutral, but futures pared losses, credit remains tight, and AI earnings/dip-buying cushion. Payrolls and CPI add event risk, so probabilities stay near 0.45-0.48."
+    },
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Hawkish Fed / September hike odds",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil/Iran supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI earnings strength",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Dip-buying resilience",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Hawkish Fed pricing, high long-end yields and an oil supply shock weigh on QQQ, especially tech multiples. AI earnings strength and dip-buying support, but the risk-off regime and weak consumer keep the odds of higher closes below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1260,
+    "completion_tokens": 2223,
+    "total_tokens": 3483,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2030
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 236
+  },
+  "prompt_sha": "532d4a3f901c329a"
+}

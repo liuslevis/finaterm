@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1scec6cEvJ",
+  "show_date": "2026-09-16",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.49,
+    "p_up_7d": 0.51,
+    "sentiment": -1,
+    "confidence": 64,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "10-year yields top 5% / hawkish Fed",
+        "direction": "bearish",
+        "weight": 80
+      },
+      {
+        "theme": "Oil shock, Brent near $110 and pipeline outage",
+        "direction": "bearish",
+        "weight": 65
+      },
+      {
+        "theme": "Earnings resilience and dip-buying calls",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "FOMC event risk / dot-plot uncertainty",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "AI regulation and safety rhetoric",
+        "direction": "neutral",
+        "weight": 25
+      }
+    ],
+    "rationale": "5% 10-year yields, Brent near $110 and a near-certain hawkish Fed hike are clear near-term headwinds for QQQ, though resilient earnings, a flat tape and dip-buying calls limit downside. I keep probabilities near coin-flip with a slight negative 1-3 day tilt."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.49,
+      "p_up_7d": 0.51,
+      "sentiment": -1,
+      "confidence": 64,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "10-year yields top 5% / hawkish Fed",
+          "direction": "bearish",
+          "weight": 80
+        },
+        {
+          "theme": "Oil shock, Brent near $110 and pipeline outage",
+          "direction": "bearish",
+          "weight": 65
+        },
+        {
+          "theme": "Earnings resilience and dip-buying calls",
+          "direction": "bullish",
+          "weight": 55
+        },
+        {
+          "theme": "FOMC event risk / dot-plot uncertainty",
+          "direction": "bearish",
+          "weight": 45
+        },
+        {
+          "theme": "AI regulation and safety rhetoric",
+          "direction": "neutral",
+          "weight": 25
+        }
+      ],
+      "rationale": "5% 10-year yields, Brent near $110 and a near-certain hawkish Fed hike are clear near-term headwinds for QQQ, though resilient earnings, a flat tape and dip-buying calls limit downside. I keep probabilities near coin-flip with a slight negative 1-3 day tilt."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36355,
+    "completion_tokens": 3363,
+    "total_tokens": 39718,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3137
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36355
+  },
+  "prompt_sha": "54946a4bed5969b0"
+}

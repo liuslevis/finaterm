@@ -1,0 +1,117 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV14QxG6jEae",
+  "show_date": "2026-10-28",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.59,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and mega financing demand",
+        "direction": "bullish",
+        "weight": 80
+      },
+      {
+        "theme": "mega-cap tech earnings ahead",
+        "direction": "bullish",
+        "weight": 55
+      },
+      {
+        "theme": "positive futures/pre-open tape",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "high rates and competition for capital",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "Fed hawkish-hold risk",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "oil/Iran geopolitical risk",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "valuation and circular-financing concerns",
+        "direction": "bearish",
+        "weight": 30
+      }
+    ],
+    "rationale": "AI financing and mega-cap earnings optimism lifted futures, with guests broadly constructive on quality tech despite high rates, oil/Iran risk, and Fed/midterm event risk. I expect modest upward drift, tempered by valuation and credit concerns."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.59,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and mega financing demand",
+          "direction": "bullish",
+          "weight": 80
+        },
+        {
+          "theme": "mega-cap tech earnings ahead",
+          "direction": "bullish",
+          "weight": 55
+        },
+        {
+          "theme": "positive futures/pre-open tape",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "high rates and competition for capital",
+          "direction": "bearish",
+          "weight": 45
+        },
+        {
+          "theme": "Fed hawkish-hold risk",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "oil/Iran geopolitical risk",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "valuation and circular-financing concerns",
+          "direction": "bearish",
+          "weight": 30
+        }
+      ],
+      "rationale": "AI financing and mega-cap earnings optimism lifted futures, with guests broadly constructive on quality tech despite high rates, oil/Iran risk, and Fed/midterm event risk. I expect modest upward drift, tempered by valuation and credit concerns."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 35524,
+    "completion_tokens": 2135,
+    "total_tokens": 37659,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1907
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 35140
+  },
+  "prompt_sha": "04e777b7bbfd2c02"
+}

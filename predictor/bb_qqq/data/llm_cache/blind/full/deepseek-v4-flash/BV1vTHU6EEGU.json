@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1vTHU6EEGU",
+  "show_date": "2026-10-08",
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.51,
+    "sentiment": -1,
+    "confidence": 64,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Global bond selloff and heavy Treasury supply",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Pre-open tech and chip weakness",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI capex and earnings resilience",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "10-year auction and Fed minutes event risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Narrow breadth and valuation pressure",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Morning is risk-off: QQQ futures are down about 0.8%, global bond yields are at multi-decade highs, and Treasury supply poses event risk, while AI capex and earnings strength cushion dips. I expect short-term downside skew fading toward neutral by seven days."
+  },
+  "raw": "{\"p_up_1d\":0.42,\"p_up_3d\":0.46,\"p_up_7d\":0.51,\"sentiment\":-1,\"confidence\":64,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Global bond selloff and heavy Treasury supply\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Pre-open tech and chip weakness\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"AI capex and earnings resilience\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"10-year auction and Fed minutes event risk\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"Oil and geopolitical risk\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"Narrow breadth and valuation pressure\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Morning is risk-off: QQQ futures are down about 0.8%, global bond yields are at multi-decade highs, and Treasury supply poses event risk, while AI capex and earnings strength cushion dips. I expect short-term downside skew fading toward neutral by seven days.\"}",
+  "usage": {
+    "prompt_tokens": 34455,
+    "completion_tokens": 1864,
+    "total_tokens": 36319,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1641
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 34071
+  },
+  "prompt_sha": "7f8113828cf5c0ad"
+}

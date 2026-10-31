@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1scec6cEvJ",
+  "show_date": "2026-09-16",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.465,
+    "sentiment": -1,
+    "confidence": 63.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Oil supply shock",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed hike",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Rising long yields",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      }
+    ],
+    "rationale": "Oil near $110-117, 10-year above 5%, and a >90% priced 25bp hike keep risk skewed lower into the Fed, retail sales and BOJ. Equities' resilience and strong tech earnings limit downside, so probabilities sit modestly below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.45,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil supply shock",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed hike",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Rising long yields",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI earnings resilience",
+          "direction": "bullish",
+          "weight": 25
+        }
+      ],
+      "rationale": "Oil near $110-117, 10-year above 5%, and a >90% priced 25bp hike keep risk skewed lower into the Fed, retail sales and BOJ. Equities' resilience and strong tech earnings limit downside, so probabilities sit modestly below neutral."
+    },
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.42,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 58,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Oil supply shock",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hike",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI earnings resilience",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Long yields above 5%",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Geopolitical escalation",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Oil near $110-117, 10-year yields above 5%, and a near-certain hawkish Fed hike weigh on risk appetite, while slightly lower Nasdaq futures and mixed AI/earnings resilience limit conviction. Event risk around the Fed and retail sales keeps near-term odds below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1221,
+    "completion_tokens": 855,
+    "total_tokens": 2076,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 659
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 197
+  },
+  "prompt_sha": "d136a6cb9e149d1f"
+}

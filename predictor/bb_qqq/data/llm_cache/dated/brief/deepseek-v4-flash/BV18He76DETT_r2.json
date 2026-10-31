@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV18He76DETT",
+  "show_date": "2026-09-15",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.4,
+    "p_up_7d": 0.445,
+    "sentiment": -1,
+    "confidence": 71.0,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI slowdown fears",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike repricing",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil supply shock",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Resilient consumer/earnings",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Software rotation",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Risk-off tape with Nasdaq futures down ~1.5-1.8%, 90% Fed hike priced, oil near $110 and AI-safety fears pressure chips. Credit flat and resilient consumer/software offer only partial offsets; event risk keeps near-term odds below neutral, with modest mean-reversion by week."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.41,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 70,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI slowdown fears",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Resilient consumer/earnings",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Software rotation",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with Nasdaq futures down ~1.5-1.8%, 90% Fed hike priced, oil near $110 and AI-safety fears pressure chips. Credit flat and resilient consumer/software offer only partial offsets; event risk keeps near-term odds below neutral, with modest mean-reversion by week."
+    },
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.39,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI slowdown fears",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil supply shock",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed hike repricing",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Resilient consumer/earnings",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Software rotation",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Risk-off tape with Nasdaq futures down sharply, 90% odds of a Fed hike Wednesday, yields near multi-year highs, and an oil supply shock. AI capex jitters dominate. Modest offset from resilient consumer and software, but bearish drivers outweigh."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1207,
+    "completion_tokens": 2081,
+    "total_tokens": 3288,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1892
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 183
+  },
+  "prompt_sha": "2a84d26f8e110895"
+}

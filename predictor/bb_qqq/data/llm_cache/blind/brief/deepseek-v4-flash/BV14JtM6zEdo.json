@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 68,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Warsh and hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil spike and Middle East escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex and Nvidia support",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Consumer fatigue",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Fed credibility and heavy issuance",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures are slightly lower as hawkish Fed repricing, higher oil and geopolitical risk outweigh Nvidia-led AI support. QQQ faces event risk from payrolls and Waller, so near-term odds lean below neutral despite normal upward drift."
+  },
+  "raw": "{\"p_up_1d\":0.44,\"p_up_3d\":0.46,\"p_up_7d\":0.47,\"sentiment\":-1,\"confidence\":68,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Hawkish Warsh and hike risk\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Oil spike and Middle East escalation\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"AI capex and Nvidia support\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Consumer fatigue\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"Fed credibility and heavy issuance\",\"direction\":\"bearish\",\"weight\":15}],\"rationale\":\"Futures are slightly lower as hawkish Fed repricing, higher oil and geopolitical risk outweigh Nvidia-led AI support. QQQ faces event risk from payrolls and Waller, so near-term odds lean below neutral despite normal upward drift.\"}",
+  "usage": {
+    "prompt_tokens": 1319,
+    "completion_tokens": 1073,
+    "total_tokens": 2392,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 879
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1319
+  },
+  "prompt_sha": "f11cd3e00184a618"
+}

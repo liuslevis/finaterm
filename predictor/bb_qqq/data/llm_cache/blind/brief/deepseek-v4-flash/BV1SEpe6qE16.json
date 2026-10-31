@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1SEpe6qE16",
+  "show_date": "2026-10-10",
+  "parsed": {
+    "p_up_1d": 0.57,
+    "p_up_3d": 0.53,
+    "p_up_7d": 0.52,
+    "sentiment": 0,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI profitability uncertainty",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed / higher-for-longer yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Resilient consumer spending",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Geopolitical oil risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Pre-open equity rebound",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Topping-process quote / fragile tone",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Pre-open rebound and strong consumer support near-term upside, but hawkish Fed, high yields, AI valuation doubts and fragile geopolitics cap gains; a topping comment reinforces caution, leaving only modest positive drift."
+  },
+  "raw": "{\"p_up_1d\":0.57,\"p_up_3d\":0.53,\"p_up_7d\":0.52,\"sentiment\":0,\"confidence\":58,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI profitability uncertainty\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Hawkish Fed / higher-for-longer yields\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Resilient consumer spending\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Geopolitical oil risk\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Pre-open equity rebound\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"Topping-process quote / fragile tone\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Pre-open rebound and strong consumer support near-term upside, but hawkish Fed, high yields, AI valuation doubts and fragile geopolitics cap gains; a topping comment reinforces caution, leaving only modest positive drift.\"}",
+  "usage": {
+    "prompt_tokens": 1214,
+    "completion_tokens": 1395,
+    "total_tokens": 2609,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1192
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 830
+  },
+  "prompt_sha": "1ed915552c1f52ed"
+}

@@ -1,0 +1,121 @@
+{
+  "bvid": "BV14QxG6jEae",
+  "show_date": "2026-10-28",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_on",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Front end around 4.73, essentially unchanged."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "10-year near 4.97, down slightly; 30-year around 5.29."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "slight",
+        "note": "Front end unchanged while long end edged lower."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Only reserve-currency status mentioned; no direction."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Crude up 0.5%; Brent ~$116, up ~22% MTD on Middle East risk."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold price direction discussed."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "AI credit differentiation; concessions widening, weaker issuers charged more."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P and Nasdaq futures up about 0.3-0.4%."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Hold this week; December hike expected; some see two more hikes in Q1 2027.",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "Rob Kaplan",
+        "John Williams",
+        "Jefferson"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Mega AI financings and demand strong, but bubble, leverage and execution concerns flagged."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran war risk rising; Saudi intercepts Houthi missiles; post-midterm strike speculation."
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Low-margin consumers sluggish; gasoline up 43%, diesel 70% since Iran war."
+    },
+    "sentiment_score": 1,
+    "key_catalysts": [
+      "Fed decision tomorrow, Oct 29",
+      "Midterm elections next week",
+      "Entropic IPO expected within weeks",
+      "Microsoft, Alphabet, Amazon earnings this week"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI capex financing boom",
+        "direction": "bullish",
+        "weight": 40
+      },
+      {
+        "theme": "Fed hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran conflict and oil",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Midterm election uncertainty",
+        "direction": "neutral",
+        "weight": 15
+      }
+    ],
+    "summary": "Equity futures were slightly higher, with S&P and Nasdaq up about 0.3-0.4%. Front-end yields were flat near 4.73%, while long-end yields edged lower; credit concessions widened and oil rose on Middle East risk. The Fed is widely expected to hold this week, but the show's guests see a December hike and potentially more in early 2027. The dominant narrative is massive AI-related equity and debt financing, with Meta, SpaceX and Entropic deals driving both excitement and bubble concern. Tone was cautiously risk-on, tempered by Iran escalation, midterm uncertainty and consumer weakness.",
+    "notable_quotes": [
+      "Only people making money from AI are AI.",
+      "Markets betting on a hold with expectations shifting to a hike in December."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 35694,
+    "completion_tokens": 4207,
+    "total_tokens": 39901,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3497
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 35694
+  }
+}

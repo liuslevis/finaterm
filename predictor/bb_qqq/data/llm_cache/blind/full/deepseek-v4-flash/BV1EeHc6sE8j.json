@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1EeHc6sE8j",
+  "show_date": "2026-10-27",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.57,
+    "p_up_3d": 0.5,
+    "p_up_7d": 0.52,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex/free-cash-flow skepticism",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Mega-cap earnings and capex guidance event risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Preopen futures bounce",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Tech momentum/three-week underperformance",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed hold expected, lower near-term hike odds",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Equity issuance and rising capital costs",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures are up, but tech sentiment is cautious: AI capex and credit stress, heavy equity issuance, and binary mega-cap earnings/Fed risk cap conviction. Near-term slightly positive, but 3-7 day odds are near neutral with event risk."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.57,
+      "p_up_3d": 0.5,
+      "p_up_7d": 0.52,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex/free-cash-flow skepticism",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Mega-cap earnings and capex guidance event risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Preopen futures bounce",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Tech momentum/three-week underperformance",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed hold expected, lower near-term hike odds",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Equity issuance and rising capital costs",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures are up, but tech sentiment is cautious: AI capex and credit stress, heavy equity issuance, and binary mega-cap earnings/Fed risk cap conviction. Near-term slightly positive, but 3-7 day odds are near neutral with event risk."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36611,
+    "completion_tokens": 1972,
+    "total_tokens": 38583,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1744
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 36227
+  },
+  "prompt_sha": "afdf4afc52dbd6d5"
+}

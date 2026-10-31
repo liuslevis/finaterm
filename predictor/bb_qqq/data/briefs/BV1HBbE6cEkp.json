@@ -1,0 +1,118 @@
+{
+  "bvid": "BV1HBbE6cEkp",
+  "show_date": "2026-09-05",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Fed hike odds after strong payrolls; about 50-50."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Ten-year yields seen higher on capital demand, deficits."
+      },
+      "yield_curve": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Long-end move discussed; curve shape not explicit."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No explicit dollar commentary."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Crude above $90; diesel record $5.88; gas $4.14."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Gold repatriation discussed; no price direction."
+      },
+      "credit_spreads": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Private credit mentioned, but no spread direction."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "na",
+        "note": "Stocks ended lower Friday; futures not separately discussed."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "About 50-50 odds of a Fed hike this month",
+      "notable_speakers": [
+        "Walsh"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Blockbuster earnings, Nvidia-Hugging Face deal, GPT-6 rollout."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran strikes escalate; Russia-Ukraine talks continue amid attacks."
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Record gas/diesel squeeze travel and household budgets."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "OPEC meeting Sept 6",
+      "Fed rate decision later this month",
+      "Kushner Moscow talks this weekend",
+      "Apple product launch next week"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Iran conflict oil spike",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hike expectations",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Energy squeeze on consumers",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "summary": "Oil is the dominant macro driver: crude rose above $90, diesel hit a record $5.88 and gasoline $4.14, while equities ended lower Friday. Strong August payrolls kept inflation concerns alive and reinforced expectations of a Fed hike this month, with market odds around 50-50; front-end yields rise and the long end is seen higher on heavy borrowing. Geopolitical escalation is rising after Iranian missile attacks and U.S. strikes on tankers, even as Kushner/Witkoff pursue Russia-Ukraine talks. AI and earnings tone is positive, but the consumer is strained by energy costs. Overall tone is risk-off.",
+    "notable_quotes": [
+      "the market is correctly assuming that the Fed is going to raise rates",
+      "We're seeing prices for diesel skyrocket. We're seeing the price of crude probably hold higher"
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 32593,
+    "completion_tokens": 5029,
+    "total_tokens": 37622,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4357
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 32593
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1vsHf62EUe",
+  "show_date": "2026-10-06",
+  "parsed": {
+    "p_up_1d": 0.53,
+    "p_up_3d": 0.56,
+    "p_up_7d": 0.58,
+    "sentiment": 1,
+    "confidence": 60,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI capex and earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Global bond selloff and higher yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil geopolitics and Red Sea risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Weak market breadth and Fed uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Midterm/fiscal policy noise",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Guest bull case leans on AI capex and earnings offsetting higher yields; bond selloff, oil geopolitics and weak breadth remain headwinds. Futures are slightly lower, so modest upward drift but capped."
+  },
+  "raw": "{\"p_up_1d\":0.53,\"p_up_3d\":0.56,\"p_up_7d\":0.58,\"sentiment\":1,\"confidence\":60,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"AI capex and earnings strength\",\"direction\":\"bullish\",\"weight\":35},{\"theme\":\"Global bond selloff and higher yields\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Oil geopolitics and Red Sea risk\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Weak market breadth and Fed uncertainty\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Midterm/fiscal policy noise\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Guest bull case leans on AI capex and earnings offsetting higher yields; bond selloff, oil geopolitics and weak breadth remain headwinds. Futures are slightly lower, so modest upward drift but capped.\"}",
+  "usage": {
+    "prompt_tokens": 10457,
+    "completion_tokens": 2319,
+    "total_tokens": 12776,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2130
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 10073
+  },
+  "prompt_sha": "1435a4b4c105848d"
+}

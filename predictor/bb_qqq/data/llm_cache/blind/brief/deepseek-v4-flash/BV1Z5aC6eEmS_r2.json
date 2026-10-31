@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1Z5aC6eEmS",
+  "show_date": "2026-10-02",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.545,
+    "p_up_3d": 0.515,
+    "p_up_7d": 0.53,
+    "sentiment": 0,
+    "confidence": 60.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI/tech earnings strength",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed tightening risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Tech-led preopen futures",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Preopen tech strength and Microsoft/Micron beats support QQQ, but a sharp long-end selloff, widening HY spreads, and hawkish Fed pricing cap upside. Payrolls tomorrow add event risk; net modestly above coin flip, with more caution at 3 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.52,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Global bond selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI/tech earnings strength",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed tightening risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Tech-led preopen futures",
+          "direction": "bullish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Preopen tech strength and Microsoft/Micron beats support QQQ, but a sharp long-end selloff, widening HY spreads, and hawkish Fed pricing cap upside. Payrolls tomorrow add event risk; net modestly above coin flip, with more caution at 3 days."
+    },
+    {
+      "p_up_1d": 0.53,
+      "p_up_3d": 0.52,
+      "p_up_7d": 0.54,
+      "sentiment": 0,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Global bond selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI/tech earnings strength",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed tightening risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Tech-led pre-open futures",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Tech-led futures and strong AI/earnings news support QQQ, but a sharp long-end selloff, hawkish Fed pricing and fast HY spread widening cap upside. Payrolls and ISM add event risk, so probabilities stay near neutral with a slight upward drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1248,
+    "completion_tokens": 5815,
+    "total_tokens": 7063,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5624
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 224
+  },
+  "prompt_sha": "5fa9a41d18ce4a29"
+}

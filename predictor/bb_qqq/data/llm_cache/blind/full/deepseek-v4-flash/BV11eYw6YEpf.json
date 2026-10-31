@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.52,
+    "sentiment": 0,
+    "confidence": 58,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Softer core PCE / front-end yield relief",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and semis earnings support",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Long-end yields at multi-decade highs",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil and diesel supply shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Widening credit spreads / narrow breadth",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Micron earnings event risk",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Softer core PCE and Williams’s less-urgent tone eased front-end yields and lifted equities, but 30-year yields, oil/diesel stress and widening credit spreads remain headwinds. AI capex and semis earnings support QQQ; net mild positive near term, fading over a week."
+  },
+  "raw": "{\"p_up_1d\":0.56,\"p_up_3d\":0.54,\"p_up_7d\":0.52,\"sentiment\":0,\"confidence\":58,\"preopen_move\":\"flat\",\"drivers\":[{\"theme\":\"Softer core PCE / front-end yield relief\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"AI capex and semis earnings support\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Long-end yields at multi-decade highs\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"Oil and diesel supply shock\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Widening credit spreads / narrow breadth\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Micron earnings event risk\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Softer core PCE and Williams’s less-urgent tone eased front-end yields and lifted equities, but 30-year yields, oil/diesel stress and widening credit spreads remain headwinds. AI capex and semis earnings support QQQ; net mild positive near term, fading over a week.\"}",
+  "usage": {
+    "prompt_tokens": 33673,
+    "completion_tokens": 3417,
+    "total_tokens": 37090,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3183
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 33289
+  },
+  "prompt_sha": "34e3de552745c073"
+}

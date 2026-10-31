@@ -1,0 +1,123 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV15paR6ZEVu",
+  "show_date": "2026-09-30",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.49,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.465,
+    "sentiment": -1,
+    "confidence": 63.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Bond vigilante selloff / high yields",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI capex boom",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed tightening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran/oil geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Futures are slightly higher, but the dominant signal is a hawkish Fed and multi-decade-high yields, with widening credit spreads and geopolitical risk. AI capex and resilient equities offset some downside, leaving a modest bearish tilt versus the normal upward drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.5,
+      "p_up_3d": 0.48,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Bond vigilante selloff / high yields",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "AI capex boom",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Fed tightening",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran/oil geopolitical risk",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Futures are slightly higher, but the dominant signal is a hawkish Fed and multi-decade-high yields, with widening credit spreads and geopolitical risk. AI capex and resilient equities offset some downside, leaving a modest bearish tilt versus the normal upward drift."
+    },
+    {
+      "p_up_1d": 0.48,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 66,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Bond vigilante selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed tightening cycle",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran/oil risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "AI capex boom",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Credit spreads widening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Yields at multi-decade highs and a hawkish Fed dominate, threatening long-duration tech despite slightly firmer futures. AI capex supports QQQ, but net risk-off and event risk around PCE/payrolls keep near-term odds below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1157,
+    "completion_tokens": 1487,
+    "total_tokens": 2644,
+    "prompt_tokens_details": {
+      "cached_tokens": 1023
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1297
+    },
+    "prompt_cache_hit_tokens": 1023,
+    "prompt_cache_miss_tokens": 134
+  },
+  "prompt_sha": "518f747638ff5f3d"
+}

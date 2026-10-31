@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "parsed": {
+    "p_up_1d": 0.46,
+    "p_up_3d": 0.44,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 64,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Warsh / September hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil spike / Middle East escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex / Nvidia strength",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed credibility / heavy issuance",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Consumer fatigue risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Hawkish Warsh and ~60% September-hike odds plus oil above $91 and Middle East escalation tilt QQQ risk-off; Nvidia/AI and dollar weakness cushion but do not offset. Payrolls and CPI event risk keep short-horizon odds below coin flip, with only modest drift support at 7 days."
+  },
+  "raw": "{\"p_up_1d\":0.46,\"p_up_3d\":0.44,\"p_up_7d\":0.47,\"sentiment\":-1,\"confidence\":64,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Hawkish Warsh / September hike risk\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Oil spike / Middle East escalation\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"AI capex / Nvidia strength\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"Fed credibility / heavy issuance\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Consumer fatigue risk\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Hawkish Warsh and ~60% September-hike odds plus oil above $91 and Middle East escalation tilt QQQ risk-off; Nvidia/AI and dollar weakness cushion but do not offset. Payrolls and CPI event risk keep short-horizon odds below coin flip, with only modest drift support at 7 days.\"}",
+  "usage": {
+    "prompt_tokens": 1329,
+    "completion_tokens": 1328,
+    "total_tokens": 2657,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1113
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1329
+  },
+  "prompt_sha": "5db1a9d1c8c525b5"
+}

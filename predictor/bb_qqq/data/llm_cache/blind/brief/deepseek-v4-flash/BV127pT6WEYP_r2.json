@@ -1,0 +1,143 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV127pT6WEYP",
+  "show_date": "2026-10-07",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.61,
+    "p_up_3d": 0.575,
+    "p_up_7d": 0.565,
+    "sentiment": 1,
+    "confidence": 64.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and earnings boom",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Rising long-end yields and supply",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "France fiscal/political risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed and hike pricing",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Pre-open futures and record-high momentum",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Oil below $100 / Red Sea progress",
+        "direction": "bullish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Risk-on tape and 0.4-0.6% futures gains support the one-day view, but high long yields, hawkish Fed pricing and French political risk cap multi-day upside; AI capex/earnings strength and softer oil are offsets. Net cautiously constructive, with decaying edge over 3-7 days."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.63,
+      "p_up_3d": 0.58,
+      "p_up_7d": 0.57,
+      "sentiment": 1,
+      "confidence": 64,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and earnings boom",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Rising long-end yields and supply",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "France fiscal/political risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed and hike pricing",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Pre-open futures and record-high momentum",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "Oil below $100 / Red Sea progress",
+          "direction": "bullish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Risk-on tape and 0.4-0.6% futures gains support the one-day view, but high long yields, hawkish Fed pricing and French political risk cap multi-day upside; AI capex/earnings strength and softer oil are offsets. Net cautiously constructive, with decaying edge over 3-7 days."
+    },
+    {
+      "p_up_1d": 0.59,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 65,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and strong earnings",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Rising long-end yields and capital competition",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "France fiscal/political risk and geopolitics",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed and hike pricing",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil below $100 on Red Sea progress",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures point up and AI earnings/capex support risk, but 10s/30s near multi-decade highs, hawkish Fed hike pricing, France unrest and widening CCC spreads cap upside. Net cautiously risk-on; modest positive edge fades with horizon."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1245,
+    "completion_tokens": 1253,
+    "total_tokens": 2498,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1045
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 221
+  },
+  "prompt_sha": "06a2d29b65cb36d2"
+}

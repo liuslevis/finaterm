@@ -1,0 +1,54 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1VvHb6tEYh",
+  "show_date": "2026-10-03",
+  "parsed": {
+    "p_up_1d": 0.59,
+    "p_up_3d": 0.6,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 65,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "weak payrolls and wages cut near-term Fed hike odds",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "front-end yield rally and Fed patience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "credit spread widening and heavy AI supply",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal stress and oil/Mideast risk",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Dovish payroll shock (29k, weak wages) lowered near-term Fed hike risk and lifted Nasdaq futures, while front-end yields fell. QQQ is supported, but widening credit spreads, French fiscal stress and oil/Mideast risk temper the 7-day outlook, which also includes CPI risk."
+  },
+  "raw": "{\"type\":\"json_object\",\"p_up_1d\":0.59,\"p_up_3d\":0.60,\"p_up_7d\":0.57,\"sentiment\":1,\"confidence\":65,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"weak payrolls and wages cut near-term Fed hike odds\",\"direction\":\"bullish\",\"weight\":35},{\"theme\":\"front-end yield rally and Fed patience\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"credit spread widening and heavy AI supply\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"France fiscal stress and oil/Mideast risk\",\"direction\":\"bearish\",\"weight\":20}],\"rationale\":\"Dovish payroll shock (29k, weak wages) lowered near-term Fed hike risk and lifted Nasdaq futures, while front-end yields fell. QQQ is supported, but widening credit spreads, French fiscal stress and oil/Mideast risk temper the 7-day outlook, which also includes CPI risk.\"}",
+  "usage": {
+    "prompt_tokens": 33992,
+    "completion_tokens": 3190,
+    "total_tokens": 37182,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2986
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33992
+  },
+  "prompt_sha": "34954ae6e21b0439"
+}

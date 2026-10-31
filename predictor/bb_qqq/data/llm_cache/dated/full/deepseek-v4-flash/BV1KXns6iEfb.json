@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1KXns6iEfb",
+  "show_date": "2026-10-23",
+  "parsed": {
+    "p_up_1d": 0.38,
+    "p_up_3d": 0.42,
+    "p_up_7d": 0.46,
+    "sentiment": -2,
+    "confidence": 78,
+    "preopen_move": "sharply_down",
+    "drivers": [
+      {
+        "theme": "AI/tech capex and margin worries",
+        "direction": "bearish",
+        "weight": 90
+      },
+      {
+        "theme": "Middle East escalation and oil spike",
+        "direction": "bearish",
+        "weight": 80
+      },
+      {
+        "theme": "Earnings/guidance disappointments in key tech names",
+        "direction": "bearish",
+        "weight": 75
+      },
+      {
+        "theme": "Flight-to-quality/growth scare in yields",
+        "direction": "bearish",
+        "weight": 55
+      },
+      {
+        "theme": "French/European bond stress",
+        "direction": "bearish",
+        "weight": 40
+      },
+      {
+        "theme": "Defensive rotation and stable earnings",
+        "direction": "neutral",
+        "weight": 25
+      }
+    ],
+    "rationale": "Tech/AI capex guidance and margin fears are driving the selloff, compounded by higher oil from Middle East escalation, French bond stress, and flight-to-quality. Near-term odds stay below neutral; the 7-day horizon is closer to neutral on drift and possible oversold bounce."
+  },
+  "raw": "{\"p_up_1d\":0.38,\"p_up_3d\":0.42,\"p_up_7d\":0.46,\"sentiment\":-2,\"confidence\":78,\"preopen_move\":\"sharply_down\",\"drivers\":[{\"theme\":\"AI/tech capex and margin worries\",\"direction\":\"bearish\",\"weight\":90},{\"theme\":\"Middle East escalation and oil spike\",\"direction\":\"bearish\",\"weight\":80},{\"theme\":\"Earnings/guidance disappointments in key tech names\",\"direction\":\"bearish\",\"weight\":75},{\"theme\":\"Flight-to-quality/growth scare in yields\",\"direction\":\"bearish\",\"weight\":55},{\"theme\":\"French/European bond stress\",\"direction\":\"bearish\",\"weight\":40},{\"theme\":\"Defensive rotation and stable earnings\",\"direction\":\"neutral\",\"weight\":25}],\"rationale\":\"Tech/AI capex guidance and margin fears are driving the selloff, compounded by higher oil from Middle East escalation, French bond stress, and flight-to-quality. Near-term odds stay below neutral; the 7-day horizon is closer to neutral on drift and possible oversold bounce.\"}",
+  "usage": {
+    "prompt_tokens": 17174,
+    "completion_tokens": 2340,
+    "total_tokens": 19514,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2108
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 17174
+  },
+  "prompt_sha": "5b47deff858160b9"
+}

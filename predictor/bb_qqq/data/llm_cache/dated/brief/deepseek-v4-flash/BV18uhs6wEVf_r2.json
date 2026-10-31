@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV18uhs6wEVf",
+  "show_date": "2026-09-23",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.585,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 60.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Oil retreat on Iran/Saudi supply diplomacy",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and hardware rally",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Hawkish Fed hiking path, Williams speech risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Diesel inflation and consumer pressure",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Triple-C credit dispersion and long-end fragility",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are slightly higher near records, helped by Brent below $100 and AI hardware optimism. But a hawkish Fed with more hikes possible and Williams later temper risk appetite, leaving modest upside odds above the normal drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.59,
+      "p_up_3d": 0.58,
+      "p_up_7d": 0.57,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil retreat on Iran/Saudi supply diplomacy",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and hardware rally",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Hawkish Fed hiking path, Williams speech risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Diesel inflation and consumer pressure",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Triple-C credit dispersion and long-end fragility",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are slightly higher near records, helped by Brent below $100 and AI hardware optimism. But a hawkish Fed with more hikes possible and Williams later temper risk appetite, leaving modest upside odds above the normal drift."
+    },
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.56,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil retreat on diplomacy",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex/hardware rally",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Hawkish Fed hiking path",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Diesel inflation pressure",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Long-end fragility",
+          "direction": "bearish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Cautiously risk-on: oil retreat and AI hardware optimism support QQQ, but a hawkish Fed and record-high positioning cap upside. Slight pre-open gains favor mildly above-coin-flip odds, fading with horizon."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1173,
+    "completion_tokens": 702,
+    "total_tokens": 1875,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 472
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 149
+  },
+  "prompt_sha": "1105557c6865de07"
+}

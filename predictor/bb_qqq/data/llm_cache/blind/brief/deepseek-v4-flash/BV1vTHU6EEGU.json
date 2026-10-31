@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1vTHU6EEGU",
+  "show_date": "2026-10-08",
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.44,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 65,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Competition for capital",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Long-end bond selloff",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex optimism",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "France fiscal/political stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil supply disruption",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Risk-off tape: long-end yields at multi-decade highs, hawkish Fed pricing, widening credit and oil above $100 all weigh on duration-sensitive QQQ. AI capex optimism and record-high equities cushion but do not offset. Today’s 10-year auction and Fed minutes add event risk; probabilities stay below neutral, with slight drift support over 7 days."
+  },
+  "raw": "{\"p_up_1d\":0.43,\"p_up_3d\":0.44,\"p_up_7d\":0.46,\"sentiment\":-1,\"confidence\":65,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Competition for capital\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Long-end bond selloff\",\"direction\":\"bearish\",\"weight\":25},{\"theme\":\"AI capex optimism\",\"direction\":\"bullish\",\"weight\":20},{\"theme\":\"France fiscal/political stress\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Oil supply disruption\",\"direction\":\"bearish\",\"weight\":10}],\"rationale\":\"Risk-off tape: long-end yields at multi-decade highs, hawkish Fed pricing, widening credit and oil above $100 all weigh on duration-sensitive QQQ. AI capex optimism and record-high equities cushion but do not offset. Today’s 10-year auction and Fed minutes add event risk; probabilities stay below neutral, with slight drift support over 7 days.\"}",
+  "usage": {
+    "prompt_tokens": 1207,
+    "completion_tokens": 1457,
+    "total_tokens": 2664,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1244
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 823
+  },
+  "prompt_sha": "a0431627a8328e47"
+}

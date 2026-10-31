@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV113hC6kELT",
+  "show_date": "2026-09-22",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.63,
+    "p_up_3d": 0.58,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 64,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Crude retreat and Middle East diplomacy hopes",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Lower bond yields / rate relief",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Nasdaq/AI earnings resilience and risk-on futures",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed and persistent inflation",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Record diesel, energy shock and export-ban risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Trump summit/geopolitical event risk",
+        "direction": "neutral",
+        "weight": 5
+      }
+    ],
+    "rationale": "Pre-open risk-on: crude's fourth decline and diplomacy hopes lower yields, supporting Nasdaq/AI leadership. But hawkish Fed, record diesel and event risk cap upside; modest positive drift, fading over a week."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.63,
+      "p_up_3d": 0.58,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 64,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Crude retreat and Middle East diplomacy hopes",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Lower bond yields / rate relief",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Nasdaq/AI earnings resilience and risk-on futures",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed and persistent inflation",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Record diesel, energy shock and export-ban risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Trump summit/geopolitical event risk",
+          "direction": "neutral",
+          "weight": 5
+        }
+      ],
+      "rationale": "Pre-open risk-on: crude's fourth decline and diplomacy hopes lower yields, supporting Nasdaq/AI leadership. But hawkish Fed, record diesel and event risk cap upside; modest positive drift, fading over a week."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 16929,
+    "completion_tokens": 908,
+    "total_tokens": 17837,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 690
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 16545
+  },
+  "prompt_sha": "9c814a6c7d09aecc"
+}

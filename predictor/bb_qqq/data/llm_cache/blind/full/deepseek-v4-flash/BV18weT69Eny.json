@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV18weT69Eny",
+  "show_date": "2026-09-17",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.54,
+    "p_up_3d": 0.53,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 58,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Fed hike and hawkish messaging risk",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Hike largely priced / one-and-done hopes",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Resilient earnings and AI capex",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Long-end yields near 5% and policy-error risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Positive pre-open equity tape",
+        "direction": "bullish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Pre-open is modestly higher and the Fed hike is largely priced, with strong earnings and AI capex support. But hawkish messaging, elevated long yields and policy-error risk cap upside, implying only mild positive drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.53,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Fed hike and hawkish messaging risk",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Hike largely priced / one-and-done hopes",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Resilient earnings and AI capex",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end yields near 5% and policy-error risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Positive pre-open equity tape",
+          "direction": "bullish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Pre-open is modestly higher and the Fed hike is largely priced, with strong earnings and AI capex support. But hawkish messaging, elevated long yields and policy-error risk cap upside, implying only mild positive drift."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15715,
+    "completion_tokens": 1552,
+    "total_tokens": 17267,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1351
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 15331
+  },
+  "prompt_sha": "05f9b196f70d4ee5"
+}

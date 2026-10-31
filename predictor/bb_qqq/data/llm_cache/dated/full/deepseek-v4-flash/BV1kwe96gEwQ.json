@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1kwe96gEwQ",
+  "show_date": "2026-09-19",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.58,
+    "p_up_3d": 0.6,
+    "p_up_7d": 0.6,
+    "sentiment": 1,
+    "confidence": 65,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/tech earnings momentum",
+        "direction": "bullish",
+        "weight": 85
+      },
+      {
+        "theme": "Crude oil selloff/relief",
+        "direction": "bullish",
+        "weight": 60
+      },
+      {
+        "theme": "China tariff delay/trade truce",
+        "direction": "bullish",
+        "weight": 50
+      },
+      {
+        "theme": "Hawkish Fed/higher yields",
+        "direction": "bearish",
+        "weight": 55
+      },
+      {
+        "theme": "Middle East/oil supply headline risk",
+        "direction": "bearish",
+        "weight": 45
+      },
+      {
+        "theme": "Contrarian bearish positioning",
+        "direction": "bullish",
+        "weight": 40
+      }
+    ],
+    "rationale": "Futures are modestly higher with tech leadership, oil down and China tariff delay supporting risk, while hawkish Fed, high yields and Middle East supply headlines cap upside. Contrarian bearish sentiment and strong AI earnings tilt QQQ modestly higher."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.6,
+      "p_up_7d": 0.6,
+      "sentiment": 1,
+      "confidence": 65,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI/tech earnings momentum",
+          "direction": "bullish",
+          "weight": 85
+        },
+        {
+          "theme": "Crude oil selloff/relief",
+          "direction": "bullish",
+          "weight": 60
+        },
+        {
+          "theme": "China tariff delay/trade truce",
+          "direction": "bullish",
+          "weight": 50
+        },
+        {
+          "theme": "Hawkish Fed/higher yields",
+          "direction": "bearish",
+          "weight": 55
+        },
+        {
+          "theme": "Middle East/oil supply headline risk",
+          "direction": "bearish",
+          "weight": 45
+        },
+        {
+          "theme": "Contrarian bearish positioning",
+          "direction": "bullish",
+          "weight": 40
+        }
+      ],
+      "rationale": "Futures are modestly higher with tech leadership, oil down and China tariff delay supporting risk, while hawkish Fed, high yields and Middle East supply headlines cap upside. Contrarian bearish sentiment and strong AI earnings tilt QQQ modestly higher."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 17384,
+    "completion_tokens": 3445,
+    "total_tokens": 20829,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3224
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 17384
+  },
+  "prompt_sha": "1e875cac2b510e54"
+}

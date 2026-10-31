@@ -1,0 +1,118 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1KNso6YETX",
+  "show_date": "2026-10-29",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.54,
+    "p_up_3d": 0.535,
+    "p_up_7d": 0.54,
+    "sentiment": 0,
+    "confidence": 50.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex/earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hawkish-hold uncertainty",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI/data-center credit stress",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran strike risk/oil",
+        "direction": "bearish",
+        "weight": 20
+      }
+    ],
+    "rationale": "Tech-led futures and strong AI capex are mildly supportive, but hawkish Fed risk, widening AI credit spreads, elevated oil and Iran risk offset that. With Fed and mega-cap earnings binary events, conviction is limited and probabilities stay near neutral drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.55,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex/earnings strength",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish-hold uncertainty",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI/data-center credit stress",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran strike risk/oil",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Tech-led futures and strong AI capex are mildly supportive, but hawkish Fed risk, widening AI credit spreads, elevated oil and Iran risk offset that. With Fed and mega-cap earnings binary events, conviction is limited and probabilities stay near neutral drift."
+    },
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.52,
+      "p_up_7d": 0.53,
+      "sentiment": 0,
+      "confidence": 45,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex boom",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish hold uncertainty",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI debt financing stress",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran strike risk/oil",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Futures are slightly higher and AI capex/earnings are supportive, but a hawkish Fed, widening AI credit spreads, elevated oil and Iran risk keep the tape fragile. With major event risk today, odds are only mildly above neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1156,
+    "completion_tokens": 3642,
+    "total_tokens": 4798,
+    "prompt_tokens_details": {
+      "cached_tokens": 1022
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3470
+    },
+    "prompt_cache_hit_tokens": 1022,
+    "prompt_cache_miss_tokens": 134
+  },
+  "prompt_sha": "fa59b6d827886f10"
+}

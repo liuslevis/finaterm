@@ -1,0 +1,124 @@
+{
+  "bvid": "BV1a6px6nEJm",
+  "show_date": "2026-10-09",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "U.S. front end anchored near 4%; German 2-year off highs."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10-year ~5.33%, 30-year ~5.71%; multi-decade highs."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "moderate",
+        "note": "Long end leads rise; front end anchored near 4%."
+      },
+      "dollar": {
+        "trend": "flat",
+        "magnitude": "na",
+        "note": "Described as relatively stable in EM/currency context."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent ~$105, up ~5% on Iran/Houthi escalation."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not discussed"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "Widening in hyperscaler/tech and high-yield CCC; high-yield ~300bp."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P futures ~-0.5%, Nasdaq ~-0.7%; off records."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "No explicit odds; show debates October hike and several more.",
+      "notable_speakers": [
+        "Fed Governor Waller",
+        "Fed Chair Walsh"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Strong TSMC/Samsung results, but muted stock reaction and AI borrowing concerns."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran/Houthi attacks, Saudi airports closed, possible US strikes before midterms."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Resilient spending but Pepsi North America weak; inflation pressure."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "30-year Treasury auction today at 1 p.m.",
+      "CPI report on October 14",
+      "Possible US strikes on Iran before midterms",
+      "November midterm elections"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Long-end Treasury yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil and geopolitical escalation",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex debt supply",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed hike uncertainty",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Resilient labor market",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "summary": "Equities drifted lower, long-end Treasury yields rose to multi-decade highs, crude jumped on Iran/Houthi escalation, and credit spreads widened. The front end was described as anchored near 4%, while the 10-year around 5.33% and 30-year around 5.71% kept pressure on risk assets. Fed commentary stressed flexibility and a possible October skip, but guests debated whether the Fed must hike several more times; no explicit market odds were given. The dominant narrative was a capital-market squeeze: AI/hyperscaler borrowing competes with heavy Treasury supply while oil adds inflation risk. Tone was cautious/risk-off, though AI earnings and labor data remained resilient.",
+    "notable_quotes": [
+      "There clearly is a problem with the sovereign bond market, pushback coming from investors, and yet the corporate bond market remains completely open.",
+      "We are starting to see the bite of higher rates, the volatility of the market, and the pace of the rise."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 32796,
+    "completion_tokens": 5887,
+    "total_tokens": 38683,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5126
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 32796
+  }
+}

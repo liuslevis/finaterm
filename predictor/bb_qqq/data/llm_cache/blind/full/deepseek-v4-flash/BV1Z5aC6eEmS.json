@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1Z5aC6eEmS",
+  "show_date": "2026-10-02",
+  "parsed": {
+    "p_up_1d": 0.54,
+    "p_up_3d": 0.53,
+    "p_up_7d": 0.55,
+    "sentiment": 0,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/tech earnings strength",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Multi-decade-high bond yields and hawkish Fed tone",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Widening credit spreads and weak market breadth",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Tech-led preopen futures strength",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Fed independence/political uncertainty",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Tech earnings and preopen strength support QQQ, but multi-decade-high yields, widening credit spreads and hawkish Fed commentary cap upside. Mixed tape leaves a mild upward drift over 1-7 days, with near-term risk from bond volatility."
+  },
+  "raw": "{\"p_up_1d\":0.54,\"p_up_3d\":0.53,\"p_up_7d\":0.55,\"sentiment\":0,\"confidence\":55,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI/tech earnings strength\",\"direction\":\"bullish\",\"weight\":30},{\"theme\":\"Multi-decade-high bond yields and hawkish Fed tone\",\"direction\":\"bearish\",\"weight\":30},{\"theme\":\"Widening credit spreads and weak market breadth\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Tech-led preopen futures strength\",\"direction\":\"bullish\",\"weight\":10},{\"theme\":\"Fed independence/political uncertainty\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Tech earnings and preopen strength support QQQ, but multi-decade-high yields, widening credit spreads and hawkish Fed commentary cap upside. Mixed tape leaves a mild upward drift over 1-7 days, with near-term risk from bond volatility.\"}",
+  "usage": {
+    "prompt_tokens": 33828,
+    "completion_tokens": 3292,
+    "total_tokens": 37120,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3091
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 33444
+  },
+  "prompt_sha": "71416891fb20ba6f"
+}

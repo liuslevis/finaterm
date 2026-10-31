@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV15paR6ZEVu",
+  "show_date": "2026-09-30",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.52,
+    "p_up_3d": 0.51,
+    "p_up_7d": 0.52,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Bond yields and Fed hike risk",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and mega-cap earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Weak breadth, semis and small caps",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil and Iran no-deal risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Firmer pre-open equity futures",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "IPO and AI regulatory overhang",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Futures are firmer and mega-cap AI earnings/capex support QQQ, but multi-decade-high yields, high October-hike odds, elevated oil/Iran risk and weak breadth argue for a modestly cautious near-term skew; PCE/payroll event risk keeps probabilities near neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.52,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.52,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Bond yields and Fed hike risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and mega-cap earnings resilience",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Weak breadth, semis and small caps",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil and Iran no-deal risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Firmer pre-open equity futures",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "IPO and AI regulatory overhang",
+          "direction": "bearish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Futures are firmer and mega-cap AI earnings/capex support QQQ, but multi-decade-high yields, high October-hike odds, elevated oil/Iran risk and weak breadth argue for a modestly cautious near-term skew; PCE/payroll event risk keeps probabilities near neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36935,
+    "completion_tokens": 2464,
+    "total_tokens": 39399,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2231
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36935
+  },
+  "prompt_sha": "db04abdf29461349"
+}

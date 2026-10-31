@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV113hC6kELT",
+  "show_date": "2026-09-22",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.61,
+    "p_up_3d": 0.575,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 58.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Nasdaq futures +1% risk-on",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Oil retreat easing inflation",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Broadening earnings/AI capex",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Hawkish Fed/hike pricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Energy geopolitics and CCC credit stress",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures point to a strong risk-on open, oil is lower and yields are down, supporting near-term upside. But hawkish Fed pricing, curve flattening, geopolitical energy risk and bottom-rung credit stress cap conviction, especially beyond one day."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.66,
+      "p_up_3d": 0.6,
+      "p_up_7d": 0.57,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Nasdaq futures +1% risk-on",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Oil retreat easing inflation",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Broadening earnings/AI capex",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Hawkish Fed/hike pricing",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Energy geopolitics and CCC credit stress",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures point to a strong risk-on open, oil is lower and yields are down, supporting near-term upside. But hawkish Fed pricing, curve flattening, geopolitical energy risk and bottom-rung credit stress cap conviction, especially beyond one day."
+    },
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Oil retreat / inflation relief",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed, more hikes priced",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy supply / geopolitical risk (diesel, Iran, UNGA)",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Broadening earnings and AI capex",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "CCC credit spreads widening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Pre-open gap up ~1% on retreating oil, but the gap already captures much of the good news; hawkish Fed pricing, 2s10s flattening to March-2025 lows and CCC spread widening cap follow-through. Thursday's Trump-Xi summit adds binary risk, so edge over drift is small."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1243,
+    "completion_tokens": 1100,
+    "total_tokens": 2343,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 837
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 219
+  },
+  "prompt_sha": "0e326b119f7e1af3"
+}

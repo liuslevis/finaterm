@@ -1,0 +1,120 @@
+{
+  "bvid": "BV1Z5aC6eEmS",
+  "show_date": "2026-10-02",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "2Y near 4.85%; market prices more hikes than Fed dot plot."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "10Y/30Y at highest since 2002; 30Y near 5.65%, +37bp in eight sessions."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "sharp",
+        "note": "2s10s widened from 17bp to 40bp after hot PMI."
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Dollar had best month since June; strong despite fiscal concerns."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Brent crude +2% in Q3 noted; diesel at record high."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Mentioned only as whipsawed; no directional view."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "sharp",
+        "note": "HY spreads +47bp over seven sessions, fastest since April 2025."
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "S&P futures +0.3%, Nasdaq +0.6%; tech leads."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "More hikes priced than Fed dot plot; 2Y at 4.85% vs implied just above 4%",
+      "notable_speakers": [
+        "Neil Kashkari",
+        "John Williams",
+        "Jerome Powell"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Microsoft, Micron, Broadcom AI news strong; margin and capex-return worries persist."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran conflict unresolved; Trump floats post-midterm bombing; diesel pressure builds."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Spending resilient but households stressed by inflation, gas, groceries, housing."
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "ISM manufacturing today at 10am ET",
+      "Payrolls report tomorrow",
+      "CPI on October 14",
+      "Bank results Oct 13; big tech Oct 29-30"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "AI/tech earnings strength",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed tightening risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "summary": "Equity futures were higher, led by tech, but the show's dominant focus was a global bond selloff: long-end yields rose sharply, with 10-year and 30-year at multi-decade highs, and the 2s10s curve steepened. High-yield credit spreads widened sharply over seven sessions while the dollar stayed strong and oil/diesel prices remained elevated. The Fed discussion was hawkish: Kashkari said policy will do what is needed to restore price stability, and markets price more hikes than the dot plot. Earnings and AI news were positive, with Microsoft and Micron beats, but margin, capex and consumer strains tempered the tone. Net, the show was neutral-to-cautious, balancing solid equities and earnings against rate and credit stress.",
+    "notable_quotes": [
+      "We will do what we need to do to get inflation back down to our target.",
+      "The speed and pace of the widening over the last week catches your eye."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33995,
+    "completion_tokens": 6230,
+    "total_tokens": 40225,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5454
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33995
+  }
+}

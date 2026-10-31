@@ -1,0 +1,127 @@
+{
+  "bvid": "BV1jMaj69EU9",
+  "show_date": "2026-09-29",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Two-year up 6-8bp; climbing six straight weeks"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10-year up 7bp to 5.23%; 30-year above 5%"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Curve steepened after hot PMI following prior flattening"
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not_discussed"
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent +4% near $108; crude up 20% this month"
+      },
+      "gold": {
+        "trend": "down",
+        "magnitude": "sharp",
+        "note": "Gold down >3%; miners down >5% on higher yields"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "HY spreads widened ~30bp; fastest three-day pace since Oct 2025"
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "S&P futures -0.5%, Nasdaq -1%; banks/small caps hit"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "At least one additional hike by year-end; one more possible late this year",
+      "notable_speakers": [
+        "New York Fed President William",
+        "Kashkari",
+        "Collins",
+        "Logan",
+        "Waller"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI/chip stocks volatile; Nvidia safety tools, Microsoft earnings ahead; spending concerns offset profit optimism"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran talks stalled; Trump weighs post-midterm strikes; Saudi drones intercepted; Hormuz risk persists"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Fuel costs squeeze discretionary income; labor market stable but gasoline/diesel pain persists"
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Friday payrolls: unemployment rate and wages",
+      "Wednesday core PCE",
+      "Fed speakers: Williams, Kashkari, Collins, Logan",
+      "Iran talks this week; Hormuz reopening stalled"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Hawkish Fed, higher yields",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil shock, Iran conflict",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "AI/earnings optimism",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Resilient US economy",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "summary": "Stocks fell as front-end and long-end yields rose, with the curve steepening after the hot PMI. Oil surged on stalled Iran talks and strike risk, gold fell, and credit spreads widened; the dollar was not discussed. The Fed was described as hawkish, with at least one more hike expected by year-end and speakers saying more needs to be done. The dominant narrative is an energy-driven inflation shock colliding with higher rates, squeezing consumers and credit even as AI and earnings optimism persist. The show's overall tone was risk-off.",
+    "notable_quotes": [
+      "They've got to keep hiking.",
+      "The sentiment right now is for yields to go higher."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 15707,
+    "completion_tokens": 5354,
+    "total_tokens": 21061,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4637
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 15707
+  }
+}

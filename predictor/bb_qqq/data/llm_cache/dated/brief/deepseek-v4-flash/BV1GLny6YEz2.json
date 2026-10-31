@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "parsed": {
+    "p_up_1d": 0.63,
+    "p_up_3d": 0.58,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 65,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI earnings strength",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hike/hold uncertainty",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mixed consumer signals",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Data-center political pushback",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "Premarket tech strength and AI earnings durability support QQQ, but hawkish Fed risk, elevated oil, geopolitics and Meta/Tesla event risk limit conviction beyond the first day."
+  },
+  "raw": "{\"p_up_1d\":0.63,\"p_up_3d\":0.58,\"p_up_7d\":0.57,\"sentiment\":1,\"confidence\":65,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI earnings strength\",\"direction\":\"bullish\",\"weight\":35},{\"theme\":\"Fed hike/hold uncertainty\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Oil and geopolitical risk\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"Mixed consumer signals\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Data-center political pushback\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"Premarket tech strength and AI earnings durability support QQQ, but hawkish Fed risk, elevated oil, geopolitics and Meta/Tesla event risk limit conviction beyond the first day.\"}",
+  "usage": {
+    "prompt_tokens": 1226,
+    "completion_tokens": 1017,
+    "total_tokens": 2243,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 845
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1226
+  },
+  "prompt_sha": "af88b836e0c74725"
+}

@@ -1,0 +1,117 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1KNso6YETX",
+  "show_date": "2026-10-29",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.58,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/semiconductor earnings strength",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Big-tech earnings/capex expectations",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Positive preopen momentum",
+        "direction": "bullish",
+        "weight": 8
+      },
+      {
+        "theme": "Fed decision/guidance uncertainty",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Hot inflation and high yields",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "AI financing/credit/bubble concerns",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil/geopolitical risk",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "rationale": "AI earnings strength (SK Hynix) and high hopes for Microsoft/Google support QQQ, with positive preopen momentum. But hot inflation, ~5% yields, AI financing/credit concerns and Fed/geopolitical event risk keep probabilities only modestly above neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.58,
+      "sentiment": 1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI/semiconductor earnings strength",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Big-tech earnings/capex expectations",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Positive preopen momentum",
+          "direction": "bullish",
+          "weight": 8
+        },
+        {
+          "theme": "Fed decision/guidance uncertainty",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Hot inflation and high yields",
+          "direction": "bearish",
+          "weight": 12
+        },
+        {
+          "theme": "AI financing/credit/bubble concerns",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil/geopolitical risk",
+          "direction": "bearish",
+          "weight": 5
+        }
+      ],
+      "rationale": "AI earnings strength (SK Hynix) and high hopes for Microsoft/Google support QQQ, with positive preopen momentum. But hot inflation, ~5% yields, AI financing/credit concerns and Fed/geopolitical event risk keep probabilities only modestly above neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 39375,
+    "completion_tokens": 3512,
+    "total_tokens": 42887,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3276
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 39375
+  },
+  "prompt_sha": "9fee09fb217144bb"
+}

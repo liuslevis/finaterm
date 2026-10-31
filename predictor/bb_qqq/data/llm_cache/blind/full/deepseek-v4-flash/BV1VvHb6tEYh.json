@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1VvHb6tEYh",
+  "show_date": "2026-10-03",
+  "parsed": {
+    "p_up_1d": 0.6,
+    "p_up_3d": 0.57,
+    "p_up_7d": 0.55,
+    "sentiment": 1,
+    "confidence": 64,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Weak payrolls and wages",
+        "direction": "bullish",
+        "weight": 40
+      },
+      {
+        "theme": "Front-end yield rally",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Positive equity futures",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "High-yield credit spread widening",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "France/Europe fiscal stress",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Inflation/Fed hike risk after CPI",
+        "direction": "neutral",
+        "weight": 10
+      }
+    ],
+    "rationale": "The 29k payroll miss and soft wages cut near-term hike urgency, pulling front-end yields lower and lifting Nasdaq futures. That favors QQQ tactically, but widening high-yield spreads and French fiscal stress cap conviction and limit the 3-7 day edge."
+  },
+  "raw": "{\"p_up_1d\":0.60,\"p_up_3d\":0.57,\"p_up_7d\":0.55,\"sentiment\":1,\"confidence\":64,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"Weak payrolls and wages\",\"direction\":\"bullish\",\"weight\":40},{\"theme\":\"Front-end yield rally\",\"direction\":\"bullish\",\"weight\":25},{\"theme\":\"Positive equity futures\",\"direction\":\"bullish\",\"weight\":15},{\"theme\":\"High-yield credit spread widening\",\"direction\":\"bearish\",\"weight\":20},{\"theme\":\"France/Europe fiscal stress\",\"direction\":\"bearish\",\"weight\":15},{\"theme\":\"Inflation/Fed hike risk after CPI\",\"direction\":\"neutral\",\"weight\":10}],\"rationale\":\"The 29k payroll miss and soft wages cut near-term hike urgency, pulling front-end yields lower and lifting Nasdaq futures. That favors QQQ tactically, but widening high-yield spreads and French fiscal stress cap conviction and limit the 3-7 day edge.\"}",
+  "usage": {
+    "prompt_tokens": 34135,
+    "completion_tokens": 2048,
+    "total_tokens": 36183,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1836
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 33751
+  },
+  "prompt_sha": "711d6fdfb3964521"
+}

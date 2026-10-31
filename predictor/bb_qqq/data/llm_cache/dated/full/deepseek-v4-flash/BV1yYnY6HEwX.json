@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1yYnY6HEwX",
+  "show_date": "2026-10-24",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.42,
+    "p_up_3d": 0.44,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 72,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI/tech rout and credit spread widening",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Cost of capital and AI financing risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Negative preopen momentum after worst day",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil and geopolitical inflation risk",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Hyperscaler earnings/Fed/election event risk",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "Oversold bounce and quality mega-cap support",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Credit stress and AI financing fears dominate after a sharp Nasdaq selloff, with weak preopen tape and high oil adding pressure. Event risk from hyperscaler earnings, the Fed and midterms keeps 7-day odds nearer neutral, but the near-term bias remains below 50."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.42,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 72,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "AI/tech rout and credit spread widening",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Cost of capital and AI financing risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Negative preopen momentum after worst day",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil and geopolitical inflation risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Hyperscaler earnings/Fed/election event risk",
+          "direction": "neutral",
+          "weight": 10
+        },
+        {
+          "theme": "Oversold bounce and quality mega-cap support",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Credit stress and AI financing fears dominate after a sharp Nasdaq selloff, with weak preopen tape and high oil adding pressure. Event risk from hyperscaler earnings, the Fed and midterms keeps 7-day odds nearer neutral, but the near-term bias remains below 50."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 39022,
+    "completion_tokens": 2120,
+    "total_tokens": 41142,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1884
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 39022
+  },
+  "prompt_sha": "1014967ec0961b11"
+}

@@ -1,0 +1,124 @@
+{
+  "bvid": "BV1vsHf62EUe",
+  "show_date": "2026-10-06",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Front end biased higher; two-year had 15bp range, ended higher."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Long yields near multi-decade highs; 30-year ~5.63%, bias higher."
+      },
+      "yield_curve": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No explicit slope; front- and long-end yields both biased higher."
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Euro at 17-month low lifts dollar; rally described as unconvincing."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Brent ~$102.55, described up about a third percent."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Not discussed."
+      },
+      "credit_spreads": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Not discussed."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P and Nasdaq futures down ~0.2-0.25%; stocks near records."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "No explicit odds; market unsure of Fed reaction function after soft payrolls.",
+      "notable_speakers": [
+        "John Williams",
+        "Jay Powell"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "AI capex and earnings strength emphasized; some worry higher yields eventually bite."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Saudi-backed Yemen offensive, Iran tensions, Red Sea shipping threats; U.S. support limited."
+    },
+    "consumer": {
+      "tone": "weak",
+      "note": "Cost-of-living angst; $6 gasoline cited; voters unhappy."
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "U.S. 10s/30s auctions Wed/Thu",
+      "Fed minutes Wednesday",
+      "France Moody's review Oct 23",
+      "Brazil presidential runoff Oct 25"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Global bond selloff",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI earnings resilience",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "French debt crisis",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil and geopolitical risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Fed policy uncertainty",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Front-end and long-end yields are described as biased higher, with long yields near multi-decade highs; equity futures are slightly softer but near records. The dollar is up as the euro falls to a 17-month low, oil is higher, and gold and credit spreads were not discussed. The Fed is seen as potentially hiking, though John Williams sounds less hawkish and markets lack a clear reaction function; Powell faces political pressure. The dominant narrative is a global bond selloff centered on French debt, offset by resilient AI earnings and equity highs. Geopolitics is escalating around Yemen and Iran, while the consumer is weak on cost-of-living. The show’s net tone is neutral.",
+    "notable_quotes": [
+      "I can't control the bond market. What I can do is get people to slow down and think.",
+      "Bonds selling off on weak data was the story into the weekend."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 10683,
+    "completion_tokens": 6474,
+    "total_tokens": 17157,
+    "prompt_tokens_details": {
+      "cached_tokens": 10496
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5748
+    },
+    "prompt_cache_hit_tokens": 10496,
+    "prompt_cache_miss_tokens": 187
+  }
+}

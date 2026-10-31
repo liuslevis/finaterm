@@ -1,0 +1,118 @@
+{
+  "bvid": "BV1KXns6iEfb",
+  "show_date": "2026-10-23",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "Front-end yields fall; two-year around 4.73% ahead of Fed."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "10-year near 5.04-5.06%; 30-year lower on flight to quality."
+      },
+      "yield_curve": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Both front and long yields fell; no explicit curve slope call."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Euro weakness vs CHF/JPY/GBP discussed, not broad dollar."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent around $112, WTI near $99.50 on Middle East escalation."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold discussion in transcript."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "Mentioned as part of tighter financial conditions; no specific levels."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "S&P futures -1%, Nasdaq 100 -1.6% to -2%; mega-cap tech weak."
+      }
+    },
+    "fed": {
+      "stance": "neutral",
+      "expected_path": "hold",
+      "market_pricing": "Market prices hold; two-year implies hikes, Williams floated one more 2026 hike.",
+      "notable_speakers": [
+        "Williams"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Meta and Lam fall despite beats; AI capex, margins, second derivative questioned; Nvidia demand confident."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Houthi attacks on Saudi Aramco/airport; U.S.-Israel post-midterm strike plans; State Dept evacuations."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Holding for now, but oil/inflation and equity-wealth sensitivity threaten spending; cost of living top issue."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "Moody's France rating update Friday",
+      "Fed decision next week",
+      "U.S. midterms less than two weeks away",
+      "Possible Israel/Iran strikes after midterms"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Middle East oil escalation",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI/tech earnings slowdown",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "French fiscal/political risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed on hold, earnings resilient",
+        "direction": "neutral",
+        "weight": 20
+      }
+    ],
+    "summary": "Risk aversion dominates: S&P futures down about 1% and Nasdaq 100 down about 1.6-2%, while Treasury yields fall across the curve as investors buy havens. Oil is sharply higher—Brent around $112 and WTI near $99.50—after Houthi attacks on Saudi facilities and reports of possible post-midterm U.S./Israel strikes. The Fed is expected to hold, though Williams floated one more 2026 hike and the two-year prices hikes. French fiscal stress is a major European risk, with OAT-Bund spreads near 170bp and French 10-year yields at multi-decade highs. AI/tech earnings are mixed: Meta and Lam Research fell despite beats, as capex and margin concerns bite. Consumer tone is mixed; cost of living and oil are key worries.",
+    "notable_quotes": [
+      "Mega cap tanking, failing to extend the rally.",
+      "This is a test, not the appetite that exists about AI."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 17428,
+    "completion_tokens": 4033,
+    "total_tokens": 21461,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3248
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 17428
+  }
+}

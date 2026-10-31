@@ -1,0 +1,120 @@
+{
+  "bvid": "BV1N3YG6FErJ",
+  "show_date": "2026-09-11",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "risk_off",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Two-year at new 2026 highs; ~4.44-4.50"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "10-year near 4.90, 30-year in 5s; buyback failed"
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "slight",
+        "note": "Long end leads; term premium/deficit cited"
+      },
+      "dollar": {
+        "trend": "up",
+        "magnitude": "na",
+        "note": "Euro weakens vs dollar; dollar breakout vs yen cited"
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "sharp",
+        "note": "Brent ~$105; WTI triple digits after Saudi output slump"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not discussed"
+      },
+      "credit_spreads": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "not discussed"
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "S&P futures down ~0.5-0.6%; Nasdaq weaker"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "~70% odds of Fed hike next week; October hike fully priced",
+      "notable_speakers": [
+        "Omar Aguilar",
+        "Mike McKee",
+        "Mike Monek"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "positive",
+      "note": "Exceptional earnings and AI capex; valuation/rate and political risks"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran war escalating; Hormuz/oil risk; no end before midterms"
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Resilient spending but affordability pain; gasoline $4.27, sentiment weak"
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "PPI/jobless claims today 8:30",
+      "CPI tomorrow 8:30",
+      "ECB rate decision today",
+      "30-year Treasury auction today"
+    ],
+    "top_drivers": [
+      {
+        "theme": "Oil/energy shock",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Rising bond yields",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed/ECB hike pricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI/earnings resilience",
+        "direction": "bullish",
+        "weight": 20
+      }
+    ],
+    "summary": "The show was risk-off. Oil surged, with Brent around $105 and WTI in triple digits after a Saudi output slump and Iran escalation. Bond yields rose to multi-year highs, front-end and long-end, as Treasury buybacks failed and a 30-year auction loomed; equities fell about 0.5-0.6%, while the dollar strengthened versus the euro and yen. The Fed is priced to hike next week (~70%), the ECB hiked, and the BOJ is expected to follow. The dominant narrative is energy-led inflation and fiscal/term-premium pressure offsetting resilient AI/earnings strength, with consumers strained by affordability and geopolitics escalating.",
+    "notable_quotes": [
+      "The earnings are exceptional. I don't really see anything that's troubling.",
+      "Ultimately, it is a toxic brew, and bonds respond."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 31217,
+    "completion_tokens": 4684,
+    "total_tokens": 35901,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3991
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 31217
+  }
+}

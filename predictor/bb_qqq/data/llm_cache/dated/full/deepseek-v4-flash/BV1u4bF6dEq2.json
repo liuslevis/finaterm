@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1u4bF6dEq2",
+  "show_date": "2026-09-04",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.51,
+    "p_up_3d": 0.51,
+    "p_up_7d": 0.52,
+    "sentiment": 0,
+    "confidence": 58,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Waller/Fed hike uncertainty",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Broadcom and AI-capex caution",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/Iran inflation shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Earnings resilience and equity drift",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Yen intervention/global tightening",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Waller's remarks lowered front-end yields and lifted equity futures, but QQQ faces tech-specific drag from Broadcom and AI-capex caution while oil and Fed-hike risk cloud the week. Net neutral, with modest upward drift and elevated event risk."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.51,
+      "p_up_3d": 0.51,
+      "p_up_7d": 0.52,
+      "sentiment": 0,
+      "confidence": 58,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Waller/Fed hike uncertainty",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Broadcom and AI-capex caution",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/Iran inflation shock",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Earnings resilience and equity drift",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Yen intervention/global tightening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Waller's remarks lowered front-end yields and lifted equity futures, but QQQ faces tech-specific drag from Broadcom and AI-capex caution while oil and Fed-hike risk cloud the week. Net neutral, with modest upward drift and elevated event risk."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33379,
+    "completion_tokens": 3062,
+    "total_tokens": 36441,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2863
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33379
+  },
+  "prompt_sha": "ad7467672ec80b3d"
+}

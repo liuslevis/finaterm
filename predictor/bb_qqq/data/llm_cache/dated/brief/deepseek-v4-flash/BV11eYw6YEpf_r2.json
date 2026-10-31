@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV11eYw6YEpf",
+  "show_date": "2026-10-01",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.465,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.47,
+    "sentiment": -1,
+    "confidence": 61.0,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Long-end yield surge",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "AI capex and earnings",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Energy/diesel supply shock",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Hawkish Fed hike pricing",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Cautious tape: long-end yields near highs, hawkish Fed, oil shock and widening credit weigh on Nasdaq, partly offset by resilient AI capex. Flat futures and payrolls event risk keep probabilities modestly below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.47,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy/diesel supply shock",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed hike pricing",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Cautious tape: long-end yields near highs, hawkish Fed, oil shock and widening credit weigh on Nasdaq, partly offset by resilient AI capex. Flat futures and payrolls event risk keep probabilities modestly below neutral."
+    },
+    {
+      "p_up_1d": 0.46,
+      "p_up_3d": 0.45,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Long-end yield surge",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "AI capex and earnings",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Energy/diesel supply shock",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Hawkish Fed hike pricing",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Brief is mildly risk-off: long-end yields near multi-decade highs, oil shock, widening credit and hawkish Fed offset strong AI capex. Futures are flat into payrolls, so near-term odds sit modestly below even; 7-day drift only partly offsets macro drag."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1217,
+    "completion_tokens": 1398,
+    "total_tokens": 2615,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1201
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 193
+  },
+  "prompt_sha": "9cb3ee9a6271684c"
+}

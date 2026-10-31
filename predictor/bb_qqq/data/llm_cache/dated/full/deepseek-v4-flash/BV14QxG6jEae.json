@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV14QxG6jEae",
+  "show_date": "2026-10-28",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.58,
+    "p_up_3d": 0.55,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 55,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex/financing demand",
+        "direction": "bullish",
+        "weight": 35
+      },
+      {
+        "theme": "Fed hawkish hold/hike risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Oil/Middle East escalation",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "AI circular financing/credit risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Midterm/event-risk chop",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Mega-cap earnings/AI monetization",
+        "direction": "neutral",
+        "weight": 15
+      }
+    ],
+    "rationale": "Futures point modestly higher and huge AI financing deals are being absorbed, supporting megacap tech. But hawkish Fed/hike risk, $116 Brent and Iran escalation, plus AI circular-financing worries cap conviction; upcoming megacap earnings and midterms argue for chop, so only mild upside skew."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.58,
+      "p_up_3d": 0.55,
+      "p_up_7d": 0.56,
+      "sentiment": 1,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex/financing demand",
+          "direction": "bullish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed hawkish hold/hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Oil/Middle East escalation",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI circular financing/credit risk",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Midterm/event-risk chop",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Mega-cap earnings/AI monetization",
+          "direction": "neutral",
+          "weight": 15
+        }
+      ],
+      "rationale": "Futures point modestly higher and huge AI financing deals are being absorbed, supporting megacap tech. But hawkish Fed/hike risk, $116 Brent and Iran escalation, plus AI circular-financing worries cap conviction; upcoming megacap earnings and midterms argue for chop, so only mild upside skew."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 35440,
+    "completion_tokens": 2479,
+    "total_tokens": 37919,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2250
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 35440
+  },
+  "prompt_sha": "89a290189df68003"
+}

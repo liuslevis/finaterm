@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1oUYp6CESK",
+  "show_date": "2026-09-09",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.49,
+    "sentiment": -1,
+    "confidence": 58,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Brent near $100 on Saudi/Hormuz supply shock",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike risk into CPI Friday / FOMC next week",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Global bond selloff, 10y ~4.80, UK gilt 1998 high",
+        "direction": "bearish",
+        "weight": 18
+      },
+      {
+        "theme": "Strong earnings and AI capex; strategists constructive",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Canada retaliation, trade-war escalation",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "September seasonality and midterm noise",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Overnight tape flat-to-lower with oil near $100, yields climbing and a live Fed hike debate ahead of Friday CPI. Earnings and AI capex remain the offset, but near-term risk is skewed down; the 7-day window lets event risk clear."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.43,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.49,
+      "sentiment": -1,
+      "confidence": 58,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Brent near $100 on Saudi/Hormuz supply shock",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike risk into CPI Friday / FOMC next week",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Global bond selloff, 10y ~4.80, UK gilt 1998 high",
+          "direction": "bearish",
+          "weight": 18
+        },
+        {
+          "theme": "Strong earnings and AI capex; strategists constructive",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Canada retaliation, trade-war escalation",
+          "direction": "bearish",
+          "weight": 12
+        },
+        {
+          "theme": "September seasonality and midterm noise",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Overnight tape flat-to-lower with oil near $100, yields climbing and a live Fed hike debate ahead of Friday CPI. Earnings and AI capex remain the offset, but near-term risk is skewed down; the 7-day window lets event risk clear."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 33229,
+    "completion_tokens": 1818,
+    "total_tokens": 35047,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1569
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33229
+  },
+  "prompt_sha": "3b47748ccae6dda2"
+}

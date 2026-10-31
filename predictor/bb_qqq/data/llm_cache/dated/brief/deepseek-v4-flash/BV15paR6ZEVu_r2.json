@@ -1,0 +1,128 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV15paR6ZEVu",
+  "show_date": "2026-09-30",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.475,
+    "p_up_3d": 0.455,
+    "p_up_7d": 0.475,
+    "sentiment": -1,
+    "confidence": 65.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Bond vigilante yield selloff",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Hawkish Fed / October hike odds",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex and resilient equity futures",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Iran/Hormuz oil and geopolitics",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Credit spreads widening slightly",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Multi-decade yield highs and hawkish Fed pricing are a clear duration headwind for QQQ, partly offset by firm futures and AI capex. PCE and payrolls add event risk, so I keep probabilities near neutral with a modest downside tilt."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.49,
+      "p_up_3d": 0.48,
+      "p_up_7d": 0.51,
+      "sentiment": -1,
+      "confidence": 68,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Bond vigilante yield selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Hawkish Fed / October hike odds",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex and resilient equity futures",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran/Hormuz oil and geopolitics",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Credit spreads widening slightly",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Multi-decade yield highs and hawkish Fed pricing are a clear duration headwind for QQQ, partly offset by firm futures and AI capex. PCE and payrolls add event risk, so I keep probabilities near neutral with a modest downside tilt."
+    },
+    {
+      "p_up_1d": 0.46,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Bond vigilante selloff",
+          "direction": "bearish",
+          "weight": 35
+        },
+        {
+          "theme": "Fed tightening cycle",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "AI capex boom",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Iran war/oil risk",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Multi-decade-high yields and a hawkish Fed dominate; equity futures are only slightly firmer and AI capex is mixed, so risk is skewed lower despite record-level resilience. Oil relief and a neutral regime temper the bearish tilt."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1169,
+    "completion_tokens": 2630,
+    "total_tokens": 3799,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2459
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 145
+  },
+  "prompt_sha": "b6ccc42ba371c4f9"
+}

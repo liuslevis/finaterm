@@ -1,0 +1,125 @@
+{
+  "bvid": "BV1gNni6MEia",
+  "show_date": "2026-10-21",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Treasuries bid; two-year cited down about 2bp."
+      },
+      "long_end_yields": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "10s and 30s lower by 1-4bp; long-end bid."
+      },
+      "yield_curve": {
+        "trend": "flatter",
+        "magnitude": "slight",
+        "note": "Long-end yields fall more than front end."
+      },
+      "dollar": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Euro leakage cited; broad dollar not explicit."
+      },
+      "oil": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Brent up 1.6%-4%, above $110 on Middle East risk."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Not discussed on the show."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "moderate",
+        "note": "AI-related credit spreads blowing out; Oracle cited."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Nasdaq futures down about 0.6-0.7%; S&P slightly lower."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "October hike priced low; December hike expected, with possible two hikes next year.",
+      "notable_speakers": [
+        "Chairman Walsh",
+        "Williams",
+        "Jefferson"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "AI/tech under pressure; IPO and valuation concerns offset by strong earnings and capex."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Middle East tanker attacks continue; France unrest; Ukraine tensions cited."
+    },
+    "consumer": {
+      "tone": "mixed",
+      "note": "Spending resilient and income solid, but affordability and energy costs weigh."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "SpaceX and Tesla earnings next 24 hours",
+      "Midterm elections Nov 3",
+      "Fed October meeting; December hike expected",
+      "Chevron earnings Oct 30"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI capex/valuation stress",
+        "direction": "bearish",
+        "weight": 35
+      },
+      {
+        "theme": "Oil supply/geopolitical risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Fed tightening path",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Strong corporate earnings",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Midterm policy uncertainty",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "summary": "Equities are softer: Nasdaq futures down about 0.6-0.7% and S&P slightly lower as AI/tech and IPO valuation concerns weigh. Treasuries are bid, with front-end and long-end yields lower and the curve flatter; oil is higher with Brent above $110 on Middle East risk, and AI-related credit spreads are widening. The Fed is framed as hawkish: October hike odds are low, but a December hike and possibly more are expected. The dominant narrative is an AI capex/valuation reset colliding with higher financing costs, partly offset by resilient earnings and a solid consumer. The tone is cautious and modestly risk-off.",
+    "notable_quotes": [
+      "Tech leads rates, rates do not lead tech because tech is the engine of this economy right now.",
+      "Bonds have been responding to inflationary shocks, while the growth backdrop has been pretty solid."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 36118,
+    "completion_tokens": 5715,
+    "total_tokens": 41833,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4983
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36118
+  }
+}

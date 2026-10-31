@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": true,
+  "bvid": "BV1EeHc6sE8j",
+  "show_date": "2026-10-27",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.495,
+    "p_up_3d": 0.465,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 61.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and credit stress",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish hold",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mega-cap earnings resilience",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran and midterm risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Equity issuance supply",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Mildly higher futures mask a cautious tone. Widening AI/cloud credit spreads, a hawkish Fed hold, equity issuance and Iran/midterm risk outweigh resilient mega-cap earnings. I keep one-day odds near neutral and lower 3-7 day odds for event risk and bearish skew."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.5,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and credit stress",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mega-cap earnings resilience",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran and midterm risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Equity issuance supply",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Mildly higher futures mask a cautious tone. Widening AI/cloud credit spreads, a hawkish Fed hold, equity issuance and Iran/midterm risk outweigh resilient mega-cap earnings. I keep one-day odds near neutral and lower 3-7 day odds for event risk and bearish skew."
+    },
+    {
+      "p_up_1d": 0.49,
+      "p_up_3d": 0.46,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 60,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and credit stress",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mega-cap earnings resilience",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran and midterm risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Equity issuance supply",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are modestly higher, but the brief's tone is cautious: widening AI/cloud credit spreads, a hawkish Fed hold, heavy issuance and Iran/midterm risk offset mega-cap earnings resilience. I shade probabilities below the normal upward drift, with event risk peaking around the Fed and earnings."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1232,
+    "completion_tokens": 2739,
+    "total_tokens": 3971,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2535
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 208
+  },
+  "prompt_sha": "f912500494eee724"
+}

@@ -1,0 +1,143 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1EeHc6sE8j",
+  "show_date": "2026-10-27",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.495,
+    "p_up_3d": 0.48,
+    "p_up_7d": 0.465,
+    "sentiment": -1,
+    "confidence": 63.5,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI capex and credit stress",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish hold and December hike pricing",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Mega-cap earnings resilience",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Iran and midterm geopolitical risk",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Equity issuance and debt access",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Modest futures rebound after losses",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are modestly higher after two weeks of losses, but hawkish Fed pricing, 5% long yields, widening AI/cloud credit, equity supply and Iran/midterm risk skew the distribution lower. Mega-cap earnings resilience and an oversold bounce help the near term, less so into Fed and earnings events."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.51,
+      "p_up_3d": 0.49,
+      "p_up_7d": 0.47,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and credit stress",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold and December hike pricing",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mega-cap earnings resilience",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran and midterm geopolitical risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Equity issuance and debt access",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Modest futures rebound after losses",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are modestly higher after two weeks of losses, but hawkish Fed pricing, 5% long yields, widening AI/cloud credit, equity supply and Iran/midterm risk skew the distribution lower. Mega-cap earnings resilience and an oversold bounce help the near term, less so into Fed and earnings events."
+    },
+    {
+      "p_up_1d": 0.48,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 65,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI capex and credit stress",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hawkish hold",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Mega-cap earnings resilience",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Iran and midterm risk",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Equity issuance supply",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are modestly higher after two down weeks, but the tape is fragile: widening AI/hyperscaler credit, a hawkish Fed hold with December hike risk, heavy issuance, and Iran/midterm geopolitics offset resilient mega-cap earnings. I expect muted upside at best and skew probabilities slightly below neutral."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1240,
+    "completion_tokens": 2102,
+    "total_tokens": 3342,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1895
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 216
+  },
+  "prompt_sha": "cb9ec642f34d7d7d"
+}

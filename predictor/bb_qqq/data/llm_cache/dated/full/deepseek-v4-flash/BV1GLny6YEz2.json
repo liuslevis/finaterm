@@ -1,0 +1,69 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "parsed": {
+    "p_up_1d": 0.57,
+    "p_up_3d": 0.56,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 60,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/tech earnings beats (SpaceX, Supermicro, Nvidia strength)",
+        "direction": "bullish",
+        "weight": 28
+      },
+      {
+        "theme": "Strong aggregate earnings and valuation support",
+        "direction": "bullish",
+        "weight": 22
+      },
+      {
+        "theme": "Tesla/Meta after-close earnings event risk",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "AI leverage and neo-cloud credit stress",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "Data-center political/regulatory pushback",
+        "direction": "bearish",
+        "weight": 10
+      },
+      {
+        "theme": "Fed inflation/hike uncertainty",
+        "direction": "bearish",
+        "weight": 8
+      },
+      {
+        "theme": "Higher oil/consumer margin pressure",
+        "direction": "bearish",
+        "weight": 5
+      }
+    ],
+    "rationale": "Tech futures are firmer on strong AI earnings and solid aggregate earnings, but QQQ faces after-close Tesla/Meta event risk plus AI leverage, data-center politics and Fed/inflation uncertainty. Net mild risk-on; probabilities modestly above base."
+  },
+  "raw": "{\"p_up_1d\":0.57,\"p_up_3d\":0.56,\"p_up_7d\":0.56,\"sentiment\":1,\"confidence\":60,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI/tech earnings beats (SpaceX, Supermicro, Nvidia strength)\",\"direction\":\"bullish\",\"weight\":28},{\"theme\":\"Strong aggregate earnings and valuation support\",\"direction\":\"bullish\",\"weight\":22},{\"theme\":\"Tesla/Meta after-close earnings event risk\",\"direction\":\"neutral\",\"weight\":15},{\"theme\":\"AI leverage and neo-cloud credit stress\",\"direction\":\"bearish\",\"weight\":12},{\"theme\":\"Data-center political/regulatory pushback\",\"direction\":\"bearish\",\"weight\":10},{\"theme\":\"Fed inflation/hike uncertainty\",\"direction\":\"bearish\",\"weight\":8},{\"theme\":\"Higher oil/consumer margin pressure\",\"direction\":\"bearish\",\"weight\":5}],\"rationale\":\"Tech futures are firmer on strong AI earnings and solid aggregate earnings, but QQQ faces after-close Tesla/Meta event risk plus AI leverage, data-center politics and Fed/inflation uncertainty. Net mild risk-on; probabilities modestly above base.\"}",
+  "usage": {
+    "prompt_tokens": 32442,
+    "completion_tokens": 4178,
+    "total_tokens": 36620,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3931
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 32442
+  },
+  "prompt_sha": "b5733c9a88611d9f"
+}

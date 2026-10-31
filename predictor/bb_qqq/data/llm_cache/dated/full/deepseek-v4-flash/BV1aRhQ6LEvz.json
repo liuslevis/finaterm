@@ -1,0 +1,107 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1aRhQ6LEvz",
+  "show_date": "2026-09-26",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.54,
+    "sentiment": 1,
+    "confidence": 45,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Yields at multi-decade highs (30y ~5.5%, 10y ~5.25%) capping valuations",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed repricing: 3-4 hikes priced, 'modest further tightening'",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Equity resilience - 3-day S&P win streak, weekly gain despite bond rout",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "AI capex momentum (Akamai $12bn Anthropic compute deal)",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Crude retreating on Hormuz talks but stalemate; weekend geopolitical risk",
+        "direction": "neutral",
+        "weight": 15
+      },
+      {
+        "theme": "Diesel export ban debate, inflation/election risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Bonds stabilizing after a multi-decade yield selloff, with equities showing unusual resilience and Nasdaq futures leading. Hawkish Fed pricing and high long yields remain a persistent valuation headwind, offset by AI deal flow; mild positive drift, limited conviction given weekend oil/diplomacy risk."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.54,
+      "sentiment": 1,
+      "confidence": 45,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Yields at multi-decade highs (30y ~5.5%, 10y ~5.25%) capping valuations",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed repricing: 3-4 hikes priced, 'modest further tightening'",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Equity resilience - 3-day S&P win streak, weekly gain despite bond rout",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex momentum (Akamai $12bn Anthropic compute deal)",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Crude retreating on Hormuz talks but stalemate; weekend geopolitical risk",
+          "direction": "neutral",
+          "weight": 15
+        },
+        {
+          "theme": "Diesel export ban debate, inflation/election risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Bonds stabilizing after a multi-decade yield selloff, with equities showing unusual resilience and Nasdaq futures leading. Hawkish Fed pricing and high long yields remain a persistent valuation headwind, offset by AI deal flow; mild positive drift, limited conviction given weekend oil/diplomacy risk."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10360,
+    "completion_tokens": 1682,
+    "total_tokens": 12042,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1343
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 10360
+  },
+  "prompt_sha": "e7717555a872445c"
+}

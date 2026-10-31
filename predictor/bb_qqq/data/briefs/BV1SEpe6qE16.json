@@ -1,0 +1,126 @@
+{
+  "bvid": "BV1SEpe6qE16",
+  "show_date": "2026-10-10",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Two-year ~4.78%, up ~2bp after prior rally"
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "10-year ~5.25%, 30-year ~5.63%, up ~2bp after big drop"
+      },
+      "yield_curve": {
+        "trend": "unchanged",
+        "magnitude": "na",
+        "note": "Yields moved roughly parallel across curve"
+      },
+      "dollar": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Slight weakness today; long strengthening streak from oil, AI capex"
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "moderate",
+        "note": "WTI/Brent lower on Iran strike delay; hurricane later trims drop"
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "Mentioned as diversification; no price direction given"
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "AI supply indigestion; IG +3bp YTD, hyperscalers +40bp"
+      },
+      "equity_futures": {
+        "trend": "up",
+        "magnitude": "moderate",
+        "note": "Nasdaq futures +0.8%, S&P +0.4% after tech selloff"
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "October hold favored; December hike seen difficult to avoid if October skipped",
+      "notable_speakers": [
+        "Waller",
+        "Williams",
+        "Collins",
+        "Warsh"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "OpenAI revenue gap drove volatility; AI capex durable but profitability and valuation questioned"
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Attacks on Saudi airport/tankers persist; US strike delayed, but conflict fragile"
+    },
+    "consumer": {
+      "tone": "strong",
+      "note": "Spending +6.2%, travel demand resilient despite fuel costs; lower-income pressure noted"
+    },
+    "sentiment_score": 0,
+    "key_catalysts": [
+      "Tuesday: US CPI and bank earnings kickoff",
+      "November 3 midterms; Trump delays Iran strikes",
+      "Fed meeting later this month; Warsh speaks Wednesday",
+      "Hurricane Izzy threatens Gulf refining capacity"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI profitability uncertainty",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Higher-for-longer yields",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Resilient consumer spending",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Geopolitical oil risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Strong Treasury auctions",
+        "direction": "bullish",
+        "weight": 15
+      }
+    ],
+    "summary": "Equities were rebounding, with Nasdaq futures up about 0.8% and S&P futures up 0.4%, while Treasury yields edged up roughly 2bp after the prior day's big rally. The curve moved roughly parallel; the dollar was slightly weaker, oil fell on relief that Trump delayed Iran strikes, and credit spreads showed AI-related supply indigestion. The Fed remains hawkish, with officials signaling additional hikes but flexibility on timing; markets lean toward an October hold and possible December hike. The dominant narrative is higher-for-longer rates and AI profitability/valuation uncertainty, offset by resilient consumer spending. Tone is cautiously constructive but fragile.",
+    "notable_quotes": [
+      "We are not out of the woods with this conflict, and you can see that in oil prices.",
+      "I think we are in a topping process."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 31717,
+    "completion_tokens": 4853,
+    "total_tokens": 36570,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4112
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 31717
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1oUYp6CESK",
+  "show_date": "2026-09-09",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.47,
+    "p_up_3d": 0.455,
+    "p_up_7d": 0.46,
+    "sentiment": -1,
+    "confidence": 60.0,
+    "preopen_move": "flat",
+    "drivers": [
+      {
+        "theme": "Oil near $100 / energy shock",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hike and CPI risk",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong earnings and AI capex",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Middle East escalation",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Rising yields / weak consumer",
+        "direction": "bearish",
+        "weight": 15
+      }
+    ],
+    "rationale": "Oil near $100 and a hawkish Fed hike risk keep QQQ tilted risk-off, while strong AI/earnings support and flat Nasdaq futures limit the downside. CPI Friday and the Fed next week add event risk, so I shade near-term odds below neutral."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.48,
+      "p_up_3d": 0.47,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 62,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Oil near $100 / energy shock",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike and CPI risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong earnings and AI capex",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Middle East escalation",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Rising yields / weak consumer",
+          "direction": "bearish",
+          "weight": 15
+        }
+      ],
+      "rationale": "Oil near $100 and a hawkish Fed hike risk keep QQQ tilted risk-off, while strong AI/earnings support and flat Nasdaq futures limit the downside. CPI Friday and the Fed next week add event risk, so I shade near-term odds below neutral."
+    },
+    {
+      "p_up_1d": 0.46,
+      "p_up_3d": 0.44,
+      "p_up_7d": 0.46,
+      "sentiment": -1,
+      "confidence": 58,
+      "preopen_move": "flat",
+      "drivers": [
+        {
+          "theme": "Oil near $100",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Fed hike risk",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Strong earnings/AI",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Middle East escalation",
+          "direction": "bearish",
+          "weight": 20
+        }
+      ],
+      "rationale": "Oil near $100, a likely Fed hike and Middle East escalation skew QQQ downside, though Nasdaq futures are flat and AI/earnings support. CPI and the Fed decision keep 3-day risk highest; 7-day odds stay subdued as hawkish policy and energy costs persist."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1224,
+    "completion_tokens": 1883,
+    "total_tokens": 3107,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1707
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 200
+  },
+  "prompt_sha": "cd8e8ceb9a54c9b9"
+}

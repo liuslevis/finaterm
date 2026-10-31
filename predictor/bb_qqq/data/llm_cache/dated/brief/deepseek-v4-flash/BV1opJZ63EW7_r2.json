@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1opJZ63EW7",
+  "show_date": "2026-10-20",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.56,
+    "p_up_3d": 0.54,
+    "p_up_7d": 0.54,
+    "sentiment": 0,
+    "confidence": 55.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/tech earnings rebound",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Credit spread widening",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "France political turmoil",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed tightening/rates higher",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Elevated oil prices",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures are up on a chip/tech rebound and guests stay risk-on, but sharp credit widening, high long yields, France unrest and elevated oil cap upside. Net neutral with modest upward drift."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.53,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI/tech earnings rebound",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Credit spread widening",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "France political turmoil",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed tightening/rates higher",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Elevated oil prices",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are up on a chip/tech rebound and guests stay risk-on, but sharp credit widening, high long yields, France unrest and elevated oil cap upside. Net neutral with modest upward drift."
+    },
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.54,
+      "p_up_7d": 0.55,
+      "sentiment": 0,
+      "confidence": 55,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "AI/tech earnings rebound",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "pre-open chip momentum",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "credit spread widening",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed tightening/rates higher",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "France political turmoil",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "elevated oil prices",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Nasdaq futures +1.2% and a chip rebound support near-term upside, but widening credit spreads, ~5.1% 10-year yields, France unrest and Brent at 109 cap risk appetite. Neutral regime with hawkish Fed leaves modestly above-coin-flip odds, decaying over 3-7 days."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1183,
+    "completion_tokens": 1536,
+    "total_tokens": 2719,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1316
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 159
+  },
+  "prompt_sha": "14d5e06068cfd6fa"
+}

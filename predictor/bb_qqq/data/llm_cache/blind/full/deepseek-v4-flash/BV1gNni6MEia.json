@@ -1,0 +1,59 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1gNni6MEia",
+  "show_date": "2026-10-21",
+  "parsed": {
+    "p_up_1d": 0.43,
+    "p_up_3d": 0.46,
+    "p_up_7d": 0.51,
+    "sentiment": -1,
+    "confidence": 62,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "AI/cloud valuation and IPO stress",
+        "direction": "bearish",
+        "weight": 32
+      },
+      {
+        "theme": "Nasdaq futures and tech downgrades",
+        "direction": "bearish",
+        "weight": 24
+      },
+      {
+        "theme": "Rising oil/geopolitical risk",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "Bonds bid/flight to safety",
+        "direction": "neutral",
+        "weight": 10
+      },
+      {
+        "theme": "Upcoming mega-cap earnings/capex catalysts",
+        "direction": "neutral",
+        "weight": 12
+      }
+    ],
+    "rationale": "Tech is leading pre-open weakness: AI/cloud IPO stress, CoreWeave and Apple downgrades, and Nasdaq futures lower. Guests flag capital constraints and rotation but not outright risk-off; upcoming capex earnings could steady the tape."
+  },
+  "raw": "{\"p_up_1d\":0.43,\"p_up_3d\":0.46,\"p_up_7d\":0.51,\"sentiment\":-1,\"confidence\":62,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"AI/cloud valuation and IPO stress\",\"direction\":\"bearish\",\"weight\":32},{\"theme\":\"Nasdaq futures and tech downgrades\",\"direction\":\"bearish\",\"weight\":24},{\"theme\":\"Rising oil/geopolitical risk\",\"direction\":\"bearish\",\"weight\":12},{\"theme\":\"Bonds bid/flight to safety\",\"direction\":\"neutral\",\"weight\":10},{\"theme\":\"Upcoming mega-cap earnings/capex catalysts\",\"direction\":\"neutral\",\"weight\":12}],\"rationale\":\"Tech is leading pre-open weakness: AI/cloud IPO stress, CoreWeave and Apple downgrades, and Nasdaq futures lower. Guests flag capital constraints and rotation but not outright risk-off; upcoming capex earnings could steady the tape.\"}",
+  "usage": {
+    "prompt_tokens": 35896,
+    "completion_tokens": 922,
+    "total_tokens": 36818,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 722
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 35512
+  },
+  "prompt_sha": "cba6cdc38f4fe861"
+}

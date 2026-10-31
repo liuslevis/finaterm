@@ -1,0 +1,127 @@
+{
+  "bvid": "BV1FhxN6mEDP",
+  "show_date": "2026-10-30",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "brief-v1",
+  "brief": {
+    "macro_regime": "neutral",
+    "indicators": {
+      "front_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Front end up single basis point; two-year around 4.69%."
+      },
+      "long_end_yields": {
+        "trend": "up",
+        "magnitude": "slight",
+        "note": "Long end edged higher; 10-year near 5% after debt supply."
+      },
+      "yield_curve": {
+        "trend": "steeper",
+        "magnitude": "moderate",
+        "note": "Fed presser steepened curve; show debates retracement."
+      },
+      "dollar": {
+        "trend": "flat",
+        "magnitude": "slight",
+        "note": "Euro slightly weaker, no big dollar move discussed."
+      },
+      "oil": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "Oil declined on reports of US-Iran outreach."
+      },
+      "gold": {
+        "trend": "not_discussed",
+        "magnitude": "na",
+        "note": "No gold discussion in transcript."
+      },
+      "credit_spreads": {
+        "trend": "widening",
+        "magnitude": "slight",
+        "note": "Slight widening; lower-tier HY/CCC stressed, overall spreads still tight."
+      },
+      "equity_futures": {
+        "trend": "down",
+        "magnitude": "slight",
+        "note": "S&P futures slightly lower; Nasdaq down about 1% on Alphabet."
+      }
+    },
+    "fed": {
+      "stance": "hawkish",
+      "expected_path": "hike",
+      "market_pricing": "Show assumes a December hike; no explicit market odds were given.",
+      "notable_speakers": [
+        "Kevin Warsh",
+        "John Williams",
+        "Jefferson",
+        "Governor Cook",
+        "Lorie Logan"
+      ]
+    },
+    "earnings_ai": {
+      "tone": "mixed",
+      "note": "Alphabet fell ~10% on AI monetization; Microsoft cloud strong; capex/free cash flow worries."
+    },
+    "geopolitics": {
+      "escalation": "rising",
+      "note": "Iran outreach alongside strike threats; Hormuz tanker mines; French election risk."
+    },
+    "consumer": {
+      "tone": "strong",
+      "note": "Spending and GDP consumption strong; soft income growth and high gas prices."
+    },
+    "sentiment_score": -1,
+    "key_catalysts": [
+      "ECB decision, Lagarde press conference today",
+      "Amazon earnings after closing bell",
+      "US midterm elections next week",
+      "French elections April-May next year"
+    ],
+    "top_drivers": [
+      {
+        "theme": "AI capex payback fears",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Fed hawkish hold",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Strong GDP and consumer",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "ECB/French political risk",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Iran escalation risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "summary": "Equity futures are slightly lower, with Nasdaq down about 1% as Alphabet plunged roughly 10% on AI monetization and free-cash-flow worries; Microsoft’s cloud results were stronger. Treasury yields edged up, the front end by a single basis point and the long end near 5%, while the show described the curve as steeper after the Fed. Credit spreads are slightly wider, the dollar is flat with the euro softer, and oil fell on US-Iran outreach; gold was not discussed. The Fed held hawkishly, with speakers assuming a December hike and criticizing unclear communication. Dominant narratives are AI capex payback, ECB leadership/French election risk, and Iran escalation. Tone is cautious and mixed.",
+    "notable_quotes": [
+      "When there are big clouds on the horizon, the captain does not leave the ship.",
+      "This was a skip, not a pause."
+    ]
+  },
+  "usage": {
+    "prompt_tokens": 33835,
+    "completion_tokens": 7337,
+    "total_tokens": 41172,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 6597
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 33835
+  }
+}

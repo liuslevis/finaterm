@@ -1,0 +1,148 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV1MUer6nEjz",
+  "show_date": "2026-09-18",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.6,
+    "p_up_3d": 0.575,
+    "p_up_7d": 0.56,
+    "sentiment": 1,
+    "confidence": 58.0,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Preopen futures/tech rally",
+        "direction": "bullish",
+        "weight": 30
+      },
+      {
+        "theme": "Hawkish Fed hike cycle",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Long-end relief rally",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Oil retreat on pipeline restart",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "AI capex/tech leadership",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "BOJ/geopolitical/tariff risk",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Futures +1% and tech leadership support the near-term tape, while the hawkish hike cycle, BOJ risk and geopolitics cap follow-through. I shade probabilities above neutral but fade confidence with horizon."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.64,
+      "p_up_3d": 0.58,
+      "p_up_7d": 0.55,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Preopen futures/tech rally",
+          "direction": "bullish",
+          "weight": 30
+        },
+        {
+          "theme": "Hawkish Fed hike cycle",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end relief rally",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Oil retreat on pipeline restart",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "AI capex/tech leadership",
+          "direction": "bullish",
+          "weight": 10
+        },
+        {
+          "theme": "BOJ/geopolitical/tariff risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures +1% and tech leadership support the near-term tape, while the hawkish hike cycle, BOJ risk and geopolitics cap follow-through. I shade probabilities above neutral but fade confidence with horizon."
+    },
+    {
+      "p_up_1d": 0.56,
+      "p_up_3d": 0.57,
+      "p_up_7d": 0.57,
+      "sentiment": 1,
+      "confidence": 58,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Tech/AI leadership",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Long-end bond relief rally",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil retreat on Saudi pipeline restart",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Hawkish Fed hike cycle",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Geopolitical/tariff risk",
+          "direction": "bearish",
+          "weight": 10
+        },
+        {
+          "theme": "Placid credit spreads",
+          "direction": "bullish",
+          "weight": 5
+        }
+      ],
+      "rationale": "Tech leadership, long-end relief and lower oil support a mildly risk-on tone, but hawkish Fed hike pricing and geopolitical/pullback risks temper upside. Modest probabilities above neutral, with drift rather than strong conviction."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1276,
+    "completion_tokens": 1995,
+    "total_tokens": 3271,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1791
+    },
+    "prompt_cache_hit_tokens": 1024,
+    "prompt_cache_miss_tokens": 252
+  },
+  "prompt_sha": "47397aaf55208cac"
+}

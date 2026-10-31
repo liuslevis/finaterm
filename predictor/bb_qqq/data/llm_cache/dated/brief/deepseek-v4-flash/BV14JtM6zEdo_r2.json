@@ -1,0 +1,133 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "brief",
+  "blind": false,
+  "bvid": "BV14JtM6zEdo",
+  "show_date": "2026-09-01",
+  "repeats": 2,
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.43,
+    "p_up_7d": 0.445,
+    "sentiment": -1,
+    "confidence": 56.5,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Hawkish Warsh / September hike risk (~60% priced)",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oil spike above $91 on US-Iran strikes and Hormuz mining",
+        "direction": "bearish",
+        "weight": 25
+      },
+      {
+        "theme": "Nvidia/AI capex strength but very high valuation bar",
+        "direction": "bullish",
+        "weight": 20
+      },
+      {
+        "theme": "Fed credibility doubt, heavy issuance, steeper curve",
+        "direction": "bearish",
+        "weight": 15
+      },
+      {
+        "theme": "Consumer fatigue in weak PCE/retail data",
+        "direction": "bearish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Hawkish Warsh repricing, an oil shock from renewed Iran strikes and soft consumer data outweigh Nvidia's AI bid; futures are softer pre-open. Payrolls and CPI loom, so I shade below the neutral drift at all horizons, only mildly fading the downside by day seven."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.45,
+      "sentiment": -1,
+      "confidence": 58,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Warsh / September hike risk (~60% priced)",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil spike above $91 on US-Iran strikes and Hormuz mining",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "Nvidia/AI capex strength but very high valuation bar",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed credibility doubt, heavy issuance, steeper curve",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Consumer fatigue in weak PCE/retail data",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Hawkish Warsh repricing, an oil shock from renewed Iran strikes and soft consumer data outweigh Nvidia's AI bid; futures are softer pre-open. Payrolls and CPI loom, so I shade below the neutral drift at all horizons, only mildly fading the downside by day seven."
+    },
+    {
+      "p_up_1d": 0.44,
+      "p_up_3d": 0.43,
+      "p_up_7d": 0.44,
+      "sentiment": -1,
+      "confidence": 55,
+      "preopen_move": "down",
+      "drivers": [
+        {
+          "theme": "Hawkish Warsh, September hike risk",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oil spike, Middle East escalation",
+          "direction": "bearish",
+          "weight": 25
+        },
+        {
+          "theme": "AI capex and Nvidia earnings",
+          "direction": "bullish",
+          "weight": 20
+        },
+        {
+          "theme": "Fed credibility and heavy issuance",
+          "direction": "bearish",
+          "weight": 15
+        },
+        {
+          "theme": "Consumer fatigue risk",
+          "direction": "bearish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Futures are soft, the Fed repricing and oil spike dominate, and the AI bid only partially offsets. Payrolls and CPI add two-sided event risk, so I stay modestly below neutral across horizons."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1329,
+    "completion_tokens": 1018,
+    "total_tokens": 2347,
+    "prompt_tokens_details": {
+      "cached_tokens": 1152
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 784
+    },
+    "prompt_cache_hit_tokens": 1152,
+    "prompt_cache_miss_tokens": 177
+  },
+  "prompt_sha": "5db1a9d1c8c525b5"
+}

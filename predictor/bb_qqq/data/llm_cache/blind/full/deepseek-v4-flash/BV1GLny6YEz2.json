@@ -1,0 +1,69 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": true,
+  "bvid": "BV1GLny6YEz2",
+  "show_date": "2026-10-22",
+  "parsed": {
+    "p_up_1d": 0.6,
+    "p_up_3d": 0.58,
+    "p_up_7d": 0.57,
+    "sentiment": 1,
+    "confidence": 62,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "AI/semiconductor earnings beats",
+        "direction": "bullish",
+        "weight": 32
+      },
+      {
+        "theme": "Tech leadership and positive pre-open tape",
+        "direction": "bullish",
+        "weight": 18
+      },
+      {
+        "theme": "Strong earnings and compressed forward multiples",
+        "direction": "bullish",
+        "weight": 14
+      },
+      {
+        "theme": "Tesla/Meta catalysts and Musk merger enthusiasm",
+        "direction": "bullish",
+        "weight": 10
+      },
+      {
+        "theme": "Neo-cloud leverage and AI bubble concerns",
+        "direction": "bearish",
+        "weight": 12
+      },
+      {
+        "theme": "Data-center political/regulatory pushback",
+        "direction": "bearish",
+        "weight": 8
+      },
+      {
+        "theme": "High oil, inflation and Fed uncertainty",
+        "direction": "bearish",
+        "weight": 6
+      }
+    ],
+    "rationale": "Pre-open is risk-on, led by blowout AI/semiconductor earnings and relief in the AI trade, with strong earnings and compressed multiples supporting QQQ. Offsets are neo-cloud leverage, data-center political risk, high oil/inflation and Fed uncertainty, so I stay only modestly above neutral."
+  },
+  "raw": "{\"p_up_1d\":0.60,\"p_up_3d\":0.58,\"p_up_7d\":0.57,\"sentiment\":1,\"confidence\":62,\"preopen_move\":\"up\",\"drivers\":[{\"theme\":\"AI/semiconductor earnings beats\",\"direction\":\"bullish\",\"weight\":32},{\"theme\":\"Tech leadership and positive pre-open tape\",\"direction\":\"bullish\",\"weight\":18},{\"theme\":\"Strong earnings and compressed forward multiples\",\"direction\":\"bullish\",\"weight\":14},{\"theme\":\"Tesla/Meta catalysts and Musk merger enthusiasm\",\"direction\":\"bullish\",\"weight\":10},{\"theme\":\"Neo-cloud leverage and AI bubble concerns\",\"direction\":\"bearish\",\"weight\":12},{\"theme\":\"Data-center political/regulatory pushback\",\"direction\":\"bearish\",\"weight\":8},{\"theme\":\"High oil, inflation and Fed uncertainty\",\"direction\":\"bearish\",\"weight\":6}],\"rationale\":\"Pre-open is risk-on, led by blowout AI/semiconductor earnings and relief in the AI trade, with strong earnings and compressed multiples supporting QQQ. Offsets are neo-cloud leverage, data-center political risk, high oil/inflation and Fed uncertainty, so I stay only modestly above neutral.\"}",
+  "usage": {
+    "prompt_tokens": 32480,
+    "completion_tokens": 2854,
+    "total_tokens": 35334,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2602
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 32096
+  },
+  "prompt_sha": "11d1b6ba4c5927d5"
+}

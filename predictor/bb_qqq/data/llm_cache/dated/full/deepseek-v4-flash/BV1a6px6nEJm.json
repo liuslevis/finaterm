@@ -1,0 +1,64 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1a6px6nEJm",
+  "show_date": "2026-10-09",
+  "parsed": {
+    "p_up_1d": 0.44,
+    "p_up_3d": 0.45,
+    "p_up_7d": 0.48,
+    "sentiment": -1,
+    "confidence": 67,
+    "preopen_move": "down",
+    "drivers": [
+      {
+        "theme": "Long-end yields at multi-decade highs",
+        "direction": "bearish",
+        "weight": 90
+      },
+      {
+        "theme": "Crude spike and Iran/Houthi escalation",
+        "direction": "bearish",
+        "weight": 82
+      },
+      {
+        "theme": "AI capex borrowing/credit-spread indigestion",
+        "direction": "bearish",
+        "weight": 65
+      },
+      {
+        "theme": "Fed hike uncertainty and higher-for-longer rates",
+        "direction": "bearish",
+        "weight": 58
+      },
+      {
+        "theme": "Resilient labor and strong AI demand",
+        "direction": "neutral",
+        "weight": 35
+      },
+      {
+        "theme": "Equities off session lows, not panic",
+        "direction": "neutral",
+        "weight": 20
+      }
+    ],
+    "rationale": "Rising long-end yields, crude near $105 on Iran/Houthi escalation, and AI/credit issuance indigestion weigh on QQQ; resilient labor and strong AI demand limit downside but do not offset the macro pressure."
+  },
+  "raw": "{\"p_up_1d\":0.44,\"p_up_3d\":0.45,\"p_up_7d\":0.48,\"sentiment\":-1,\"confidence\":67,\"preopen_move\":\"down\",\"drivers\":[{\"theme\":\"Long-end yields at multi-decade highs\",\"direction\":\"bearish\",\"weight\":90},{\"theme\":\"Crude spike and Iran/Houthi escalation\",\"direction\":\"bearish\",\"weight\":82},{\"theme\":\"AI capex borrowing/credit-spread indigestion\",\"direction\":\"bearish\",\"weight\":65},{\"theme\":\"Fed hike uncertainty and higher-for-longer rates\",\"direction\":\"bearish\",\"weight\":58},{\"theme\":\"Resilient labor and strong AI demand\",\"direction\":\"neutral\",\"weight\":35},{\"theme\":\"Equities off session lows, not panic\",\"direction\":\"neutral\",\"weight\":20}],\"rationale\":\"Rising long-end yields, crude near $105 on Iran/Houthi escalation, and AI/credit issuance indigestion weigh on QQQ; resilient labor and strong AI demand limit downside but do not offset the macro pressure.\"}",
+  "usage": {
+    "prompt_tokens": 32542,
+    "completion_tokens": 1485,
+    "total_tokens": 34027,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1261
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 32542
+  },
+  "prompt_sha": "6c6293f0f50d57b7"
+}

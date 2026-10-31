@@ -1,0 +1,97 @@
+{
+  "model": "deepseek-v4-flash",
+  "prompt_version": "predict-v1",
+  "mode": "full",
+  "blind": false,
+  "bvid": "BV1FaYD6FEBq",
+  "show_date": "2026-09-12",
+  "repeats": 1,
+  "parsed": {
+    "p_up_1d": 0.54,
+    "p_up_3d": 0.52,
+    "p_up_7d": 0.53,
+    "sentiment": 1,
+    "confidence": 65,
+    "preopen_move": "up",
+    "drivers": [
+      {
+        "theme": "Hot core CPI locks in Fed hike odds",
+        "direction": "bearish",
+        "weight": 30
+      },
+      {
+        "theme": "Oracle/AI cloud earnings strength",
+        "direction": "bullish",
+        "weight": 25
+      },
+      {
+        "theme": "Treasury yields near multi-year highs",
+        "direction": "bearish",
+        "weight": 20
+      },
+      {
+        "theme": "Oil retreat from above $100",
+        "direction": "bullish",
+        "weight": 15
+      },
+      {
+        "theme": "Premarket bounce after four-day slide",
+        "direction": "bullish",
+        "weight": 10
+      }
+    ],
+    "rationale": "Hot core CPI (0.3%) reinforces ~88% odds of a Fed hike and keeps yields near highs, a valuation headwind for QQQ. But Oracle's AI cloud beat and a 3% oil retreat are lifting tech premarket after a four-day slide. Net slightly constructive near term, near coin-flip into the Fed."
+  },
+  "per_repeat": [
+    {
+      "p_up_1d": 0.54,
+      "p_up_3d": 0.52,
+      "p_up_7d": 0.53,
+      "sentiment": 1,
+      "confidence": 65,
+      "preopen_move": "up",
+      "drivers": [
+        {
+          "theme": "Hot core CPI locks in Fed hike odds",
+          "direction": "bearish",
+          "weight": 30
+        },
+        {
+          "theme": "Oracle/AI cloud earnings strength",
+          "direction": "bullish",
+          "weight": 25
+        },
+        {
+          "theme": "Treasury yields near multi-year highs",
+          "direction": "bearish",
+          "weight": 20
+        },
+        {
+          "theme": "Oil retreat from above $100",
+          "direction": "bullish",
+          "weight": 15
+        },
+        {
+          "theme": "Premarket bounce after four-day slide",
+          "direction": "bullish",
+          "weight": 10
+        }
+      ],
+      "rationale": "Hot core CPI (0.3%) reinforces ~88% odds of a Fed hike and keeps yields near highs, a valuation headwind for QQQ. But Oracle's AI cloud beat and a 3% oil retreat are lifting tech premarket after a four-day slide. Net slightly constructive near term, near coin-flip into the Fed."
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 36533,
+    "completion_tokens": 2879,
+    "total_tokens": 39412,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2659
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 36533
+  },
+  "prompt_sha": "033afdc890f15719"
+}
