@@ -1,10 +1,10 @@
 // Usage (repo root, dashboard server already running):
-//   node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs <port> <tab> <outDir> [readyExpr] ["selector,selector" ...]
+//   node skill/dashboard/scripts/screenshot_tab.cjs <port> <tab> <outDir> [readyExpr] ["selector,selector" ...]
 // Example:
-//   node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP "ipoState.data[ipoState.market]" "[data-ipo-market=hk],[data-ipo-period=day]"
+//   node skill/dashboard/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP "ipoState.data[ipoState.market]" "[data-ipo-market=hk],[data-ipo-period=day]"
 // One screenshot after opening the tab, then one per click group. Exit code 1 on any JS page error.
 const path = require("node:path");
-const puppeteer = require(path.join(__dirname, "../../../../lightweight-charts/node_modules/puppeteer"));
+const puppeteer = require(path.join(__dirname, "../../../lightweight-charts/node_modules/puppeteer"));
 
 const [port = "8765", tab, outDir = ".", readyExpr = "true", ...clickGroups] = process.argv.slice(2);
 if (!tab) throw new Error("tab name (data-workspace-tab) required");

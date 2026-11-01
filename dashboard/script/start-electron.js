@@ -3,7 +3,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 
-const appRoot = __dirname;
+const appRoot = path.join(__dirname, "..");
 const electronPackage = require("electron/package.json");
 const sourceExecutable = require("electron");
 const sourceRoot = path.dirname(sourceExecutable);

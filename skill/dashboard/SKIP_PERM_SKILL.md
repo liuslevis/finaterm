@@ -212,7 +212,7 @@ Get-Content "$env:LOCALAPPDATA\MyLauncher\launcher.log" -Encoding UTF8
 
 | 文件 | 作用 |
 |---|---|
-| `dashboard/start-dashboard.ps1` | 隐藏控制台启动器，调用原 `打开金融仪表盘.cmd`，日志写 `%LOCALAPPDATA%\FinanceDashboard\launcher.log` |
+| `dashboard/script/start-dashboard.ps1` | 隐藏控制台启动器，调用同目录 `打开金融仪表盘.cmd`，日志写 `%LOCALAPPDATA%\FinanceDashboard\launcher.log` |
 | 桌面 `打开金融仪表盘.lnk` | 目标改为 `powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File …` |
 | `dashboard/.launcher-backup/` | 旧 `.lnk` 备份（已 gitignore） |
 

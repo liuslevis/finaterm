@@ -25,19 +25,19 @@ ETF 份额只在申购/赎回时变化，所以「头部沪深300ETF 市值 ÷ �
 
 | 文件 | 说明 |
 |---|---|
-| `build_panel.py` | 下载数据 → 计算 → 输出。`--refresh` 重新下载；`--start/--end YYYY-MM-DD` 控制展示区间（默认结束日往前一年） |
+| `build_panel.py` | 下载数据 → 计算 → 输出，无参数。展示 2016-10-28（`START`）至最近交易日；首次全量下载，之后只增量补新交易日 |
 | `raw/*.csv` | 原始数据缓存（上交所份额逐日约 260 个交易日 = 260 次请求，深交所份额按月段翻页），不进 git |
 | `panel.csv` | 逐日全量中间列（含窗口前的预热期），用于人工核对 |
 | `panel.json` | 前端数据：`kpi`、`daily`、`monthly`、`columns`、`formula`、`caveats`、`source`、`anchor` |
 
 ## 刷新步骤
 
-```powershell
-cd dashboard
-$env:PYTHONIOENCODING="utf-8"
-uv run python tab/a-etf-share/build_panel.py --refresh                    # 约 2 分钟，上交所逐日请求最慢
-uv run python tab/a-etf-share/build_panel.py --start 2025-10-27 --end 2026-10-23   # 只重算，不下载
-```
+启动 `dashboard_server.py` 时后台自动运行（无参数），也可手动 `uv run python tab/a-etf-share/build_panel.py`。
+
+- 缓存最新日早于昨天、且距上次下载（`raw/.fetched`）超过 6 小时才增量下载：沪深300 与 ETF 日线整段重取（各 1 次请求），
+  上交所只取新交易日，深交所重取最近一个月；内容没变的 raw 文件不重写，面板也不重算。
+- 流通市值快照超过 7 天才重取；东财接口拒连时沿用旧快照并打印警告。
+- `raw/` 被删除时会从头全量下载（上交所逐日请求，十年约一小时）。
 
 注意事项：
 - 必须在 `dashboard/` 下运行（仓库根目录的 `akshare/` 源码目录会遮蔽 pip 版的 akshare）。
@@ -64,8 +64,7 @@ uv run python tab/a-etf-share/build_panel.py --start 2025-10-27 --end 2026-10-23
   视频给的 0.45%~0.5% 若反推分母是 65~70 万亿，更像**全 A 流通市值**口径。整体量级差 1.5~2 倍，
   形状接近但不完全一致（对方可能用季度规模或不同分母）。本 tab 严格按「沪深300流通市值」口径，
   不为了对齐视频而改分母；要换算只能整体乘一个系数，趋势判断不受影响。
-- **流通市值回溯的误差**：等比回溯忽略了指数成分股调整（6 月/12 月），量级 1%~2%；`--refresh` 会重新取快照，
-  建议至少每月刷新一次。
+- **流通市值回溯的误差**：等比回溯忽略了指数成分股调整（6 月/12 月），量级 1%~2%；快照每 7 天自动重取。
 - **份额≠申赎现金流**：份额变动还包含拆分、分红再投、转托管等非申赎原因；估算净申赎用当日收盘价近似成交净值，
   实际按 T 日净值或篮子折溢价成交。
 - **只覆盖 4 只 ETF**：其他沪深300ETF（如 510360、159925 等）与 300增强、A500 等未纳入；占比低于全口径。
@@ -84,4 +83,4 @@ uv run python tab/a-etf-share/build_panel.py --start 2025-10-27 --end 2026-10-23
 - 表：行是月份（倒序），列由 `panel.json.columns` 动态生成，首行按 `group` 合并表头；新增指标只要改
   `build_panel.py` 的 `COLUMNS`，前端不用动。
 - 截图验证：
-  `node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8797 a-etf-share $env:TEMP "aesState.data" "[data-aes-metric=aum],[data-aes-flow=m]"`
+  `node skill/dashboard/scripts/screenshot_tab.cjs 8797 a-etf-share $env:TEMP "aesState.data" "[data-aes-metric=aum],[data-aes-flow=m]"`

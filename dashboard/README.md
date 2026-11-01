@@ -24,7 +24,7 @@ npm install
 npm start
 ```
 
-On Windows, you can also double-click `打开金融仪表盘 Electron.cmd`. The
+On Windows, you can also double-click `script/打开金融仪表盘 Electron.cmd`. The
 Electron process starts the local Python API on an available random port and
 stops it when the desktop app exits. The launcher keeps a runtime copy under
 `%LOCALAPPDATA%\FinanceDashboard` so the Windows Electron sandbox can access
@@ -45,7 +45,7 @@ The dashboard opens automatically at `http://localhost:8765`.
 `css/` (`base.css`, one file per tab, `responsive.css` last) and scripts in `js/`
 (`core.js` shared helpers, `markets/` for 全球市场, one file per other tab, `app.js`
 shell, `main.js` startup). Scripts are classic `<script src>` tags sharing global scope,
-loaded in the order listed in `index.html`. See `skill/dashboard-tab/SKILL.md` for details.
+loaded in the order listed in `index.html`. See `../skill/dashboard/SKILL_TAB.md` for details.
 
 ## 全球市场 selection
 
@@ -77,9 +77,9 @@ convertibles + insider selling − buybacks − dividends − insider buying) ag
 incremental funds (new equity funds + margin financing change + SSE equity ETF net
 creations), with the gap scaled by market cap, a 6-month z-score and the CSI300
 monthly return. `/api/a-supply-demand` only reads the offline file
-`tab/a-supply-demand/panel.json`; refresh it with
-`uv run python tab/a-supply-demand/build_panel.py --refresh` (≈5 min). Methodology and
-refresh notes are in `tab/a-supply-demand/SKILL.md`.
+`tab/a-supply-demand/panel.json`, which is refreshed automatically when the server
+starts (see "Offline tab panels" below). Methodology and refresh notes are in
+`tab/a-supply-demand/SKILL.md`.
 
 ## 美股供需
 
@@ -88,8 +88,8 @@ converts + insider selling − buybacks − dividends − insider buying versus 
 equity ETF flows + margin debt change, scaled by Wilshire 5000 market cap, with
 z-scores, the S&P 500 monthly return and IPO sentiment. Auto sources (Nasdaq,
 openinsider, Yahoo, FINRA) are combined with AI-maintained `manual.json`.
-Refresh with `uv run python tab/us-supply-demand/build_panel.py --refresh`; see
-`tab/us-supply-demand/SKILL.md`.
+The panel refreshes automatically at server start and ends at the latest month that
+has ETF data in `manual.json`; see `tab/us-supply-demand/SKILL.md`.
 
 ## 国家队ETF
 
@@ -100,10 +100,20 @@ free-float market cap, plus each ETF's shares outstanding and an estimated net
 creation/redemption series (Δ shares × close). A rising ratio means the head ETFs
 are being bought, a falling one means net redemptions. The sample covers only four
 ETFs, so the level sits below the all-fund total — read the trend, not the level.
-`/api/a-etf-share` only reads the offline file `tab/a-etf-share/panel.json`;
-refresh it with `uv run python tab/a-etf-share/build_panel.py --refresh` (≈2 min,
-one SSE request per trading day). Methodology and caveats are in
-`tab/a-etf-share/SKILL.md`.
+`/api/a-etf-share` only reads the offline file `tab/a-etf-share/panel.json`
+(history from 2016-10-28), which is updated incrementally at server start.
+Methodology and caveats are in `tab/a-etf-share/SKILL.md`.
+
+## Offline tab panels
+
+On launch, `dashboard_server.py` runs each tab's `tab/<name>/build_panel.py` (no
+arguments) in a background thread: 国家队ETF, then 美股供需, then A股供需. Each script
+downloads only when its cache is missing or behind (retrying at most every 6–12 hours
+while the latest day/month is still unpublished) and leaves `panel.json` untouched
+when nothing changed. Progress is printed as `[panel refresh] <name>: ok`, with full
+output in `tab/<name>/build.log`. The page keeps serving the previous panel meanwhile;
+click 「清除缓存」 to load the new one. Scripts can also be run by hand:
+`uv run python tab/<name>/build_panel.py`.
 
 ## Market time axis
 
@@ -122,5 +132,5 @@ development dependencies. With a system Chrome installation on Windows:
 
 ```powershell
 $env:PUPPETEER_EXECUTABLE_PATH = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
-node --test .\dashboard\test_market_time_axis.cjs
+node --test .\dashboard\test\test_market_time_axis.cjs
 ```

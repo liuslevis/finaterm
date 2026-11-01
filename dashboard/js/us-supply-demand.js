@@ -80,7 +80,7 @@ function renderUssd() {
   document.getElementById("ussdSource").innerHTML =
     `${escapeHtml(data.formula)}。数据来源：${escapeHtml(data.source)}。` +
     `<ul>${data.caveats.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul>` +
-    `刷新：<code>cd dashboard; uv run python tab/us-supply-demand/build_panel.py --refresh</code>（设计说明见 tab/us-supply-demand/SKILL.md）`;
+    `刷新：启动 dashboard 时自动按需更新（日志 <code>tab/us-supply-demand/build.log</code>）（设计说明见 tab/us-supply-demand/SKILL.md）`;
 }
 
 async function loadUssd() {

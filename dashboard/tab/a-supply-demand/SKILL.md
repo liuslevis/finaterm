@@ -25,23 +25,22 @@ description: 刷新或修改 dashboard「A股供需」tab（净股权供给 vs �
 
 | 文件 | 说明 |
 |---|---|
-| `build_panel.py` | 下载数据 → 计算 → 输出。`--refresh` 重新下载；`--start/--end YYYY-MM` 控制展示区间（默认当年 1 月到上一个完整月） |
-| `raw/*.pkl` | 原始数据缓存（约 65 MB，不需要提交）。没有 `--refresh` 时直接复用，只重新计算 |
+| `build_panel.py` | 下载数据 → 计算 → 输出，无参数。展示当年 1 月到上一个完整月；缓存早于目标月结束、或目标月市值尚未公布（每 12 小时重试）时才下载；没有新数据则不改动文件 |
+| `raw/*.pkl`、`raw/.fetched` | 原始数据缓存（约 65 MB，不提交）；`.fetched` 记录最近一次完整下载的时间 |
+| `build.log` | 服务启动时自动刷新的输出（不提交） |
 | `panel.csv` | 全部月份（从 `HISTORY_START=2025-01` 开始，供 z-score 回看）× 全部中间列，用于人工核对 |
 | `panel.json` | 前端数据：`columns`（key/label/group/unit）、`rows`（展示区间）、`formula`、`caveats`、`source`、`generated_at` |
 
 ## 刷新步骤
 
-```powershell
-cd dashboard
-$env:PYTHONIOENCODING="utf-8"
-uv run python tab/a-supply-demand/build_panel.py --refresh   # 约 5 分钟，ETF 价格要逐只请求约 900 次
-```
+启动 `dashboard_server.py` 时后台自动运行（无参数），也可手动 `uv run python tab/a-supply-demand/build_panel.py`。下载约 5 分钟（ETF 价格要逐只请求约 900 次）。
+强制重新下载：删除 `raw/.fetched` 后重启服务或手动运行。
 
 注意事项：
-- 必须在 `dashboard/` 下运行。仓库根目录的 `akshare/` 源码目录会遮蔽 pip 安装的 akshare。
+- 手动运行时必须在 `dashboard/` 下。仓库根目录的 `akshare/` 源码目录会遮蔽 pip 安装的 akshare。
 - 后端 `/api/a-supply-demand`（`dashboard_server.py` 里的 `fetch_a_supply_demand`）不缓存，每次请求直接读 `panel.json`。所以刷新后只需在页面里重新进入 tab 或点「清除缓存」，不用重启服务。
-- 跨年后默认展示区间会自动变成新的一年。需要看去年全年时，加 `--start 2026-01 --end 2026-12`。
+- 展示区间随日期自动前移（1 月时展示上一年全年）。
+- 月初目标月的沪深总市值（分母）通常要到月中才公布，在此之前该月 bp / z6 为空，脚本会每 12 小时重试下载。
 - 刷新后要做合理性检查：打印的表里 `net_supply/demand/gap` 不应出现整月为 0（说明接口失效）；异常尖峰要追查到个股或个券（例如 2025-06 银行定增约 5200 亿、2026-07 长鑫科技 IPO 约 579 亿、2026-07 科创芯片类 ETF 大额净申购）。
 
 ## 数据源与口径（akshare）
@@ -77,4 +76,4 @@ uv run python tab/a-supply-demand/build_panel.py --refresh   # 约 5 分钟，ET
 - 图：直方图显示 `{mode}_bp`（右轴，绿正红负）；折线显示 CSI300 月涨幅（左轴，琥珀色）。
 - 表：行是月份，列由 `panel.json.columns` 动态生成，第一行按 `group` 合并表头。新增指标时，只需在 `build_panel.py` 的 `COLUMNS` 里追加，前端不用改。
 - `ASD_KEY_COLUMNS` 控制高亮列，`ASD_SIGNED_COLUMNS` 控制绿正红负着色。
-- 截图验证：`node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 a-supply-demand $env:TEMP "asdState.data" "[data-asd-mode=gap_ex_div]"`
+- 截图验证：`node skill/dashboard/scripts/screenshot_tab.cjs 8799 a-supply-demand $env:TEMP "asdState.data" "[data-asd-mode=gap_ex_div]"`

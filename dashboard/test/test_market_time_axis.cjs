@@ -2,7 +2,9 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { test } = require("node:test");
-const puppeteer = require("../lightweight-charts/node_modules/puppeteer");
+
+const dashboardRoot = path.join(__dirname, "..");
+const puppeteer = require("../../lightweight-charts/node_modules/puppeteer");
 
 test("calendar dates and viewport stay fixed across assets and history updates", async () => {
   const browser = await puppeteer.launch({ headless: true });
@@ -13,16 +15,16 @@ test("calendar dates and viewport stay fixed across assets and history updates",
     page.on("pageerror", error => errors.push(error.message));
     await page.setRequestInterception(true);
     page.on("request", request => request.abort());
-    const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+    const html = fs.readFileSync(path.join(dashboardRoot, "index.html"), "utf8");
     const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(match => match[1]);
     const inlined = html
       .replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g, "")
       .replace(/<link rel="stylesheet" href="([^"]+)">/g, (_, href) =>
-        `<style>${fs.readFileSync(path.join(__dirname, href), "utf8")}</style>`);
+        `<style>${fs.readFileSync(path.join(dashboardRoot, href), "utf8")}</style>`);
     await page.setContent(inlined);
     // Run the real UI and chart code, but not the network-dependent startup in js/main.js.
     for (const src of scripts.filter(src => src !== "js/main.js")) {
-      await page.addScriptTag({ path: path.join(__dirname, src) });
+      await page.addScriptTag({ path: path.join(dashboardRoot, src) });
     }
     await page.evaluate(() => {
       preloadMarketHistory = async () => {};

@@ -1,13 +1,12 @@
 """A股「国家队」ETF 占比面板：头部四只沪深300ETF 市值 / 沪深300流通市值。
 
-用法（在 dashboard/ 目录下运行）：
-    uv run python tab/a-etf-share/build_panel.py            # 复用 raw/ 缓存，只重算
-    uv run python tab/a-etf-share/build_panel.py --refresh  # 重新下载全部原始数据（约 2 分钟）
+dashboard_server.py 启动时会在后台自动运行本脚本；也可手动运行（无参数）：
+    uv run python tab/a-etf-share/build_panel.py
+首次全量下载（十年约一小时），之后只增量补新交易日；已是最新则直接退出。
 
 输出：raw/*.csv（原始数据）、panel.csv（逐日全量中间列）、panel.json（供 /api/a-etf-share）。
 设计说明见同目录 SKILL.md。
 """
-import argparse
 import json
 import time
 import warnings
@@ -22,7 +21,11 @@ warnings.filterwarnings("ignore")
 
 HERE = Path(__file__).resolve().parent
 RAW = HERE / "raw"
+FETCHED = RAW / ".fetched"  # 最近一次下载成功的时间戳
 YI = 1e8  # 亿元
+START = "2016-10-28"  # 嘉实 159919 份额最早可得日，四只 ETF 共同窗口起点
+RETRY_HOURS = 6       # 缓存落后于昨天时的重试间隔（周末/节假日不会每次启动都请求）
+FLOAT_MCAP_DAYS = 7   # 流通市值快照有效期
 
 # 规模最大的四只沪深300ETF；exchange 决定份额来源（上交所逐日披露，深交所按代码查历史规模）
 ETFS = [
@@ -96,7 +99,7 @@ def download_sse_shares(days: list[pd.Timestamp]) -> pd.DataFrame:
 
     if missing:
         print(f"  ! 上交所无数据/抓取失败的交易日 {len(missing)} 个：{missing[:8]}", flush=True)
-    frame = pd.DataFrame(records)
+    frame = pd.DataFrame(records, columns=["date", "code", "shares"])
     frame["date"] = pd.to_datetime(frame.date)
     return frame.sort_values(["date", "code"]).reset_index(drop=True)
 
@@ -143,8 +146,11 @@ def download_szse_shares(start: str, end: str) -> pd.DataFrame:
                         "shares": float(str(row["current_size"]).replace(",", "")) * 1e4,  # 万份 → 份
                     })
                 page += 1
-    frame = pd.DataFrame(frames)
+    frame = pd.DataFrame(frames, columns=["date", "code", "shares"])
     frame = frame.drop_duplicates(["date", "code"]).sort_values(["date", "code"])
+    if frame.empty:
+        print("  ! 深交所份额返回空表", flush=True)
+        return frame
     print(f"  深交所份额 {len(frame)} 行（{frame.date.min().date()} ~ {frame.date.max().date()}）", flush=True)
     return frame.reset_index(drop=True)
 
@@ -218,7 +224,7 @@ def compute() -> tuple[pd.DataFrame, dict]:
     # 指数缓存可能早于份额数据（如深交所只从 2016-10-28 起），裁掉四只凑不齐的暖机日
     first_full = shares.dropna().index.min() if shares.notna().any().any() else pd.NaT
     if pd.isna(first_full):
-        raise RuntimeError("窗口起始日缺少 ETF 份额数据，请把 --start 往后挪或先 --refresh")
+        raise RuntimeError("窗口起始日缺少 ETF 份额数据，请删除 raw/ 后重新运行以全量下载")
     if first_full > index.index[0]:
         print(f"四只 ETF 份额最早同时覆盖 {first_full.date()}，面板从该日开始", flush=True)
         index = index.loc[first_full:]
@@ -380,61 +386,82 @@ def to_json(panel: pd.DataFrame, months: pd.DataFrame, anchor: dict, start: str,
     }
 
 
-def ensure_raw(warm_start: pd.Timestamp, end: pd.Timestamp, refresh: bool) -> None:
-    """按缺失情况抓原始数据：单个文件缺失只补那一个，--refresh 则全部重下。"""
+def write_raw(name: str, frame: pd.DataFrame) -> None:
+    """内容不变时不写文件，mtime 只在数据真正更新时变化（main 据此判断是否重算面板）。"""
+    frame = frame.sort_values([c for c in ("date", "code") if c in frame.columns])
+    text = frame.assign(date=pd.to_datetime(frame.date).dt.strftime("%Y-%m-%d")).to_csv(index=False, lineterminator="\n")
+    path = RAW / f"{name}.csv"
+    if not path.exists() or path.read_text(encoding="utf-8") != text:
+        path.write_text(text, encoding="utf-8", newline="")
+
+
+def refresh_float_mcap() -> None:
+    """流通市值快照每 FLOAT_MCAP_DAYS 天更新一次；东财接口偶尔拒连，失败时沿用旧快照。"""
+    path = RAW / "float_mcap.json"
+    if path.exists():
+        snapshot = datetime.fromisoformat(json.loads(path.read_text(encoding="utf-8"))["snapshot_at"])
+        if datetime.now() - snapshot < timedelta(days=FLOAT_MCAP_DAYS):
+            return
+    try:
+        path.write_text(json.dumps(download_float_mcap(), ensure_ascii=False, indent=1), encoding="utf-8")
+    except RuntimeError as error:
+        if not path.exists():
+            raise
+        print(f"! {error}，沿用旧快照", flush=True)
+
+
+def update_raw(end: pd.Timestamp) -> None:
+    """首次全量下载；之后只在缓存落后于 end 且距上次下载超过 RETRY_HOURS 时增量补新交易日。"""
     RAW.mkdir(exist_ok=True)
-
-    if not refresh and (RAW / "csi300.csv").exists():
-        cached = load("csi300").date
-        if cached.min() > warm_start + pd.Timedelta(days=5):
-            print(f"缓存只覆盖 {cached.min().date()} 起，需重下以覆盖 {warm_start.date()} …", flush=True)
-            refresh = True
-        elif cached.max() < end:
-            print(f"! 缓存数据到 {cached.max().date()} 为止；要包含 {end.date()} 请加 --refresh", flush=True)
-
-    def stale(*names: str) -> bool:
-        return refresh or any(not (RAW / f"{name}.csv").exists() for name in names)
-
-    if stale("csi300", "prices"):
-        print(f"下载指数与 ETF 日线 {warm_start.date()} ~ {end.date()} …", flush=True)
+    if not (RAW / "csi300.csv").exists():
+        warm_start = pd.Timestamp(START) - pd.Timedelta(days=45)  # 首行要能算出份额变化
+        print(f"首次下载 {warm_start.date()} ~ {end.date()}（上交所逐日请求，十年约一小时）…", flush=True)
         csi = download_csi300(warm_start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"))
-        csi.to_csv(RAW / "csi300.csv", index=False)
-        download_prices(list(csi.date)).to_csv(RAW / "prices.csv", index=False)
-    if stale("sse_shares"):
-        days = list(load("csi300").date)
-        print(f"下载上交所 ETF 份额 {len(days)} 个交易日 …", flush=True)
-        download_sse_shares(days).to_csv(RAW / "sse_shares.csv", index=False)
-    if stale("szse_shares"):
-        print("下载深交所 ETF 份额 …", flush=True)
-        download_szse_shares(warm_start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")).to_csv(
-            RAW / "szse_shares.csv", index=False)
-    if refresh or not (RAW / "float_mcap.json").exists():
-        (RAW / "float_mcap.json").write_text(
-            json.dumps(download_float_mcap(), ensure_ascii=False, indent=1), encoding="utf-8")
+        write_raw("csi300", csi)
+        write_raw("prices", download_prices(list(csi.date)))
+        write_raw("sse_shares", download_sse_shares(list(csi.date)))
+        write_raw("szse_shares", download_szse_shares(warm_start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")))
+    else:
+        old_csi, old_sse, old_szse = load("csi300"), load("sse_shares"), load("szse_shares")
+        fetched = datetime.fromtimestamp(FETCHED.stat().st_mtime) if FETCHED.exists() else datetime.min
+        if old_csi.date.max() >= end or datetime.now() - fetched < timedelta(hours=RETRY_HOURS):
+            return
+        csi = download_csi300(old_csi.date.min().strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"))
+        new_days = [d for d in csi.date if d > old_sse.date.max()]
+        print(f"增量下载 {len(new_days)} 个新交易日 …", flush=True)
+        write_raw("csi300", csi)
+        write_raw("prices", download_prices(list(csi.date)))
+        if new_days:
+            sse = pd.concat([old_sse, download_sse_shares(new_days)])
+            write_raw("sse_shares", sse.drop_duplicates(["date", "code"], keep="last"))
+        szse_from = old_szse.date.max() - pd.Timedelta(days=30)  # 深交所偶有补登，重取最近一个月
+        szse = pd.concat([old_szse, download_szse_shares(szse_from.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"))])
+        write_raw("szse_shares", szse.drop_duplicates(["date", "code"], keep="last"))
+    refresh_float_mcap()
+    FETCHED.write_text(datetime.now().isoformat(timespec="seconds"), encoding="utf-8")
 
 
 def main() -> None:
-    last_trading_hint = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
-    parser = argparse.ArgumentParser(description="头部沪深300ETF 市值占沪深300流通市值 面板")
-    parser.add_argument("--refresh", action="store_true", help="重新下载 raw/ 原始数据")
-    parser.add_argument("--start", default=None, help="展示起始日 YYYY-MM-DD（默认结束日往前一年）")
-    parser.add_argument("--end", default=last_trading_hint, help="展示结束日 YYYY-MM-DD（默认昨天）")
-    args = parser.parse_args()
-
-    end = pd.Timestamp(args.end)
-    start = pd.Timestamp(args.start) if args.start else end - pd.Timedelta(days=365)
-    warm_start = start - pd.Timedelta(days=45)  # 首行要能算出份额变化
-
-    ensure_raw(warm_start, end, args.refresh)
+    """无参数：展示 START 至最近交易日；原始数据按需增量下载，数据没变则不改动文件。"""
+    end = pd.Timestamp((datetime.now() - timedelta(days=1)).date())  # 当天收盘前上交所还没有当日份额
+    out = HERE / "panel.json"
+    update_raw(end)
+    newest_raw = max(path.stat().st_mtime for path in RAW.iterdir() if path.suffix in (".csv", ".json"))
+    if out.exists() and out.stat().st_mtime > newest_raw:
+        print("国家队ETF：数据已是最新，跳过", flush=True)
+        return
+    end = min(end, load("csi300").date.max())
 
     panel, anchor = compute()
     panel.round(4).to_csv(HERE / "panel.csv", encoding="utf-8-sig")
-    payload = to_json(panel, monthly(panel), anchor, start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"))
-    (HERE / "panel.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    payload = to_json(panel, monthly(panel), anchor, START, end.strftime("%Y-%m-%d"))
+    tmp = out.with_suffix(".tmp")
+    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=1, allow_nan=False), encoding="utf-8")
+    tmp.replace(out)  # 原子替换，避免服务读到半个文件
 
-    cols = ["ratio", "aum", "shares", "flow", "csi300", "float_mcap"]
-    print(panel.loc[pd.Timestamp(start.strftime("%Y-%m-%d")):, cols].round(2).to_string(max_rows=30))
-    print("\nKPI:", json.dumps(payload["kpi"], ensure_ascii=False))
+    cols = ["ratio", "aum", "shares", "flow", "csi300", "float_mcap", "coverage"]
+    print(panel[cols].tail(5).round(2).to_string())
+    print(payload["display"], len(payload["daily"]), "个交易日；沿用前值的交易日：", int(panel.coverage.lt(4).sum()))
 
 
 if __name__ == "__main__":

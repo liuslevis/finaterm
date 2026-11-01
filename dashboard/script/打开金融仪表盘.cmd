@@ -1,9 +1,10 @@
 @echo off
 setlocal EnableExtensions
 chcp 65001 >nul
-cd /d "%~dp0"
+cd /d "%~dp0.."
+set "DASHBOARD_ROOT=%CD%"
 
-for %%I in ("%~dp0..") do set "FINANCE_ROOT=%%~fI"
+for %%I in ("%DASHBOARD_ROOT%\..") do set "FINANCE_ROOT=%%~fI"
 set "FUTU_OPEND_ROOT=%FINANCE_ROOT%\FutuOpenD"
 set "USDATA_ROOT=%FINANCE_ROOT%\usdata"
 set "FUTU_PYTHON=%FUTU_OPEND_ROOT%\.venv\Scripts\python.exe"
@@ -44,27 +45,27 @@ if not exist "%USDATA_PYTHON%" (
   exit /b 1
 )
 
-if not exist "%~dp0usdata_mcp_bridge.py" (
-  echo 未找到宏观数据桥接程序：%~dp0usdata_mcp_bridge.py
+if not exist "%DASHBOARD_ROOT%\usdata_mcp_bridge.py" (
+  echo 未找到宏观数据桥接程序：%DASHBOARD_ROOT%\usdata_mcp_bridge.py
   pause
   exit /b 1
 )
 
-if not exist "%~dp0index.html" (
-  echo 未找到仪表盘页面：%~dp0index.html
+if not exist "%DASHBOARD_ROOT%\index.html" (
+  echo 未找到仪表盘页面：%DASHBOARD_ROOT%\index.html
   pause
   exit /b 1
 )
 
 echo 正在检查仪表盘 Python 依赖...
-uv sync --project "%~dp0." --quiet
+uv sync --project "%DASHBOARD_ROOT%" --quiet
 if errorlevel 1 (
   echo 仪表盘 Python 依赖安装失败。
   pause
   exit /b 1
 )
 
-if not exist "%~dp0node_modules\electron\package.json" (
+if not exist "%DASHBOARD_ROOT%\node_modules\electron\package.json" (
   echo 正在安装 Electron...
   call npm install --no-audit --no-fund
   if errorlevel 1 (
@@ -111,7 +112,7 @@ echo Futu OpenD API 已就绪。
 
 :start_dashboard
 set "FINANCE_DATA_ROOT=%FINANCE_ROOT%"
-powershell -NoProfile -WindowStyle Hidden -Command "$workingDirectory = [IO.Path]::GetFullPath('%~dp0.'); Start-Process -FilePath $env:ComSpec -ArgumentList '/d','/c','npm start' -WorkingDirectory $workingDirectory -WindowStyle Hidden"
+powershell -NoProfile -WindowStyle Hidden -Command "$workingDirectory = [IO.Path]::GetFullPath('%DASHBOARD_ROOT%'); Start-Process -FilePath $env:ComSpec -ArgumentList '/d','/c','npm start' -WorkingDirectory $workingDirectory -WindowStyle Hidden"
 
 if errorlevel 1 (
   echo 无法启动金融数据终端。

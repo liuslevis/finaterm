@@ -1,9 +1,13 @@
 import json
 import re
+import sys
 import threading
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from dashboard_server import CACHE, CACHE_LOCK, DashboardHandler, SERVER_ID, ThreadingHTTPServer
 from test_upstreams import MACRO_TARGETS, YAHOO_SYMBOLS

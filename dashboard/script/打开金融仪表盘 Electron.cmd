@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions
 chcp 65001 >nul
-cd /d "%~dp0"
+cd /d "%~dp0.."
 
 where uv >nul 2>nul
 if errorlevel 1 (
@@ -17,7 +17,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-if not exist "%~dp0node_modules\electron\package.json" (
+if not exist "node_modules\electron\package.json" (
   echo 正在安装 Electron...
   call npm install
   if errorlevel 1 (

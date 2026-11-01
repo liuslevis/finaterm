@@ -1,4 +1,4 @@
-﻿# 无窗口启动金融仪表盘。
+# 无窗口启动金融仪表盘。
 # 存在的原因：Explorer 双击 .cmd 时会先做“发布者验证”，弹出
 # “打开文件 - 安全警告 / 无法验证发布者 / 运行(R)”。
 # 这里让快捷方式指向已签名的 powershell.exe，再由 PowerShell 去调用 .cmd，
@@ -55,7 +55,7 @@ catch { }
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName = Join-Path $env:SystemRoot 'System32\cmd.exe'
 $psi.Arguments = '/d /c ""{0}" <nul >"{1}" 2>&1"' -f $cmdPath, $logPath
-$psi.WorkingDirectory = $root
+$psi.WorkingDirectory = Split-Path -Parent $root
 $psi.UseShellExecute = $false
 $psi.CreateNoWindow = $true
 $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden

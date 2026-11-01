@@ -1,14 +1,13 @@
 """美股供需月度面板：净股权供给 vs 增量资金。
 
-用法（在 dashboard/ 目录下）：
-    uv run python tab/us-supply-demand/build_panel.py            # 复用 raw/ 缓存，只重算
-    uv run python tab/us-supply-demand/build_panel.py --refresh  # 重新下载自动数据源（约 2 分钟）
+dashboard_server.py 启动时会在后台自动运行本脚本；也可手动运行（无参数）：
+    uv run python tab/us-supply-demand/build_panel.py
+自动源缓存过期才重新下载（约 5 分钟）；manual.json 有改动会重算；已是最新则直接退出。
 
 自动源：Nasdaq IPO 日历、openinsider（Form 4）、FINRA 融资余额、Yahoo（^GSPC/^W5000/新股首日）。
 手工源：manual.json（ETF/共同基金资金流、增发/可转债、回购/分红；AI 用 web_search 刷新）。
 输出：raw/*.json、panel.csv、panel.json（供 /api/us-supply-demand）。设计说明见同目录 SKILL.md。
 """
-import argparse
 import json
 import re
 import time
@@ -23,6 +22,7 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 RAW = HERE / "raw"
+FETCHED = RAW / ".fetched"  # 最近一次完整下载成功的时间戳
 MANUAL = HERE / "manual.json"
 HISTORY_START = "2025-10"  # z-score 回看起点；FINRA 网页只列最近 12 个月
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -159,6 +159,7 @@ def download(start: str, end: str) -> None:
         print("download finra ok", flush=True)
     except Exception as error:
         print(f"download finra 失败（{error}），使用 manual.json 的 finra 兜底", flush=True)
+    FETCHED.write_text(datetime.now().isoformat(timespec="seconds"), encoding="utf-8")
 
 
 # ---------------- 计算 ----------------
@@ -341,19 +342,27 @@ def to_json(p: pd.DataFrame, meta: dict, display_start: str, display_end: str) -
 
 
 def main() -> None:
+    """无参数：展示当年 1 月到「上一个完整月」与 manual.json 最新 ETF 月份中较早者；按需下载，已是最新则不改动文件。"""
+    manual = json.loads(MANUAL.read_text(encoding="utf-8"))
+    etf_months = [m for m, v in manual["monthly"]["etf_us_equity"].items() if v is not None]
     last_full = (pd.Period(date.today(), "M") - 1).strftime("%Y-%m")
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--refresh", action="store_true", help="重新下载 raw/ 自动数据源")
-    parser.add_argument("--start", default=f"{last_full[:4]}-01", help="展示起始月 YYYY-MM（默认当年 1 月）")
-    parser.add_argument("--end", default=last_full, help="展示结束月 YYYY-MM（默认上一个完整月）")
-    args = parser.parse_args()
-    history_start = min(HISTORY_START, (pd.Period(args.start, "M") - 3).strftime("%Y-%m"))
-    if args.refresh or not (RAW / "yahoo.json").exists():
-        download(history_start, args.end)
-    panel, meta = compute(history_start, args.end)
+    end = min(last_full, max(etf_months))  # ETF 是需求主项，缺月会让整列退出公式
+    start = f"{end[:4]}-01"
+    history_start = min(HISTORY_START, (pd.Period(start, "M") - 3).strftime("%Y-%m"))
+    out = HERE / "panel.json"
+    if not FETCHED.exists() or datetime.fromtimestamp(FETCHED.stat().st_mtime) < pd.Period(end, "M").end_time:
+        download(history_start, end)
+    elif out.exists() and out.stat().st_mtime > max(FETCHED.stat().st_mtime, MANUAL.stat().st_mtime):
+        print("美股供需：数据已是最新，跳过", flush=True)
+        return
+    if end < last_full:
+        print(f"! manual.json 的 ETF 数据只到 {end}，{last_full} 需按 SKILL.md 补录后才会展示", flush=True)
+    panel, meta = compute(history_start, end)
     panel.round(4).to_csv(HERE / "panel.csv", encoding="utf-8-sig")
-    payload = to_json(panel, meta, args.start, args.end)
-    (HERE / "panel.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    payload = to_json(panel, meta, start, end)
+    tmp = out.with_suffix(".tmp")
+    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    tmp.replace(out)  # 原子替换，避免服务读到半个文件
     cols = ["ipo", "follow_on", "convertible", "insider_sell", "buyback", "dividend", "net_supply",
             "etf_us_equity", "mf_domestic_equity", "margin", "demand", "gap", "gap_bp", "gap_z3", "gap_z6",
             "gap_ex_div_z6", "spx_ret"]

@@ -1,17 +1,16 @@
 """A股供需月度面板：净股权供给 vs 增量资金。
 
-用法（在 dashboard/ 目录下）：
-    uv run python tab/a-supply-demand/build_panel.py            # 复用 raw/ 缓存，只重算
-    uv run python tab/a-supply-demand/build_panel.py --refresh  # 重新下载全部原始数据（约 5 分钟）
+dashboard_server.py 启动时会在后台自动运行本脚本；也可手动运行（无参数）：
+    uv run python tab/a-supply-demand/build_panel.py
+缓存过期才重新下载（约 5 分钟），已是最新则直接退出。
 
 输出：raw/*.pkl（原始数据）、panel.csv（全部月份 × 全部指标）、panel.json（供 /api/a-supply-demand）。
 设计说明见同目录 SKILL.md。
 """
-import argparse
 import json
 import warnings
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import akshare as ak
@@ -21,8 +20,10 @@ import pandas as pd
 warnings.filterwarnings("ignore")
 HERE = Path(__file__).resolve().parent
 RAW = HERE / "raw"
+FETCHED = RAW / ".fetched"  # 最近一次完整下载成功的时间戳
 YI = 1e8
 HISTORY_START = "2025-01"  # z-score 需要的回看历史起点
+RETRY_HOURS = 12  # 目标月数据未齐时的重试间隔
 
 # 沪市 ETF 只保留 A 股股票类，剔除债券/货币/商品/跨境
 NON_EQUITY_ETF = (
@@ -99,6 +100,7 @@ def download(start: str, end: str) -> None:
     shares, prices = fetch_etf(start, end)
     shares.to_pickle(RAW / "etf_shares.pkl")
     prices.to_pickle(RAW / "etf_prices.pkl")
+    FETCHED.write_text(datetime.now().isoformat(timespec="seconds"), encoding="utf-8")
 
 
 def load(name: str) -> pd.DataFrame:
@@ -268,22 +270,37 @@ def to_json(p: pd.DataFrame, display_start: str, display_end: str) -> dict:
     }
 
 
+def needs_download(end: str) -> bool:
+    """缓存缺失、下载早于目标月结束、或目标月市值尚未公布（每 RETRY_HOURS 小时重试一次）时重新下载。"""
+    if not FETCHED.exists():
+        return True
+    fetched = datetime.fromtimestamp(FETCHED.stat().st_mtime)
+    if fetched < pd.Period(end, "M").end_time:
+        return True
+    mc = load("mcap")
+    published = pd.to_datetime(mc.数据日期.str.replace("年", "-").str.replace("月份", "")).dt.to_period("M")
+    return pd.Period(end, "M") not in set(published) and datetime.now() - fetched > timedelta(hours=RETRY_HOURS)
+
+
 def main() -> None:
-    last_full = (pd.Period(date.today(), "M") - 1).strftime("%Y-%m")
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--refresh", action="store_true", help="重新下载 raw/ 原始数据")
-    parser.add_argument("--start", default=f"{last_full[:4]}-01", help="展示起始月 YYYY-MM（默认当年 1 月）")
-    parser.add_argument("--end", default=last_full, help="展示结束月 YYYY-MM（默认上一个完整月）")
-    args = parser.parse_args()
-    history_start = min(HISTORY_START, (pd.Period(args.start, "M") - 12).strftime("%Y-%m"))
-    if args.refresh or not (RAW / "csi300.pkl").exists():
-        download(history_start, args.end)
-    panel = compute(history_start, args.end)
+    """无参数：展示当年 1 月到上一个完整月，原始数据按需下载，已是最新则不改动文件。"""
+    end = (pd.Period(date.today(), "M") - 1).strftime("%Y-%m")
+    start = f"{end[:4]}-01"
+    history_start = min(HISTORY_START, (pd.Period(start, "M") - 12).strftime("%Y-%m"))
+    out = HERE / "panel.json"
+    if needs_download(end):
+        download(history_start, end)
+    elif out.exists() and out.stat().st_mtime > FETCHED.stat().st_mtime:
+        print("A股供需：数据已是最新，跳过", flush=True)
+        return
+    panel = compute(history_start, end)
     panel.round(4).to_csv(HERE / "panel.csv", encoding="utf-8-sig")
-    payload = to_json(panel, args.start, args.end)
-    (HERE / "panel.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    payload = to_json(panel, start, end)
+    tmp = out.with_suffix(".tmp")
+    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    tmp.replace(out)  # 原子替换，避免服务读到半个文件
     cols = ["net_supply", "demand", "gap", "gap_bp", "gap_z6", "gap_ex_div", "csi300_ret"]
-    print(panel.loc[pd.Period(args.start, "M"):, cols].round(1).to_string())
+    print(panel.loc[pd.Period(start, "M"):, cols].round(1).to_string())
 
 
 if __name__ == "__main__":

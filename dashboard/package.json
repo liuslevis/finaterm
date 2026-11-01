@@ -5,8 +5,8 @@
   "description": "Electron shell for the Global Finance Dashboard",
   "main": "electron-main.js",
   "scripts": {
-    "start": "node start-electron.js",
-    "test:smoke": "node start-electron.js --smoke-test"
+    "start": "node script/start-electron.js",
+    "test:smoke": "node script/start-electron.js --smoke-test"
   },
   "devDependencies": {
     "electron": "44.9.3"

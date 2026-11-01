@@ -26,9 +26,10 @@ IPO 单独看解释力很弱。要把全部股权供给加总，再和增量资�
 
 | 文件 | 说明 |
 |---|---|
-| `build_panel.py` | 下载 → 计算 → 输出。`--refresh` 重新下载自动数据源；`--start/--end YYYY-MM` 控制展示区间（默认当年 1 月到上一个完整月） |
+| `build_panel.py` | 下载 → 计算 → 输出，无参数。展示到「上一个完整月」与 `manual.json` 最新 ETF 月份中较早者（ETF 缺月会让整列退出需求公式）；自动源缓存早于目标月结束时才下载，`manual.json` 有改动则重算 |
 | `manual.json` | **AI 手工维护**的数据：月度 ETF/共同基金、季度增发/可转债/回购/分红、FINRA 兜底表、`sources`、`caveats`、`commentary` |
-| `raw/` | 自动数据缓存（不提交） |
+| `raw/`、`raw/.fetched` | 自动数据缓存（不提交）；`.fetched` 记录最近一次下载时间 |
+| `build.log` | 服务启动时自动刷新的输出（不提交） |
 | `panel.csv` | 从 `HISTORY_START=2025-10` 开始的全部中间列，用于核对 |
 | `panel.json` | 前端读取的文件；`/api/us-supply-demand` 只读这个文件，不缓存 |
 
@@ -56,16 +57,12 @@ IPO 单独看解释力很弱。要把全部股权供给加总，再和增量资�
    - 季度结束后：ICR "Q? 20?? equity capital markets review" 提供增发+大宗、可转债；S&P DJI "S&P 500 Q? buybacks" 提供回购、分红
    - FINRA：用 web_fetch 访问 `FINRA_URL`，补 `finra` 表（本地 urllib 常被 403）
    - 每个数值都写进 `sources`；估算值写进 `caveats`
-2. 运行：
-   ```powershell
-   cd dashboard
-   $env:PYTHONIOENCODING="utf-8"
-   uv run python tab/us-supply-demand/build_panel.py --refresh   # 约 5 分钟（openinsider 较慢）
-   ```
+2. 重启服务（或手动 `uv run python tab/us-supply-demand/build_panel.py`）。补上新月份 ETF 数据后，
+   目标月前移，脚本会自动下载自动源（约 5 分钟，openinsider 较慢）。
 3. 合理性检查：季度 IPO 合计要和 ICR 的数字对得上（2026Q2 ≈ $105B，含 SpaceX；Q3 ≈ $35B）。打印的 `demand parts` 和 `estimated` 要符合预期。
-4. 更新 `manual.json.commentary`（`as_of` + 一段中文结论：最近 3 个月供需差和 z6、主要驱动、情绪、需要留意的事件），然后不带 `--refresh` 再跑一次。
+4. 更新 `manual.json.commentary`（`as_of` + 一段中文结论：最近 3 个月供需差和 z6、主要驱动、情绪、需要留意的事件），再运行一次（只重算，不下载）。
 5. 截图验证（先启动服务：`cd dashboard; uv run python dashboard_server.py --port 8799 --no-browser`）：
-   `node dashboard/skill/dashboard-tab/scripts/screenshot_tab.cjs 8799 us-supply-demand $env:TEMP "ussdState.data" "[data-ussd-mode=gap_ex_div]"`
+   `node skill/dashboard/scripts/screenshot_tab.cjs 8799 us-supply-demand $env:TEMP "ussdState.data" "[data-ussd-mode=gap_ex_div]"`
 
 ## 已知缺口
 

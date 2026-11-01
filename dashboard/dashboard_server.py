@@ -10,6 +10,7 @@ import os
 import re
 import socket
 import subprocess
+import sys
 import threading
 import time
 import urllib.error
@@ -410,9 +411,9 @@ A_SUPPLY_DEMAND_PANEL = ROOT / "tab" / "a-supply-demand" / "panel.json"
 
 
 def fetch_a_supply_demand() -> dict:
-    # 面板由 tab/a-supply-demand/build_panel.py 离线生成（下载约 5 分钟），这里只读结果
+    # 面板由 tab/a-supply-demand/build_panel.py 生成（服务启动时自动刷新），这里只读结果
     if not A_SUPPLY_DEMAND_PANEL.exists():
-        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/a-supply-demand/build_panel.py")
+        raise FileNotFoundError("panel.json 不存在，正在后台生成，请稍后点「清除缓存」重试")
     return json.loads(A_SUPPLY_DEMAND_PANEL.read_text(encoding="utf-8"))
 
 
@@ -420,9 +421,9 @@ US_SUPPLY_DEMAND_PANEL = ROOT / "tab" / "us-supply-demand" / "panel.json"
 
 
 def fetch_us_supply_demand() -> dict:
-    # 面板由 tab/us-supply-demand/build_panel.py 离线生成，设计与刷新见同目录 SKILL.md
+    # 面板由 tab/us-supply-demand/build_panel.py 生成（服务启动时自动刷新），设计见同目录 SKILL.md
     if not US_SUPPLY_DEMAND_PANEL.exists():
-        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/us-supply-demand/build_panel.py")
+        raise FileNotFoundError("panel.json 不存在，正在后台生成，请稍后点「清除缓存」重试")
     return json.loads(US_SUPPLY_DEMAND_PANEL.read_text(encoding="utf-8"))
 
 
@@ -430,10 +431,26 @@ A_ETF_SHARE_PANEL = ROOT / "tab" / "a-etf-share" / "panel.json"
 
 
 def fetch_a_etf_share() -> dict:
-    # 面板由 tab/a-etf-share/build_panel.py 离线生成，设计与刷新见同目录 SKILL.md
+    # 面板由 tab/a-etf-share/build_panel.py 生成（服务启动时自动刷新），设计见同目录 SKILL.md
     if not A_ETF_SHARE_PANEL.exists():
-        raise FileNotFoundError("panel.json 不存在，请先运行 uv run python tab/a-etf-share/build_panel.py")
+        raise FileNotFoundError("panel.json 不存在，正在后台生成，请稍后点「清除缓存」重试")
     return json.loads(A_ETF_SHARE_PANEL.read_text(encoding="utf-8"))
+
+
+PANEL_TABS = ("a-etf-share", "us-supply-demand", "a-supply-demand")  # 有离线面板的 tab，快的在前
+
+
+def refresh_tab_panels() -> None:
+    """服务启动时依次运行各 tab 的 build_panel.py；脚本自行判断是否需要下载，已是最新则秒退。"""
+    env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
+    for name in PANEL_TABS:
+        tab = ROOT / "tab" / name
+        started = time.monotonic()
+        with (tab / "build.log").open("w", encoding="utf-8") as log:
+            result = subprocess.run([sys.executable, str(tab / "build_panel.py")], cwd=ROOT, env=env,
+                                    stdout=log, stderr=subprocess.STDOUT)
+        status = "ok" if result.returncode == 0 else f"FAILED, see tab/{name}/build.log"
+        print(f"[panel refresh] {name}: {status} ({time.monotonic() - started:.0f}s)", flush=True)
 
 
 MARKETS_SELECTION_FILE = ROOT / "tab" / "markets" / "selection.json"
@@ -729,6 +746,7 @@ def main() -> int:
         return 0
 
     print(f"Finance dashboard: {url}", flush=True)
+    threading.Thread(target=refresh_tab_panels, daemon=True).start()
     try:
         server.serve_forever(poll_interval=0.25)
     except KeyboardInterrupt:

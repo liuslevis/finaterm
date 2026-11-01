@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # 切换到脚本所在目录
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
 if ! command -v uv >/dev/null 2>&1; then
   echo "未找到 uv，请先安装 uv 并确保它已加入 PATH。"

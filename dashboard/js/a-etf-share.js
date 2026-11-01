@@ -231,7 +231,7 @@ function renderAes() {
   document.getElementById("aesSource").innerHTML =
     `${escapeHtml(data.formula)}。数据来源：${escapeHtml(data.source)}。` +
     `<ul>${data.caveats.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul>` +
-    `刷新：<code>cd dashboard; uv run python tab/a-etf-share/build_panel.py --refresh</code>` +
+    `刷新：启动 dashboard 时自动按需更新（日志 <code>tab/a-etf-share/build.log</code>）` +
     `（设计说明见 tab/a-etf-share/SKILL.md）`;
 }
 
