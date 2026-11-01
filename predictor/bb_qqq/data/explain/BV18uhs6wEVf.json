@@ -1,0 +1,106 @@
+{
+  "bvid": "BV18uhs6wEVf",
+  "title_date": "2026-09-23",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": 0.1
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Meta AI agent news",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "AI hardware trade refueled",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Iran diplomacy report",
+          "category": "geopolitics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Hold on to Monday's gains this Tuesday morning following the biggest one day gain we've seen in more than a month."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "flat",
+        "pct": null,
+        "offset": "02:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "flat",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -2.0
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -2.0
+      },
+      "trajectory": "stable",
+      "reasons": [
+        {
+          "driver": "Iran diplomacy report lowers crude",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Saudi pipeline restart adds supply",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Crude retreat supports bonds",
+          "category": "oil_energy",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Brent crude down to ninety-eight, down by two percent. That move in crude unlocked this move in the bond market."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "John Williams New York Fed speech"
+    ],
+    "self_check": "Some oil moves are described as today's fifth down session conditional on close; previous session percent not explicit."
+  },
+  "usage": {
+    "prompt_tokens": 37004,
+    "completion_tokens": 10403,
+    "total_tokens": 47407,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 10006
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 36236
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "bvid": "BV1HBbE6cEkp",
+  "title_date": "2026-09-05",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "unclear",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Strong August payroll report",
+          "category": "macro_data",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed rate hike expectations",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Inflation still high",
+          "category": "macro_data",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Stocks ended lower Friday following a surprisingly strong August payroll report, showing triple the number of expected jobs added in the U.S."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "not_stated",
+        "pct": null,
+        "offset": ""
+      },
+      "nasdaq_fut": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": null
+      },
+      "trajectory": "unclear",
+      "reasons": [
+        {
+          "driver": "Iranian attacks on US warships",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "US destroyed IRGC tankers",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Strait of Hormuz shipping risk",
+          "category": "geopolitics",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Iranian news outlets reported new explosions as oil prices climbed again to well over 90 dollars a barrel."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Broadcast is Saturday; Friday refers prior session. No live futures or cash open; oil comments are weekend/overnight and lack percentages."
+  },
+  "usage": {
+    "prompt_tokens": 33123,
+    "completion_tokens": 2105,
+    "total_tokens": 35228,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1716
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 32355
+  }
+}

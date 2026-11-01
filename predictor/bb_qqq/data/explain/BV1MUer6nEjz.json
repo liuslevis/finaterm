@@ -1,0 +1,112 @@
+{
+  "bvid": "BV1MUer6nEjz",
+  "title_date": "2026-09-18",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "thursday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Fed delivered hawkish quarter-point hike",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "bank soft guidance, fixed-income weakness",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "higher rates threaten capital-market activity",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Tough week for the banks... banks falling out of bed yesterday in response to this."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.9,
+        "offset": "00:48:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 1.0
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -3
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -2.0
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "crude retreat from Middle East supply fears",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "long-end yields lower",
+          "category": "rates",
+          "effect": "lifted"
+        },
+        {
+          "driver": "tech and chip stocks rally",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Fed hike seen credible, relief",
+          "category": "fed",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Equity futures... S&P up by 0.9 percent... Nasdaq up by one percentage point... relief fueled by a retreat in crude."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Bank of England rate decision",
+      "US jobless claims"
+    ],
+    "self_check": "Transcript says Thursday; some S&P figures conflict and may refer to futures versus prior session."
+  },
+  "usage": {
+    "prompt_tokens": 17490,
+    "completion_tokens": 5849,
+    "total_tokens": 23339,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5429
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 16722
+  }
+}

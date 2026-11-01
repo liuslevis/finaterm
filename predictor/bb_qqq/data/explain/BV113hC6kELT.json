@@ -1,0 +1,88 @@
+{
+  "bvid": "BV113hC6kELT",
+  "title_date": "2026-09-22",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": "Two-day winning streak on the S&P into the weekend. Up again this Monday morning..."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.7,
+        "offset": "01:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 1.0
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -5
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -2.4
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "crude retreat on diplomacy hopes",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "lower oil calms rate markets",
+          "category": "rates",
+          "effect": "lifted"
+        },
+        {
+          "driver": "US-China summit optimism",
+          "category": "trade_policy",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Equities futures positive this morning on the S&P 500, up 0.7%, and by 1% on the Nasdaq."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Monday stated; previous-session S&P pct not stated; some futures numbers garbled."
+  },
+  "usage": {
+    "prompt_tokens": 17496,
+    "completion_tokens": 6381,
+    "total_tokens": 23877,
+    "prompt_tokens_details": {
+      "cached_tokens": 17280
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 6053
+    },
+    "prompt_cache_hit_tokens": 17280,
+    "prompt_cache_miss_tokens": 216
+  }
+}

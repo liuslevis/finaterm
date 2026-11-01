@@ -1,0 +1,128 @@
+{
+  "bvid": "BV1scec6cEvJ",
+  "title_date": "2026-09-16",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "AI safety rhetoric",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "rising yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "higher oil prices",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "bank trading revenue outlook",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Shares of Bank of America led banks lower in Monday's trading after CEO Brian Moynihan said trading revenue will be relatively flat."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "flat",
+        "pct": null,
+        "offset": "02:15:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 3
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 0.4
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "five percent ten-year yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "triple-digit crude oil",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed rate hike expectations",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI safety concerns",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "resilient earnings backdrop",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "dip-buying resilience",
+          "category": "positioning_flows",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Equity futures declining just a touch on the S&P 500 down 0.1%; five percent bond yields a real threat, yet only down 0.1%."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed two-day meeting begins",
+      "Treasury Secretary Bessent testifies on Capitol Hill",
+      "2-year Treasury auction at 1pm"
+    ],
+    "self_check": "Monday index moves are partly unclear; '31 percent' likely ASR for 0.31%; cash open not reached."
+  },
+  "usage": {
+    "prompt_tokens": 37125,
+    "completion_tokens": 9342,
+    "total_tokens": 46467,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8845
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 36357
+  }
+}

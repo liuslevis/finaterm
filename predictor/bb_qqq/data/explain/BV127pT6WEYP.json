@@ -1,0 +1,104 @@
+{
+  "bvid": "BV127pT6WEYP",
+  "title_date": "2026-10-07",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "AI earnings strength led tech",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Nvidia results beat expectations",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "The Nasdaq at all-time highs yesterday, not too far behind."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.4,
+        "offset": "02:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.6
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -3
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -2.5
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "AI dealmaking boosts tech sentiment",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Brent falls on Saudi Yemen progress",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Yields slip before Treasury supply",
+          "category": "rates",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "still positive on the session, we're high by zero point four on the S&P, on the Nasdaq high by zero point six"
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "John Williams speaks later this morning",
+      "Three-year Treasury auction at 1pm",
+      "Trade balance data this morning",
+      "Fed speakers through the day"
+    ],
+    "self_check": "Several pct/bp figures are ASR-garbled; yesterday clearly means Monday, this morning's rates/oil moves are separate."
+  },
+  "usage": {
+    "prompt_tokens": 38411,
+    "completion_tokens": 8565,
+    "total_tokens": 46976,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8167
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 37643
+  }
+}

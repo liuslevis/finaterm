@@ -1,0 +1,99 @@
+{
+  "bvid": "BV15paR6ZEVu",
+  "title_date": "2026-09-30",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "down",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "multi-decade high bond yields",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Yesterday the equities struggled once again, adding to six consecutive weeks of losses."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.1,
+        "offset": "02:15:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.33
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -3
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -1.0
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "yields retreat from highs",
+          "category": "rates",
+          "effect": "lifted"
+        },
+        {
+          "driver": "crude oil pulls back",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "AI trade supports equities",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "We've just turned around. Just about positive on the S&P 500. Likewise on the Nasdaq."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "JOLTS job openings",
+      "ISM manufacturing data",
+      "Fed's Williams speaks 2pm",
+      "Fed's Waller speaks 3pm"
+    ],
+    "self_check": "Previous-session bond/oil moves and Nasdaq percent are unclear; intraday figures are ASR-garbled."
+  },
+  "usage": {
+    "prompt_tokens": 37705,
+    "completion_tokens": 9721,
+    "total_tokens": 47426,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 9358
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 36937
+  }
+}

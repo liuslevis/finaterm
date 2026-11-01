@@ -1,0 +1,104 @@
+{
+  "bvid": "BV14QxG6jEae",
+  "title_date": "2026-10-28",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": 0.25
+      },
+      "nasdaq": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "tech performance and AI funding",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Yesterday's S&P made a comeback ... building on yesterday's gain of a quarter of one percent on the S&P."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.4,
+        "offset": "01:25:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.4
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 0.5
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "AI financing and equity deals",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Saudi oil terminal fire",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Middle East missile risk",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Fed expected to hold",
+          "category": "fed",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Stocks positive this morning ... crude up another half of one percent this morning."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed meeting day one begins",
+      "Durable goods report released",
+      "Amazon, Google earnings after close",
+      "Williams, Jefferson scheduled speeches"
+    ],
+    "self_check": "Morning futures figures conflict in ASR; cash open not reached; some 'yesterday' references may be futures."
+  },
+  "usage": {
+    "prompt_tokens": 36210,
+    "completion_tokens": 8701,
+    "total_tokens": 44911,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8315
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 35442
+  }
+}

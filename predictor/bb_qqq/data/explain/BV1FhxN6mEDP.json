@@ -1,0 +1,109 @@
+{
+  "bvid": "BV1FhxN6mEDP",
+  "title_date": "2026-10-30",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "thursday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Fed held rates, strong economy",
+          "category": "fed",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Long-end inflation concerns steepened curve",
+          "category": "rates",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "This yield curve was a little bit steeper yesterday."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.25,
+        "offset": "01:55:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -1.0
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": null
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Alphabet earnings miss, AI spend worries",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Tech results drag stocks lower",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Microsoft cloud sales beat",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Oil falls on Iran outreach reports",
+          "category": "geopolitics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Futures on the S&P down by about 0.1 percent. You see the NASDAQ underperforming off the back of tech results from both Google and Microsoft."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "ECB rate decision at 9:15",
+      "ECB news conference later",
+      "US PCE, GDP, jobless claims",
+      "Amazon earnings after close"
+    ],
+    "self_check": "Three-day rally and 0.9% references may mix Wednesday with prior days; some bond moves ambiguous."
+  },
+  "usage": {
+    "prompt_tokens": 34351,
+    "completion_tokens": 8533,
+    "total_tokens": 42884,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8108
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33583
+  }
+}

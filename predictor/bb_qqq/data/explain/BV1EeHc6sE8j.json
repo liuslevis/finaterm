@@ -1,0 +1,113 @@
+{
+  "bvid": "BV1EeHc6sE8j",
+  "title_date": "2026-10-27",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 6.0
+      },
+      "reasons": [
+        {
+          "driver": "tech jitters",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI capex financing concerns",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed decision uncertainty",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "oil gap higher on Iran",
+          "category": "geopolitics",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "following two days of losses heading into the weekend and posting a second consecutive weekly decline on the benchmark"
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.6,
+        "offset": "02:15:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.6
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": null
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "earnings could pull stocks back",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "AI capex credit concerns",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Iran de-escalation meeting hopes",
+          "category": "geopolitics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity futures on the S&P 500 still positive for the morning; futures this morning on the Nasdaq by zero point six percent"
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Anthropic IPO filing at 9am",
+      "Meta equity offering",
+      "Saudi-Pakistan-Turkey Tehran meeting"
+    ],
+    "self_check": "Some moves refer to weekly or multi-day trends, not clearly Friday; futures percentages vary in garbled ASR."
+  },
+  "usage": {
+    "prompt_tokens": 37319,
+    "completion_tokens": 6480,
+    "total_tokens": 43799,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 6046
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 36551
+  }
+}

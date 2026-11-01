@@ -1,0 +1,113 @@
+{
+  "bvid": "BV1N3YG6FErJ",
+  "title_date": "2026-09-11",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Treasury buyback failed to cap yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Ten-year auction at highest yield since 2007",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Oil strength lifted energy sector",
+          "category": "oil_energy",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "The S&P 500 yesterday every single sector negative with the exception of energy"
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.6,
+        "offset": "02:10:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.6
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 3
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 4.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Treasury buyback failed to calm yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Saudi output plunge lifted crude",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Hot PPI raised Fed hike odds",
+          "category": "macro_data",
+          "effect": "weighed"
+        },
+        {
+          "driver": "ECB hike reinforced global tightening",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Crude up, bonds down. Yield higher. Stocks retreated by zero point six percent on the S&P"
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "PPI and jobless claims at 8:30",
+      "ECB rate decision and Lagarde press conference",
+      "$22B 30-year Treasury auction later today"
+    ],
+    "self_check": "Wednesday air day; yesterday is Tuesday. Some garbled futures and oil references create ambiguity about exact windows."
+  },
+  "usage": {
+    "prompt_tokens": 31719,
+    "completion_tokens": 7162,
+    "total_tokens": 38881,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 6722
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 30951
+  }
+}

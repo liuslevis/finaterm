@@ -1,0 +1,104 @@
+{
+  "bvid": "BV1VvHb6tEYh",
+  "title_date": "2026-10-03",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "friday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Softer ISM data",
+          "category": "macro_data",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Dovish Fed speak",
+          "category": "fed",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Yesterday we had a double-digit drop on a softer ISM. The ISM just did not validate the heat that we saw in the PMI last week."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.8,
+        "offset": "02:20:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -5
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -2
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "Soft payrolls",
+          "category": "macro_data",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Cooler wage growth",
+          "category": "macro_data",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Dovish Fed comments",
+          "category": "fed",
+          "effect": "lifted"
+        },
+        {
+          "driver": "French fiscal stress",
+          "category": "fiscal_politics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "This payroll report doesn't scream of overheating. It does scream of yes, stability may be on the margins, a little bit of weakening."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Prior-session S&P pct not spoken; futures pct from 02:20; cash open not reached; several ASR-garbled oil/French references."
+  },
+  "usage": {
+    "prompt_tokens": 34762,
+    "completion_tokens": 8975,
+    "total_tokens": 43737,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8575
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33994
+  }
+}

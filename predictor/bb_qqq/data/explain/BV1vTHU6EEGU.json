@@ -1,0 +1,112 @@
+{
+  "bvid": "BV1vTHU6EEGU",
+  "title_date": "2026-10-08",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "AI and tech outperformance",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "narrow market breadth",
+          "category": "positioning_flows",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Back at an all-time high on the S&P for the first time since August... Four days of gains on the S&P, the longest winning run going back some two months."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.4,
+        "offset": "02:20:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.7
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 6
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 1.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "rising Treasury yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "heavy Treasury and AI debt supply",
+          "category": "positioning_flows",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Brent above $100 on tanker attacks",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "French bond selloff, no ECB support",
+          "category": "fiscal_politics",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed uncertainty before minutes",
+          "category": "fed",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equities this morning pulling back from record highs ... down by 0.4% on the S&P, down by 0.7% on the Nasdaq."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed September meeting minutes 2pm",
+      "US 10-year Treasury auction 1pm"
+    ],
+    "self_check": "Wednesday inferred from 3-year auction yesterday, 10-year today; some ASR percentages rounded; prior-session oil relief ambiguous."
+  },
+  "usage": {
+    "prompt_tokens": 35126,
+    "completion_tokens": 6397,
+    "total_tokens": 41523,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5935
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 34358
+  }
+}

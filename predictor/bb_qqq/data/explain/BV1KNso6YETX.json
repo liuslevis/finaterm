@@ -1,0 +1,103 @@
+{
+  "bvid": "BV1KNso6YETX",
+  "title_date": "2026-10-29",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": "We start looking to build on back to back gains, going into another round of results from Big Tech."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.2,
+        "offset": "01:55:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.4
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 9
+      },
+      "oil": {
+        "direction": "up",
+        "pct": null
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "SK Hynix profit surge",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "OpenAI buying Google AI chips",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Brent oil much higher",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Treasury yields creep higher",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Hot CPI and PPI",
+          "category": "macro_data",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Futures on the S&P 500 rising, looking to build on two days of gains; Nasdaq futures improving after SK Hynix's better-than-good profit surge."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed rate decision at 2 p.m.",
+      "Fed Chair news conference 2:30 p.m.",
+      "Microsoft earnings after close",
+      "Alphabet earnings after close"
+    ],
+    "self_check": "S&P/Nasdaq gains cited over two days/week; futures vs prior session ambiguous; cash open not reached."
+  },
+  "usage": {
+    "prompt_tokens": 40145,
+    "completion_tokens": 8113,
+    "total_tokens": 48258,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7702
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 39377
+  }
+}

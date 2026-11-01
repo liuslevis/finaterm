@@ -1,0 +1,103 @@
+{
+  "bvid": "BV11eYw6YEpf",
+  "title_date": "2026-10-01",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "weaker consumer confidence, job openings",
+          "category": "macro_data",
+          "effect": "weighed"
+        },
+        {
+          "driver": "30-year yield highest since 2002",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Yesterday was tough. Consumer confidence weaker, yields higher, and oil prices were lower."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.4,
+        "offset": "02:10:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.2
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -3
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 0.6
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "softer core PCE inflation",
+          "category": "macro_data",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Williams signals one more hike, no urgency",
+          "category": "fed",
+          "effect": "lifted"
+        },
+        {
+          "driver": "30-year yield near multi-decade high",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Core PCE came in softer than expected ... that unlocks this move in the bond market, pushes yields lower across the curve."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Micron earnings after close",
+      "Fed speakers Barkin, Cook, Goodspeed",
+      "Kashkari speech later today"
+    ],
+    "self_check": "Wednesday implies 'yesterday' is Tuesday; exact S&P losses not stated; futures fluctuated before PCE."
+  },
+  "usage": {
+    "prompt_tokens": 34277,
+    "completion_tokens": 7299,
+    "total_tokens": 41576,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 6908
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33509
+  }
+}

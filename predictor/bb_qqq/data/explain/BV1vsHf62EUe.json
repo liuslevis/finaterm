@@ -1,0 +1,112 @@
+{
+  "bvid": "BV1vsHf62EUe",
+  "title_date": "2026-10-06",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Weak payroll data",
+          "category": "macro_data",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI earnings strength",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Higher bond yields",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Bonds not running on weak data. Bonds selling off on weak data was the story into the weekend."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.2,
+        "offset": "00:25:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.25
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 0.33
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Higher bond yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Middle East conflict risk",
+          "category": "geopolitics",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI investment strength",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Oil prices rising",
+          "category": "oil_energy",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "We're down by two tenths on the S&P, on the Nasdaq down by quarter."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "US PMI at 9:45 ET",
+      "Fed speakers later today"
+    ],
+    "self_check": "Opening says Friday but context points to Monday; 1bp bond move may be 30-year, not 10-year."
+  },
+  "usage": {
+    "prompt_tokens": 10919,
+    "completion_tokens": 6238,
+    "total_tokens": 17157,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5830
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 10151
+  }
+}

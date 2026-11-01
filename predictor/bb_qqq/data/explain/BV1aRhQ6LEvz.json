@@ -1,0 +1,89 @@
+{
+  "bvid": "BV1aRhQ6LEvz",
+  "title_date": "2026-09-26",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "friday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "higher bond yields",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Three days now gains on the S&P 500."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.25,
+        "offset": "00:40:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.5
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -3
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -2
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "bond yields stabilizing",
+          "category": "rates",
+          "effect": "lifted"
+        },
+        {
+          "driver": "US-Iran deal hopes",
+          "category": "geopolitics",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "this morning, advancing by about a quarter of one percent on the S&P, encouraged by this move in the bond markets, stabilizing"
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Three-day S&P gain versus 'yesterday' small-cap/oil move is ASR-ambiguous; futures vs cash unclear."
+  },
+  "usage": {
+    "prompt_tokens": 10864,
+    "completion_tokens": 5002,
+    "total_tokens": 15866,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4691
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 10096
+  }
+}

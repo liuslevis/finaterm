@@ -1,0 +1,100 @@
+{
+  "bvid": "BV1KXns6iEfb",
+  "title_date": "2026-10-23",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "thursday",
+    "prev_session": {
+      "described": false,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": ""
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -1.0,
+        "offset": "01:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -1.8
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -7
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 2.5
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Middle East escalation risk",
+          "category": "geopolitics",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Aramco attack lifts crude",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Tech capex concerns hit megacaps",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Flight to safety lowers yields",
+          "category": "rates",
+          "effect": "lifted"
+        },
+        {
+          "driver": "French political risk widens spreads",
+          "category": "fiscal_politics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Risk aversion bites. Mega cap tanking, failing to extend the rally. Escalation risk in the Middle East sending crude much higher, climbing once again this morning."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "University of Michigan consumer sentiment"
+    ],
+    "self_check": "Previous session not explicitly summarized; most levels are this-morning futures. Thursday confirmed by 'Coming into Thursday'."
+  },
+  "usage": {
+    "prompt_tokens": 17748,
+    "completion_tokens": 4435,
+    "total_tokens": 22183,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4059
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 16980
+  }
+}

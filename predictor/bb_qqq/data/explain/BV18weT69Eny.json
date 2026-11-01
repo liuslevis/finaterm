@@ -1,0 +1,88 @@
+{
+  "bvid": "BV18weT69Eny",
+  "title_date": "2026-09-17",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "earnings growth",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "double digit gains yesterday on the S&P 500, phenomenal off the back of that earnings growth."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.25,
+        "offset": "01:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.5
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -1
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -1.0
+      },
+      "trajectory": "stable",
+      "reasons": [
+        {
+          "driver": "Fed decision awaited",
+          "category": "fed",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Equity futures this morning still positive by a quarter of one percent."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed rate decision and dot plot",
+      "Fed Chair press conference",
+      "JP Morgan Q3 results"
+    ],
+    "self_check": "Previous-session S&P 'double digit gains' is only explicit prior-session reference; other metrics refer to futures or longer periods."
+  },
+  "usage": {
+    "prompt_tokens": 16212,
+    "completion_tokens": 5312,
+    "total_tokens": 21524,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4997
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 15444
+  }
+}

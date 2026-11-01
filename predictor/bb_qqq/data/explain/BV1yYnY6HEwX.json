@@ -1,0 +1,109 @@
+{
+  "bvid": "BV1yYnY6HEwX",
+  "title_date": "2026-10-24",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "friday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "down",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "AI and tech selloff",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "credit spreads widening",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "flight to safety into Treasuries",
+          "category": "positioning_flows",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "The Nasdaq struggling to bounce following the worst day since June; S&P 500 worst day since July."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.5,
+        "offset": "02:20:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 3
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 1.5
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "AI and tech weakness continues",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "credit spread and financing concerns",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "oil rises on geopolitical risk",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Treasury yields rebound",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Futures morning negative by half a percent on the S&P, Nasdaq down by about a third."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Daily S&P/Nasdaq declines not quantified; some 5% and 30bp figures are month-to-date, not prior session."
+  },
+  "usage": {
+    "prompt_tokens": 39792,
+    "completion_tokens": 5442,
+    "total_tokens": 45234,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5039
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 39024
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "bvid": "BV1TkYh6DEpZ",
+  "title_date": "2026-09-10",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": false,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": ""
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.3,
+        "offset": "01:35:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.5
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 2
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 3.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Brent tops $100 on US-Iran tanker attacks",
+          "category": "geopolitics",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Crude surge feeds inflation and yields",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Treasury yields at new highs",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed hike risk before CPI",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Treasury buyback size uncertainty",
+          "category": "fiscal_politics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equities decline for the third consecutive session, down this morning by a few tenths on the S&P, off the back of bonds and crude."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Treasury buyback size announcement",
+      "10-year Treasury auction",
+      "Apple product event",
+      "Trump midterm convention speech"
+    ],
+    "self_check": "Show says Wednesday; most moves are pre-open futures; prior session not clearly quantified; cash open not reached."
+  },
+  "usage": {
+    "prompt_tokens": 36231,
+    "completion_tokens": 9381,
+    "total_tokens": 45612,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8988
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 35463
+  }
+}

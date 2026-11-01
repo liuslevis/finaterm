@@ -1,0 +1,108 @@
+{
+  "bvid": "BV1FaYD6FEBq",
+  "title_date": "2026-09-12",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "friday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": -0.5
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Oil spike above $100",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Bond yields hit year highs",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Global central bank hiking posture",
+          "category": "other",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Heading into it on a four-day slide on the S&P."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.9,
+        "offset": "02:20:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.8
+      },
+      "ust10y": {
+        "direction": "flat",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -3.0
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "Crude retreat from highs",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Oracle AI earnings beat",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Hot CPI lifts Fed hike odds",
+          "category": "macro_data",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity holding gain, really well, up by zero point nine percent on the S&P."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "US CPI release at 8:30 Eastern",
+      "Real average weekly earnings data",
+      "No Fed speakers due blackout"
+    ],
+    "self_check": "S&P prior-session pct ambiguous; transcript also mentions down about three percent possibly multi-day. Yesterday is Thursday before Friday CPI."
+  },
+  "usage": {
+    "prompt_tokens": 37303,
+    "completion_tokens": 8327,
+    "total_tokens": 45630,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7928
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 36535
+  }
+}

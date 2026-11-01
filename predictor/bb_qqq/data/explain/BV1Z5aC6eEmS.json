@@ -1,0 +1,109 @@
+{
+  "bvid": "BV1Z5aC6eEmS",
+  "title_date": "2026-10-02",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "thursday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "core PCE inflation data",
+          "category": "macro_data",
+          "effect": "weighed"
+        },
+        {
+          "driver": "month-end quarter-end selling",
+          "category": "positioning_flows",
+          "effect": "weighed"
+        },
+        {
+          "driver": "negative convexity duration selling",
+          "category": "positioning_flows",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Particularly yesterday, which was month-end and quarter-end. The selling after core PCE looked associated with negative feedback loops."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.5,
+        "offset": "02:15:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.6
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 2
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "tech gains, Microsoft earnings",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "global bond yields march higher",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed policy uncertainty",
+          "category": "fed",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "The futures this morning positive by 0.1% on the S&P 500, on the Nasdaq by 0.4%."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "jobless claims at 8:30",
+      "ISM at 10:00",
+      "Fed speakers Jefferson Collins Waller Bowman",
+      "Nike earnings after close"
+    ],
+    "self_check": "Yesterday references mainly bond selling; futures figures vary in ASR; cash open not reached."
+  },
+  "usage": {
+    "prompt_tokens": 34511,
+    "completion_tokens": 8515,
+    "total_tokens": 43026,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8099
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33743
+  }
+}

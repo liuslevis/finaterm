@@ -182,3 +182,12 @@ reports/RESULTS.md            自动生成的汇总
 LLM 相对动量没有增量（`incremental_test.py`）；7 日通道跨集 sd 只有 0.043，先天噪声大。
 方法本身（时间轴 / blind / placebo / 自检 / 残差化）是干净的，可复用到别的信号源。
 
+**解释力**（同期，不是预测）见 [`EXPLANATION.md`](EXPLANATION.md)：节目对前日收盘方向的复述命中 SPY 83%，
+报的期指涨跌幅与 QQQ 隔夜跳空 r=0.94，能解释当日收盘 R²≈0.71（全部来自跳空），开盘后与次日讲不了。
+注意：标题日期 = 播出日 + 1，`explain_*.py` 已按播出日对齐，上面的因子流水线尚未修正。
+
+```powershell
+python explain_extract.py --workers 8   # 抽取"节目说了什么"（前日 / 今早 / 开盘）
+python explain_eval.py                  # 对照 QQQ/SPY/美债/原油，输出 reports/explain_metrics.json
+```
+

@@ -1,0 +1,103 @@
+{
+  "bvid": "BV1XQt965Ei3",
+  "title_date": "2026-09-03",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "flat",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Elevated crude and oil shock",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Rising Treasury yields",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Hawkish Fed hike expectations",
+          "category": "fed",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "We've had a three-day losing streak on the S&P 500"
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "flat",
+        "pct": null,
+        "offset": "02:18:00"
+      },
+      "nasdaq_fut": {
+        "direction": "flat",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -0.75
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "Crude pullback relieved pressure",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Yields retreated from highs",
+          "category": "rates",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "That move unlocking this move in equities now positive on this session on the S&P 500"
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "ADP employment report",
+      "HP earnings after the bell",
+      "Fed Beige Book after close"
+    ],
+    "self_check": "ADP released during show; prior-session percentage moves and some yield figures are ambiguous in ASR."
+  },
+  "usage": {
+    "prompt_tokens": 33832,
+    "completion_tokens": 7874,
+    "total_tokens": 41706,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7514
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33064
+  }
+}

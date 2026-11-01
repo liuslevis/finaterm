@@ -1,0 +1,99 @@
+{
+  "bvid": "BV1oUYp6CESK",
+  "title_date": "2026-09-09",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Friday payrolls lifted yields",
+          "category": "macro_data",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Losses in the bond market as well Friday following payrolls, a very small yield-side buy."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.1,
+        "offset": "02:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.25
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 1
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 1.6
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "Saudi energy attacks lift crude",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Yields higher with crude",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "CPI PPI uncertainty ahead",
+          "category": "macro_data",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Canada retaliatory tariffs",
+          "category": "trade_policy",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equities are climbing by tenths of one percent; crude close to triple digits and yields higher."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Previous session seems Friday after Labor Day; many market references are weekly or Friday-payrolls, not clear daily S&P moves."
+  },
+  "usage": {
+    "prompt_tokens": 33999,
+    "completion_tokens": 8461,
+    "total_tokens": 42460,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8097
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33231
+  }
+}

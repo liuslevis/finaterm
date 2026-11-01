@@ -1,0 +1,99 @@
+{
+  "bvid": "BV1opJZ63EW7",
+  "title_date": "2026-10-20",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "down",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "AI capex and credit worries",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "chip stocks eight-session slide",
+          "category": "positioning_flows",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "The S&P for the worst week since June... Nasdaq... worst week this year."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.5,
+        "offset": "00:45:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "flat",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "tech stocks rebound",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "AI IPO valuation pushback",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "French riots widen spreads",
+          "category": "fiscal_politics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity futures on the S&P looking to back up by 0.5%; Nasdaq 100 up a little more than 1%."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "Monday; prior weekly moves may not equal Friday daily moves; ASR garbles futures and ticker references."
+  },
+  "usage": {
+    "prompt_tokens": 15542,
+    "completion_tokens": 8725,
+    "total_tokens": 24267,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8357
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 14774
+  }
+}

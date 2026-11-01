@@ -1,0 +1,99 @@
+{
+  "bvid": "BV14JtM6zEdo",
+  "title_date": "2026-09-01",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": -0.25
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "hawkish Fed speech",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Warsh speech pushed yields higher",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "down about a quarter of one percent on Friday on the S&P 500"
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.4,
+        "offset": "02:15:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.2
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 3.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Middle East strikes lifted crude",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "hawkish Fed speech lifted yields",
+          "category": "fed",
+          "effect": "lifted"
+        },
+        {
+          "driver": "higher yields and crude",
+          "category": "rates",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity futures negative by about two tenths of one percent, crude up three percent as Middle East strikes return."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [],
+    "self_check": "ASR conflates Warsh/Washington; Friday session vs Monday futures; some Nasdaq/pct mentions ambiguous."
+  },
+  "usage": {
+    "prompt_tokens": 35705,
+    "completion_tokens": 4959,
+    "total_tokens": 40664,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4600
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 34937
+  }
+}

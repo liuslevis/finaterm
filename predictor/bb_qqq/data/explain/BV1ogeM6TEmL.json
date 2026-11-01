@@ -1,0 +1,75 @@
+{
+  "bvid": "BV1ogeM6TEmL",
+  "title_date": "2026-09-17",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": "We had yields up at the front end, 100 basis points yesterday. Equities higher, credit spreads down..."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "not_stated",
+        "pct": null,
+        "offset": ""
+      },
+      "nasdaq_fut": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "trajectory": "unclear",
+      "reasons": [],
+      "quote": ""
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed rate decision at 2pm",
+      "Fed press conference at 2:30pm"
+    ],
+    "self_check": "Transcript reads as afternoon Fed special; 'yesterday' recap is sparse; front-end yield not 10-year; no morning futures data."
+  },
+  "usage": {
+    "prompt_tokens": 30352,
+    "completion_tokens": 5503,
+    "total_tokens": 35855,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5233
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 29584
+  }
+}

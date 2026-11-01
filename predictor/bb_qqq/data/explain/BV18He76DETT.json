@@ -1,0 +1,95 @@
+{
+  "bvid": "BV18He76DETT",
+  "title_date": "2026-09-15",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": false,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": ""
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.6,
+        "offset": "02:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -1.7
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 1
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 4.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "AI leaders urge slower development",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Saudi East-West pipeline shutdown",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Ten-year yield near 5%",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed hike expectations",
+          "category": "fed",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity futures this morning down by zero point six percent on the S&P. On the Nasdaq, down by one point six."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "US Treasury sanctions announcement later today"
+    ],
+    "self_check": "Previous-session equity moves not stated; Friday mentions are CPI/credit spreads. Cash open not reached."
+  },
+  "usage": {
+    "prompt_tokens": 33052,
+    "completion_tokens": 4951,
+    "total_tokens": 38003,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4611
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 32284
+  }
+}

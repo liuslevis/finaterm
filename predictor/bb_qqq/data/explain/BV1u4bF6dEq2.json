@@ -1,0 +1,109 @@
+{
+  "bvid": "BV1u4bF6dEq2",
+  "title_date": "2026-09-04",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "thursday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": 0.1
+      },
+      "nasdaq": {
+        "direction": "flat",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": null
+      },
+      "oil": {
+        "direction": "up",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "Fed Williams comments",
+          "category": "fed",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Oil price rally",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Rebound after three-day slide",
+          "category": "positioning_flows",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Yesterday session strength building on the gains with a move of just one tenth of one percent on the S&P, pretty much flat on the Nasdaq."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.2,
+        "offset": "02:17:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.2
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -5
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 1.7
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "Waller comments seen dovish",
+          "category": "fed",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Oil advances on Iran conflict",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Broadcom guidance disappoints",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity futures off the back of those comments slightly higher by a few tenths of one percent."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Fed Governor Waller speaks 8:30",
+      "Jobless claims release",
+      "Trade balance data",
+      "Cleveland Fed President Hammack speaks"
+    ],
+    "self_check": "Previous-session oil pct not single-session; Nasdaq futures last explicit negative before broad equity uptick after Waller."
+  },
+  "usage": {
+    "prompt_tokens": 34149,
+    "completion_tokens": 9371,
+    "total_tokens": 43520,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8955
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33381
+  }
+}

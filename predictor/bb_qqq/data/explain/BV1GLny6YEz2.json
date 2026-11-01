@@ -1,0 +1,103 @@
+{
+  "bvid": "BV1GLny6YEz2",
+  "title_date": "2026-10-22",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "wednesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "down",
+        "pct": -3.3
+      },
+      "reasons": [
+        {
+          "driver": "Oil diplomacy chatter",
+          "category": "geopolitics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Brent flipped negative 3.3% yesterday off the back of some chatter."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.3,
+        "offset": "02:04:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.6
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -8.25
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "AI earnings beats",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Supermicro results relief",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Tesla-SpaceX merger optimism",
+          "category": "other",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Higher oil prices",
+          "category": "oil_energy",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "We begin the day with stocks rising, optimism returning to the AI trade, following stronger earnings."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Tesla earnings after close",
+      "Meta earnings after close",
+      "IBM earnings after close"
+    ],
+    "self_check": "Wednesday implied by show; 'yesterday' oil/Netflix clear, but futures and yield timing noisy."
+  },
+  "usage": {
+    "prompt_tokens": 33212,
+    "completion_tokens": 9577,
+    "total_tokens": 42789,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 9201
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 32444
+  }
+}

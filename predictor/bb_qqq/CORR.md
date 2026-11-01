@@ -6,6 +6,10 @@
 指标：Pearson IC、Rank IC、Newey-West t（lag=h−1）、block bootstrap 95% CI、block permutation p、胜率、多空价差。
 价格：akshare 前复权日线。
 
+> ⚠️ **日期勘误（见 [EXPLANATION.md §1](EXPLANATION.md)）**：`show_date` 取自 B 站标题，实为**播出日 + 1 天**。
+> 下文所有信号因此比假设的再旧一天（不构成穿越，方向结论不变），但 `ret_0` / `gap` 诊断列错位，
+> "`preopen_tape≈0`、模型没在复述盘面"那条判读是错位假象（正确对齐后 r=0.78）。
+
 ---
 
 ## 一句话结论

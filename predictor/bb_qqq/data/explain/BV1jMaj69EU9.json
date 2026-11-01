@@ -1,0 +1,95 @@
+{
+  "bvid": "BV1jMaj69EU9",
+  "title_date": "2026-09-29",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "monday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": "The two-year closing at five percent heading into a week full of economic data."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.5,
+        "offset": "00:42:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -1.0
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 7
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 4.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "Middle East tensions lift crude",
+          "category": "geopolitics",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Bond yields climb",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Hawkish Fed remarks",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Diesel export ban talk",
+          "category": "oil_energy",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Stocks down. Bond yields high. That's the story so far this morning."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "ISM manufacturing data"
+    ],
+    "self_check": "Air appears Monday; 'last week' moves and this-morning futures are mixed, so previous-session breadth is unclear."
+  },
+  "usage": {
+    "prompt_tokens": 15957,
+    "completion_tokens": 5990,
+    "total_tokens": 21947,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5646
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 15189
+  }
+}

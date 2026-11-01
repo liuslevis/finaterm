@@ -102,12 +102,12 @@ def brief_path(bvid: str) -> Path:
     return BRIEFS / f"{bvid}.json"
 
 
-def call_llm(llm, system: str, user: str, use_json_mode: bool) -> dict:
+def call_llm(llm, system: str, user: str, use_json_mode: bool, max_tokens: int = 8000) -> dict:
     payload = {
         "model": llm.model,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         "temperature": 0.0,
-        "max_tokens": 8000,
+        "max_tokens": max_tokens,
     }
     if use_json_mode:
         payload["response_format"] = {"type": "json_object"}

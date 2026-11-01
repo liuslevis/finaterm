@@ -1,0 +1,113 @@
+{
+  "bvid": "BV1a6px6nEJm",
+  "title_date": "2026-10-09",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "thursday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "down",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "bond yields near multi-decade highs",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "crude oil climbing",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI capital raising borrowing binge",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "We were yesterday morning equities in session lows, bond yields in session highs, and then things calm down following a ten-year bond auction that went okay."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.4,
+        "offset": "02:10:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.7
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 4
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 5
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "bond yields at multi-decade highs",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "crude climbs on Iran/Saudi risk",
+          "category": "oil_energy",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI borrowing binge and credit supply",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "possible pre-midterm Iran strikes",
+          "category": "geopolitics",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Stocks are softer this morning. We're down by point five on the S&P, down by point seven on the Nasdaq; yields higher across the curve."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "Jobless claims at 8:30 Eastern",
+      "30-year Treasury auction at 1pm",
+      "Fed speakers later this afternoon"
+    ],
+    "self_check": "Ambiguous whether 'yesterday' losses apply to both S&P and Nasdaq; weekday references garbled, but 'Thursday' is explicit."
+  },
+  "usage": {
+    "prompt_tokens": 33312,
+    "completion_tokens": 11925,
+    "total_tokens": 45237,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 11467
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 32544
+  }
+}

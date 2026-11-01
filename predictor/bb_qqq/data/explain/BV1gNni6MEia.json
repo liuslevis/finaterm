@@ -1,0 +1,95 @@
+{
+  "bvid": "BV1gNni6MEia",
+  "title_date": "2026-10-21",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "up",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "up",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": "Equity futures this morning partially followed through from yesterday's big bounce in the equity market."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.33,
+        "offset": "02:00:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -0.7
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": -4
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 4.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "AI and cloud IPO selloff",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "CoreWeave downgrade valuation concerns",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "oil higher on Middle East tanker attacks",
+          "category": "oil_energy",
+          "effect": "lifted"
+        },
+        {
+          "driver": "flight to safety lifts Treasuries",
+          "category": "positioning_flows",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "The Tuesday session for Monday's bounce: S&P down by a tenth of one percent, Nasdaq down point five."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "SpaceX, Netflix, United earnings after close"
+    ],
+    "self_check": "Monday bounce clear; exact S&P futures pct varied; oil pct uses WTI 4%; cash open not reached."
+  },
+  "usage": {
+    "prompt_tokens": 36634,
+    "completion_tokens": 7962,
+    "total_tokens": 44596,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7591
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 35866
+  }
+}

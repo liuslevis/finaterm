@@ -1,0 +1,102 @@
+{
+  "bvid": "BV1SEpe6qE16",
+  "title_date": "2026-10-10",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "friday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "down",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "down",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [
+        {
+          "driver": "AI profitability and OpenAI revenue concerns",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        },
+        {
+          "driver": "strong 10- and 30-year Treasury auctions",
+          "category": "rates",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "Yesterday, reports that were then potentially questioned later caused hundreds of billions of dollars of swings in market valuations."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "up",
+        "pct": 0.4,
+        "offset": "01:40:00"
+      },
+      "nasdaq_fut": {
+        "direction": "up",
+        "pct": 0.9
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 2
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 0.2
+      },
+      "trajectory": "improving",
+      "reasons": [
+        {
+          "driver": "OpenAI revenue outlook reassurance",
+          "category": "earnings_ai",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Trump delays Iran strikes",
+          "category": "geopolitics",
+          "effect": "lifted"
+        },
+        {
+          "driver": "Hurricane risk to Gulf refining",
+          "category": "oil_energy",
+          "effect": "lifted"
+        }
+      ],
+      "quote": "NASDAQ still in the lead, those futures up eight tenths percent... S&P futures up by about four tenths percent."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "10am University of Michigan survey",
+      "4pm Susan Collins speaks"
+    ],
+    "self_check": "Friday broadcast; 'yesterday' means Thursday. Some ASR percentages are garbled; used last clear figures."
+  },
+  "usage": {
+    "prompt_tokens": 32233,
+    "completion_tokens": 6038,
+    "total_tokens": 38271,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5654
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 31465
+  }
+}

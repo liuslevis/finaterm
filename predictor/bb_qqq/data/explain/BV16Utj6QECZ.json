@@ -1,0 +1,97 @@
+{
+  "bvid": "BV16Utj6QECZ",
+  "title_date": "2026-09-02",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "explain-v1",
+  "extract": {
+    "air_weekday": "tuesday",
+    "prev_session": {
+      "described": true,
+      "spx": {
+        "direction": "down",
+        "pct": null
+      },
+      "nasdaq": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "ust10y": {
+        "direction": "not_stated",
+        "bp": null
+      },
+      "oil": {
+        "direction": "not_stated",
+        "pct": null
+      },
+      "reasons": [],
+      "quote": "A few days of losses on the S&P 500 close out August. We add to them to open September."
+    },
+    "this_morning": {
+      "spx_fut": {
+        "direction": "down",
+        "pct": -0.7,
+        "offset": "02:14:00"
+      },
+      "nasdaq_fut": {
+        "direction": "down",
+        "pct": -1.3
+      },
+      "ust10y": {
+        "direction": "up",
+        "bp": 3
+      },
+      "oil": {
+        "direction": "up",
+        "pct": 2.0
+      },
+      "trajectory": "deteriorating",
+      "reasons": [
+        {
+          "driver": "global bond yields at multi-decade highs",
+          "category": "rates",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Fed hike bets after hawkish comments",
+          "category": "fed",
+          "effect": "weighed"
+        },
+        {
+          "driver": "Hormuz tanker attacks lift crude",
+          "category": "geopolitics",
+          "effect": "weighed"
+        },
+        {
+          "driver": "AI tech pressured by higher yields",
+          "category": "earnings_ai",
+          "effect": "weighed"
+        }
+      ],
+      "quote": "Equity futures this morning negative... down by zero point seven percent on the S&P... Nasdaq one hundred down by one point three percent."
+    },
+    "cash_open": {
+      "observed": false,
+      "direction": "not_stated",
+      "pct": null
+    },
+    "scheduled_today": [
+      "ISM data due today",
+      "Fed Governor Barr speaks 09:05",
+      "Manufacturing/jobs data at 10:00"
+    ],
+    "self_check": "Tuesday explicit; prior-session index move is only 'few days losses close out August,' not quantified."
+  },
+  "usage": {
+    "prompt_tokens": 34110,
+    "completion_tokens": 5879,
+    "total_tokens": 39989,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5491
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 33342
+  }
+}
