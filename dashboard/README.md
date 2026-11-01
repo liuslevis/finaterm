@@ -24,7 +24,9 @@ npm install
 npm start
 ```
 
-On Windows, you can also double-click `script/打开金融仪表盘 Electron.cmd`. The
+On Windows, run `powershell -ExecutionPolicy Bypass -File script\start-dashboard.ps1`
+(add `-Visible` to keep the console) — it checks uv/npm, installs dependencies, starts
+Futu OpenD when installed, then runs `npm start`; the desktop shortcut points to it. The
 Electron process starts the local Python API on an available random port and
 stops it when the desktop app exits. The launcher keeps a runtime copy under
 `%LOCALAPPDATA%\FinanceDashboard` so the Windows Electron sandbox can access

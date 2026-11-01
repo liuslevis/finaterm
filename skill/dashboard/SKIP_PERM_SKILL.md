@@ -212,8 +212,8 @@ Get-Content "$env:LOCALAPPDATA\MyLauncher\launcher.log" -Encoding UTF8
 
 | 文件 | 作用 |
 |---|---|
-| `dashboard/script/start-dashboard.ps1` | 隐藏控制台启动器，调用同目录 `打开金融仪表盘.cmd`，日志写 `%LOCALAPPDATA%\FinanceDashboard\launcher.log` |
-| 桌面 `打开金融仪表盘.lnk` | 目标改为 `powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File …` |
+| `dashboard/script/start-dashboard.ps1` | 隐藏控制台的一体化启动器（依赖检查、OpenD、`npm start`），日志写 `%LOCALAPPDATA%\FinanceDashboard\launcher.log` |
+| 桌面与开机启动 `打开金融仪表盘.lnk` | 目标改为 `powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File …` |
 | `dashboard/.launcher-backup/` | 旧 `.lnk` 备份（已 gitignore） |
 
 对应 commit：`529b8a6 dashboard: 快捷方式改用 PowerShell 启动器，跳过 .cmd 的发布者校验提示`
