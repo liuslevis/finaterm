@@ -17,7 +17,9 @@
     "cnPpi",
     "brent",
     "vix",
-    "amzn"
+    "amzn",
+    "soxx",
+    "soxl"
   ],
   "macroIndicators": [
     "US:Nonfarm Payrolls Private",
