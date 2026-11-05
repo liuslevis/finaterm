@@ -61,6 +61,7 @@ def main() -> int:
         assert "function connectedDataSources(results)" in page
         assert '`实时数据已连接 [${connectedSources}]`' in page
         assert 'btc: { name: "比特币", short: "BTC", category: "crypto", symbol: "BTC-USD", digits: 0' in page
+        assert 'ebay: { name: "eBay", short: "EBAY", category: "stocks", symbol: "EBAY"' in page
         assert '["stocks", "Stocks"]' in page
         assert '["bonds", "Bonds"]' in page
         assert 'usdataId: "fed_funds_rate"' in page
