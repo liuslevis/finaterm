@@ -90,7 +90,7 @@ starts (see "Offline tab panels" below). Methodology and refresh notes are in
 
 The `美股供需` tab applies the same framework to US equities: IPO + follow-ons +
 converts + insider selling − buybacks − dividends − insider buying versus US
-equity ETF flows + margin debt change, scaled by Wilshire 5000 market cap, with
+equity ETF flows + domestic equity mutual fund flows (ICI) + margin debt change, scaled by Wilshire 5000 market cap, with
 z-scores, the S&P 500 monthly return and IPO sentiment. Auto sources (Nasdaq,
 openinsider, Yahoo, FINRA) are combined with AI-maintained `manual.json`.
 The panel refreshes automatically at server start and ends at the latest month that

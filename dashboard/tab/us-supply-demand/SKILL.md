@@ -11,12 +11,13 @@ IPO 单独看解释力很弱。要把全部股权供给加总，再和增量资�
 
 ```
 净股权供给 = IPO + 增发/大宗 + 可转债 + 内部人卖出 − 回购 − 现金分红 − 内部人买入
-增量资金   = 美股 ETF 净流入 + 融资余额变化 (+ 美股共同基金净流入，数据完整时才计入)
+增量资金   = 美股 ETF 净流入 + 美股共同基金净流入 + 融资余额变化
 供需差     = 增量资金 − 净股权供给
 标准化     = 供需差 / 美股总市值(^W5000，bp)，再做 3/6 个月滚动 z-score
 ```
 
 - 美股和 A 股最大的不同：回购和分红（S&P 500 约 $150B/月）长期大于发行，所以**净供给常年为负**。供需差的水平没什么意义，要看 **z-score 的边际变化**。
+- 共同基金必须计入：ETF 流入很大一部分是从主动共同基金迁出的钱（国内股票型 MF 每月 −$40~−115B），只算 ETF 会让需求系统性偏高。MF 某月缺数时，脚本用此前 3 个月实际值均值估算（`MF_FILL_WINDOW`），并写进 caveats；整列无数据时才退出公式，caveats 标注「系统性偏高」。
 - `gap_ex_div`（扣分红口径）：分红多数会再投资回指数，扣掉更能反映「主动」资金面。
 - 情绪（同步或滞后）：IPO 家数（剔除 SPAC）、新递表数、撤回数、首日涨幅中位数、首日破发率。美股没有网下询价倍数。
 - 参考列（不进公式）：`lockup_ref` = 6 个月前的 IPO 募资（锁定期到期的代理指标），`insider_sell_10pct` = 纯 10% 股东卖出（和大宗交易重叠），`free_credit` = 券商客户现金余额变化（相当于 A 股的银证转账）。
@@ -43,7 +44,7 @@ IPO 单独看解释力很弱。要把全部股权供给加总，再和增量资�
 | margin, free_credit | FINRA margin statistics | 自动，被 403 时用 `manual.json.finra` 兜底 | 月末差分。单位 $M → $B |
 | spx_ret, mcap | Yahoo `^GSPC`、`^W5000` | 自动 | ^W5000 点位 ≈ 美股总市值（$B） |
 | etf_us_equity | First Trust「ETF Data Watch: Asset Flows Monitor」月报（FactSet） | 手工 | 每月约 8–12 日发布上月数据，PDF 本地可下载 |
-| mf_domestic_equity | ICI Trends in Mutual Fund Investing | 手工 | ici.org 403；只能从 PR Newswire 或搜索摘要获取。不完整时自动不计入需求 |
+| mf_domestic_equity | ICI Trends in Mutual Fund Investing「Domestic equity」net new cash flow | 手工 | 每月约 28–31 日发布上月数据（比 ETF 晚约 3 周，最新月通常先用估算）。ici.org 本地 403，web_fetch 任何 `trends_MM_YY` 都会跳到最新一期；历史月份用 Wayback：先查 `web.archive.org/cdx/search/cdx?url=ici.org/research/stats/trends*`（iciglobal.org 同理），再 curl 快照。不要用 ICI「Active and Index Investing」（含 ETF） |
 | follow_on, convertible | ICR 季度 ECM review（icrinc.com） | 手工，季度值 ÷ 3 | 增发包含大宗交易 |
 | buyback, dividend | S&P DJI（Howard Silverblatt）季度报告 | 手工，季度值 ÷ 3 | 最新季度缺失时沿用上季度，并在 caveats 里标注为估算 |
 
@@ -53,7 +54,7 @@ IPO 单独看解释力很弱。要把全部股权供给加总，再和增量资�
 
 1. **补 manual.json**（web_search / web_fetch）：
    - `monthly.etf_us_equity[上月]`：搜索 "ftportfolios asset flows monitor {月份} edition"，取 "U.S. equity ETFs net inflows"
-   - `monthly.mf_domestic_equity`：搜索 "ICI trends in mutual fund investing {月份} domestic equity"
+   - `monthly.mf_domestic_equity`：web_fetch `https://www.ici.org/research/stats/trends` 拿最新一期（表里同时有上月修订值）；更早的月份按上表走 Wayback。实在找不到时可用 ICI 周度 Estimated Long-Term Mutual Fund Flows（Domestic）按周加总，并在 caveats 标注为估算
    - 季度结束后：ICR "Q? 20?? equity capital markets review" 提供增发+大宗、可转债；S&P DJI "S&P 500 Q? buybacks" 提供回购、分红
    - FINRA：用 web_fetch 访问 `FINRA_URL`，补 `finra` 表（本地 urllib 常被 403）
    - 每个数值都写进 `sources`；估算值写进 `caveats`
