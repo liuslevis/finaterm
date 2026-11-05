@@ -216,7 +216,18 @@ function registerMenuBarShortcut(window) {
   });
 }
 
+function resolveAppIcon() {
+  if (process.platform === "darwin") {
+    return path.join(__dirname, "assets", "icon.icns");
+  }
+  if (process.platform === "win32") {
+    return path.join(__dirname, "assets", "icon.ico");
+  }
+  return path.join(__dirname, "assets", "icon.png");
+}
+
 function createWindow(url) {
+  const icon = resolveAppIcon();
   mainWindow = new BrowserWindow({
     title: "全球金融数据终端",
     width: 1600,
@@ -225,6 +236,7 @@ function createWindow(url) {
     minHeight: 700,
     show: false,
     backgroundColor: "#07111f",
+    icon,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -282,6 +294,10 @@ app.whenReady().then(async () => {
   Menu.setApplicationMenu(
     process.platform === "darwin" ? Menu.buildFromTemplate([]) : applicationMenu,
   );
+  // 未打包运行时 macOS Dock 仍用 Electron 默认图，需显式设置。
+  if (process.platform === "darwin" && app.dock) {
+    app.dock.setIcon(path.join(__dirname, "assets", "icon.png"));
+  }
   try {
     dashboardUrl = await startDashboard();
     createWindow(dashboardUrl);
