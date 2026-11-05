@@ -5,6 +5,9 @@ const ASSETS = {
   treasury2y: { name: "美国 2 年期国债收益率", short: "US 2Y", category: "bonds", unit: "%", source: "usdata", usdataId: "treasury_2y", kind: "rate", digits: 2, color: "#26a69a" },
   treasury10y: { name: "美国 10 年期国债收益率", short: "US 10Y", category: "bonds", unit: "%", source: "usdata", usdataId: "treasury_10y", kind: "rate", digits: 2, color: "#4db6ac" },
   spread: { name: "美债 10Y-2Y", short: "10Y-2Y", category: "bonds", unit: " bp", source: "usdata", usdataId: "treasury_10y_2y_spread", multiplier: 100, kind: "rate", digits: 1, color: "#38d7c5" },
+  hyOas: { name: "HY 利差", short: "HY", category: "bonds", unit: " bp", source: "usdata", usdataId: "hy_oas", multiplier: 100, kind: "rate", digits: 0, color: "#ef5350" },
+  igOas: { name: "IG 利差", short: "IG", category: "bonds", unit: " bp", source: "usdata", usdataId: "ig_oas", multiplier: 100, kind: "rate", digits: 0, color: "#42a5f5" },
+  hyIg: { name: "HY-IG", short: "HY-IG", category: "bonds", unit: " bp", source: "usdata", usdataId: "hy_oas", minusUsdataId: "ig_oas", multiplier: 100, kind: "rate", digits: 0, color: "#ab47bc" },
   qqq: { name: "纳指 100 ETF", short: "QQQ", category: "stocks", symbol: "QQQ", futu: true, digits: 2, prefix: "$", color: "#54a4ff" },
   spy: { name: "标普 500 ETF", short: "SPY", category: "stocks", symbol: "SPY", digits: 2, prefix: "$", color: "#56b4e9" },
   dia: { name: "道琼斯 ETF", short: "DIA", category: "stocks", symbol: "DIA", digits: 2, prefix: "$", color: "#6fa8dc" },
@@ -106,7 +109,7 @@ const PREVIOUS_DEFAULT_TICKERS = [
   "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
 ];
 const DEFAULT_TICKERS = [
-  "fedFunds", "treasury2y", "treasury10y", "spread",
+  "fedFunds", "treasury2y", "treasury10y", "spread", "hyOas", "igOas", "hyIg",
   "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
   "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
 ];

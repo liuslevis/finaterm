@@ -66,6 +66,12 @@ def main() -> int:
         assert 'usdataId: "fed_funds_rate"' in page
         assert 'usdataId: "treasury_2y"' in page
         assert 'usdataId: "treasury_10y"' in page
+        assert 'usdataId: "hy_oas"' in page
+        assert 'usdataId: "ig_oas"' in page
+        assert 'hyOas: { name: "HY 利差"' in page
+        assert 'igOas: { name: "IG 利差"' in page
+        assert 'hyIg: { name: "HY-IG"' in page
+        assert "asset.minusUsdataId" in page
         assert 'usRate: { name: "美国有效联邦基金利率"' in page
         assert 'cnRate: { name: "中国 1 年期 LPR"' in page
         assert 'const keys = ["usCpi", "usPpi", "usRate", "cnCpi", "cnPpi", "cnRate"]' in page
@@ -269,6 +275,8 @@ def main() -> int:
             "treasury_2y",
             "treasury_10y",
             "treasury_10y_2y_spread",
+            "hy_oas",
+            "ig_oas",
             "nonfarm_payrolls",
             "cpi",
             "ppi_final_demand",

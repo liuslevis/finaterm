@@ -104,6 +104,8 @@ FMP_API_KEY=
 | 利率 | 2-Year Treasury Yield | FRED | `DGS2` | 日 |
 | 利率 | 10-Year Treasury Yield | FRED | `DGS10` | 日 |
 | 利率 | 10Y-2Y Treasury Spread | FRED | `T10Y2Y` | 日 |
+| 信用 | ICE BofA US High Yield OAS | FRED | `BAMLH0A0HYM2` | 日 |
+| 信用 | ICE BofA US Corporate OAS | FRED | `BAMLC0A0CM` | 日 |
 
 ### 4.2 第二优先级
 

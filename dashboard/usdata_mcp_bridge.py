@@ -14,6 +14,8 @@ INDICATORS = (
     "treasury_2y",
     "treasury_10y",
     "treasury_10y_2y_spread",
+    "hy_oas",
+    "ig_oas",
     "nonfarm_payrolls",
     "cpi",
     "ppi_final_demand",

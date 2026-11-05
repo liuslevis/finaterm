@@ -105,10 +105,14 @@ function rangeStart(range = state.range) {
 }
 
 async function fetchUsdataRate(asset, range = state.range) {
-  const observations = usdataObservations(
-    await fetchUsdata(),
-    asset.usdataId
-  );
+  const payload = await fetchUsdata();
+  let observations = usdataObservations(payload, asset.usdataId);
+  if (asset.minusUsdataId) {
+    const minus = new Map(usdataObservations(payload, asset.minusUsdataId).map(row => [row.time, row.value]));
+    observations = observations
+      .filter(row => Number.isFinite(row.value) && Number.isFinite(minus.get(row.time)))
+      .map(row => ({ time: row.time, value: row.value - minus.get(row.time) }));
+  }
   const cutoff = new Date(`${rangeStart(range)}T00:00:00Z`).getTime();
   const rows = observations.filter(row => row.time >= cutoff).map(row => {
     const value = Number(row.value);
@@ -210,11 +214,11 @@ async function fetchMacroAssets(range = state.range, targetSeries = state.series
   const payload = await fetchUsdata();
   const observationsByKey = Object.fromEntries(
     Object.entries(ASSETS)
-      .filter(([, asset]) => asset.usdataId)
+      .filter(([, asset]) => asset.usdataId && asset.kind === "macro")
       .map(([key, asset]) => [key, usdataObservations(payload, asset.usdataId)])
   );
   await chinaHistory;
-  Object.entries(ASSETS).filter(([, asset]) => asset.usdataId).forEach(([key, asset]) => {
+  Object.entries(ASSETS).filter(([, asset]) => asset.usdataId && asset.kind === "macro").forEach(([key, asset]) => {
     const fullSeries = transformMacroSeries(asset, observationsByKey[key]);
     if (storeFullSeries) state.macroAll[key] = fullSeries;
     targetSeries[key] = filterSeriesRange(fullSeries, range);
