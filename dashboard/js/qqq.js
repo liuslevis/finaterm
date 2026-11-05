@@ -61,7 +61,7 @@ const QQQ_DECISIONS = [
     date: "2026-09-11",
     title: "已有现金通常尽早投入，分批用于管理行为风险",
     summary: "历史研究中，一次性投入约三分之二时间优于分批投入，因为股票长期预期收益高于现金；工资按月到账则自然适合定投。",
-    action: "若一次投入会导致恐慌卖出，可预先限定 3—6 个月分批完成，避免根据行情无限延期。",
+    action: "若一次投入会导致恐慌卖出，可预先限定 3—6 个月分批完成，避免根据行情无限延期；回撤加码靠未来收入和从债券再平衡，不长期持有大额闲置现金等待下跌。",
     sources: [["Vanguard 定投研究", "https://externalcrewnet.vanguard.com/content/dam/corp/research/pdf/cost_averaging_invest_now_or_temporarily_hold_your_cash.pdf"]]
   },
   {
@@ -79,17 +79,19 @@ const QQQ_RISK_BLOCKS = [
   { name: "利率与通胀", score: 86.7, color: "#ff6577", note: "当前最主要的风险来源" },
   { name: "估值与市场宽度", score: 75.0, color: "#f5bd59", note: "半导体落后、宽度转弱" }
 ];
+const QQQ_RISK_THEMES = ["趋势", "利率通胀", "信用金融条件", "内部结构", "波动率"];
+const QQQ_RISK_SNAPSHOT_DATE = "2026-11-04";
 const QQQ_RISK_CONDITIONS = [
-  { key: "below200d", name: "QQQ跌破200日均线", note: "趋势确认", active: false },
-  { key: "realYield", name: "实际利率60日上升>30bp", note: "折现率压力", active: true },
-  { key: "credit", name: "信用利差60日扩大>20bp", note: "融资环境恶化", active: false },
-  { key: "cpi", name: "CPI同比>3%", note: "限制货币宽松空间", active: true },
-  { key: "financial", name: "NFCI高于一年均值", note: "金融条件收紧", active: false },
-  { key: "breadth", name: "市场宽度转负", note: "上涨依赖少数权重股", active: true },
-  { key: "backwardation", name: "VIX期限结构倒挂", note: "短期压力进入确认", active: false },
-  { key: "oil", name: "WTI同比上涨>30%", note: "再通胀风险", active: true },
-  { key: "semis", name: "半导体相对标普走弱", note: "科技高Beta前哨", active: true },
-  { key: "twoYear", name: "2Y收益率60日下降>40bp", note: "可能定价衰退或危机降息", active: false }
+  { key: "below200d", theme: "趋势", name: "QQQ跌破200日均线", note: "趋势确认", active: false, evidence: "11-04 QQQ 691.95 > 200日均线 680.56（Yahoo）" },
+  { key: "realYield", theme: "利率通胀", name: "实际利率60日上升>30bp", note: "折现率压力", active: false, evidence: "DFII10 2.40%→2.65%，+25bp（FRED，至11-03）" },
+  { key: "cpi", theme: "利率通胀", name: "CPI同比>3%", note: "限制货币宽松空间", active: true, evidence: "2026年9月CPI同比3.72%（FRED CPIAUCSL）" },
+  { key: "oil", theme: "利率通胀", name: "WTI同比上涨>30%", note: "再通胀风险", active: true, evidence: "WTI 99.64 vs 去年61.79，+61%（FRED，11-03）" },
+  { key: "twoYear", theme: "利率通胀", name: "2Y收益率60日下降>40bp", note: "可能定价衰退或危机降息", active: false, evidence: "DGS2 4.19%→4.61%，上升42bp（FRED，至11-03）" },
+  { key: "credit", theme: "信用金融条件", name: "信用利差60日扩大>20bp", note: "融资环境恶化", active: true, evidence: "HY OAS 2.72%→3.40%，+68bp（FRED，至11-03）" },
+  { key: "financial", theme: "信用金融条件", name: "NFCI高于一年均值", note: "金融条件收紧", active: true, evidence: "NFCI −0.459 > 52周均值 −0.513（FRED，10-30）" },
+  { key: "breadth", theme: "内部结构", name: "市场宽度转负", note: "上涨依赖少数权重股", active: true, evidence: "未核验，沿用2026-09-10快照" },
+  { key: "semis", theme: "内部结构", name: "半导体相对标普走弱", note: "科技高Beta前哨", active: true, evidence: "60日 SOX −15.1% vs SPX −0.5%（Yahoo，至11-04）" },
+  { key: "backwardation", theme: "波动率", name: "VIX期限结构倒挂", note: "短期压力进入确认", active: false, evidence: "VIX3M/VIX 21.27/20.83=1.02，未倒挂（FRED，11-03）" }
 ];
 const QQQ_CONDITION_OUTCOMES = {
   0: { drawdown: -4.23, probability: 10.19 },
@@ -103,7 +105,7 @@ const QQQ_CONDITION_OUTCOMES = {
   8: { drawdown: -13.04, probability: 45.10 },
   9: { drawdown: -13.79, probability: 64.41 }
 };
-const QQQ_RISK_SELECTION_KEY = "finance-dashboard-qqq-risk-conditions-v1";
+const QQQ_RISK_SELECTION_KEY = "finance-dashboard-qqq-risk-conditions-v2";
 
 function renderQqqDecisions() {
   document.getElementById("qqqDecisionGrid").innerHTML = QQQ_DECISIONS.map((item, index) => `
@@ -150,12 +152,17 @@ function renderQqqRiskBlocks() {
 
 function renderQqqRiskConditions() {
   const host = document.getElementById("qqqFactorToggles");
-  host.innerHTML = QQQ_RISK_CONDITIONS.map(item => `
+  host.innerHTML = QQQ_RISK_THEMES.map(theme => {
+    const items = QQQ_RISK_CONDITIONS.filter(item => item.theme === theme);
+    const hit = items.filter(item => qqqRiskState.active.has(item.key)).length;
+    return `
+    <div style="grid-column:1/-1;margin-top:4px;color:var(--muted);font-size:9px;letter-spacing:.04em">${escapeHtml(theme)} · ${hit}/${items.length}</div>
+    ${items.map(item => `
     <button type="button" class="factor-toggle ${qqqRiskState.active.has(item.key) ? "active" : ""}" data-qqq-condition="${item.key}" aria-pressed="${qqqRiskState.active.has(item.key)}">
       <strong>${escapeHtml(item.name)}</strong>
-      <span>${escapeHtml(item.note)}</span>
-    </button>
-  `).join("");
+      <span>${escapeHtml(item.note)} · ${escapeHtml(item.evidence)}</span>
+    </button>`).join("")}`;
+  }).join("");
   host.querySelectorAll("[data-qqq-condition]").forEach(button => {
     button.addEventListener("click", () => {
       const key = button.dataset.qqqCondition;
@@ -168,6 +175,7 @@ function renderQqqRiskConditions() {
       }
       renderQqqRiskConditions();
       renderQqqRiskOutcome();
+      renderQqqRiskActiveSignals();
     });
   });
 }
@@ -175,14 +183,31 @@ function renderQqqRiskConditions() {
 function renderQqqRiskOutcome() {
   const count = qqqRiskState.active.size;
   const outcome = QQQ_CONDITION_OUTCOMES[count];
+  const themes = QQQ_RISK_THEMES.filter(theme => QQQ_RISK_CONDITIONS.some(item => item.theme === theme && qqqRiskState.active.has(item.key)));
+  const neighbours = [count - 1, count, count + 1].map(n => QQQ_CONDITION_OUTCOMES[n]).filter(Boolean);
+  const drawdowns = neighbours.map(item => Math.abs(item.drawdown));
+  const probabilities = neighbours.map(item => item.probability);
   document.getElementById("qqqConditionCount").textContent = `${count} / ${QQQ_RISK_CONDITIONS.length}`;
+  document.getElementById("qqqConditionThemes").textContent = `${themes.length} / ${QQQ_RISK_THEMES.length}`;
   document.getElementById("qqqConditionDrawdown").textContent = outcome ? `−${Math.abs(outcome.drawdown).toFixed(2)}%` : "样本不足";
   document.getElementById("qqqConditionProbability").textContent = outcome ? `${outcome.probability.toFixed(2)}%` : "样本不足";
+  document.getElementById("qqqConditionDrawdownRange").textContent = neighbours.length ? `−${Math.min(...drawdowns).toFixed(1)}% ~ −${Math.max(...drawdowns).toFixed(1)}%` : "样本不足";
+  document.getElementById("qqqConditionProbabilityRange").textContent = neighbours.length ? `${Math.min(...probabilities).toFixed(0)}% ~ ${Math.max(...probabilities).toFixed(0)}%` : "样本不足";
   document.getElementById("qqqConditionBar").style.width = `${Math.min(100, count / QQQ_RISK_CONDITIONS.length * 100)}%`;
+}
+
+function renderQqqRiskActiveSignals() {
+  const active = QQQ_RISK_CONDITIONS.filter(item => qqqRiskState.active.has(item.key));
+  const themes = new Set(active.map(item => item.theme));
+  document.getElementById("qqqRiskActiveNote").textContent = `默认状态核验至${QQQ_RISK_SNAPSHOT_DATE}（市场宽度未核验） · 当前选中${active.length}/${QQQ_RISK_CONDITIONS.length}项 · 覆盖${themes.size}/${QQQ_RISK_THEMES.length}个主题`;
+  document.getElementById("qqqRiskActiveList").innerHTML = active.length
+    ? active.map(item => `<div class="qqq-callout"><div class="qqq-callout-title">${escapeHtml(item.theme)} · ${escapeHtml(item.name)}</div><div class="qqq-callout-copy">${escapeHtml(item.note)}。${escapeHtml(item.evidence)}</div></div>`).join("")
+    : `<div class="qqq-callout"><div class="qqq-callout-copy">当前未选中任何条件。</div></div>`;
 }
 
 function renderQqqRiskDashboard() {
   renderQqqRiskBlocks();
   renderQqqRiskConditions();
   renderQqqRiskOutcome();
+  renderQqqRiskActiveSignals();
 }

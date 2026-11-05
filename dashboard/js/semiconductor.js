@@ -3,7 +3,7 @@
 let semiChart = null;
 const SEMI_MARKET_KEYS = ["soxx", "smh", "nvda", "tsm", "avgo", "mu", "amd", "asml", "amat", "lrcx", "klac", "intc", "txn"];
 const SEMI_DEFAULT_KEYS = ["soxx", "nvda", "tsm", "mu", "asml"];
-const SEMI_SIGNAL_KEY = "finance-dashboard-semiconductor-signals-v1";
+const SEMI_SIGNAL_KEY = "finance-dashboard-semiconductor-signals-v2";
 const SEMI_OPINION_KEY = "finance-dashboard-semiconductor-opinions-v1";
 
 const SEMI_OPINION_DEFAULTS = [
@@ -16,27 +16,27 @@ const SEMI_OPINION_DEFAULTS = [
   }
 ];
 const CLOUD_CAPEX = {
-  quarters: ["2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1", "2026Q2"],
+  quarters: ["2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1", "2026Q2", "2026Q3"],
   companies: [
-    { key: "MSFT", name: "Microsoft", color: "#54a4ff", values: [16.745, 17.079, 19.394, 29.876, 30.876, 35.802], yoy: 109.6, qoq: 16.0 },
-    { key: "GOOGL", name: "Alphabet", color: "#f5bd59", values: [17.197, 22.446, 23.953, 27.851, 35.674, 44.924], yoy: 100.1, qoq: 25.9 },
-    { key: "AMZN", name: "Amazon", color: "#ff8a65", values: [25.019, 32.183, 35.095, 39.522, 44.203, 54.208], yoy: 68.4, qoq: 22.6 },
-    { key: "META", name: "Meta", color: "#a889ff", values: [12.941, 16.538, 18.829, 21.383, 18.997, 30.116], yoy: 82.1, qoq: 58.5 }
+    { key: "MSFT", name: "Microsoft", color: "#54a4ff", values: [16.745, 17.079, 19.394, 29.876, 30.876, 35.802, 39.367], yoy: 103.0, qoq: 10.0 },
+    { key: "GOOGL", name: "Alphabet", color: "#f5bd59", values: [17.197, 22.446, 23.953, 27.851, 35.674, 44.924, 51.355], yoy: 114.4, qoq: 14.3 },
+    { key: "AMZN", name: "Amazon", color: "#ff8a65", values: [25.019, 32.183, 35.095, 39.522, 44.203, 54.208, 77.259], yoy: 120.1, qoq: 42.5 },
+    { key: "META", name: "Meta", color: "#a889ff", values: [12.941, 16.538, 18.829, 21.383, 18.997, 30.116, 33.942], yoy: 80.3, qoq: 12.7 }
   ],
-  totals: [71.902, 88.246, 97.271, 118.632, 129.750, 165.050],
-  totalYoy: 87.0,
-  totalQoq: 27.2,
+  totals: [71.902, 88.246, 97.271, 118.632, 129.750, 165.050, 201.923],
+  totalYoy: 107.6,
+  totalQoq: 22.3,
   oracle: { quarter: "FY27Q1", period: "2026-06-01 至 2026-08-31", value: 28.499, yoy: 235.2, qoq: 72.8 }
 };
 const SEMI_SIGNALS = [
-  { key: "spotTrend", name: "DRAM/NAND现货趋势", type: "select", value: "flat", options: [["up", "上涨"], ["flat", "横盘"], ["down4w", "连续4周下跌"]], threshold: "连续4周下跌 = +2风险", score: value => value === "down4w" ? 2 : value === "flat" ? 1 : 0 },
-  { key: "dramQoq", name: "DRAM合约价 QoQ", type: "number", value: 15.5, suffix: "%", threshold: "≤5% = +2风险", score: value => Number(value) <= 5 ? 2 : Number(value) <= 10 ? 1 : 0 },
-  { key: "nandQoq", name: "NAND合约价 QoQ", type: "number", value: 12.5, suffix: "%", threshold: "≤5% = +1风险", score: value => Number(value) <= 5 ? 1 : 0 },
-  { key: "tsmcYoy", name: "台积电月营收 YoY", type: "number", value: 53.3, suffix: "%", threshold: "<30% = +1风险", score: value => Number(value) < 30 ? 1 : 0 },
-  { key: "koreaExportYoy", name: "韩国芯片出口 YoY", type: "number", value: 209, suffix: "%", threshold: "<50% = +1风险", score: value => Number(value) < 50 ? 1 : 0 },
-  { key: "us10y", name: "美国10年期收益率", type: "number", value: 4.8, suffix: "%", threshold: ">5% = +1风险", score: value => Number(value) > 5 ? 1 : 0 },
-  { key: "capex", name: "云厂商资本开支指引", type: "select", value: "stable", options: [["up", "上调"], ["stable", "稳定"], ["cut", "下调/消化"]], threshold: "下调/消化 = +2风险", score: value => value === "cut" ? 2 : value === "stable" ? 1 : 0 },
-  { key: "earningsBreadth", name: "盈利修正广度", type: "select", value: "balanced", options: [["up", "上调占优"], ["balanced", "接近平衡"], ["down", "下调占优"]], threshold: "下调占优 = +1风险", score: value => value === "down" ? 1 : value === "balanced" ? 1 : 0 }
+  { key: "spotTrend", name: "DRAM/NAND现货趋势", type: "select", value: "flat", asOf: "2026-11-03 · DRAM横盘，NAND晶圆现货连跌", options: [["up", "上涨"], ["flat", "横盘"], ["down4w", "连续4周下跌"]], threshold: "连续4周下跌 = +2风险", max: 2, score: value => value === "down4w" ? 2 : value === "flat" ? 1 : 0 },
+  { key: "dramQoq", name: "DRAM合约价 QoQ", type: "number", value: 12.5, asOf: "TrendForce 4Q26预测 10–15% · 2026-09-30", suffix: "%", threshold: "≤5% = +2风险", max: 2, score: value => Number(value) <= 5 ? 2 : Number(value) <= 10 ? 1 : 0 },
+  { key: "nandQoq", name: "NAND合约价 QoQ", type: "number", value: 17.5, asOf: "TrendForce 4Q26预测 15–20% · 2026-09-30", suffix: "%", threshold: "≤5% = +1风险", max: 1, score: value => Number(value) <= 5 ? 1 : 0 },
+  { key: "tsmcYoy", name: "台积电月营收 YoY", type: "number", value: 54.6, asOf: "2026年9月 · 10月营收2026-11-10公布", suffix: "%", threshold: "<30% = +1风险", max: 1, score: value => Number(value) < 30 ? 1 : 0 },
+  { key: "koreaExportYoy", name: "韩国芯片出口 YoY", type: "number", value: 259.4, asOf: "2026年10月 · MOTIR 2026-11-01", suffix: "%", threshold: "<50% = +1风险", max: 1, score: value => Number(value) < 50 ? 1 : 0 },
+  { key: "us10y", name: "美国10年期收益率", type: "number", value: 4.8, suffix: "%", threshold: ">5% = +1风险", max: 1, score: value => Number(value) > 5 ? 1 : 0 },
+  { key: "capex", name: "云厂商资本开支指引", type: "select", value: "stable", asOf: "2026Q3财报 · 2026-10-29", options: [["up", "上调"], ["stable", "稳定"], ["cut", "下调/消化"]], threshold: "下调/消化 = +2风险", max: 2, score: value => value === "cut" ? 2 : value === "stable" ? 1 : 0 },
+  { key: "earningsBreadth", name: "盈利修正广度", type: "select", value: "balanced", options: [["up", "上调占优"], ["balanced", "接近平衡"], ["down", "下调占优"]], threshold: "接近平衡 = +1，下调占优 = +2风险", max: 2, score: value => value === "down" ? 2 : value === "balanced" ? 1 : 0 }
 ];
 const semiState = {
   range: "1y",
@@ -158,11 +158,11 @@ function renderCloudCapex() {
   const margin = { top: 28, right: 24, bottom: 45, left: 48 };
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
-  const maxValue = 180;
+  const maxValue = Math.ceil(Math.max(...CLOUD_CAPEX.totals) * 1.12 / 50) * 50;
   const band = plotWidth / CLOUD_CAPEX.quarters.length;
   const barWidth = Math.min(72, band * .56);
   const y = value => margin.top + plotHeight - value / maxValue * plotHeight;
-  const gridValues = [0, 50, 100, 150];
+  const gridValues = Array.from({ length: Math.floor((maxValue - 1) / 50) + 1 }, (_, index) => index * 50);
   const grid = gridValues.map(value => `
     <line x1="${margin.left}" y1="${y(value)}" x2="${width - margin.right}" y2="${y(value)}" stroke="rgba(151,180,202,.12)" />
     <text x="${margin.left - 9}" y="${y(value) + 4}" text-anchor="end" fill="#718796" font-size="10">${value}</text>
@@ -224,9 +224,12 @@ function semiRiskScore() {
 }
 
 function semiRiskProfile(score = semiRiskScore()) {
-  if (score >= 6) return { label: "周期转向", state: "risk", headline: "领先指标确认转弱 · 下行风险占优" };
-  if (score >= 3) return { label: "高位预警", state: "watch", headline: "高景气 · 后周期 · 等待转向确认" };
-  return { label: "景气延续", state: "safe", headline: "高景气延续 · 尚未形成下行确认" };
+  const max = SEMI_SIGNALS.reduce((sum, signal) => sum + signal.max, 0);
+  const triggered = SEMI_SIGNALS.filter(signal => signal.score(semiState.signals[signal.key]) >= signal.max).length;
+  const base = { score, max, triggered };
+  if (triggered >= 3 || score >= Math.ceil(max * 0.55)) return { ...base, label: "周期转向", state: "risk", headline: "领先指标确认转弱 · 下行风险占优" };
+  if (triggered >= 1 || score >= Math.ceil(max * 0.3)) return { ...base, label: "高位预警", state: "watch", headline: "高景气 · 后周期 · 等待转向确认" };
+  return { ...base, label: "景气延续", state: "safe", headline: "高景气延续 · 尚未形成下行确认" };
 }
 
 function renderSemiSignals() {
@@ -241,7 +244,7 @@ function renderSemiSignals() {
       : `<input class="signal-input" data-semi-signal="${signal.key}" type="number" step="0.1" value="${escapeHtml(value)}" aria-label="${escapeHtml(signal.name)}">`;
     return `
       <div class="signal-row">
-        <div><div class="signal-name">${escapeHtml(signal.name)}</div><div class="signal-threshold">${escapeHtml(signal.threshold)}</div></div>
+        <div><div class="signal-name">${escapeHtml(signal.name)}</div><div class="signal-threshold">${escapeHtml(signal.threshold)}${signal.asOf ? ` · 默认值：${escapeHtml(signal.asOf)}` : ""}</div></div>
         ${control}
         <span class="signal-state ${state}">${label}</span>
       </div>
@@ -261,14 +264,15 @@ function renderSemiSignals() {
 function renderSemiRisk() {
   const score = semiRiskScore();
   const profile = semiRiskProfile(score);
-  document.getElementById("cycleScore").textContent = `${score}/11`;
+  document.getElementById("cycleScore").textContent = `${score}/${profile.max}`;
   document.getElementById("cycleScore").style.color = profile.state === "risk" ? "var(--red)" : profile.state === "watch" ? "var(--amber)" : "var(--green)";
   document.getElementById("cycleLabel").textContent = profile.label;
-  document.getElementById("cycleDetail").textContent = score >= 6
-    ? "至少三类领先指标已显著恶化，应按周期下行管理风险"
-    : score >= 3
-      ? "边际风险正在累积，等待价格、资本开支和盈利修正共同确认"
-      : "主要领先指标仍支持景气延续";
+  const triggeredText = profile.triggered ? `${profile.triggered}项指标完全转弱` : "多项指标边际走弱";
+  document.getElementById("cycleDetail").textContent = profile.state === "risk"
+    ? `${triggeredText}，应按周期下行管理风险`
+    : profile.state === "watch"
+      ? `${triggeredText}，边际风险累积，等待价格、资本开支和盈利修正共同确认`
+      : "暂无指标完全转弱，主要领先指标仍支持景气延续";
   document.getElementById("semiHeadline").textContent = profile.headline;
   document.getElementById("semiRiskState").textContent = profile.label;
   document.getElementById("semiRiskState").style.color = profile.state === "risk" ? "var(--red)" : profile.state === "watch" ? "var(--amber)" : "var(--green)";
@@ -339,7 +343,7 @@ function renderSemiStats() {
   const spy3m = periodReturn(semiState.series.spy, 91);
   const relative = Number.isFinite(soxx3m) && Number.isFinite(spy3m) ? soxx3m - spy3m : NaN;
   const yieldRow = semiState.series.us10y?.at(-1);
-  const yieldValue = Number.isFinite(yieldRow?.close) ? yieldRow.close / 10 : NaN;
+  const yieldValue = Number.isFinite(yieldRow?.close) ? (yieldRow.close > 20 ? yieldRow.close / 10 : yieldRow.close) : NaN;
   document.getElementById("semiSoxx1m").textContent = formatPct(soxx1m);
   document.getElementById("semiSoxx1m").className = `semi-stat-value ${soxx1m >= 0 ? "up" : "down"}`;
   document.getElementById("semiRelative3m").textContent = formatPct(relative);

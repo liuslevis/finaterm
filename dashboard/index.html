@@ -255,12 +255,12 @@
             <h2 id="semiHeadline">高景气 · 后周期 · 等待转向确认</h2>
             <p id="semiThesis">
               核心判断不是预测某一天见顶，而是跟踪存储价格、台积电营收、韩国出口、AI资本开支、盈利修正和利率。
-              三项以上领先指标转弱时，视为从高位震荡进入周期下行。
+              任一指标完全转弱或风险分达30%即进入高位预警；三项以上完全转弱或风险分达55%时，视为从高位震荡进入周期下行。
             </p>
           </section>
           <section class="panel cycle-gauge">
-            <div id="cycleScore" class="cycle-score">3/11</div>
-            <div id="cycleLabel" class="cycle-label">高位预警</div>
+            <div id="cycleScore" class="cycle-score">3/12</div>
+            <div id="cycleLabel" class="cycle-label">景气延续</div>
             <div id="cycleDetail" class="cycle-detail">风险分数根据右侧指标自动更新</div>
           </section>
         </div>
@@ -327,29 +327,29 @@
           <div class="panel-head">
             <div>
               <div class="panel-title">主要云厂商季度资本开支</div>
-              <div class="panel-note">现金流量表购置物业及设备口径 · 单位：十亿美元 · 数据截至 2026-09-11</div>
+              <div class="panel-note">现金流量表购置物业及设备口径 · 单位：十亿美元 · 数据截至 2026-11-05</div>
             </div>
           </div>
           <div class="capex-summary">
             <div class="capex-summary-card">
-              <div class="capex-summary-label">四大厂商 · 2026Q2</div>
-              <div class="capex-summary-value">$165.1B</div>
+              <div class="capex-summary-label">四大厂商 · 2026Q3</div>
+              <div class="capex-summary-value">$201.9B</div>
               <div class="capex-summary-note">Microsoft + Alphabet + Amazon + Meta</div>
             </div>
             <div class="capex-summary-card">
               <div class="capex-summary-label">同比增速</div>
-              <div class="capex-summary-value up">+87.0%</div>
-              <div class="capex-summary-note">较2025Q2的$88.2B大幅增长</div>
+              <div class="capex-summary-value up">+107.6%</div>
+              <div class="capex-summary-note">较2025Q3的$97.3B翻倍，高于2026Q2的+87.0%</div>
             </div>
             <div class="capex-summary-card">
               <div class="capex-summary-label">环比增速</div>
-              <div class="capex-summary-value up">+27.2%</div>
-              <div class="capex-summary-note">连续两个季度加速</div>
+              <div class="capex-summary-value up">+22.3%</div>
+              <div class="capex-summary-note">较2026Q2的+27.2%放缓，Amazon环比+42.5%领涨</div>
             </div>
             <div class="capex-summary-card">
               <div class="capex-summary-label">Oracle · FY27Q1</div>
               <div class="capex-summary-value">$28.5B</div>
-              <div class="capex-summary-note">同比 +235.2% · 财季截至2026-08-31</div>
+              <div class="capex-summary-note">同比 +235.2% · 财季截至2026-08-31 · FY27Q2待12月披露</div>
             </div>
           </div>
           <div class="capex-layout">
@@ -365,26 +365,27 @@
             <div class="capex-side">
               <div id="cloudCapexLatest"></div>
               <div class="capex-insight">
-                <strong>产业含义：</strong>2026Q2四大厂商支出同比增长87%，仍对GPU、HBM、服务器CPU、交换芯片和先进封装形成强支撑。
-                但Alphabet、Amazon与Oracle的自由现金流或融资依赖明显上升；未来一旦资本开支指引从“上调”变为“消化”，将是半导体周期最关键的下行信号。
+                <strong>产业含义：</strong>2026Q3四大厂商支出同比增长107.6%，仍对GPU、HBM、服务器CPU、交换芯片和先进封装形成强支撑。
+                2026全年指引整体维持：Amazon约$220B、Alphabet $195–205B不变、Meta收窄至$135–145B；Microsoft因第三方算力交付延迟，将2026自然年（含融资租赁）下调至约$170B，并预计下半财年加速。
+                但Alphabet（Q3自由现金流-$9.1B）、Amazon（TTM自由现金流-$42.4B）与Meta（Q3 -$2.1B）的现金流压力明显上升；一旦资本开支指引从“上调”变为“消化”，将是半导体周期最关键的下行信号。
               </div>
             </div>
           </div>
           <div class="capex-table-wrap">
             <table class="capex-table">
-              <thead><tr><th>公司</th><th>2025Q1</th><th>2025Q2</th><th>2025Q3</th><th>2025Q4</th><th>2026Q1</th><th>2026Q2</th><th>2026Q3</th></tr></thead>
+              <thead><tr><th>公司</th><th>2025Q1</th><th>2025Q2</th><th>2025Q3</th><th>2025Q4</th><th>2026Q1</th><th>2026Q2</th><th>2026Q3</th><th>2026Q4</th></tr></thead>
               <tbody id="cloudCapexTable"></tbody>
             </table>
           </div>
           <div class="source-note capex-source-links">
             口径说明：Microsoft、Alphabet、Amazon、Meta均采用现金流量表PP&amp;E购置额，不含融资租赁；Microsoft财年季度已映射为自然季度。
-            Oracle财季错月约一个月，因此单列且不计入四大合计。2026Q3尚未披露，不使用预测值冒充实际值。
-            来源：
-            <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm" target="_blank" rel="noopener noreferrer">Microsoft</a> ·
-            <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000066/googexhibit991q22026.htm" target="_blank" rel="noopener noreferrer">Alphabet</a> ·
-            <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener noreferrer">Amazon</a> ·
-            <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm" target="_blank" rel="noopener noreferrer">Meta</a> ·
-            <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm" target="_blank" rel="noopener noreferrer">Oracle</a>
+            Oracle财季错月约一个月，因此单列且不计入四大合计。2026Q4尚未披露，不使用预测值冒充实际值。
+            来源（2026Q3）：
+            <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526436122/msft-ex99_1.htm" target="_blank" rel="noopener noreferrer">Microsoft</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000080/googexhibit991q32026.htm" target="_blank" rel="noopener noreferrer">Alphabet</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000038/amzn-20260930xex991.htm" target="_blank" rel="noopener noreferrer">Amazon</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026066700/meta-09302026xexhibit991.htm" target="_blank" rel="noopener noreferrer">Meta</a> ·
+            <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm" target="_blank" rel="noopener noreferrer">Oracle（FY27Q1）</a>
           </div>
         </section>
 
@@ -393,7 +394,7 @@
             <div class="panel-head">
               <div>
                 <div class="panel-title">情景时间轴</div>
-                <div class="panel-note">主观概率区间 · 根据当前研究基线</div>
+                <div class="panel-note">主观概率区间 · 2026-09-11研究基线，2026-11-05复核未调整</div>
               </div>
             </div>
             <div class="scenario-list">
@@ -424,12 +425,12 @@
               </div>
             </div>
             <div class="event-list">
-              <div class="event-row"><span class="event-date">2026-09-16</span><span>美联储FOMC与点阵图</span><span class="event-level">关键</span></div>
-              <div class="event-row"><span class="event-date">2026-09-30</span><span>美光FY26 Q4财报与FY27指引</span><span class="event-level">关键</span></div>
-              <div class="event-row"><span class="event-date">2026-10 中</span><span>台积电Q3法说及资本开支</span><span class="event-level">关键</span></div>
-              <div class="event-row"><span class="event-date">2026-10 中</span><span>ASML净订单与2027-28能见度</span><span class="event-level">重要</span></div>
-              <div class="event-row"><span class="event-date">2026-10-29</span><span>SK海力士Q3财报与长期协议</span><span class="event-level">关键</span></div>
-              <div class="event-row"><span class="event-date">2026-11</span><span>英伟达FY27 Q3财报</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-11-10</span><span>台积电10月营收</span><span class="event-level">重要</span></div>
+              <div class="event-row"><span class="event-date">2026-11-17</span><span>英伟达FY27 Q3财报</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-12-01</span><span>韩国11月芯片出口</span><span class="event-level">重要</span></div>
+              <div class="event-row"><span class="event-date">2026-12-09</span><span>美联储FOMC与点阵图</span><span class="event-level">关键</span></div>
+              <div class="event-row"><span class="event-date">2026-12 中</span><span>Oracle FY27 Q2财报与资本开支（日期待确认）</span><span class="event-level">重要</span></div>
+              <div class="event-row"><span class="event-date">2026-12 下旬</span><span>美光FY27 Q1财报（日期待确认）</span><span class="event-level">关键</span></div>
               <div class="event-row"><span class="event-date">2027-01/02</span><span>云厂商2027资本开支指引</span><span class="event-level">核心</span></div>
             </div>
           </section>
@@ -513,6 +514,7 @@
             <div class="qqq-risk-score-value">57.2</div>
             <div class="qqq-risk-score-label">风险偏高</div>
             <div class="qqq-risk-score-note">0—100复合评分 · 数据主要截至2026-09-10</div>
+            <div class="qqq-risk-score-note" style="color:#f5bd59">快照日期 2026-09-10，评分未随数据更新；下方条件状态已核验至2026-11-04</div>
           </section>
         </div>
 
@@ -528,12 +530,15 @@
             </div>
             <div id="qqqFactorToggles" class="factor-toggle-grid"></div>
             <div class="qqq-condition-result">
-              <div class="qqq-condition-stat"><small>当前触发数</small><strong id="qqqConditionCount">5 / 10</strong></div>
-              <div class="qqq-condition-stat"><small>历史平均最大回撤</small><strong id="qqqConditionDrawdown">−8.55%</strong></div>
-              <div class="qqq-condition-stat"><small>发生≥10%回撤概率</small><strong id="qqqConditionProbability">33.46%</strong></div>
+              <div class="qqq-condition-stat"><small>当前触发数</small><strong id="qqqConditionCount">6 / 10</strong></div>
+              <div class="qqq-condition-stat"><small>历史平均最大回撤</small><strong id="qqqConditionDrawdown">−12.01%</strong></div>
+              <div class="qqq-condition-stat"><small>发生≥10%回撤概率</small><strong id="qqqConditionProbability">48.46%</strong></div>
+              <div class="qqq-condition-stat"><small>覆盖主题数</small><strong id="qqqConditionThemes">3 / 5</strong></div>
+              <div class="qqq-condition-stat"><small>相邻档位回撤区间</small><strong id="qqqConditionDrawdownRange">−8.6% ~ −13.8%</strong></div>
+              <div class="qqq-condition-stat"><small>相邻档位概率区间</small><strong id="qqqConditionProbabilityRange">33% ~ 53%</strong></div>
             </div>
-            <div class="qqq-condition-bar"><span id="qqqConditionBar" style="width:50%"></span></div>
-            <div class="source-note">条件数与风险整体正相关但并非严格单调；6项以上同时触发时，历史尾部风险明显跃升。</div>
+            <div class="qqq-condition-bar"><span id="qqqConditionBar" style="width:60%"></span></div>
+            <div class="source-note">回撤与概率表是按触发条件数分档的小样本样本内映射，并非严格单调（4项低于3项、8项低于7项），相邻档位区间更能反映不确定性。同一主题内的条件高度相关（如实际利率、CPI、WTI同属利率通胀），原始计数会重复计算同一风险，覆盖主题数是更好的读数。</div>
           </section>
 
           <section class="panel">
@@ -597,16 +602,10 @@
             <div class="panel-head">
               <div>
                 <div class="panel-title">当前已触发信号</div>
-                <div class="panel-note">2026-09-10研究快照 · 5/16项</div>
+                <div id="qqqRiskActiveNote" class="panel-note">默认状态核验至2026-11-04 · 6/10项 · 覆盖3/5个主题</div>
               </div>
             </div>
-            <div class="qqq-callout-list">
-              <div class="qqq-callout"><div class="qqq-callout-title">实际利率60日上升超过30bp</div><div class="qqq-callout-copy">折现率压力上升，通胀型Regime下对成长股更不利。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">CPI同比高于3%</div><div class="qqq-callout-copy">限制美联储快速宽松的空间。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">WTI同比上涨超过30%</div><div class="qqq-callout-copy">提高再通胀和长期利率风险。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">市场宽度转负</div><div class="qqq-callout-copy">指数上涨更依赖少数权重股，内部韧性下降。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">半导体相对标普走弱</div><div class="qqq-callout-copy">SOX 60日相对强弱处于历史低分位。</div></div>
-            </div>
+            <div id="qqqRiskActiveList" class="qqq-callout-list"></div>
           </section>
         </div>
 
@@ -623,7 +622,7 @@
             <article class="qqq-regime-card"><div class="qqq-regime-date">2018 Q4</div><div class="qqq-regime-title">政策与流动性收缩</div><div class="qqq-regime-copy">VIX升至36，SOX约−24%，风险偏好快速下降。</div></article>
             <article class="qqq-regime-card"><div class="qqq-regime-date">2020</div><div class="qqq-regime-title">外生流动性冲击</div><div class="qqq-regime-copy">疫情无法由常规宏观因子提前预测；VIX升至82，BTC与油价同步暴跌。</div></article>
             <article class="qqq-regime-card"><div class="qqq-regime-date">2022</div><div class="qqq-regime-title">通胀与实际利率冲击</div><div class="qqq-regime-copy">10Y实际利率由−1.02%升至1.74%，QQQ与TLT同时下跌，传统股债对冲失效。</div></article>
-            <article class="qqq-regime-card"><div class="qqq-regime-date">2026研究快照</div><div class="qqq-regime-title">利率与内部结构风险</div><div class="qqq-regime-copy">风险主要集中在利率/通胀和估值/宽度模块，信用与波动尚未确认危机。</div></article>
+            <article class="qqq-regime-card"><div class="qqq-regime-date">2026-11 核验</div><div class="qqq-regime-title">通胀未退，信用开始松动</div><div class="qqq-regime-copy">9月快照时风险集中在利率/通胀和估值/宽度；至11月初CPI与油价仍高，HY利差60日扩大约68bp、NFCI高于一年均值，信用与金融条件转为新增风险源；QQQ仍在200日线上方，VIX期限结构未倒挂。</div></article>
           </div>
         </section>
 
@@ -683,7 +682,7 @@
               <tbody>
                 <tr><td>技术性回调（−10%～−20%）</td><td>情绪、仓位拥挤</td><td>2018Q4、2024年8月</td><td>正常定投或小幅加码</td></tr>
                 <tr><td>估值压缩</td><td>实际利率上升</td><td>2022（−35%）</td><td>分批加码，节奏放慢</td></tr>
-                <tr><td>盈利衰退或泡沫破裂</td><td>EPS下滑、信用收缩</td><td>2000（−83%，约15年才回本）、2008（−54%）</td><td>拉长加码周期，预留更多现金</td></tr>
+                <tr><td>盈利衰退或泡沫破裂</td><td>EPS下滑、信用收缩</td><td>2000（−83%，约15年才回本）、2008（−54%）</td><td>倍数照用但放慢节奏，加码分摊到24个月以上，以再平衡为主</td></tr>
               </tbody>
             </table>
           </div>
@@ -713,7 +712,7 @@
             <div class="panel-head">
               <div>
                 <div class="panel-title">三、可执行的规则示例</div>
-                <div class="panel-note">回撤阶梯：从历史高点回撤幅度 → 投入额倍数</div>
+                <div class="panel-note">回撤阶梯：从历史高点回撤幅度 → 投入额倍数（每轮回撤的额外投入设总上限）</div>
               </div>
             </div>
             <div class="dca-ladder">
@@ -724,10 +723,10 @@
               <div class="dca-ladder-step"><small>−40%</small><strong>3×</strong></div>
             </div>
             <div class="qqq-callout-list">
-              <div class="qqq-callout"><div class="qqq-callout-title">基础</div><div class="qqq-callout-copy">按固定日期、固定金额定投，只用5年以上不用的钱。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">估值调节</div><div class="qqq-callout-copy">前瞻市盈率分位高于80%时，投入额 ×0.7；低于30%时 ×1.3。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">衰退保险</div><div class="qqq-callout-copy">信用利差快速扩大且盈利修正转负时，放慢加码节奏，把弹药分到更长时间里投。</div></div>
-              <div class="qqq-callout"><div class="qqq-callout-title">资金管理</div><div class="qqq-callout-copy">预留相当于定投额12～24倍的现金作为加码弹药；整体股债比例定期再平衡。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">基础</div><div class="qqq-callout-copy">按固定日期、固定金额定投，只用10年以上（最好15年以上）不用的钱；5年内要用的钱不放QQQ。已有的一笔现金通常尽早投入，担心的话限定3～6个月内投完。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">估值调节</div><div class="qqq-callout-copy">前瞻市盈率分位（取2005年以来约20年窗口；含1999～2000年泡沫的全历史会把分位整体压低）高于80%时，投入额 ×0.7；低于30%时 ×1.3。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">衰退保险</div><div class="qqq-callout-copy">信用利差快速扩大且盈利修正转负时，阶梯倍数照用但放慢节奏：每轮回撤的额外投入设总上限，并分摊到至少24个月，避免在2000年式−83%、约15年的下跌早期就把钱用完。</div></div>
+              <div class="qqq-callout"><div class="qqq-callout-title">资金管理</div><div class="qqq-callout-copy">加码的钱来自未来收入，以及整体配置内的债券/现金部分：QQQ跌破目标权重时从债券再平衡买入，这是主要机制；不长期囤积大额闲置现金。如另设加码备用金，上限约6倍月定投额，并接受其长期跑输股票的成本。应急金单独存放，不用于加码。</div></div>
             </div>
           </section>
 
@@ -753,7 +752,7 @@
             </div>
           </div>
           <div class="dca-summary">
-            <b>估值</b>决定长期回报，<b>盈利和信用</b>决定跌多深、跌多久，<b>情绪和回撤幅度</b>决定加码的时机，<b>汇率和QDII溢价</b>决定实际成本。
+            <b>估值</b>决定长期回报，<b>盈利和信用</b>决定跌多深、跌多久，<b>情绪和回撤幅度</b>决定加码的时机，<b>再平衡和加码上限</b>决定弹药能撑多久，<b>汇率和QDII溢价</b>决定实际成本。
           </div>
           <div class="source-note">定性研究框架，历史数据为近似值，不构成投资建议。</div>
         </section>
