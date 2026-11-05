@@ -156,7 +156,8 @@ def compute(start: str, end: str) -> pd.DataFrame:
 
     # ---- 需求 ----
     fund = load("new_fund")
-    keep = fund.基金类型.isin(EQUITY_FUND_TYPES) & ~(fund.基金简称.str.contains("ETF") & ~fund.基金简称.str.contains("联接"))
+    # 场内 ETF 与 ETF 联接基金都剔除：联接基金募集后申购 ETF 份额，已体现在 etf 列
+    keep = fund.基金类型.isin(EQUITY_FUND_TYPES) & ~fund.基金简称.str.contains("ETF|联接")
     fund = fund[keep]
     p["new_fund"] = by_month(fund.成立日期, fund.募集份额.fillna(0))
 
@@ -262,6 +263,7 @@ def to_json(p: pd.DataFrame, display_start: str, display_end: str) -> dict:
             "减持/增持 = 变动数量 × 最新价（估算），按变动截止日归月",
             "回购 = 已回购金额在 回购起始→最新公告 期间均摊（估算）",
             "ETF 仅沪市 A 股股票类，Δ份额 × 月均价；深市接口不可用",
+            "新发偏股基金剔除场内 ETF 与 ETF 联接基金（联接基金申购 ETF 已计入 ETF 列）；深市 ETF 的联接基金因此未计入",
             "分母为沪深总市值（非自由流通市值）；分红季节性强，看趋势优先用扣分红口径",
             "银证转账（证券保证金）与新开户数无公开接口（开户数 2023-08 起停更），未纳入",
         ],

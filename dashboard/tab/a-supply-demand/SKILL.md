@@ -55,7 +55,7 @@ description: 刷新或修改 dashboard「A股供需」tab（净股权供给 vs �
 | holder_sell / holder_buy | `stock_ggcg_em("全部")` | 变动数量(万股) × **最新价**（估算，没有成交价），按变动截止日期归月；先按 代码+股东+起止日+数量 去重 |
 | buyback | `stock_repurchase_em()` | 已回购金额在「回购起始时间 → 最新公告日期」之间按月均摊（接口只给累计值，属估算） |
 | dividend | `stock_fhps_em(date=YYYY0630/YYYY1231)` | 每 10 股现金分红 / 10 × 总股本，按除权除息日归月；按 代码+除权除息日 去重 |
-| new_fund | `fund_new_found_em()` | 股票型、偏股/灵活/平衡混合、指数型-股票的募集份额（亿份 ≈ 亿元），按成立日期归月；**剔除场内 ETF**（ETF 已计入 etf 列，避免重复计算），保留联接基金 |
+| new_fund | `fund_new_found_em()` | 股票型、偏股/灵活/平衡混合、指数型-股票的募集份额（亿份 ≈ 亿元），按成立日期归月；**剔除场内 ETF 和 ETF 联接基金**（名称含 `ETF` 或 `联接`）。联接基金募集后申购 ETF 份额，已体现在 etf 列，保留会重复计算 |
 | margin | `macro_china_market_margin_sh/sz` | 沪深**融资**余额的月末差分（不含融券） |
 | etf | `fund_etf_scale_sse(date=月末交易日)` + `fund_etf_hist_sina` | 沪市 ETF Δ份额 × 前后两个月末收盘价的均值；用名称正则 `NON_EQUITY_ETF` 剔除债券、货币、黄金、商品、跨境 ETF |
 | mcap | `macro_china_stock_market_cap()` | 沪 + 深市价总值（亿），作为分母 |
@@ -65,7 +65,7 @@ description: 刷新或修改 dashboard「A股供需」tab（净股权供给 vs �
 ## 已知缺口（后续可改进）
 
 - **银证转账（证券保证金）、新开户数**：没有可用的公开接口。`stock_account_statistics_em` 从 2023-08 起停更。如果找到数据源，加到需求端。
-- **深市 ETF**：`fund_etf_scale_szse` 解析报错（akshare 1.18.94），目前只统计沪市。沪市覆盖了大部分宽基和「国家队」ETF。
+- **深市 ETF**：`fund_etf_scale_szse` 解析报错（akshare 1.18.94），目前只统计沪市。沪市覆盖了大部分宽基和「国家队」ETF。由于 new_fund 剔除了全部联接基金，**深市 ETF 的联接基金**募集资金目前两边都没计入（2025-01 起所有联接基金合计约 10–370 亿/月，其中深市部分未单独拆分）。
 - **分母**：用总市值，不是自由流通市值。z-score 对比例缩放不敏感，但 bp 的绝对水平偏小。
 - **z-score 回看**：只有 2025-01 起的历史，6 个月窗口的结果不太稳定。需要更长历史时调整 `HISTORY_START`，但 `stock_ggcg_em` / `stock_repurchase_em` 是全量快照，历史越早，估算误差越大。
 
