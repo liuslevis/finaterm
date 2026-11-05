@@ -12,7 +12,8 @@ function changesByPeriod(key, rows, monthly) {
     const [period, current] = entries[i];
     const previous = entries[i - 1][1];
     if (!Number.isFinite(previous) || !Number.isFinite(current)) continue;
-    const change = ASSETS[key].kind === "macro" ? current - previous : previous ? current / previous - 1 : NaN;
+    const kind = ASSETS[key].kind;
+    const change = kind === "macro" || kind === "rate" ? current - previous : previous ? current / previous - 1 : NaN;
     if (Number.isFinite(change)) result.set(period, change);
   }
   return result;
@@ -20,7 +21,8 @@ function changesByPeriod(key, rows, monthly) {
 
 function correlation(a, b) {
   const dates = [...a.keys()].filter(key => b.has(key));
-  if (dates.length < 3) return null;
+  const n = dates.length;
+  if (n < 3) return { value: null, n };
   const x = dates.map(key => a.get(key));
   const y = dates.map(key => b.get(key));
   const mx = x.reduce((s, n) => s + n, 0) / x.length;
@@ -33,7 +35,7 @@ function correlation(a, b) {
     dx += ax * ax;
     dy += ay * ay;
   });
-  return dx && dy ? numerator / Math.sqrt(dx * dy) : null;
+  return { value: dx && dy ? numerator / Math.sqrt(dx * dy) : null, n };
 }
 
 function renderCorrelation() {
@@ -64,12 +66,18 @@ function renderCorrelation() {
   const cells = keys.flatMap(y => {
     const row = [`<div class="correlation-label">${escapeHtml(ASSETS[y].short)}</div>`];
     keys.forEach(x => {
-      const value = x === y ? 1 : correlation(maps[x], maps[y]);
+      if (x === y) {
+        row.push(`<div class="correlation-cell" style="background:${cellColor(1)}" title="${escapeHtml(`${ASSETS[x].short}：1.00`)}">1.00</div>`);
+        return;
+      }
+      const { value, n } = correlation(maps[x], maps[y]);
       const text = value == null ? "—" : value.toFixed(2);
+      const pair = `${ASSETS[x].short} / ${ASSETS[y].short}`;
       const title = value == null
-        ? `${ASSETS[x].short} / ${ASSETS[y].short}：同期数据不足`
-        : `${ASSETS[x].short} / ${ASSETS[y].short}：${text}`;
-      row.push(`<div class="correlation-cell" style="background:${cellColor(value)}" title="${escapeHtml(title)}">${text}</div>`);
+        ? `${pair}：同期数据不足（n=${n}）`
+        : `${pair}：${text}（n=${n}${n < 12 ? "，样本偏少" : ""}）`;
+      const className = n < 12 ? "correlation-cell low-sample" : "correlation-cell";
+      row.push(`<div class="${className}" style="background:${cellColor(value)}" title="${escapeHtml(title)}"><span>${text}</span><small>n=${n}</small></div>`);
     });
     return row;
   });
@@ -78,5 +86,6 @@ function renderCorrelation() {
       ${labels.join("")}${cells.join("")}
     </div>
     <div class="correlation-scale"></div>
+    <div class="correlation-note">收益率/利差按变化量（bp）计算；A 股与美股按同一自然日对齐，A 股收盘早于美股，同日相关可能被低估；样本少于 12 期置灰。</div>
   `;
 }

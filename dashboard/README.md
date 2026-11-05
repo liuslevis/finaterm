@@ -61,9 +61,12 @@ The bottom of the 全球市场 tab explains the four 10Y-2Y curve trades (熊陡
 i.e. bear or bull × steepener or flattener), what typically drives each, and what it means for
 US equities (discount rate, earnings, risk appetite / credit). The header strip reads live
 10Y, 2Y, the 10Y-2Y spread and their 20-trading-day changes from the USData series already used
-by the market cards, then labels the current combination mechanically as short-end direction
-(熊 / 牛) × curve direction (陡 / 平); fewer than 5bp of movement is shown as 震荡. The label is
-a terminology reference, not a signal.
+by the market cards, then labels the current combination mechanically by the dominant leg: a
+steepener is 熊陡 when a rising 10Y moves at least as much as the 2Y and 牛陡 when a falling 2Y
+does; a flattener is 熊平 when a rising 2Y leads and 牛平 when a falling 10Y leads. Legs moving in
+opposite directions (each at least 2bp) are shown as 扭转, and 10Y, 2Y and spread all moving less
+than 5bp is shown as 震荡. Without a 10Y series it falls back to short-end direction × curve
+direction. The label is a terminology reference, not a signal.
 
 ## IPO calendar
 

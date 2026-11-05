@@ -6,8 +6,33 @@ const RATES_TERM_REGIMES = {
   "bear-flat": { name: "熊平", tone: "bear", curve: "利差收窄", equity: "紧缩压制 · 高位震荡", detail: "短端主导上行，政策利率牵引" },
   "bull-steep": { name: "牛陡", tone: "bull", curve: "利差走阔", equity: "流动性友好 · 小盘成长弹性", detail: "短端主导下行，降息预期升温" },
   "bull-flat": { name: "牛平", tone: "bull", curve: "利差收窄", equity: "盈利转弱 · 防御占优", detail: "长端主导下行，增长与避险驱动" },
-  range: { name: "震荡", tone: "range", curve: "方向不明", equity: "信号不足，按区间对待", detail: "短端与利差的变动均小于 5bp" }
+  twist: { name: "扭转", tone: "range", curve: "利差走阔", equity: "方向取决于主导端，谨慎解读", detail: "长短端反向变动" },
+  range: { name: "震荡", tone: "range", curve: "方向不明", equity: "信号不足，按区间对待", detail: "短端、长端与利差的变动均小于 5bp" }
 };
+
+function ratesTermRegimeKey(twoDelta, tenDelta, curve) {
+  if (!Number.isFinite(tenDelta)) {
+    if (Math.abs(twoDelta) < 5 && Math.abs(curve) < 5) return "range";
+    return twoDelta >= 0
+      ? (curve >= 0 ? "bear-steep" : "bear-flat")
+      : (curve >= 0 ? "bull-steep" : "bull-flat");
+  }
+  const two = Math.abs(twoDelta);
+  const ten = Math.abs(tenDelta);
+  if (two < 5 && ten < 5 && Math.abs(curve) < 5) return "range";
+  if (two >= 2 && ten >= 2 && Math.sign(twoDelta) !== Math.sign(tenDelta)) return "twist";
+  if (curve >= 0) {
+    if (tenDelta > 0 && ten >= two) return "bear-steep";
+    if (twoDelta < 0 && two >= ten) return "bull-steep";
+  } else {
+    if (twoDelta > 0 && two >= ten) return "bear-flat";
+    if (tenDelta < 0 && ten >= two) return "bull-flat";
+  }
+  const dominant = ten >= two ? tenDelta : twoDelta;
+  return dominant >= 0
+    ? (curve >= 0 ? "bear-steep" : "bear-flat")
+    : (curve >= 0 ? "bull-steep" : "bull-flat");
+}
 
 function ratesTermPoint(key) {
   const rows = (state.series[key] || []).filter(row => Number.isFinite(row.close));
@@ -25,13 +50,10 @@ function ratesTermSnapshot() {
   const curve = spread ? spread.delta : (ten && two ? ten.delta - two.delta : null);
   let regime = null;
   if (two && Number.isFinite(curve)) {
-    const quiet = Math.abs(two.delta) < 5 && Math.abs(curve) < 5;
-    const key = quiet
-      ? "range"
-      : two.delta >= 0
-        ? (curve >= 0 ? "bear-steep" : "bear-flat")
-        : (curve >= 0 ? "bull-steep" : "bull-flat");
-    regime = RATES_TERM_REGIMES[key];
+    const key = ratesTermRegimeKey(two.delta, ten ? ten.delta : null, curve);
+    regime = key === "twist"
+      ? { ...RATES_TERM_REGIMES.twist, curve: curve >= 0 ? "利差走阔" : "利差收窄" }
+      : RATES_TERM_REGIMES[key];
   }
   return { ten, two, spread, regime };
 }
