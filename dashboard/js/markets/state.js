@@ -15,6 +15,7 @@ const ASSETS = {
   tsla: { name: "特斯拉", short: "TSLA", category: "stocks", symbol: "TSLA", digits: 2, prefix: "$", color: "#e95d5d" },
   meta: { name: "Meta", short: "META", category: "stocks", symbol: "META", digits: 2, prefix: "$", color: "#5b8def" },
   amzn: { name: "亚马逊", short: "AMZN", category: "stocks", symbol: "AMZN", digits: 2, prefix: "$", color: "#f3a847" },
+  ebay: { name: "eBay", short: "EBAY", category: "stocks", symbol: "EBAY", digits: 2, prefix: "$", color: "#8d6ad6" },
   googl: { name: "Alphabet", short: "GOOGL", category: "stocks", symbol: "GOOGL", digits: 2, prefix: "$", color: "#4285f4" },
   soxl: { name: "半导体 3 倍做多 ETF", short: "SOXL", category: "stocks", symbol: "SOXL", digits: 2, prefix: "$", color: "#ff8f3f" },
   csi300: { name: "沪深 300", short: "CSI300", category: "stocks", symbol: "000300.SS", akshareSymbol: "sh000300", chartType: "candlestick", digits: 2, color: "#ff6577" },
@@ -179,7 +180,7 @@ async function applySharedMarketsSelection() {
 
 const initialTickerSelection = loadTickerSelection();
 const state = {
-  selected: new Set(["spread", "cny", "btc", "gold", "qqq"]),
+  selected: new Set(["spread", "cny", "btc", "gold", "qqq", "ebay"]),
   active: initialTickerSelection.includes("qqq") ? "qqq" : initialTickerSelection[0],
   tickers: initialTickerSelection,
   range: "1y",
@@ -196,7 +197,7 @@ const state = {
   marketRangeChangeBlockedUntil: 0
 };
 const correlationState = {
-  selected: new Set(["spread", "cny", "btc", "gold", "qqq"]),
+  selected: new Set(["spread", "cny", "btc", "gold", "qqq", "ebay"]),
   range: "1y",
   series: {},
   loading: false,
