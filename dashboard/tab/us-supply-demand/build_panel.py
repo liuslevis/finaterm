@@ -36,6 +36,7 @@ def is_spac(row: dict, price: float | None) -> bool:
     return price == 10.0 and (bool(SPAC_NAME.search(row.get("companyName") or "")) or ticker.endswith("U"))
 FINRA_URL = "https://www.finra.org/rules-guidance/key-topics/margin-accounts/margin-statistics"
 DEMAND_KEYS = ("etf_us_equity", "mf_domestic_equity", "margin")
+MF_FILL_WINDOW = 3  # ICI 月报比 ETF 月报晚约 3 周，缺月用此前 3 个月均值估算
 
 
 def http(url: str, timeout: int = 60) -> str:
@@ -180,6 +181,20 @@ def manual_series(manual: dict, key: str, months: pd.PeriodIndex) -> tuple[pd.Se
     return out, estimated
 
 
+def fill_trailing_mean(s: pd.Series, window: int) -> tuple[pd.Series, list]:
+    """缺失月用此前 window 个实际值的均值填补（不用估算值递推）；之前没有实际值时用最早的 window 个。"""
+    out, filled = s.copy(), []
+    actual = s.dropna()
+    for m in s.index[s.isna()]:
+        ref = actual[actual.index < m].tail(window)
+        if ref.empty:
+            ref = actual.head(window)
+        if not ref.empty:
+            out[m] = ref.mean()
+            filled.append(str(m))
+    return out, filled
+
+
 def monthly_last(series: dict) -> pd.Series:
     s = pd.Series(series, dtype=float)
     s.index = pd.to_datetime(s.index).to_period("M")
@@ -236,6 +251,10 @@ def compute(start: str, end: str) -> tuple[pd.DataFrame, dict]:
     # ---- 需求 ----
     for key in ("etf_us_equity", "mf_domestic_equity"):
         p[key], _ = manual_series(manual, key, months)
+    # ETF 流入很大一部分是从主动共同基金迁出的钱，只算 ETF 会系统性高估需求，所以 MF 缺月估算而不是整列剔除
+    p["mf_domestic_equity"], est = fill_trailing_mean(p.mf_domestic_equity, MF_FILL_WINDOW)
+    if est:
+        estimated["mf_domestic_equity"] = est
     finra_path = RAW / "finra.json"
     finra = {**manual.get("finra", {}).get("values", {}),
              **(json.loads(finra_path.read_text(encoding="utf-8")) if finra_path.exists() else {})}  # 自动抓取优先
@@ -319,10 +338,14 @@ def to_json(p: pd.DataFrame, meta: dict, display_start: str, display_end: str) -
         "IPO 不含 SPAC（募资进信托账户，不吸收二级市场资金）；锁定到期仅作参考，不进公式",
         "分母为 Wilshire 5000 指数点（≈ 十亿美元总市值），非自由流通市值",
     ]
-    caveats += [f"{LABELS[k]} {', '.join(v)} 尚未公布，沿用上一季度（估算）" for k, v in meta["estimated"].items()]
+    for k, v in meta["estimated"].items():
+        how = f"用此前 {MF_FILL_WINDOW} 个月实际值均值估算" if k == "mf_domestic_equity" else "沿用上一季度"
+        caveats.append(f"{LABELS[k]} {', '.join(v)} 尚未公布，{how}（估算）")
     missing = [LABELS[k] for k in DEMAND_KEYS if k not in parts]
     if missing:
         caveats.append(f"{'、'.join(missing)} 数据不完整，暂不计入增量资金（只展示）")
+    if "mf_domestic_equity" not in parts:
+        caveats.append("增量资金未扣共同基金净流出，系统性偏高（ETF 流入多为从主动共同基金迁出）")
     return {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "display": [display_start, display_end],
