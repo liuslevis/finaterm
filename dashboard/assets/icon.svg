@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
-  <rect width="1024" height="1024" fill="#000000"/>
-  <!-- Geometric Bloomberg-terminal F -->
-  <g fill="#FFAA00">
-    <rect x="184" y="184" width="144" height="656"/>
-    <rect x="184" y="184" width="605" height="144"/>
-    <rect x="184" y="430" width="447" height="133"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#160c20"/>
+      <stop offset="100%" stop-color="#06040c"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <text x="470" y="620" text-anchor="middle"
+        font-family="Courier New, Menlo, SF Mono, monospace"
+        font-size="460" font-weight="700" fill="#32FF6E" filter="url(#glow)">F$</text>
 </svg>
