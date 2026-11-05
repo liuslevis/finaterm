@@ -7,6 +7,7 @@ const RATES_TERM_REGIMES = {
   "bull-steep": { name: "牛陡", tone: "bull", curve: "利差走阔", equity: "流动性友好 · 小盘成长弹性", detail: "短端主导下行，降息预期升温" },
   "bull-flat": { name: "牛平", tone: "bull", curve: "利差收窄", equity: "盈利转弱 · 防御占优", detail: "长端主导下行，增长与避险驱动" },
   twist: { name: "扭转", tone: "range", curve: "利差走阔", equity: "方向取决于主导端，谨慎解读", detail: "长短端反向变动" },
+  // TODO: 缺 10Y 序列时震荡只检查 2Y 与利差，detail 文案会多写“长端”。
   range: { name: "震荡", tone: "range", curve: "方向不明", equity: "信号不足，按区间对待", detail: "短端、长端与利差的变动均小于 5bp" }
 };
 

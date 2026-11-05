@@ -159,6 +159,7 @@ def compute(start: str, end: str) -> pd.DataFrame:
     # 场内 ETF 与 ETF 联接基金都剔除：联接基金募集后申购 ETF 份额，已体现在 etf 列
     keep = fund.基金类型.isin(EQUITY_FUND_TYPES) & ~fund.基金简称.str.contains("ETF|联接")
     fund = fund[keep]
+    # TODO: 剔除联接基金后 panel.json 尚未重新生成（仍是 11-01 版本），需重跑本脚本。
     p["new_fund"] = by_month(fund.成立日期, fund.募集份额.fillna(0))
 
     balances = []

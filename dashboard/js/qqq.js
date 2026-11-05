@@ -72,6 +72,7 @@ const QQQ_DECISIONS = [
     sources: [["SEC 资产配置指南", "https://www.sec.gov/about/reports-publications/investorpubsassetallocationhtm"]]
   }
 ];
+// TODO: 复合评分 57.2 与各模块分数仍是 2026-09-10 快照，计算方法未记录，需补方法后重算。
 const QQQ_RISK_BLOCKS = [
   { name: "趋势", score: 39.0, color: "#54a4ff", note: "QQQ尚未进入明确趋势破坏" },
   { name: "波动率", score: 48.4, color: "#a889ff", note: "VIX期限结构未倒挂" },
@@ -89,6 +90,7 @@ const QQQ_RISK_CONDITIONS = [
   { key: "twoYear", theme: "利率通胀", name: "2Y收益率60日下降>40bp", note: "可能定价衰退或危机降息", active: false, evidence: "DGS2 4.19%→4.61%，上升42bp（FRED，至11-03）" },
   { key: "credit", theme: "信用金融条件", name: "信用利差60日扩大>20bp", note: "融资环境恶化", active: true, evidence: "HY OAS 2.72%→3.40%，+68bp（FRED，至11-03）" },
   { key: "financial", theme: "信用金融条件", name: "NFCI高于一年均值", note: "金融条件收紧", active: true, evidence: "NFCI −0.459 > 52周均值 −0.513（FRED，10-30）" },
+  // TODO: 市场宽度未核验，需接入成分股站上 200 日线比例或 QQEW/QQQ 相对强弱。
   { key: "breadth", theme: "内部结构", name: "市场宽度转负", note: "上涨依赖少数权重股", active: true, evidence: "未核验，沿用2026-09-10快照" },
   { key: "semis", theme: "内部结构", name: "半导体相对标普走弱", note: "科技高Beta前哨", active: true, evidence: "60日 SOX −15.1% vs SPX −0.5%（Yahoo，至11-04）" },
   { key: "backwardation", theme: "波动率", name: "VIX期限结构倒挂", note: "短期压力进入确认", active: false, evidence: "VIX3M/VIX 21.27/20.83=1.02，未倒挂（FRED，11-03）" }

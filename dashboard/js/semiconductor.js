@@ -29,6 +29,7 @@ const CLOUD_CAPEX = {
   oracle: { quarter: "FY27Q1", period: "2026-06-01 至 2026-08-31", value: 28.499, yoy: 235.2, qoq: 72.8 }
 };
 const SEMI_SIGNALS = [
+  // TODO: NAND 晶圆现货已连跌 3 周（10-21/10-28/11-04），10-12 当周未核验；确认满 4 周后改为 down4w。
   { key: "spotTrend", name: "DRAM/NAND现货趋势", type: "select", value: "flat", asOf: "2026-11-03 · DRAM横盘，NAND晶圆现货连跌", options: [["up", "上涨"], ["flat", "横盘"], ["down4w", "连续4周下跌"]], threshold: "连续4周下跌 = +2风险", max: 2, score: value => value === "down4w" ? 2 : value === "flat" ? 1 : 0 },
   { key: "dramQoq", name: "DRAM合约价 QoQ", type: "number", value: 12.5, asOf: "TrendForce 4Q26预测 10–15% · 2026-09-30", suffix: "%", threshold: "≤5% = +2风险", max: 2, score: value => Number(value) <= 5 ? 2 : Number(value) <= 10 ? 1 : 0 },
   { key: "nandQoq", name: "NAND合约价 QoQ", type: "number", value: 17.5, asOf: "TrendForce 4Q26预测 15–20% · 2026-09-30", suffix: "%", threshold: "≤5% = +1风险", max: 1, score: value => Number(value) <= 5 ? 1 : 0 },
@@ -36,6 +37,7 @@ const SEMI_SIGNALS = [
   { key: "koreaExportYoy", name: "韩国芯片出口 YoY", type: "number", value: 259.4, asOf: "2026年10月 · MOTIR 2026-11-01", suffix: "%", threshold: "<50% = +1风险", max: 1, score: value => Number(value) < 50 ? 1 : 0 },
   { key: "us10y", name: "美国10年期收益率", type: "number", value: 4.8, suffix: "%", threshold: ">5% = +1风险", max: 1, score: value => Number(value) > 5 ? 1 : 0 },
   { key: "capex", name: "云厂商资本开支指引", type: "select", value: "stable", asOf: "2026Q3财报 · 2026-10-29", options: [["up", "上调"], ["stable", "稳定"], ["cut", "下调/消化"]], threshold: "下调/消化 = +2风险", max: 2, score: value => value === "cut" ? 2 : value === "stable" ? 1 : 0 },
+  // TODO: 盈利修正广度默认值未核验（仍为 9 月的 balanced），缺可用数据源。
   { key: "earningsBreadth", name: "盈利修正广度", type: "select", value: "balanced", options: [["up", "上调占优"], ["balanced", "接近平衡"], ["down", "下调占优"]], threshold: "接近平衡 = +1，下调占优 = +2风险", max: 2, score: value => value === "down" ? 2 : value === "balanced" ? 1 : 0 }
 ];
 const semiState = {
