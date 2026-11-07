@@ -55,7 +55,8 @@ const NEW_DEFAULT_MACRO_INDICATORS = [
   "US:ISM Manufacturing Prices",
   "US:Fed Interest Rate Decision",
   "CN:Total Social Financing",
-  "CN:M2 Money Supply YoY"
+  "CN:M2 Money Supply YoY",
+  "CN:NBS Manufacturing PMI"
 ];
 const DEFAULT_MACRO_INDICATORS = [
   ...BASE_MACRO_INDICATORS,
@@ -102,7 +103,7 @@ const MACRO_TRADING_VALUES = {
 };
 const MACRO_SELECTION_KEY = "finance-dashboard-macro-indicators";
 const MACRO_DEFAULTS_VERSION_KEY = "finance-dashboard-macro-defaults-version";
-const MACRO_DEFAULTS_VERSION = 2;
+const MACRO_DEFAULTS_VERSION = 3;
 const macroCalendarState = {
   events: [],
   available: new Map(
@@ -173,11 +174,27 @@ function latestMacroEvent(indicator) {
   return matches.find(event => event.actual !== null && event.actual !== undefined) || matches[0];
 }
 
+function nextMacroEvent(indicator) {
+  const now = Date.now();
+  return macroCalendarState.events.filter(event =>
+    String(event.country).toUpperCase() === indicator.country &&
+    String(event.title).toLowerCase() === indicator.title.toLowerCase() &&
+    new Date(event.date).getTime() > now
+  ).sort((a, b) => new Date(a.date) - new Date(b.date))[0];
+}
+
+function macroDateText(indicator, event) {
+  if (!event?.date) return "暂无公开数据";
+  const date = formatDisplayDate(event.date);
+  const nextDate = formatDisplayDate(nextMacroEvent(indicator)?.date);
+  return nextDate ? `${date} (TBD ${nextDate.slice(5)})` : date;
+}
+
 function macroRowsHtml(statusText = "") {
   const rows = selectedMacroIndicators().map(indicator => {
     const event = latestMacroEvent(indicator);
     const tradingValue = macroTradingValue(indicator);
-    const date = statusText || (event?.date ? formatDisplayDate(event.date) : "暂无公开数据");
+    const date = statusText || macroDateText(indicator, event);
     return `
       <div class="macro-row" data-indicator-key="${escapeHtml(indicator.key)}">
         <div><div class="macro-name" draggable="true" title="拖动排序或移到垃圾桶删除">${escapeHtml(indicator.name)}</div><div class="macro-date">${escapeHtml(date)}</div></div>
@@ -288,13 +305,25 @@ async function loadMacroCalendar() {
     end.setDate(end.getDate() + 45);
     const start = new Date();
     start.setDate(start.getDate() - 120);
-    const from = start.toISOString();
-    const to = end.toISOString();
-    const url = `https://economic-calendar.tradingview.com/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&countries=US,CN`;
-    const response = await fetchWithFallback(url);
-    const payload = await response.json();
-    const events = payload.result;
-    if (!Array.isArray(events)) throw new Error("宏观接口返回格式错误");
+    const ranges = [];
+    for (let cursor = start; cursor < end;) {
+      const next = new Date(Math.min(cursor.getTime() + 30 * 86400000, end.getTime()));
+      ranges.push([cursor.toISOString(), next.toISOString()]);
+      cursor = next;
+    }
+    const batches = await Promise.all(ranges.map(async ([from, to]) => {
+      const url = `https://economic-calendar.tradingview.com/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&countries=US,CN`;
+      const response = await fetchWithFallback(url);
+      const payload = await response.json();
+      if (!Array.isArray(payload.result)) throw new Error("宏观接口返回格式错误");
+      return payload.result;
+    }));
+    const eventsByKey = new Map();
+    batches.flat().forEach(event => {
+      const key = event.id || `${event.country}:${event.title}:${event.date}`;
+      eventsByKey.set(key, event);
+    });
+    const events = [...eventsByKey.values()];
     macroCalendarState.events = events;
     events.filter(event => ["US", "CN"].includes(String(event.country).toUpperCase()) && event.title).forEach(event => {
       const country = String(event.country).toUpperCase();

@@ -155,6 +155,20 @@ test("calendar dates and viewport stay fixed across assets and history updates",
     assert.deepEqual(aggregation, [{
       time: Date.UTC(2026, 8, 1), open: 10, high: 14, low: 8, close: 13, volume: 300
     }]);
+    const macroDate = await page.evaluate(() => {
+      const indicator = {
+        key: "US:Inflation Rate YoY",
+        country: "US",
+        title: "Inflation Rate YoY",
+        name: "美国 CPI"
+      };
+      macroCalendarState.events = [
+        { country: "US", title: "Inflation Rate YoY", date: "2026-10-29T12:30:00Z", actual: 3.1 },
+        { country: "US", title: "Inflation Rate YoY", date: "2999-12-15T12:30:00Z", actual: null }
+      ];
+      return macroDateText(indicator, latestMacroEvent(indicator));
+    });
+    assert.equal(macroDate, "2026/10/29 (TBD 12/15)");
     assert.deepEqual(errors, [], "no browser errors");
   } finally {
     await browser.close();

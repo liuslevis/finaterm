@@ -187,7 +187,10 @@ def main() -> int:
         assert "item.series.priceToCoordinate(data.value)" in page
         assert "上次 ${formatDisplayDate(data.time)} (${ageDays}天前)" in page
         assert "carryForward: true" in page
-        assert "event?.date ? formatDisplayDate(event.date)" in page
+        assert "function nextMacroEvent(indicator)" in page
+        assert 'return nextDate ? `${date} (TBD ${nextDate.slice(5)})` : date;' in page
+        assert "cursor.getTime() + 30 * 86400000" in page
+        assert "const eventsByKey = new Map();" in page
         assert 'id="clearCacheBtn"' in page
         assert 'fetch("/api/cache", { method: "DELETE"' in page
         assert "const dataPointCache = new Map()" in page

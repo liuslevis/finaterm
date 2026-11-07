@@ -1,8 +1,8 @@
 {
- "generated_at": "2026-11-05T15:11:58",
+ "generated_at": "2026-11-06T09:17:42",
  "display": [
   "2016-10-28",
-  "2026-11-04"
+  "2026-11-05"
  ],
  "unit": "亿元",
  "etfs": [
@@ -36,29 +36,29 @@
   }
  ],
  "kpi": {
-  "as_of": "2026-11-04",
+  "as_of": "2026-11-05",
   "ratio": 0.86,
   "ratio_first": 0.14,
   "ratio_chg": 0.72,
-  "ratio_chg_pct": 515.8,
+  "ratio_chg_pct": 517.7,
   "peak": 2.18,
   "peak_date": "2025-04-18",
   "trough": 0.12,
   "trough_date": "2017-11-06",
-  "drawdown": -1.32,
-  "days_since_peak": 565,
-  "aum": 4275.7,
-  "aum_chg": 3710.3,
-  "aum_chg_pct": 656.2,
-  "float_mcap": 495977.9,
-  "total_mcap": 523082.2,
-  "shares": 1018.1,
-  "shares_chg": 841.0,
-  "shares_chg_pct": 475.0,
-  "flow": -434.7,
-  "flow_20d": 2100.3,
-  "csi300": 4101.34,
-  "csi300_chg_pct": 22.8
+  "drawdown": -1.31,
+  "days_since_peak": 566,
+  "aum": 4301.5,
+  "aum_chg": 3736.1,
+  "aum_chg_pct": 660.8,
+  "float_mcap": 497438.2,
+  "total_mcap": 524622.4,
+  "shares": 1020.8,
+  "shares_chg": 843.7,
+  "shares_chg_pct": 476.5,
+  "flow": -423.4,
+  "flow_20d": 2112.8,
+  "csi300": 4113.41,
+  "csi300_chg_pct": 23.2
  },
  "anchor": {
   "snapshot_at": "2026-11-04T09:20:24",
@@ -43861,6 +43861,24 @@
    "s_510330": 155.1085,
    "s_159919": 140.5912,
    "s_510310": 258.7204
+  },
+  {
+   "d": "2026-11-05",
+   "ratio": 0.8647,
+   "aum": 4301.5289,
+   "shares": 1020.76,
+   "flow": 11.3891,
+   "flow_5d": 707.5637,
+   "flow_20d": 2112.8473,
+   "csi300": 4113.411,
+   "float_mcap": 497438.2476,
+   "ratio_chg_20d": 0.429,
+   "coverage": 4.0,
+   "flow_cum": -423.355,
+   "s_510300": 464.9179,
+   "s_510330": 155.7925,
+   "s_159919": 140.5912,
+   "s_510310": 259.4584
   }
  ],
  "monthly": [
@@ -46045,20 +46063,20 @@
   {
    "month": "2026-11",
    "ratio": 0.86,
-   "ratio_chg": 0.12,
-   "aum": 4275.72,
-   "aum_ret": 20.29,
-   "shares": 1018.05,
-   "shares_chg": 147.68,
-   "flow": 610.23,
-   "flow_pct_aum": 17.17,
-   "shares_510300": 463.63,
-   "shares_510330": 155.11,
+   "ratio_chg": 0.13,
+   "aum": 4301.53,
+   "aum_ret": 21.02,
+   "shares": 1020.76,
+   "shares_chg": 150.39,
+   "flow": 621.62,
+   "flow_pct_aum": 17.49,
+   "shares_510300": 464.92,
+   "shares_510330": 155.79,
    "shares_159919": 140.59,
-   "shares_510310": 258.72,
-   "float_mcap": 495977.89,
-   "csi300": 4101.34,
-   "csi300_ret": 2.91
+   "shares_510310": 259.46,
+   "float_mcap": 497438.25,
+   "csi300": 4113.41,
+   "csi300_ret": 3.21
   }
  ],
  "columns": [

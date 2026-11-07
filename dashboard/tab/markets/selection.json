@@ -10,15 +10,18 @@
     "cny",
     "btc",
     "gold",
+    "spy",
     "qqq",
-    "csi300",
     "nasdaq",
+    "hsi",
+    "csi300",
     "usNfp",
     "usCpi",
     "usPpi",
     "cnCpi",
     "cnPpi",
     "brent",
+    "crude",
     "vix",
     "soxx",
     "soxl",
@@ -43,6 +46,7 @@
     "US:ISM Manufacturing Prices",
     "US:Fed Interest Rate Decision",
     "CN:Total Social Financing",
-    "CN:M2 Money Supply YoY"
+    "CN:M2 Money Supply YoY",
+    "CN:NBS Manufacturing PMI"
   ]
 }
