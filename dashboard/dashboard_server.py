@@ -135,7 +135,9 @@ def fetch_futu(asset_key: str, range_key: str) -> dict:
     if asset_key not in FUTU_ASSETS or range_key not in FUTU_RANGES:
         raise ValueError("Unsupported Futu asset or range")
     if not FUTU_PYTHON.is_file() or not FUTU_KLINE.is_file():
-        raise RuntimeError("FutuOpenD client environment is not installed")
+        raise RuntimeError(
+            f"FutuOpenD client environment is not installed; run `uv sync` in {FUTU_ROOT}"
+        )
 
     code, timezone_name = FUTU_ASSETS[asset_key]
     duration, ktype = FUTU_RANGES[range_key]
@@ -193,7 +195,9 @@ def fetch_futu(asset_key: str, range_key: str) -> dict:
 
 def fetch_usdata() -> dict:
     if not USDATA_PYTHON.is_file() or not USDATA_BRIDGE.is_file():
-        raise RuntimeError("usdata MCP client environment is not installed")
+        raise RuntimeError(
+            f"usdata MCP client environment is not installed; run `uv sync` in {USDATA_ROOT}"
+        )
     result = subprocess.run(
         [
             str(USDATA_PYTHON),

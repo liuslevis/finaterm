@@ -110,13 +110,14 @@ class EconomyService:
             "fmp": self.settings.fmp_api_key,
         }
         for source, key in source_keys.items():
-            await self.db.set_source_enabled(source, bool(key))
-        if self.settings.fred_api_key:
-            self.fred = FredClient(
-                self.settings.fred_api_key,
-                self.settings.http_timeout_seconds,
-                self.settings.max_retries,
-            )
+            # FRED also works without an API key through the public CSV download,
+            # so the adapter stays available even when no credential is configured.
+            await self.db.set_source_enabled(source, bool(key) or source == "fred")
+        self.fred = FredClient(
+            self.settings.fred_api_key,
+            self.settings.http_timeout_seconds,
+            self.settings.max_retries,
+        )
         self._scheduler_task = asyncio.create_task(self._scheduler(), name="daily-refresh")
         if self.settings.refresh_on_start and self.fred:
             await self.start_refresh(force=False)

@@ -47,3 +47,25 @@ async def test_fetch_series_reports_authentication_failure() -> None:
         await client.close()
     assert error.value.code == "source_authentication_failed"
 
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_fetch_series_without_api_key_uses_public_csv() -> None:
+    route = respx.get("https://fred.stlouisfed.org/graph/fredgraph.csv").mock(
+        return_value=httpx.Response(
+            200,
+            text="observation_date,DFF\n2026-01-02,3.88\n2026-01-03,.\n",
+        )
+    )
+    client = FredClient(None, timeout=1, max_retries=0)
+    try:
+        rows, fetched_at = await client.fetch_series("DFF")
+    finally:
+        await client.close()
+    assert route.called
+    assert rows == [
+        {"date": "2026-01-02", "value": "3.88"},
+        {"date": "2026-01-03", "value": None},
+    ]
+    assert fetched_at
+

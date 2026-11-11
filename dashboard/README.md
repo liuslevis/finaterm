@@ -41,6 +41,17 @@ uv run python dashboard/dashboard_server.py
 
 The dashboard opens automatically at `http://localhost:8765`.
 
+### Data dependencies
+
+Two subprojects need their own environment before the live panels work. Run `uv sync`
+once in each directory after cloning:
+
+- `../FutuOpenD` — Futu OpenAPI client used for QQQ (requires the OpenD GUI listening
+  on `127.0.0.1:11111`). Without it the QQQ chart falls back to Yahoo Finance.
+- `../usdata` — US macro/rate/credit series served over MCP. Works without credentials
+  through FRED's public CSV download; set `FRED_API_KEY` (or `FED_API`) in
+  `../.env` to use the official FRED API instead.
+
 ## Code layout
 
 `index.html` holds only the page skeleton and each tab's workspace markup. Styles live in

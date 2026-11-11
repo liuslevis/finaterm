@@ -134,7 +134,10 @@ def main() -> int:
         assert "165.050" in page
         assert '"soxx"' in page
         assert 'symbol: "^TNX"' in page
-        assert "fred.stlouisfed.org" not in page.lower()
+        # FRED series pages may be linked from the UI; the credential-bearing API
+        # endpoint and its key must never be shipped to the browser.
+        assert "api.stlouisfed.org" not in page.lower()
+        assert "api_key" not in page.lower()
         assert 'id="macroIndicatorDialog"' in page
         assert 'id="macroIndicatorSearch"' in page
         assert "setupMacroRows" in page

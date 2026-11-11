@@ -15,6 +15,10 @@
 FRED 是当前指标数据适配器；BEA 和 Census 凭证会显示在数据源状态中，后续可
 在不改变 MCP 工具契约的情况下加入官方源适配器。
 
+FRED 凭证可选：未配置 `FRED_API_KEY` 时，适配器改为下载 FRED 的公开 CSV
+（`https://fred.stlouisfed.org/graph/fredgraph.csv?id=<series>`），因此无需注册
+即可取到全部指标，只是缺少 API 的调用配额与元数据；配置后会优先走官方 API。
+
 ## 安装与运行
 
 ```powershell
