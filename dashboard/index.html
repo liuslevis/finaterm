@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/ipo.css">
   <link rel="stylesheet" href="css/semiconductor.css">
   <link rel="stylesheet" href="css/qqq.css">
+  <link rel="stylesheet" href="css/paper-trading.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -56,6 +57,7 @@
       <button type="button" class="workspace-tab" data-workspace-tab="a-supply-demand">A股供需</button>
       <button type="button" class="workspace-tab" data-workspace-tab="us-supply-demand">美股供需</button>
       <button type="button" class="workspace-tab" data-workspace-tab="a-etf-share">国家队ETF</button>
+      <button type="button" class="workspace-tab" data-workspace-tab="paper-trading">模拟盘</button>
     </nav>
 
     <section id="marketsWorkspace" class="workspace active" data-workspace="markets">
@@ -908,6 +910,50 @@
         </section>
       </div>
     </section>
+    <section id="ptWorkspace" class="workspace" data-workspace="paper-trading">
+      <div class="pt-stack">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div id="ptTitle" class="panel-title">模拟盘</div>
+              <div id="ptNote" class="panel-note">正在加载...</div>
+            </div>
+            <div class="panel-actions">
+              <div id="ptPicker" class="range" aria-label="策略"></div>
+            </div>
+          </div>
+          <div id="ptStats" class="pt-stats"></div>
+          <div id="ptChart" class="chart pt-chart"></div>
+        </section>
+
+        <div class="pt-columns">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">调仓记录</div>
+                <div id="ptTradesNote" class="panel-note"></div>
+              </div>
+            </div>
+            <div class="pt-table-wrap">
+              <table class="pt-table">
+                <thead><tr><th>日期</th><th>动作</th><th>标的</th><th>股数</th><th>成交价</th><th>金额</th><th>原因</th></tr></thead>
+                <tbody id="ptTrades"></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">支持数据</div>
+                <div id="ptSupportNote" class="panel-note"></div>
+              </div>
+            </div>
+            <dl id="ptSupport" class="pt-support"></dl>
+          </section>
+        </div>
+        <div id="ptSource" class="source-note"></div>
+      </div>
+    </section>
     <div class="attribution">
       Charts powered by
       <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">TradingView Lightweight Charts™</a>
@@ -967,6 +1013,7 @@
   <script src="js/a-supply-demand.js"></script>
   <script src="js/us-supply-demand.js"></script>
   <script src="js/a-etf-share.js"></script>
+  <script src="js/paper-trading.js"></script>
   <script src="js/app.js"></script>
   <script src="js/main.js"></script>
 </body>

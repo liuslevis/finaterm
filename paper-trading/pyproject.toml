@@ -1,0 +1,11 @@
+[project]
+name = "paper-trading"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "python-calamine",
+    "tzdata",
+    "yfinance",
+]

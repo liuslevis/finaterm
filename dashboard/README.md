@@ -120,6 +120,18 @@ ETFs, so the level sits below the all-fund total — read the trend, not the lev
 (history from 2016-10-28), which is updated incrementally at server start.
 Methodology and caveats are in `tab/a-etf-share/SKILL.md`.
 
+## 模拟盘
+
+The `模拟盘` tab shows paper-trading accounts run by `../paper-trading` (one button per strategy:
+Brent 区间 v2 with $10,000 from 2026-11-10, QQQ 定投 $10 per US trading day from 2026-09-10). Row one is
+the time-weighted return curve against SHY (2Y Treasury proxy), CSI 300, QQQ and SPY rebased to the
+strategy start; row two is the trade log (pending next-open orders on top) and the strategy's latest
+close-of-day support data. `/api/paper-trading` only reads the git-tracked `paper-trading/state/` files.
+The server runs `paper-trading/run_daily.py --git` at startup and every 2 hours (idempotent; output in
+`paper-trading/.cache/run.log`): it fast-forwards from the remote, books newly closed sessions, commits
+only `paper-trading/state` and pushes, so several machines share one ledger. Set `PAPER_TRADING_GIT=0`
+to keep it local. Strategy interface and file layout: `../paper-trading/README.md`.
+
 ## Offline tab panels
 
 On launch, `dashboard_server.py` runs each tab's `tab/<name>/build_panel.py` (no

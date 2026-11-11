@@ -1,0 +1,23 @@
+.pt-stack { display: grid; gap: 14px; }
+.pt-columns { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 14px; }
+.pt-stats { display: flex; flex-wrap: wrap; gap: 6px 26px; padding: 12px 16px 4px; }
+.pt-stat { display: flex; flex-direction: column; gap: 2px; }
+.pt-stat span { color: var(--muted); font-size: 10px; letter-spacing: .03em; }
+.pt-stat b { font-family: "SFMono-Regular", Consolas, monospace; font-size: 16px; font-weight: 600; }
+.pt-chart { height: 360px; }
+#ptPicker button span { margin-left: 6px; font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; }
+.pt-table-wrap { max-height: 360px; overflow: auto; padding: 0 16px 12px; }
+.pt-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.pt-table th { position: sticky; top: 0; background: #0f1b27; color: var(--muted); font-weight: 500; text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.pt-table td { padding: 6px 8px; border-bottom: 1px solid rgba(151, 180, 202, .06); white-space: nowrap; }
+.pt-table td.num { font-family: "SFMono-Regular", Consolas, monospace; text-align: right; }
+.pt-table td.reason { white-space: normal; color: var(--muted); }
+.pt-table tr.pending td { color: var(--amber); }
+.pt-support { display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; margin: 0; padding: 12px 16px 14px; font-size: 11px; }
+.pt-support dt { color: var(--muted); }
+.pt-support dd { margin: 0; text-align: right; font-family: "SFMono-Regular", Consolas, monospace; }
+.pt-support dd.text { font-family: inherit; }
+.pt-support dd.on { color: var(--red); }
+.pt-support dd.off { color: var(--muted); }
+#ptWorkspace .pos { color: var(--green); }
+#ptWorkspace .neg { color: var(--red); }

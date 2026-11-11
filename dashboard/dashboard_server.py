@@ -457,6 +457,81 @@ def refresh_tab_panels() -> None:
         print(f"[panel refresh] {name}: {status} ({time.monotonic() - started:.0f}s)", flush=True)
 
 
+PAPER_ROOT = Path(os.getenv("PAPER_TRADING_ROOT", FINANCE_ROOT / "paper-trading"))
+PAPER_STATE = PAPER_ROOT / "state"
+PAPER_INTERVAL = 2 * 3600
+
+
+def read_csv_rows(path: Path) -> list[dict]:
+    import csv
+
+    if not path.exists():
+        return []
+    with path.open(encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def read_json_file(path: Path, default=None):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        return default
+
+
+def fetch_paper_trading() -> dict:
+    # 账本由 paper-trading/run_daily.py 生成（本服务每 2 小时调用），这里只读 git 跟踪的 state/ 文件
+    ids = read_json_file(PAPER_STATE / "strategies.json")
+    if not ids:
+        raise FileNotFoundError("模拟盘尚未运行，正在后台生成，请稍后点「清除缓存」重试")
+    strategies = []
+    for sid in ids:
+        folder = PAPER_STATE / sid
+        meta = read_json_file(folder / "meta.json")
+        if not meta:
+            continue
+        signals = read_csv_rows(folder / "signals.csv")
+        strategies.append({
+            **meta,
+            "nav": read_csv_rows(folder / "nav.csv"),
+            "trades": read_csv_rows(folder / "trades.csv"),
+            "account": read_json_file(folder / "account.json", {}),
+            "latest": signals[-1] if signals else {},
+        })
+    series: dict[str, list] = {}
+    for row in read_csv_rows(PAPER_STATE / "benchmarks.csv"):
+        series.setdefault(row["symbol"], []).append([row["date"], float(row["close"])])
+    return {
+        "strategies": strategies,
+        "benchmarks": {"labels": read_json_file(PAPER_STATE / "benchmarks.json", {}), "series": series},
+        "run": read_json_file(PAPER_ROOT / ".cache" / "last_run.json", {}),
+    }
+
+
+def run_paper_trading() -> None:
+    command = ["uv", "run", "--project", str(PAPER_ROOT), "python", str(PAPER_ROOT / "run_daily.py")]
+    if os.getenv("PAPER_TRADING_GIT", "1") != "0":
+        command.append("--git")
+    (PAPER_ROOT / ".cache").mkdir(exist_ok=True)
+    started = time.monotonic()
+    with (PAPER_ROOT / ".cache" / "run.log").open("w", encoding="utf-8") as log:
+        result = subprocess.run(command, cwd=PAPER_ROOT, env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+                                stdout=log, stderr=subprocess.STDOUT, timeout=900)
+    status = "ok" if result.returncode == 0 else "FAILED, see paper-trading/.cache/run.log"
+    print(f"[paper-trading] {status} ({time.monotonic() - started:.0f}s)", flush=True)
+
+
+def paper_trading_loop() -> None:
+    """模拟盘任务幂等：只处理新收盘的交易日，所以固定间隔重跑即可，无需对齐收盘时间。"""
+    if not (PAPER_ROOT / "run_daily.py").exists():
+        return
+    while True:
+        try:
+            run_paper_trading()
+        except Exception as error:
+            print(f"[paper-trading] FAILED: {error}", flush=True)
+        time.sleep(PAPER_INTERVAL)
+
+
 MARKETS_SELECTION_FILE = ROOT / "tab" / "markets" / "selection.json"
 MARKETS_SELECTION_FIELDS = ("tickers", "macroIndicators")
 MARKETS_SELECTION_LOCK = threading.Lock()
@@ -612,6 +687,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self.send_json_error(502, f"国家队ETF占比面板不可用：{error}")
             return
 
+        if request.path == "/api/paper-trading":
+            try:
+                body = json.dumps(fetch_paper_trading(), ensure_ascii=False).encode("utf-8")
+                self.send_body(200, body, "application/json; charset=utf-8")
+            except Exception as error:
+                self.send_json_error(502, f"模拟盘数据不可用：{error}")
+            return
+
         if request.path in ("/", "/index.html"):
             if not INDEX.exists():
                 self.send_body(404, b"index.html not found", "text/plain; charset=utf-8")
@@ -751,6 +834,7 @@ def main() -> int:
 
     print(f"Finance dashboard: {url}", flush=True)
     threading.Thread(target=refresh_tab_panels, daemon=True).start()
+    threading.Thread(target=paper_trading_loop, daemon=True).start()
     try:
         server.serve_forever(poll_interval=0.25)
     except KeyboardInterrupt:

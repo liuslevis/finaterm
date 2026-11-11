@@ -36,6 +36,7 @@ function activateWorkspace(name) {
   if (name === "a-supply-demand") requestAnimationFrame(loadAsd);
   if (name === "us-supply-demand") requestAnimationFrame(loadUssd);
   if (name === "a-etf-share") requestAnimationFrame(loadAes);
+  if (name === "paper-trading") requestAnimationFrame(loadPt);
 }
 
 async function clearDataCache() {
@@ -78,6 +79,9 @@ async function clearDataCache() {
     const aesLoaded = Boolean(aesState.data);
     aesState.data = null;
     if (aesLoaded) reloads.push(loadAes());
+    const ptLoaded = Boolean(ptState.data);
+    ptState.data = null;
+    if (ptLoaded) reloads.push(loadPt());
     await Promise.all(reloads);
   } catch (error) {
     console.error("clear cache", error);

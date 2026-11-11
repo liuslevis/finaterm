@@ -117,6 +117,8 @@ node skill/dashboard/scripts/screenshot_tab.cjs 8799 ipo $env:TEMP "ipoState.dat
 | A股供需 | a-supply-demand | `/api/a-supply-demand` 只读离线文件 `tab/a-supply-demand/panel.json`（由 `build_panel.py` 生成，方法论见 `dashboard/tab/a-supply-demand/SKILL.md`） | `loadAsd`, `renderAsd`（`data-asd-mode` 切换原口径/扣分红） |
 | 美股供需 | us-supply-demand | `/api/us-supply-demand` 只读离线文件 `tab/us-supply-demand/panel.json`（`build_panel.py` + AI 维护的 `manual.json`，见 `dashboard/tab/us-supply-demand/SKILL.md`） | `loadUssd`, `renderUssd`（`data-ussd-mode`） |
 | 国家队ETF | a-etf-share | `/api/a-etf-share` 只读离线文件 `tab/a-etf-share/panel.json`（四只头部沪深300ETF 市值/沪深300流通市值，见 `dashboard/tab/a-etf-share/SKILL.md`） | `loadAes`, `renderAes`（`data-aes-metric` 切占比/市值，`data-aes-flow` 切日/周/月） |
+| 模拟盘 | paper-trading | `/api/paper-trading` 只读 `paper-trading/state/`（`run_daily.py` 每 2 小时由服务后台线程 `paper_trading_loop` 调用，见 `paper-trading/README.md`） | `loadPt`, `renderPt`（`data-pt-strategy` 切策略；支持数据字段来自各策略 `meta.json` 的 `support`） |
+
 ### IPO 日历数据源（更新时参考）
 
 | 市场 | 源 | 函数 | 要点 |
