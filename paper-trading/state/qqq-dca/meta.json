@@ -1,0 +1,54 @@
+{
+ "id": "qqq-dca",
+ "name": "QQQ 定投",
+ "desc": "每个美股交易日开盘买入 $10 QQQ（碎股、零佣金）",
+ "start": "2026-09-10",
+ "capital": 0,
+ "support": [
+  {
+   "key": "close",
+   "label": "QQQ 收盘",
+   "fmt": "usd"
+  },
+  {
+   "key": "invested",
+   "label": "累计投入",
+   "fmt": "usd"
+  },
+  {
+   "key": "shares",
+   "label": "持有份额",
+   "fmt": "num4"
+  },
+  {
+   "key": "avg_cost",
+   "label": "平均成本",
+   "fmt": "usd"
+  },
+  {
+   "key": "value",
+   "label": "市值",
+   "fmt": "usd"
+  },
+  {
+   "key": "pnl",
+   "label": "浮动盈亏",
+   "fmt": "usd"
+  },
+  {
+   "key": "pnl_pct",
+   "label": "盈亏 / 投入",
+   "fmt": "pct2"
+  },
+  {
+   "key": "vs_avg",
+   "label": "现价相对成本",
+   "fmt": "pct2"
+  },
+  {
+   "key": "buys",
+   "label": "已定投次数",
+   "fmt": "int"
+  }
+ ]
+}

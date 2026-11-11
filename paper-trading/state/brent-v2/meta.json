@@ -1,0 +1,94 @@
+{
+ "id": "brent-v2",
+ "name": "Brent 区间 v2",
+ "desc": "BNO 单边做多 · 震荡市逢低买、回均线卖 · OPEC+/地缘/OVX/期限结构开关 · 10% 波动目标",
+ "start": "2026-11-10",
+ "capital": 10000,
+ "support": [
+  {
+   "key": "status",
+   "label": "信号",
+   "fmt": "text"
+  },
+  {
+   "key": "close",
+   "label": "BNO 收盘",
+   "fmt": "usd"
+  },
+  {
+   "key": "buy_px",
+   "label": "买入线 MA20−1.5σ",
+   "fmt": "usd"
+  },
+  {
+   "key": "ma",
+   "label": "卖出线 MA20",
+   "fmt": "usd"
+  },
+  {
+   "key": "stop_px",
+   "label": "止损线 MA20−3σ",
+   "fmt": "usd"
+  },
+  {
+   "key": "z",
+   "label": "z-score（< −1.5 买）",
+   "fmt": "num2"
+  },
+  {
+   "key": "er",
+   "label": "效率比 ER40（< 0.3 为震荡）",
+   "fmt": "num2"
+  },
+  {
+   "key": "rv20",
+   "label": "20 日实现波动",
+   "fmt": "pct1"
+  },
+  {
+   "key": "target_w",
+   "label": "目标仓位",
+   "fmt": "pct1"
+  },
+  {
+   "key": "opec",
+   "label": "开关 · OPEC+ 会议窗口",
+   "fmt": "bool"
+  },
+  {
+   "key": "next_opec",
+   "label": "下次 OPEC+ 会议",
+   "fmt": "text"
+  },
+  {
+   "key": "gpr",
+   "label": "开关 · 地缘风险 GPR",
+   "fmt": "bool"
+  },
+  {
+   "key": "gpr_val",
+   "label": "GPR 7日均 / 90分位",
+   "fmt": "text"
+  },
+  {
+   "key": "ovx",
+   "label": "开关 · OVX",
+   "fmt": "bool"
+  },
+  {
+   "key": "ovx_val",
+   "label": "OVX / 80分位 / 5日变化",
+   "fmt": "text"
+  },
+  {
+   "key": "curve",
+   "label": "开关 · contango",
+   "fmt": "bool"
+  },
+  {
+   "key": "roll60",
+   "label": "60 日展期收益（>0 升水）",
+   "fmt": "pct1"
+  }
+ ]
+}
