@@ -8,6 +8,13 @@ from us_economy_mcp.errors import ServiceError
 from us_economy_mcp.service import EconomyService, transform_rows
 
 
+def test_nfci_catalog_entry() -> None:
+    indicator = INDICATOR_BY_ID["nfci"]
+    assert indicator.source_series_id == "NFCI"
+    assert indicator.frequency == "weekly"
+    assert indicator.unit == "index"
+
+
 def test_monthly_yoy_transform() -> None:
     rows = [
         {

@@ -14,6 +14,7 @@ INDICATORS = (
     "treasury_2y",
     "treasury_10y",
     "treasury_10y_2y_spread",
+    "nfci",
     "hy_oas",
     "ig_oas",
     "nonfarm_payrolls",

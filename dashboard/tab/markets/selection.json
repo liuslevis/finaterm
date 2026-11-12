@@ -4,6 +4,7 @@
     "treasury2y",
     "treasury10y",
     "spread",
+    "nfci",
     "hyOas",
     "igOas",
     "hyIg",
@@ -34,6 +35,7 @@
     "ebay"
   ],
   "macroIndicators": [
+    "US:Unemployment Rate",
     "US:Nonfarm Payrolls Private",
     "US:Inflation Rate YoY",
     "US:PPI YoY",

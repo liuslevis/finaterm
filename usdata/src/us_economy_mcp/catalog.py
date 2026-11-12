@@ -72,6 +72,7 @@ INDICATORS = (
     _i("treasury_2y", "2-Year Treasury Yield", "两年期美国国债收益率", "rates", "DGS2", "daily", "percent", "not seasonally adjusted"),
     _i("treasury_10y", "10-Year Treasury Yield", "十年期美国国债收益率", "rates", "DGS10", "daily", "percent", "not seasonally adjusted"),
     _i("treasury_10y_2y_spread", "10-Year Minus 2-Year Treasury Spread", "十年期减两年期国债利差", "rates", "T10Y2Y", "daily", "percentage_points", "not seasonally adjusted"),
+    _i("nfci", "National Financial Conditions Index", "美国国家金融状况指数", "financial_conditions", "NFCI", "weekly", "index", "not seasonally adjusted"),
     _i("hy_oas", "ICE BofA US High Yield Index Option-Adjusted Spread", "美国高收益债 OAS 利差", "credit", "BAMLH0A0HYM2", "daily", "percent", "not seasonally adjusted"),
     _i("ig_oas", "ICE BofA US Corporate Index Option-Adjusted Spread", "美国投资级公司债 OAS 利差", "credit", "BAMLC0A0CM", "daily", "percent", "not seasonally adjusted"),
 )

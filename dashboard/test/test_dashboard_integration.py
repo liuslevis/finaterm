@@ -67,6 +67,8 @@ def main() -> int:
         assert 'usdataId: "fed_funds_rate"' in page
         assert 'usdataId: "treasury_2y"' in page
         assert 'usdataId: "treasury_10y"' in page
+        assert 'nfci: { name: "美国国家金融状况指数", short: "NFCI"' in page
+        assert 'usdataId: "nfci"' in page
         assert 'usdataId: "hy_oas"' in page
         assert 'usdataId: "ig_oas"' in page
         assert 'hyOas: { name: "HY 利差"' in page

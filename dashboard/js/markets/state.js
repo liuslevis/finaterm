@@ -5,6 +5,7 @@ const ASSETS = {
   treasury2y: { name: "美国 2 年期国债收益率", short: "US 2Y", category: "bonds", unit: "%", source: "usdata", usdataId: "treasury_2y", kind: "rate", digits: 2, color: "#26a69a" },
   treasury10y: { name: "美国 10 年期国债收益率", short: "US 10Y", category: "bonds", unit: "%", source: "usdata", usdataId: "treasury_10y", kind: "rate", digits: 2, color: "#4db6ac" },
   spread: { name: "美债 10Y-2Y", short: "10Y-2Y", category: "bonds", unit: " bp", source: "usdata", usdataId: "treasury_10y_2y_spread", multiplier: 100, kind: "rate", digits: 1, color: "#38d7c5" },
+  nfci: { name: "美国国家金融状况指数", short: "NFCI", category: "bonds", source: "usdata", usdataId: "nfci", kind: "rate", digits: 3, color: "#7e57c2" },
   hyOas: { name: "HY 利差", short: "HY", category: "bonds", unit: " bp", source: "usdata", usdataId: "hy_oas", multiplier: 100, kind: "rate", digits: 0, color: "#ef5350" },
   igOas: { name: "IG 利差", short: "IG", category: "bonds", unit: " bp", source: "usdata", usdataId: "ig_oas", multiplier: 100, kind: "rate", digits: 0, color: "#42a5f5" },
   hyIg: { name: "HY-IG", short: "HY-IG", category: "bonds", unit: " bp", source: "usdata", usdataId: "hy_oas", minusUsdataId: "ig_oas", multiplier: 100, kind: "rate", digits: 0, color: "#ab47bc" },
@@ -109,7 +110,7 @@ const PREVIOUS_DEFAULT_TICKERS = [
   "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
 ];
 const DEFAULT_TICKERS = [
-  "fedFunds", "treasury2y", "treasury10y", "spread", "hyOas", "igOas", "hyIg",
+  "fedFunds", "treasury2y", "treasury10y", "spread", "nfci", "hyOas", "igOas", "hyIg",
   "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
   "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
 ];
