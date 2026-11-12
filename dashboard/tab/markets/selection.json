@@ -32,7 +32,8 @@
     "googl",
     "amzn",
     "aapl",
-    "ebay"
+    "ebay",
+    "nvda"
   ],
   "macroIndicators": [
     "US:Unemployment Rate",
