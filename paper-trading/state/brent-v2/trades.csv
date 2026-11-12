@@ -1,0 +1,2 @@
+date,signal_date,symbol,side,shares,price,amount,fee,reason
+2026-11-11,2026-11-10,BNO,buy,31,58.91,1826.21,0.91,建仓（跟随已有信号，持有第 4 日）

@@ -1,17 +1,11 @@
 {
- "cash": 10000.0,
- "holdings": {},
+ "cash": 8174.509836,
+ "holdings": {
+  "BNO": 31.0
+ },
  "invested": 10000.0,
- "nav": 10000.0,
- "twr": 1.0,
- "last_date": "2026-11-10",
- "pending": [
-  {
-   "symbol": "BNO",
-   "side": "buy",
-   "weight": 0.1875,
-   "reason": "建仓（跟随已有信号，持有第 4 日）",
-   "signal_date": "2026-11-10"
-  }
- ]
+ "nav": 9995.759836,
+ "twr": 0.99957598361497,
+ "last_date": "2026-11-11",
+ "pending": []
 }
