@@ -27,6 +27,7 @@ const ASSETS = {
   sp500: { name: "标普 500 指数", short: "S&P 500", category: "stocks", symbol: "^GSPC", digits: 2, color: "#4fc3f7" },
   dow: { name: "道琼斯工业指数", short: "DJIA", category: "stocks", symbol: "^DJI", digits: 2, color: "#42a5f5" },
   hsi: { name: "恒生指数", short: "HSI", category: "stocks", symbol: "^HSI", digits: 2, color: "#ef6c70" },
+  kospi: { name: "韩国综合股价指数", short: "KOSPI", category: "stocks", symbol: "^KS11", digits: 2, color: "#5c6bc0" },
   nikkei: { name: "日经 225", short: "NIKKEI", category: "stocks", symbol: "^N225", digits: 2, color: "#ef5350" },
   tlt: { name: "美国长期国债 ETF", short: "TLT", category: "bonds", symbol: "TLT", digits: 2, prefix: "$", color: "#4db6ac" },
   ief: { name: "美国 7-10 年国债 ETF", short: "IEF", category: "bonds", symbol: "IEF", digits: 2, prefix: "$", color: "#26a69a" },
@@ -109,9 +110,14 @@ const PREVIOUS_DEFAULT_TICKERS = [
   "spread", "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
   "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
 ];
-const DEFAULT_TICKERS = [
+const PRE_KOREA_JAPAN_DEFAULT_TICKERS = [
   "fedFunds", "treasury2y", "treasury10y", "spread", "nfci", "hyOas", "igOas", "hyIg",
   "cny", "btc", "gold", "qqq", "csi300", "nasdaq",
+  "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
+];
+const DEFAULT_TICKERS = [
+  "fedFunds", "treasury2y", "treasury10y", "spread", "nfci", "hyOas", "igOas", "hyIg",
+  "cny", "btc", "gold", "qqq", "csi300", "nasdaq", "kospi", "nikkei",
   "usNfp", "usCpi", "usPpi", "cnCpi", "cnPpi"
 ];
 const TICKER_SELECTION_KEY = "finance-dashboard-tickers";
@@ -121,7 +127,7 @@ function loadTickerSelection() {
   try {
     const saved = JSON.parse(localStorage.getItem(TICKER_SELECTION_KEY));
     if (Array.isArray(saved) && saved.length && saved.every(key => ASSETS[key])) {
-      const isDefaultSelection = [LEGACY_DEFAULT_TICKERS, PREVIOUS_DEFAULT_TICKERS]
+      const isDefaultSelection = [LEGACY_DEFAULT_TICKERS, PREVIOUS_DEFAULT_TICKERS, PRE_KOREA_JAPAN_DEFAULT_TICKERS]
         .some(defaults => saved.length === defaults.length &&
           saved.every((key, index) => key === defaults[index]));
       return isDefaultSelection ? [...DEFAULT_TICKERS] : saved;
