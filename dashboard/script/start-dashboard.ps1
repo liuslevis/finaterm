@@ -1,3 +1,7 @@
+param(
+    [switch]$Restart
+)
+
 $ErrorActionPreference = "Stop"
 
 $dashboardRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -18,22 +22,43 @@ New-Item -ItemType Directory -Force -Path $stateDir, $logDir | Out-Null
 
 if (Test-Path $pidFile -PathType Leaf) {
     $existingPid = Get-Content $pidFile -ErrorAction SilentlyContinue
-    if ($existingPid -match "^\d+$" -and (Get-Process -Id $existingPid -ErrorAction SilentlyContinue)) {
-        Write-Host "Finance dashboard is already running with PID $existingPid."
-        exit 0
+    $existingProcess = if ($existingPid -match "^\d+$") {
+        Get-Process -Id $existingPid -ErrorAction SilentlyContinue
+    }
+    else {
+        $null
+    }
+    if ($existingProcess) {
+        if (-not $Restart) {
+            Write-Host "Finance dashboard is already running with PID $existingPid."
+            exit 0
+        }
+        Stop-Process -InputObject $existingProcess
+        for ($attempt = 0; $attempt -lt 100; $attempt++) {
+            if (-not (Get-Process -Id $existingPid -ErrorAction SilentlyContinue)) {
+                break
+            }
+            Start-Sleep -Milliseconds 100
+        }
+        if (Get-Process -Id $existingPid -ErrorAction SilentlyContinue) {
+            throw "Finance dashboard PID $existingPid did not stop."
+        }
     }
     Remove-Item $pidFile -Force
 }
 
+$health = $null
 try {
     $health = Invoke-RestMethod -Uri $healthUrl -TimeoutSec 2
-    if ($health -eq "finance-dashboard-uv-v2") {
-        Write-Host "Finance dashboard is already responding at http://127.0.0.1:$port/."
-        exit 0
-    }
 }
 catch {
-    $health = $null
+}
+if ($health -eq "finance-dashboard-uv-v2") {
+    if ($Restart) {
+        throw "Finance dashboard is responding on port $port, but its PID is not tracked in $pidFile. Stop that process explicitly before restarting."
+    }
+    Write-Host "Finance dashboard is already responding at http://127.0.0.1:$port/."
+    exit 0
 }
 
 $portInUse = $false

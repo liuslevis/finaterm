@@ -53,6 +53,11 @@ Override the default port when needed:
 FINANCE_DASHBOARD_PORT=63001 ./script/start-dashboard.sh
 ```
 
+After updating the code, restart the script-managed process with
+`.\script\start-dashboard.ps1 -Restart` on Windows or
+`./script/start-dashboard.sh --restart` on macOS. The scripts only stop the PID
+they recorded and will not terminate an unknown process using the same port.
+
 For foreground development with automatic browser opening:
 
 ```bash
