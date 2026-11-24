@@ -9,7 +9,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from dashboard_server import CACHE, CACHE_LOCK, DashboardHandler, SERVER_ID, ThreadingHTTPServer
+from dashboard_server import (
+    CACHE,
+    CACHE_LOCK,
+    FUTU_ASSETS,
+    DashboardHandler,
+    SERVER_ID,
+    ThreadingHTTPServer,
+)
 from test_upstreams import MACRO_TARGETS, YAHOO_SYMBOLS
 
 
@@ -60,8 +67,13 @@ def main() -> int:
         assert 'if (asset.futu) return "Futu / Yahoo"' in page
         assert "function connectedDataSources(results)" in page
         assert '`实时数据已连接 [${connectedSources}]`' in page
-        assert 'btc: { name: "比特币", short: "BTC", category: "crypto", symbol: "BTC-USD", digits: 0' in page
-        assert 'ebay: { name: "eBay", short: "EBAY", category: "stocks", symbol: "EBAY"' in page
+        futu_assets = {
+            "qqq", "spy", "aapl", "msft", "nvda", "tsla", "meta", "amzn",
+            "ebay", "googl", "soxl", "soxx", "intc", "btc", "hsi", "nikkei",
+        }
+        assert futu_assets <= FUTU_ASSETS.keys()
+        for asset in futu_assets:
+            assert re.search(rf"\\b{asset}: \\{{[^\\n]+futu: true", page)
         assert '["stocks", "Stocks"]' in page
         assert '["bonds", "Bonds"]' in page
         assert 'usdataId: "fed_funds_rate"' in page

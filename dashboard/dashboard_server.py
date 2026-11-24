@@ -66,7 +66,21 @@ CACHE_LOCK = threading.Lock()
 SERVER_CACHE_TTL = 7 * 24 * 3600
 FUTU_ASSETS = {
     "btc": ("CC.BTCUSD", "Asia/Shanghai"),
+    "spy": ("US.SPY", "America/New_York"),
     "qqq": ("US.QQQ", "America/New_York"),
+    "aapl": ("US.AAPL", "America/New_York"),
+    "msft": ("US.MSFT", "America/New_York"),
+    "nvda": ("US.NVDA", "America/New_York"),
+    "tsla": ("US.TSLA", "America/New_York"),
+    "meta": ("US.META", "America/New_York"),
+    "amzn": ("US.AMZN", "America/New_York"),
+    "ebay": ("US.EBAY", "America/New_York"),
+    "googl": ("US.GOOGL", "America/New_York"),
+    "soxl": ("US.SOXL", "America/New_York"),
+    "soxx": ("US.SOXX", "America/New_York"),
+    "intc": ("US.INTC", "America/New_York"),
+    "hsi": ("HK.800000", "Asia/Hong_Kong"),
+    "nikkei": ("JP..N225", "Asia/Tokyo"),
 }
 FUTU_RANGES = {
     "1d": (timedelta(days=10), "5m"),
