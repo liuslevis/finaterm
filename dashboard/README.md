@@ -14,32 +14,60 @@ A local financial dashboard for monitoring global markets, macro trends, semicon
 
 ## Run
 
-### Electron desktop app
+Requires Python 3.11 or newer and [uv](https://docs.astral.sh/uv/).
 
-Requires Node.js, Python 3.11 or newer, and [uv](https://docs.astral.sh/uv/).
+Install the dashboard environment first:
 
 ```powershell
 cd dashboard
-npm install
-npm start
+uv sync
 ```
 
-On Windows, run `powershell -ExecutionPolicy Bypass -File script\start-dashboard.ps1`
-(add `-Visible` to keep the console) — it checks uv/npm, installs dependencies, starts
-Futu OpenD when installed, then runs `npm start`; the desktop shortcut points to it. The
-Electron process starts the local Python API on an available random port and
-stops it when the desktop app exits. The launcher keeps a runtime copy under
-`%LOCALAPPDATA%\FinanceDashboard` so the Windows Electron sandbox can access
-its binaries even when the repository has restricted development-folder ACLs.
-The application menu bar is hidden by default; press `F12` to show or hide it.
-
-### Browser
+Start it in the background on Windows with PowerShell:
 
 ```powershell
-uv run python dashboard/dashboard_server.py
+.\script\start-dashboard.ps1
 ```
 
-The dashboard opens automatically at `http://localhost:8765`.
+You can also use Command Prompt:
+
+```batch
+script\start-dashboard.cmd
+```
+
+On macOS:
+
+```bash
+./script/start-dashboard.sh
+```
+
+The scripts start the dashboard at `http://127.0.0.1:63000/`, save its process
+ID, prevent duplicate starts, and write logs outside the repository. Windows
+uses `%LOCALAPPDATA%\FinanceDashboard`; macOS uses
+`~/Library/Application Support/FinanceDashboard` and
+`~/Library/Logs/FinanceDashboard`.
+
+Override the default port when needed:
+
+```bash
+FINANCE_DASHBOARD_PORT=63001 ./script/start-dashboard.sh
+```
+
+For foreground development with automatic browser opening:
+
+```bash
+uv run python dashboard_server.py --port 63000
+```
+
+### Install the PWA
+
+Start the browser server, then open `http://127.0.0.1:63000/` in Chrome and use
+the address bar's install icon (or the Chrome menu's **Cast, save, and share >
+Install page as app**). The installed icon launches the dashboard in its own
+window. The Python server must be running first; installing the PWA does not
+start the server or make live data available offline. Use the same address
+each time to avoid creating separate installations for `localhost` and
+`127.0.0.1`.
 
 ### Data dependencies
 

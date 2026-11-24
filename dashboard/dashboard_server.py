@@ -21,10 +21,15 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import truststore
+
+truststore.inject_into_ssl()
+
 import akshare as ak
 
 
 mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("application/manifest+json", ".webmanifest")
 
 ROOT = Path(__file__).resolve().parent
 INDEX = ROOT / "index.html"
@@ -58,6 +63,7 @@ DEFAULT_HEADERS = {
 }
 CACHE: dict[str, tuple[float, bytes, str]] = {}
 CACHE_LOCK = threading.Lock()
+SERVER_CACHE_TTL = 7 * 24 * 3600
 FUTU_ASSETS = {
     "btc": ("CC.BTCUSD", "Asia/Shanghai"),
     "qqq": ("US.QQQ", "America/New_York"),
@@ -78,11 +84,10 @@ def fetch_upstream(url: str) -> tuple[bytes, str]:
     if parsed.scheme != "https" or parsed.hostname not in ALLOWED_HOSTS:
         raise ValueError("Data source is not allowed")
 
-    ttl = 600 if parsed.hostname == "economic-calendar.tradingview.com" else 60
     now = time.monotonic()
     with CACHE_LOCK:
         cached = CACHE.get(url)
-        if cached and now - cached[0] < ttl:
+        if cached and now - cached[0] < SERVER_CACHE_TTL:
             return cached[1], cached[2]
 
     headers = dict(DEFAULT_HEADERS)
@@ -112,11 +117,11 @@ def extract_json_object(output: str) -> dict:
     raise RuntimeError("Data source did not return JSON")
 
 
-def cached_json(key: str, ttl: int, loader) -> bytes:
+def cached_json(key: str, loader) -> bytes:
     now = time.monotonic()
     with CACHE_LOCK:
         cached = CACHE.get(key)
-        if cached and now - cached[0] < ttl:
+        if cached and now - cached[0] < SERVER_CACHE_TTL:
             return cached[1]
     body = json.dumps(loader(), ensure_ascii=False).encode("utf-8")
     with CACHE_LOCK:
@@ -265,7 +270,6 @@ def fetch_akshare_index(symbol: str, range_key: str) -> dict:
 
 
 IPO_YEARS = 5
-IPO_TTL = 6 * 3600
 HK_IPO_ROW = re.compile(
     r'hk/(\d{5})\.html">\1</a>.*?hk/\1\.html">([^<]*)</a>.*?'
     r"<span>([^<]*)</span>.*?<span>([^<]*)</span>.*?<span>([^<]*)</span>.*?"
@@ -738,7 +742,6 @@ class DashboardHandler(BaseHTTPRequestHandler):
         try:
             body = cached_json(
                 f"futu:{asset}:{range_key}",
-                60,
                 lambda: fetch_futu(asset, range_key),
             )
             self.send_body(200, body, "application/json; charset=utf-8")
@@ -756,7 +759,6 @@ class DashboardHandler(BaseHTTPRequestHandler):
         try:
             body = cached_json(
                 f"akshare:index:{symbol}:{range_key}",
-                60,
                 lambda: fetch_akshare_index(symbol, range_key),
             )
             self.send_body(200, body, "application/json; charset=utf-8")
@@ -769,7 +771,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def handle_usdata(self) -> None:
         try:
-            body = cached_json("usdata:mcp:dashboard-series", 600, fetch_usdata)
+            body = cached_json("usdata:mcp:dashboard-series", fetch_usdata)
             self.send_body(200, body, "application/json; charset=utf-8")
         except subprocess.TimeoutExpired:
             self.send_json_error(504, "usdata MCP request timed out")
@@ -779,7 +781,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
     def handle_ipo(self, request: urllib.parse.ParseResult) -> None:
         market = (urllib.parse.parse_qs(request.query).get("market") or [""])[0]
         try:
-            body = cached_json(f"ipo:{market}", IPO_TTL, lambda: fetch_ipo(market))
+            body = cached_json(f"ipo:{market}", lambda: fetch_ipo(market))
             self.send_body(200, body, "application/json; charset=utf-8")
         except ValueError as error:
             self.send_json_error(400, str(error))
